@@ -8,6 +8,7 @@ export default class LeftMenu extends Component {
     return (
       <Paper
         zDepth={3}
+        className="testtest"
       >
         <MenuItem>Menu Item</MenuItem>
         <MenuItem>Menu Item 2</MenuItem>
