@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore  from './store/configureStore';
-import { Router, browserHistory } from 'react-router';
+import { Router, hashHistory } from 'react-router';
 
 import routes from './routes';
 
@@ -22,14 +22,14 @@ if (process.env.NODE_ENV !== 'production') {
   // If using routes
   ComponentEl = (
     <div id="main-container">
-      <Router history={browserHistory} routes={routes} />
+      <Router history={hashHistory} routes={routes} />
       <DevTools />
     </div>
   );
 } else {
   ComponentEl = (
     <div>
-      <Router history={browserHistory} routes={routes} />
+      <Router history={hashHistory} routes={routes} />
     </div>
   );
 }

@@ -1,11 +1,27 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import coreReducers from '../core/reducers';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { persistState } from 'redux-devtools';
+
+import _ from 'lodash';
+
+import thunk from 'redux-thunk';
+
+import { getReducers } from '../organs';
+
+export function createRootReducer(reducers) {
+  const coreReducer = require('../core/reducers').default;
+  const stubReducer = (state = {}) => state;
+
+  return combineReducers({
+    core: coreReducer,
+    stub: stubReducer,
+    ...getReducers(),
+  });
+}
 
 export default function configureStore(initialState) {
 
   let enhancer;
-  const middleware = applyMiddleware();
+  const middleware = applyMiddleware(thunk);
 
   if (process.env.NODE_ENV !== 'production') {
 
@@ -30,12 +46,12 @@ export default function configureStore(initialState) {
     enhancer = compose(middleware);
   }
 
-  const store = createStore(coreReducers, initialState, enhancer);
+  const store = createStore(createRootReducer({}), initialState, enhancer);
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {
     module.hot.accept('../core/reducers', () =>
-      store.replaceReducer(require('../core/reducers').default)
+      store.replaceReducer(createRootReducer({}))
     );
   }
 

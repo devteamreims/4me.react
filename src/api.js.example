@@ -1,0 +1,19 @@
+const mappingUrl = 'http://mapping.4me';
+const core = {
+  mapping: {
+    cwp: {
+      getMine: `${mappingUrl}/cwp/getMine`,
+    },
+    sectors: {
+      getMine: (cwpId) => `${mappingUrl}/mapping/cwp/${cwpId}`,
+      getTree: `${mappingUrl}/sectors`,
+    },
+  },
+  socket: `${mappingUrl}`,
+};
+
+const api = {
+  core,
+};
+
+export default api;

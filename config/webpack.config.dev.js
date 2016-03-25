@@ -22,7 +22,10 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify('development'),
     __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
   }),
-  new webpack.optimize.OccurenceOrderPlugin()
+  new webpack.ProvidePlugin({
+    Promise: "bluebird",
+  }),
+  new webpack.optimize.OccurenceOrderPlugin(),
 ];
 
 const sassLoaders = [

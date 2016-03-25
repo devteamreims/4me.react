@@ -28,7 +28,7 @@ body,
 }
 
 #leftnav {
-  @include span-columns(4);
+  @include span-columns(2);
   display: flex;
   flex-direction: column;
 }
@@ -39,7 +39,7 @@ body,
 }
 
 #content {
-  @include span-columns(8);
+  @include span-columns(10);
   flex-grow: 1;
   overflow: auto;
 }

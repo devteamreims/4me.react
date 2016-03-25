@@ -1,8 +1,16 @@
 import { combineReducers } from 'redux';
-import friendList from './friendList';
+
+import cwp from './cwp';
+import sectorTree from './sectorTree';
+import sector from './sector';
+import socket from './socket';
+
 
 const rootReducer = combineReducers({
-  friendList
+  cwp,
+  sectorTree,
+  sector,
+  socket,
 });
 
 export default rootReducer;

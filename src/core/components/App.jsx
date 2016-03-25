@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
+import { startBootstrap } from '../actions/bootstrap';
+
+import {
+  isBootstrapping,
+  getBootstrappingString,
+  isErrored,
+} from '../selectors/bootstrap';
+
+import LoadingScreen from './LoadingScreen';
+
 import TopBar from './TopBar';
 import LeftMenu from './LeftMenu';
 
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import DarkTheme from 'material-ui/lib/styles/raw-themes/dark-raw-theme';
+import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import mainTheme from '../../theme';
 
-export default class App extends Component {
+export class App extends Component {
 
   static childContextTypes = {
     muiTheme: React.PropTypes.object,
@@ -14,12 +26,30 @@ export default class App extends Component {
 
   getChildContext() {
     return {
-      muiTheme: ThemeManager.getMuiTheme(DarkTheme),
+      muiTheme: getMuiTheme(mainTheme),
     };
+  }
+
+  componentWillMount() {
+    this.props.startBootstrap();
   }
 
 
   render() {
+    if(this.props.isBootstrapping) {
+      return (
+        <LoadingScreen message={this.props.bootstrapMessage} />
+      );
+    }
+
+    if(this.props.isErrored) {
+      return (
+        <LoadingScreen message="Errored !!!">
+          <span onClick={() => this.props.startBootstrap()}>Restart bootstrap ?</span>
+        </LoadingScreen>
+      );
+    }
+
     return (
       <div>
         <TopBar id="topbar" />
@@ -35,3 +65,17 @@ export default class App extends Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  startBootstrap,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isBootstrapping: isBootstrapping(state),
+    isErrored: isErrored(state),
+    bootstrapMessage: getBootstrappingString(state),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
