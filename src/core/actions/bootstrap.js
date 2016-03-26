@@ -6,6 +6,10 @@ import { connectSocket } from './socket';
 
 import { getCwpId } from '../selectors/cwp';
 
+import _ from 'lodash';
+
+import organs from '../../organs';
+
 export function startBootstrap() {
   return (dispatch, getState) => {
     // Start our bootstrap process
@@ -25,6 +29,11 @@ export function startBootstrap() {
         dispatch(fetchSectors(true)),
         dispatch(connectSocket()),
       ]);
+    })
+    .then(() => {
+      const bootstrapThunks = _.map(organs, organ => organ.bootstrap || _.noop);
+
+      return Promise.all(_.map(bootstrapThunks, thunk => dispatch(thunk())));
     });
 
   }

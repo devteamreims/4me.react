@@ -8,6 +8,7 @@ import {
   isBootstrapping,
   getBootstrappingString,
   isErrored,
+  getErrorString,
 } from '../selectors/bootstrap';
 
 import LoadingScreen from './LoadingScreen';
@@ -36,17 +37,17 @@ export class App extends Component {
 
 
   render() {
-    if(this.props.isBootstrapping) {
+    if(this.props.isErrored) {
       return (
-        <LoadingScreen message={this.props.bootstrapMessage} />
+        <LoadingScreen message={this.props.errorMessage}>
+          <span onClick={() => this.props.startBootstrap()}>Restart bootstrap ?</span>
+        </LoadingScreen>
       );
     }
 
-    if(this.props.isErrored) {
+    if(this.props.isBootstrapping) {
       return (
-        <LoadingScreen message="Errored !!!">
-          <span onClick={() => this.props.startBootstrap()}>Restart bootstrap ?</span>
-        </LoadingScreen>
+        <LoadingScreen message={this.props.bootstrapMessage} />
       );
     }
 
@@ -75,6 +76,7 @@ const mapStateToProps = (state) => {
     isBootstrapping: isBootstrapping(state),
     isErrored: isErrored(state),
     bootstrapMessage: getBootstrappingString(state),
+    errorMessage: getErrorString(state),
   };
 };
 

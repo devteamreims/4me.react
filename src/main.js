@@ -9,6 +9,10 @@ import { Provider } from 'react-redux';
 import configureStore  from './store/configureStore';
 import { Router, hashHistory } from 'react-router';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
 import routes from './routes';
 
 const store = configureStore();

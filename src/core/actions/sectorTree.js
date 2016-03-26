@@ -26,7 +26,10 @@ export function fetchSectorTree() {
         );
         return dispatch(completeAction(tree));
       })
-      .catch((response) => dispatch(errorAction(response)));
+      .catch((error) => {
+        dispatch(errorAction(error.message));
+        return Promise.reject(error);
+      });
   };
 }
 

@@ -1,33 +1,36 @@
+import _ from 'lodash';
+
 import {
   FETCH,
   COMPLETE,
   ERROR,
 } from '../actions/cwp';
 
-import _ from 'lodash';
-
 const defaultState = {
-  isLoading: false,
-  cwp: null,
-  error: null,
+  isLoading: true,
+  lastUpdated: Date.now(),
+  cwps: [],
 };
 
 export default function cwpReducer(state = defaultState, action) {
   switch(action.type) {
     case FETCH:
-      return Object.assign({}, state, {isLoading: true, error: null});
+      return Object.assign({}, state, {
+        isLoading: true,
+        cwps: []
+      });
     case COMPLETE:
       return Object.assign({}, state, {
         isLoading: false,
-        cwp: _.merge({}, action.cwp),
+        lastUpdated: Date.now(),
+        cwps: [...action.cwps]
       });
     case ERROR:
       return Object.assign({}, state, {
         isLoading: false,
-        cwp: null,
-        error: action.error,
+        lastUpdated: Date.now(),
+        cwps: []
       });
   }
-
   return state;
 }

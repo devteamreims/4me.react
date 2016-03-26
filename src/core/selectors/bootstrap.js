@@ -33,3 +33,18 @@ export const getBootstrappingString = (state) => {
 };
 
 export const isErrored = (state) => isCwpErrored(state) || isSectorTreeErrored(state) || isSectorErrored(state);
+export const getErrorString = (state) => {
+  if(isCwpErrored(state)) {
+    return 'Error fetching our CWP';
+  }
+
+  if(isSectorTreeErrored(state)) {
+    return 'Error fetching sector tree';
+  }
+
+  if(isSectorErrored(state)) {
+    return 'Error fetching our sectors';
+  }
+
+  return '';
+};

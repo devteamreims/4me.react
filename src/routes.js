@@ -11,7 +11,7 @@ import organs from './organs';
 
 const organRoutes = _.map(organs, (organ) =>
   (
-    <Route key={organ.name} path={organ.name} component={organ.rootComponent} />
+    organ.routes || <Route key={organ.name} path={organ.name} component={organ.rootComponent} />
   )
 );
 

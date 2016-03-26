@@ -16,6 +16,7 @@ export default function cwpReducer(state = defaultState, action) {
     case FETCH:
       return Object.assign({}, state, {
         isLoading: true,
+        error: null,
       });
     case COMPLETE:
       return Object.assign({}, state, {

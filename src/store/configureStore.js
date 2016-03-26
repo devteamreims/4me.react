@@ -4,6 +4,7 @@ import { persistState } from 'redux-devtools';
 import _ from 'lodash';
 
 import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
 
 import { getReducers } from '../organs';
 
@@ -21,7 +22,8 @@ export function createRootReducer(reducers) {
 export default function configureStore(initialState) {
 
   let enhancer;
-  const middleware = applyMiddleware(thunk);
+  const logger = createLogger();
+  const middleware = applyMiddleware(thunk, logger);
 
   if (process.env.NODE_ENV !== 'production') {
 

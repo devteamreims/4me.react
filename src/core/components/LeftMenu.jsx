@@ -9,27 +9,61 @@ import organs from '../../organs';
 
 import _ from 'lodash';
 
-class LeftMenu extends Component {
-  browseTo(organName) {
-    this.context.router.push(organName);
+import { connect } from 'react-redux';
+
+import NumericBox from './icons/NumericBox';
+
+import {
+  info,
+  warning,
+  critical,
+} from '../../theme/colors';
+
+function notificationToIcon(count, priority = 'info') {
+  let color = info;
+
+  if(priority === 'critical') {
+    color = critical;
   }
 
+  if(priority === 'warning') {
+    color = warning;
+  }
+
+  if(count === 0) {
+    return;
+  }
+
+  let ComponentSlug = NumericBox[count] || NumericBox['9plus'];
+
+  return (
+    <ComponentSlug style={{fill: color}} />
+  )
+}
+
+class LeftMenu extends Component {
   render() {
-    const Organs = _.map(organs, (organ) =>
-      (
+    const Organs = _.map(this.props.organs, (organ) => {
+      let rightIcon = false;
+
+      if(organ.notifications.count >= 1) {
+        rightIcon = notificationToIcon(organ.notifications.count, organ.notifications.priority)
+      }
+
+      return (
         <MenuItem
-          key={organ.name}
-          onClick={() => this.browseTo(organ.name)}
-        >
-          {organ.name.toUpperCase()}
-        </MenuItem>
-      )
-    );
+          key={organ.title}
+          primaryText={organ.title}
+          containerElement={<Link to={organ.linkTo} />}
+          rightIcon={rightIcon}
+        />
+      );
+
+    });
 
     return (
       <Paper
         zDepth={3}
-        className="testtest"
       >
         {Organs}
       </Paper>
@@ -41,4 +75,20 @@ LeftMenu.contextTypes = {
   router: React.PropTypes.object.isRequired,
 };
 
-export default LeftMenu;
+const mapStateToProps = (state) => {
+  const organProps = _.map(organs, organ => {
+    return {
+      title: organ.name.toUpperCase(),
+      linkTo: organ.name,
+      notifications: organ.getNotifications(state),
+    };
+  });
+
+  return {
+    organs: organProps,
+  };
+};
+
+//export default LeftMenu;
+
+export default connect(mapStateToProps)(LeftMenu);

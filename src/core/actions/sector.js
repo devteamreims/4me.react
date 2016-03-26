@@ -19,7 +19,10 @@ export function fetchSectors(isBootstrapping = false) {
         const sectors = _.get(response.data, 'sectors', []);
         return dispatch(completeAction(sectors));
       })
-      .catch((response) => dispatch(errorAction(response)));
+      .catch((error) => {
+        dispatch(errorAction(error.message));
+        return Promise.reject(error);
+      });
   };
 };
 
