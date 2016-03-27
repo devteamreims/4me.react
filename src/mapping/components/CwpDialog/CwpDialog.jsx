@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import Dialog from 'material-ui/lib/dialog';
-import RaisedButton from 'material-ui/lib/raised-button';
+import FlatButton from 'material-ui/lib/flat-button';
 
 import SectorPicker from './SectorPicker';
 import SectorSuggestor from './SectorSuggestor';
@@ -84,15 +84,21 @@ class CwpDialog extends Component {
       ...other
     } = this.props;
 
+    const actionStyle = {
+      marginLeft: 12,
+    };
+
     const actions = (
       <div>
-        <RaisedButton
+        <FlatButton
           label="CANCEL"
           onTouchTap={this.props.onRequestClose}
+          style={actionStyle}
         />
-        <RaisedButton
+        <FlatButton
           label="CONFIRM"
           onTouchTap={this.handleConfirm}
+          style={actionStyle}
         />
       </div>
     );
@@ -105,6 +111,7 @@ class CwpDialog extends Component {
         title={fullTitle}
         style={{padding: 0, margin: 0}}
         actions={actions}
+        autoScrollBodyContent={true}
         {...other}
       >
         <SectorSuggestor

@@ -30,7 +30,7 @@ export function fetchSuggestions(cwpId) {
 
     console.log(`Loading suggestion for cwp ${cwpId} from backend`);
 
-    return Promise.delay(3000).then(() => axios.get(apiUrl))
+    return Promise.delay(2000).then(() => axios.get(apiUrl))
       .then((response) => {
         return dispatch(complete(cwpId, response.data));
       })
