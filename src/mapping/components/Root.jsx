@@ -8,6 +8,7 @@ const Mapping = (props) => (
     <CwpButton cwpId="35" />
     <CwpButton cwpId="32" />
     <CwpButton cwpId="30" />
+    <CwpButton cwpId="15" />
   </div>
 );
 

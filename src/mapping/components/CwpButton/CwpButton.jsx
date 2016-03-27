@@ -6,37 +6,76 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import PositionName from './PositionName';
 import PositionSectors from './PositionSectors';
 
+import CwpDialog from '../CwpDialog';
+
 import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 
-import { getSectorsByCwpId } from '../../selectors/map';
-import { getName } from '../../selectors/cwp';
+import {
+  getSectorsByCwpId,
+  isCwpEmpty,
+} from '../../selectors/map';
+
+import {
+  getName,
+  isDisabled as isCwpDisabled,
+} from '../../selectors/cwp';
+
+import { cwpButton as buttonTheme } from '../../theme/colors';
 
 class CwpButton extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dialogOpen: false,
+    };
+  }
+
+  openDialog = () => {
+    this.setState({dialogOpen: true});
+  };
+
+  closeDialog = () => {
+    this.setState({dialogOpen: false});
+  };
+
   render() {
 
     const size = '100px';
     const buttonStyle = {
       height: size,
       width: size,
-      container: {
-        borderRadius: 50,
-      },
     };
 
+    const themeString = this.props.isEmpty ? 'empty' : 'normal';
+
+    const theme = buttonTheme[themeString];
+
+    const { backgroundColor, textColor } = theme;
+
     const inside = (
-      <div style={{color: 'white'}}>
-        <PositionName name={this.props.name} />
-        <PositionSectors sectorName={this.props.prettySectors} />
+      <div>
+        <PositionName name={this.props.name} style={{color: textColor}} />
+        <PositionSectors sectorName={this.props.prettySectors} style={{color: textColor}} />
       </div>
     );
 
     return (
-      <RaisedButton
-        style={buttonStyle}
-        primary
-      >
-        {inside}
-      </RaisedButton>
+      <div>
+        <RaisedButton
+          backgroundColor={backgroundColor}
+          style={buttonStyle}
+          disabled={this.props.isDisabled}
+          onTouchTap={this.openDialog}
+        >
+          {inside}
+        </RaisedButton>
+        <CwpDialog
+          open={this.state.dialogOpen}
+          modal={false}
+          cwpId={this.props.cwpId}
+          onRequestClose={this.closeDialog}
+        />
+      </div>
     );
   }
 }
@@ -51,6 +90,8 @@ const mapStateToProps = (state, ownProps) => {
     sectors,
     prettySectors: getPrettifySectors(state)(sectors),
     name: getName(state, ownProps.cwpId),
+    isDisabled: isCwpDisabled(state, ownProps.cwpId),
+    isEmpty: isCwpEmpty(state, ownProps.cwpId),
   };
 };
 

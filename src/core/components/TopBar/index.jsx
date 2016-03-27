@@ -26,11 +26,6 @@ import {
   getStatusString
 } from '../../selectors/status';
 
-const styles = {
-  title: {
-    cursor: 'pointer',
-  },
-};
 
 export class TopBar extends Component {
   _goToDashboard() {
@@ -42,6 +37,13 @@ export class TopBar extends Component {
   }
 
   render() {
+    const styles = {
+      title: {
+        cursor: 'pointer',
+        color: this.context.muiTheme.palette.textColor,
+      },
+    };
+
     const sectors = _.isEmpty(this.props.sectors) ?
       '' :
       ` - ${this.props.prettifiedSectors}`;
@@ -72,6 +74,7 @@ export class TopBar extends Component {
 
 TopBar.contextTypes = {
   router: React.PropTypes.object.isRequired,
+  muiTheme: React.PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {

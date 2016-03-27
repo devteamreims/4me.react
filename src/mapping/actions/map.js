@@ -1,4 +1,3 @@
-/*
 import {
   isLoading as isMappingLoading,
   getMap,
@@ -8,7 +7,7 @@ import {
 import {
   getCwpById
 } from '../selectors/cwp';
-*/
+
 
 import axios from 'axios';
 
@@ -122,11 +121,19 @@ export function bindSectorsToCwp(cwpId, sectors) {
 
 function commitMap(map) {
   return (dispatch, getState) => {
-    const apiUrl = api.rootPath + api.mapping.commit;
+
+    dispatch(commitStart());
+
+    const apiUrl = api.mapping.map.commit;
 
     return axios.post(apiUrl, map)
       .catch((error) => {
         return dispatch(commitFail(error));
+      })
+      .then((response) => {
+        console.log('Commit complete !');
+        console.log(response);
+        return dispatch(commitComplete(response));
       });
   }
 }
@@ -142,6 +149,12 @@ export function commitFail(rawError) {
 export function commitStart() {
   return {
     type: COMMIT,
+  };
+}
+
+export function commitComplete() {
+  return {
+    type: COMMIT_COMPLETE,
   };
 }
 
