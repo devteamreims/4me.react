@@ -4,6 +4,9 @@ import _ from 'lodash';
 
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
+import AppBar from 'material-ui/lib/app-bar';
+import Divider from 'material-ui/lib/divider';
+
 
 import SectorPicker from './SectorPicker';
 import SectorSuggestor from './SectorSuggestor';
@@ -73,6 +76,36 @@ class CwpDialog extends Component {
       .then(() => this.props.onRequestClose());
   };
 
+  computeTitleString = () => {
+    const {
+      prettyBoundSectors,
+      prettySectors,
+      title,
+    } = this.props;
+
+    const {
+      tempSectors,
+    } = this.state;
+
+    const prettyTempSectors = prettySectors(tempSectors);
+
+    if(prettyTempSectors === '' && prettyBoundSectors === '') {
+      return title;
+    }
+
+    let fullTitle = `${title}`;
+
+    if(prettyBoundSectors !== '') {
+      fullTitle += ` : ${prettyBoundSectors}`;
+    }
+
+    if(prettyTempSectors !== prettyBoundSectors) {
+      fullTitle += ` => ${prettyTempSectors}`;
+    }
+
+    return fullTitle;
+  };
+
   render() {
     const {
       title,
@@ -88,27 +121,31 @@ class CwpDialog extends Component {
       marginLeft: 12,
     };
 
-    const actions = (
-      <div>
-        <FlatButton
-          label="CANCEL"
-          onTouchTap={this.props.onRequestClose}
-          style={actionStyle}
-        />
-        <FlatButton
-          label="CONFIRM"
-          onTouchTap={this.handleConfirm}
-          style={actionStyle}
-        />
-      </div>
-    );
+    const actions = [
+      <FlatButton
+        label="CANCEL"
+        onTouchTap={this.props.onRequestClose}
+        style={actionStyle}
+      />,
+      <FlatButton
+        label="CONFIRM"
+        onTouchTap={this.handleConfirm}
+        style={actionStyle}
+      />
+    ];
 
-    const fullTitle = `${this.props.title} => ${prettySectors(this.state.tempSectors)}`;
+    const fullTitle = (
+      <AppBar
+        title={this.computeTitleString()}
+        iconElementLeft={<div></div>}
+      />
+    );
 
     return (
       <Dialog
         open={open}
         title={fullTitle}
+        //titleStyle={{backgroundColor: 'blue'}}
         style={{padding: 0, margin: 0}}
         actions={actions}
         autoScrollBodyContent={true}
@@ -148,7 +185,7 @@ const mapStateToProps = (state, ownProps) => {
   const prettySectors = getPrettifySectors(state);
   const prettyBoundSectors = prettySectors(boundSectors);
 
-  const title = `${cwpName} : ${prettyBoundSectors}`;
+  const title = `${cwpName}`;
   return {
     title,
     boundSectors,

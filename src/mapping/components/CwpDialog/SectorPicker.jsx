@@ -1,45 +1,78 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import Checkbox from 'material-ui/lib/checkbox';
+import SingleGroupPicker from './SingleGroupPicker';
 
-const FOURN = ['HN', 'KN', 'UB', 'UN'];
-const FIVER = ['HR', 'YR', 'KR', 'XR', 'UR'];
+const sectorGroups = [
+  [
+    {
+      name: '4N',
+      sectors: ['HN', 'KN', 'UB', 'UN'],
+    }, {
+      name: '5R',
+      sectors: ['HR', 'YR', 'KR', 'XR', 'UR'],
+    }
+  ],[
+    {
+      name: 'KD2F',
+      sectors: ['KD', 'KF', 'UF'],
+    }, {
+      name: '4H',
+      sectors: ['HH', 'KH', 'XH', 'UH'],
+    },{
+      name: '4E',
+      sectors: ['HE', 'KE', 'XE', 'UE'],
+    }, {
+      name: 'FIR',
+      sectors: ['E', 'SE'],
+    },
+  ],
+];
 
 class SectorPicker extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  isSectorDisabled = (sector) => {
-    return _.includes(this.props.boundSectors, sector);
-  };
-
-  isSectorChecked = (sector) => {
-    return _.includes(this.props.tempSectors, sector);
-  };
-
   render() {
+    const {
+      boundSectors,
+      tempSectors,
+      toggleSectors,
+      ...other
+    } = this.props;
+
+    const styles = {
+      outerDiv: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      innerDiv: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexGrow: 1,
+      },
+      element: {
+        flexGrow: 1,
+      },
+    };
+
     return (
-      <div>
-        {this.props.tempSectors}
-        <fieldset>
-          <legend
-            onClick={this.props.toggleSectors(FOURN)}
-          >4N</legend>
-          {_.map(FOURN, sector => {
-            return (
-              <Checkbox
-                key={sector}
-                label={sector}
-                checked={this.isSectorChecked(sector)}
-                disabled={this.isSectorDisabled(sector)}
-                onCheck={this.props.toggleSectors([sector])}
+      <div style={styles.outerDiv}>
+        {_.map(sectorGroups, (topLevelGroup, index) =>
+          <div
+            key={index}
+            style={styles.innerDiv}
+          >
+            {_.map(topLevelGroup, (group, index) =>
+              <SingleGroupPicker
+                key={index}
+                boundSectors={boundSectors}
+                tempSectors={tempSectors}
+                toggleSectors={toggleSectors}
+                groupName={group.name}
+                sectors={group.sectors}
+                style={styles.element}
               />
-            );
-          })}
-        </fieldset>
+            )}
+          </div>
+        )}
       </div>
     );
   }
