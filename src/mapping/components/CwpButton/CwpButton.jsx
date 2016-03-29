@@ -69,7 +69,7 @@ CwpButton.contextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = () => (state, ownProps) => {
   const sectors = getSectorsByCwpId(state, ownProps.cwpId);
   return {
     sectors,

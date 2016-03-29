@@ -90,7 +90,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const isLoading = isSuggestionLoading(state) || isMapLoading(state);
   const prettySectors = getPrettifySectors(state);
-  const suggestions = _.map(getSuggestions(state, cwpId), s =>
+  const suggestions = _.map(_.take(getSuggestions(state, cwpId), 10), s =>
     ({
       prettySectors: prettySectors(s.sectors),
       ...s,

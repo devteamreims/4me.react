@@ -13,70 +13,100 @@ const cwpRows = {
   east: [..._.range(30, 33 + 1), ..._.rangeRight(34, 37 + 1)],
 };
 
-class MappingRoot extends Component {
+const styles = {
+  outerDiv: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  north: {
+    container: {
+      flexBasis: '100%',
+      flexGrow: '1',
+      display: 'flex',
+      flexDirection: 'column-reverse',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      alignContent: 'center',
+      maxHeight: '500px',
+    },
+    element: {
+      flex: '1',
+      flexBasis: '25%',
+      flexGrow: '1',
+      flexShrink: '0',
+      textAlign: 'center',
+      display: 'inline',
+      padding: '10px',
+    }
+  },
+  west: {
+    container: {
+      flexBasis: '50%',
+      display: 'flex',
+      flexGrow: '0',
+      flexDirection: 'row-reverse',
+      flexWrap: 'wrap-reverse',
+      justifyContent: 'flex-end',
+      maxWidth: '500px',
+      paddingLeft: '100px',
+    },
+    element: {
+      display: 'inline',
+      padding: '10px',
+      margin: '0',
+    }
+  },
+  east: {
+    container: {
+      flexBasis: '50%',
+      display: 'flex',
+      flexGrow: '0',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      maxWidth: '500px',
+      marginLeft: '100px',
+    },
+    element: {
+      display: 'inline',
+      padding: '10px',
+    }
+  },
+};
+
+class MappingButtons extends Component {
+
+  shouldComponentUpdate() {
+    return false;
+  }
 
   render() {
-    const styles = {
-      outerDiv: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-      },
-      north: {
-        container: {
-          flexBasis: '100%',
-          flexGrow: '1',
-          display: 'flex',
-          flexDirection: 'column-reverse',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignContent: 'center',
-          maxHeight: '500px',
-        },
-        element: {
-          flex: '1',
-          flexBasis: '25%',
-          flexGrow: '1',
-          flexShrink: '0',
-          textAlign: 'center',
-          display: 'inline',
-          padding: '10px',
-        }
-      },
-      west: {
-        container: {
-          flexBasis: '50%',
-          display: 'flex',
-          flexGrow: '0',
-          flexDirection: 'row-reverse',
-          flexWrap: 'wrap-reverse',
-          justifyContent: 'flex-end',
-          maxWidth: '500px',
-          paddingLeft: '100px',
-        },
-        element: {
-          display: 'inline',
-          padding: '10px',
-          margin: '0',
-        }
-      },
-      east: {
-        container: {
-          flexBasis: '50%',
-          display: 'flex',
-          flexGrow: '0',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          maxWidth: '500px',
-          marginLeft: '100px',
-        },
-        element: {
-          display: 'inline',
-          padding: '10px',
-        }
-      },
-    };
+    return (
+      <div style={styles.outerDiv}>
+        {_.map(['north', 'west', 'east'], pos =>
+          <div
+            key={pos}
+            style={styles[pos].container}
+          >
+            {_.map(cwpRows[pos], cwpId =>
+              <div key={cwpId} style={styles[pos].element}>
+                <CwpButton cwpId={cwpId} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+}
 
+class MappingRoot extends Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.isDialogOpen !== this.props.isDialogOpen;
+  }
+
+  render() {
     return (
       <div>
         <CwpDialog
@@ -85,20 +115,7 @@ class MappingRoot extends Component {
           cwpId={this.props.cwpId}
           onRequestClose={this.props.closeDialog}
         />
-        <div style={styles.outerDiv}>
-          {_.map(['north', 'west', 'east'], pos =>
-            <div
-              key={pos}
-              style={styles[pos].container || {}}
-            >
-              {_.map(cwpRows[pos] || [], cwpId =>
-                <div key={cwpId} style={styles[pos].element || {}}>
-                  <CwpButton cwpId={cwpId} />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        <MappingButtons />
       </div>
     );
   }
@@ -113,7 +130,7 @@ import {
   close as closeDialog
 } from '../actions/dialog';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const isDialogOpen = isOpen(state);
   const cwpId = getCwpId(state);
 

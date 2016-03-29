@@ -147,6 +147,7 @@ class CwpDialog extends Component {
         title={fullTitle}
         //titleStyle={{backgroundColor: 'blue'}}
         style={{padding: 0, margin: 0}}
+        contentStyle={{maxWidth: 'none'}}
         actions={actions}
         autoScrollBodyContent={true}
         {...other}
