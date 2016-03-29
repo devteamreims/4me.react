@@ -20,15 +20,22 @@ import {
 
 import { cwpButton as buttonTheme } from '../../theme/colors';
 
+import WhyDidYouUpdateMixin from '../WhyDidYouUpdate';
+
 class CwpButton extends Component {
   constructor(props) {
     super(props);
   }
 
   openDialog = () => {
-    this.props.openDialog();
+    this.props.openDialog(this.props.cwpId);
   };
 
+/*
+  componentDidUpdate() {
+    WhyDidYouUpdateMixin.componentDidUpdate.bind(this)(...arguments);
+  }
+*/
   render() {
 
     const size = '100px';
@@ -85,12 +92,8 @@ import {
   close,
 } from '../../actions/dialog';
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    openDialog: () => {
-      dispatch(open(ownProps.cwpId))
-    },
-  };
+const mapDispatchToProps = {
+  openDialog: open
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CwpButton);

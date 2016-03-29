@@ -15,8 +15,9 @@ export const getMapByCwpId = (state, cwpId) => {
   return _.find(getMap(state), m => parseInt(m.cwpId) === parseInt(cwpId)) || {};
 };
 
+const emptySectors = [];
 export const getSectorsByCwpId = (state, cwpId) => {
-  return _.get(getMapByCwpId(state, cwpId), 'sectors', []);
+  return _.get(getMapByCwpId(state, cwpId), 'sectors', emptySectors);
 };
 
 export const isCwpEmpty = (state, cwpId) => _.isEmpty(getSectorsByCwpId(state, cwpId));
