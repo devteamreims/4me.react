@@ -9,6 +9,10 @@ import { Provider } from 'react-redux';
 import configureStore  from './store/configureStore';
 import { Router, hashHistory } from 'react-router';
 
+import Perf from 'react-addons-perf';
+
+window.Perf = Perf;
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();

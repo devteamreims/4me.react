@@ -6,8 +6,6 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import PositionName from './PositionName';
 import PositionSectors from './PositionSectors';
 
-import CwpDialog from '../CwpDialog';
-
 import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 
 import {
@@ -25,17 +23,10 @@ import { cwpButton as buttonTheme } from '../../theme/colors';
 class CwpButton extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dialogOpen: false,
-    };
   }
 
   openDialog = () => {
-    this.setState({dialogOpen: true});
-  };
-
-  closeDialog = () => {
-    this.setState({dialogOpen: false});
+    this.props.openDialog();
   };
 
   render() {
@@ -65,16 +56,10 @@ class CwpButton extends Component {
           backgroundColor={backgroundColor}
           style={buttonStyle}
           disabled={this.props.isDisabled}
-          onTouchTap={this.openDialog}
+          onClick={this.openDialog}
         >
           {inside}
         </RaisedButton>
-        <CwpDialog
-          open={this.state.dialogOpen}
-          modal={false}
-          cwpId={this.props.cwpId}
-          onRequestClose={this.closeDialog}
-        />
       </div>
     );
   }
@@ -95,4 +80,17 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(CwpButton);
+import {
+  open,
+  close,
+} from '../../actions/dialog';
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    openDialog: () => {
+      dispatch(open(ownProps.cwpId))
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CwpButton);
