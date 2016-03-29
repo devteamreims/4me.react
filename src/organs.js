@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 
-import Xman from './xman/Xman';
+import xman from './xman';
 import Arcid from './arcid/Arcid';
 import mapping from './mapping';
 
@@ -16,21 +16,21 @@ const getNotifications = () => {
   return stubNotifications;
 }
 
-const organs = [{
-  name: 'xman',
-  bootstrap: () => (dispatch, getState) => {console.log('Bootstrapping XMAN');},
-  rootComponent: Xman,
-  routes: <Route key="xman" path='/xman' component={Xman} />,
-  rootReducer: (state = {}, action) => state,
+const defaults = {
+  bootstrap: () => () => {},
   getNotifications,
-}, {
-  name: 'arcid',
-  bootstrap: () => (dispatch, getState) => {console.log('Bootstrapping ARCID');},
-  rootComponent: Arcid,
-  getNotifications,
-},
+  onSectorChange: () => () => {},
+};
+
+const organs = _.map([
+  xman,
+  {
+    name: 'arcid',
+    bootstrap: () => (dispatch, getState) => {console.log('Bootstrapping ARCID');},
+    rootComponent: Arcid,
+  },
   mapping,
-];
+], organ => _.defaults(organ, defaults));
 
 export function getReducers() {
   return _.reduce(organs, (prev, organ) => {
