@@ -10,21 +10,41 @@ import Divider from 'material-ui/lib/divider';
 
 import SectorPicker from './SectorPicker';
 import SectorSuggestor from './SectorSuggestor';
+import CwpEnabler from './CwpEnabler';
 
 
 class CwpDialog extends Component {
   constructor(props) {
     super(props);
 
+    console.log(`Constructing component, props are :`);
+    console.log(this.props);
+
     this.state = {
-      tempSectors: _.clone(props.boundSectors),
+      tempSectors: _.clone(this.props.boundSectors),
+      isDisabled: this.props.isDisabled,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
+    console.log('New props !');
+    console.log(nextProps);
+
+    const newState = {};
+
+    if(nextProps.isDisabled !== this.props.isDisabled) {
+      // Here we have an external prop change, discard internal state
+      Object.assign(newState, {
+        isDisabled: nextProps.isDisabled,
+      });
+    }
+
+
+    Object.assign(newState, {
       tempSectors: _.clone(nextProps.boundSectors),
     });
+
+    this.setState(newState);
   }
 
   addSector = (state, sector) => {
@@ -57,7 +77,6 @@ class CwpDialog extends Component {
 
   handleToggleSectors = (sectors) => (ev, checked) => {
     const state = this.state.tempSectors;
-
     const tempSectors = _.reduce(sectors, this.toggleSector, state);
     this.setState({tempSectors});
   };
@@ -72,8 +91,30 @@ class CwpDialog extends Component {
   handleConfirm = (ev) => {
     console.log('New sectors are :');
     console.log(this.state.tempSectors);
-    this.props.bindSectorsToCwp(this.props.cwpId, this.state.tempSectors)
+
+    const {
+      cwpId,
+    } = this.props;
+
+    const shouldUpdateCwpStatus = this.state.isDisabled !== this.props.isDisabled;
+    const shouldEnableCwp = shouldUpdateCwpStatus && !this.state.isDisabled;
+    const shouldDisableCwp = shouldUpdateCwpStatus && this.state.isDisabled;
+
+    if(shouldUpdateCwpStatus) {
+      console.log(`Changing cwp ${cwpId} status : isDisabled : ${this.props.isDisabled} => ${this.state.isDisabled}`);
+      this.props.setStatus(cwpId, this.state.isDisabled);
+    }
+
+    this.props.bindSectorsToCwp(cwpId, this.state.tempSectors)
       .then(() => this.props.onRequestClose());
+  };
+
+  handlerEnableDisable = (ev, value) => {
+    if(value === 'enabled') {
+      this.setState({isDisabled: false});
+    } else {
+      this.setState({isDisabled: true});
+    }
   };
 
   computeTitleString = () => {
@@ -114,8 +155,13 @@ class CwpDialog extends Component {
       prettySectors,
       open,
       cwpId,
+      isEmpty,
       ...other
     } = this.props;
+
+    const {
+      isDisabled,
+    } = this.state;
 
     const actionStyle = {
       marginLeft: 12,
@@ -141,6 +187,35 @@ class CwpDialog extends Component {
       />
     );
 
+    let content = [];
+
+    if(isEmpty) {
+      content = [
+        ...content,
+        <CwpEnabler
+          isEnabled={!isDisabled}
+          onStatusChange={this.handlerEnableDisable}
+        />
+      ];
+    }
+
+    if(!isDisabled) {
+      content = [
+        ...content,
+        <SectorSuggestor
+          key="sector-suggestor"
+          cwpId={cwpId}
+          onSuggestionClick={this.handleSuggestion}
+        />,
+        <SectorPicker
+          key="sector-picker"
+          boundSectors={boundSectors}
+          tempSectors={this.state.tempSectors}
+          toggleSectors={this.handleToggleSectors}
+        />
+      ];
+    }
+
     return (
       <Dialog
         open={open}
@@ -152,15 +227,7 @@ class CwpDialog extends Component {
         autoScrollBodyContent={true}
         {...other}
       >
-        <SectorSuggestor
-          cwpId={cwpId}
-          onSuggestionClick={this.handleSuggestion}
-        />
-        <SectorPicker
-          boundSectors={boundSectors}
-          tempSectors={this.state.tempSectors}
-          toggleSectors={this.handleToggleSectors}
-        />
+        {content}
       </Dialog>
     );
   }
@@ -170,6 +237,8 @@ import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 
 import {
   getSectorsByCwpId,
+  isDisabled as isCwpDisabled,
+  isEmpty as isCwpEmpty
 } from '../../selectors/map';
 
 import {
@@ -185,22 +254,29 @@ const mapStateToProps = (state, ownProps) => {
   const boundSectors = getSectorsByCwpId(state, cwpId);
   const prettySectors = getPrettifySectors(state);
   const prettyBoundSectors = prettySectors(boundSectors);
+  const isDisabled = isCwpDisabled(state, cwpId);
+  const isEmpty = isCwpEmpty(state, cwpId);
 
   const title = `${cwpName}`;
+
   return {
     title,
     boundSectors,
     prettyBoundSectors,
     prettySectors,
+    isDisabled,
+    isEmpty,
   };
 };
 
 import {
   bindSectorsToCwp,
+  setStatus,
 } from '../../actions/map';
 
 const mapDispatchToProps = {
   bindSectorsToCwp,
+  setStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CwpDialog);

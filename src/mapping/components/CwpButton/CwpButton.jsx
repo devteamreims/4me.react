@@ -20,8 +20,6 @@ import {
 
 import { cwpButton as buttonTheme } from '../../theme/colors';
 
-import WhyDidYouUpdateMixin from '../WhyDidYouUpdate';
-
 class CwpButton extends Component {
   constructor(props) {
     super(props);
@@ -31,11 +29,6 @@ class CwpButton extends Component {
     this.props.openDialog(this.props.cwpId);
   };
 
-/*
-  componentDidUpdate() {
-    WhyDidYouUpdateMixin.componentDidUpdate.bind(this)(...arguments);
-  }
-*/
   render() {
 
     const size = '100px';
@@ -44,7 +37,15 @@ class CwpButton extends Component {
       width: size,
     };
 
-    const themeString = this.props.isEmpty ? 'empty' : 'normal';
+    let themeString = 'normal';
+
+    if(this.props.isEmpty) {
+      themeString = 'empty';
+    }
+
+    if(this.props.isDisabled) {
+      themeString = 'disabled';
+    }
 
     const theme = buttonTheme[themeString];
 
@@ -62,7 +63,7 @@ class CwpButton extends Component {
         <RaisedButton
           backgroundColor={backgroundColor}
           style={buttonStyle}
-          disabled={this.props.isDisabled}
+          //disabled={this.props.isDisabled}
           onClick={this.openDialog}
         >
           {inside}

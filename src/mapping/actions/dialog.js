@@ -15,12 +15,12 @@ export function open(cwpId) {
       return;
     }
 
+    /*
     if(isCwpDisabled(getState(), cwpId)) {
       console.log(`mapping/dialog: Cannot open dialog on disabled cwp : ${cwpId}`);
       return;
     }
-
-    console.log('Here !!');
+    */
 
     return dispatch({
       type: OPEN,
