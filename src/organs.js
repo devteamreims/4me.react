@@ -7,11 +7,13 @@ import mapping from './mapping';
 
 import { Route } from 'react-router';
 
+const stubNotifications = {
+  count: 2,
+  priority: 'critical',
+};
+
 const getNotifications = () => {
-  return {
-    count: 2,
-    priority: 'critical',
-  };
+  return stubNotifications;
 }
 
 const organs = [{
