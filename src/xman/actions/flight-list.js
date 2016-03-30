@@ -53,7 +53,7 @@ export function refreshFullList() {
     console.log(queryParams);
 
     // Update socket subscription
-    //setSubscriptionFilter(queryParams);
+    setSubscriptionFilter(queryParams);
 
     return axios.get(apiUrl, {
       params: queryParams
@@ -81,8 +81,17 @@ export function start() {
   };
 }
 
+function preprocessFlight(rawFlight) {
+  const ifplId = _.get(rawFlight, 'flightId');
+  return {
+    ifplId,
+    ...rawFlight,
+  };
+}
 
-export function complete(flights = []) {
+
+export function complete(rawFlights = []) {
+  const flights = _.map(rawFlights, preprocessFlight);
   return {
     type: COMPLETE,
     flights,
@@ -97,21 +106,26 @@ export function updateFlightAction(flight = {}) {
   };
 }
 
-export function updateFlight(flight) {
+export function updateFlight(unprocessedFlight) {
   return (dispatch, getState) => {
-    if(_.isEmpty(flight)) {
+    console.log('XMAN updateFlight : unprocessedFlight is :');
+    console.log(unprocessedFlight);
+
+    if(_.isEmpty(unprocessedFlight)) {
       console.log('XMAN : updateFlight : Empty data provided !');
       return;
     }
 
+    const flight = preprocessFlight(unprocessedFlight);
+
     const ifplId = _.get(flight, 'ifplId', null);
 
-    const flight = getFlightByIfplId(getState(), ifplId);
+    const knownFlight = getFlightByIfplId(getState(), ifplId);
 
-    const isKnown = !_.isEmpty(flight);
+    const isKnown = !_.isEmpty(knownFlight);
 
     if(!isKnown) {
-      console.log(`XMAN : updateFlight : Unknown flight id : ${updatedFlightId}`);
+      console.log(`XMAN : updateFlight : Unknown flight id : ${ifplId}`);
       return;
     }
 

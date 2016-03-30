@@ -14,6 +14,8 @@ export function getGeographicalFilter(state) {
   return _.get(getRaw(state), 'geographicalFilter');
 }
 
+export const isVerticalFilterEnabled = (state) => !!getVerticalFilter(state);
+export const isGeographicalFilterEnabled = (state) => !!getGeographicalFilter(state);
 
 import {
   getSectors,

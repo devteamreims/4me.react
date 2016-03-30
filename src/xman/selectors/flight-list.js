@@ -22,7 +22,7 @@ import {
 } from '../../core/selectors/sector';
 
 export const getQueryParams = (state) => {
-  const sectors = getGeographicalFilter(state) ? getMySectors(state) : [];
+  const sectors = getGeographicalFilter(state) ? getSectors(state) : [];
   const verticalFilter = _.isEmpty(sectors) ? false : getVerticalFilter(state);
 
   if(verticalFilter) {
