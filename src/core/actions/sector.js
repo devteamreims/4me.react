@@ -26,10 +26,15 @@ export function fetchSectors(isBootstrapping = false) {
   };
 };
 
+import organs from '../../organs';
+
+const newSectorsActions = _.map(organs, organ => organ.onSectorChange);
+
 export function bindNewSectors(sectors = []) {
   return (dispatch, getState) => {
-    // TODO: Trigger onChange in organs
-    return dispatch(completeAction(sectors));
+    return Promise.all(
+      _.map(newSectorsActions, func => dispatch(func(sectors)))
+    );
   };
 };
 

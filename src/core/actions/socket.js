@@ -11,6 +11,7 @@ import {
 
 import {
   fetchSectors,
+  bindNewSectors,
 } from './sector';
 
 let mySocket;
@@ -44,7 +45,11 @@ export function connectSocket() {
     mySocket.on('mapping:refresh', (data) => {
       console.log('core/socket: Got refresh signal from mapping backend');
       console.log(data);
-      return dispatch(fetchSectors());
+      return dispatch(fetchSectors())
+        .then((data) => {
+          const { sectors } = data;
+          return dispatch(bindNewSectors(sectors));
+        });
     });
 
 
