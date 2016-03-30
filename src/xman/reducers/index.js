@@ -1,6 +1,14 @@
+import { combineReducers } from 'redux';
 
-const defaultState = {};
+//import flightList from './flight-list';
+//import statusReducer from './status';
+import highlighter from './highlighter';
+//import whoAmIReducer from './who-am-i';
 
-export default function(state = defaultState, action) {
-  return state;
-}
+
+const rootReducer = combineReducers({
+  //flightList: flightListReducer,
+  highlighter,
+});
+
+export default rootReducer;

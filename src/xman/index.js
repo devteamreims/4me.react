@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route } from 'react-router';
 
-import rootComponent from './Xman';
+import rootComponent from './components/Root';
 import rootReducer from './reducers';
 
 import { bootstrap } from './actions/bootstrap';
