@@ -31,6 +31,7 @@ body,
   @include span-columns(2);
   display: flex;
   flex-direction: column;
+  margin-right: 0;
 }
 
 #leftnav > * {
