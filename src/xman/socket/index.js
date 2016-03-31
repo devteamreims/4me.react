@@ -60,7 +60,11 @@ export function sendXmanAction(ifplId, status) {
   }
 
   console.log(`Socket: Updating flight with id ${ifplId}`);
-  socket.emit('set_action', Object.assign({}, {ifplId}, status));
+  const data = Object.assign({}, {ifplId, flightId: ifplId}, status);
+
+  console.log(data);
+
+  socket.emit('set_action', data);
 
 }
 

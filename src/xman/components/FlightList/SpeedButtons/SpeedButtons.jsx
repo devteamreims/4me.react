@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import RaisedButton from 'material-ui/lib/raised-button';
 
-const possibleMachs = [0, 1, 2, 3, 4];
+const possibleSpeeds = [280, 270, 260, 250, 240];
 
 function getBackgroundColor() {}
 
@@ -13,7 +13,7 @@ import UndoButton from './UndoButton';
 import SpeedMachButton from './SpeedMachButton';
 import McsButton from './McsButton';
 
-class MachButtons extends Component {
+class SpeedButtons extends Component {
 
   handleUndo = (event) => {
     const {
@@ -32,32 +32,32 @@ class MachButtons extends Component {
     setMcs(!minimumCleanSpeed);
   };
 
-  handleSetMach = (mach) => (event) => {
+  handleSetSpeed = (speed) => (event) => {
     const {
-      setMach,
+      setSpeed,
     } = this.props;
 
-    setMach(mach);
+    setSpeed(speed);
   };
 
   render() {
     const {
-      advisedMach,
-      appliedMach,
+      advisedSpeed,
+      appliedSpeed,
       minimumCleanSpeed,
       areButtonsDisabled,
       isUndoButtonDisabled,
     } = this.props;
 
-    function getXmanState(mach) {
+    function getXmanState(speed) {
       let xmanState = 'empty';
 
-      if(mach === appliedMach) {
+      if(speed === appliedSpeed) {
         return 'selected';
       }
 
-      if(mach === advisedMach) {
-        const isSoft = minimumCleanSpeed || appliedMach >= advisedMach;
+      if(speed === advisedSpeed) {
+        const isSoft = minimumCleanSpeed || (appliedSpeed && advisedSpeed >= appliedSpeed);
 
         return isSoft ? 'advisedSoft' : 'advised';
       }
@@ -71,14 +71,14 @@ class MachButtons extends Component {
 
     return (
       <span>
-        {_.map(possibleMachs, (mach, index) =>
+        {_.map(possibleSpeeds, (speed, index) =>
           <SpeedMachButton
             key={index}
-            label={`${mach}`}
-            xmanState={getXmanState(mach)}
+            label={`${speed}`}
+            xmanState={getXmanState(speed)}
             disabled={areButtonsDisabled}
             style={buttonStyles}
-            onClick={this.handleSetMach(mach)}
+            onClick={this.handleSetSpeed(speed)}
           />
         )}
         <McsButton
@@ -97,7 +97,7 @@ class MachButtons extends Component {
   }
 }
 
-MachButtons.PropTypes = {
+SpeedButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
 }
 
@@ -106,8 +106,8 @@ import {
 } from '../../../selectors/flight-list';
 
 import {
-  getAdvisedMach,
-  getAppliedMach,
+  getAdvisedSpeed,
+  getAppliedSpeed,
   getMinimumCleanSpeed,
 } from '../../../selectors/flight';
 
@@ -118,16 +118,16 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   const flight = getFlightByIfplId(state, ifplId);
-  const advisedMach = getAdvisedMach(state, ifplId);
-  const appliedMach = getAppliedMach(state, ifplId);
+  const advisedSpeed = getAdvisedSpeed(state, ifplId);
+  const appliedSpeed = getAppliedSpeed(state, ifplId);
   const minimumCleanSpeed = getMinimumCleanSpeed(state, ifplId);
 
-  const areButtonsDisabled = !advisedMach && !appliedMach;
-  const isUndoButtonDisabled = areButtonsDisabled || !(minimumCleanSpeed || appliedMach);
+  const areButtonsDisabled = !advisedSpeed && !appliedSpeed;
+  const isUndoButtonDisabled = areButtonsDisabled || !(minimumCleanSpeed || appliedSpeed);
 
   return {
-    advisedMach,
-    appliedMach,
+    advisedSpeed,
+    appliedSpeed,
     minimumCleanSpeed,
     areButtonsDisabled,
     isUndoButtonDisabled,
@@ -135,7 +135,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 import {
-  setMach,
+  setSpeed,
   setMcs,
   clearAction,
 } from '../../../actions/flight';
@@ -147,9 +147,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     undoAction: () => dispatch(clearAction(ifplId, {})),
-    setMach: (mach) => dispatch(setMach(ifplId, mach)),
+    setSpeed: (speed) => dispatch(setSpeed(ifplId, speed)),
     setMcs: (mcs) => dispatch(setMcs(ifplId, mcs)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MachButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(SpeedButtons);

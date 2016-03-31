@@ -1,16 +1,19 @@
-import {
-  green600,
-  orange800,
-  red500,
-  blue500,
-} from 'material-ui/lib/styles/colors';
+import * as Colors from 'material-ui/lib/styles/colors';
 
-export const success = green600;
-export const warning = orange800;
-export const error = red500;
+export const success = Colors.green600;
+export const warning = Colors.orange800;
+export const error = Colors.red500;
 
-export const info = blue500;
+export const info = Colors.blue500;
 export const critical = error;
+
+export const primary1Color = Colors.indigo500;
+export const primary2Color = Colors.indigo700;
+export const primary3Color = Colors.indigo200;
+export const accent1Color = Colors.lightBlueA200;
+export const accent2Color = Colors.pinkA400;
+export const accent3Color = Colors.pinkA100;
+export const textColor = Colors.fullWhite;
 
 export default {
   success,
@@ -18,4 +21,11 @@ export default {
   error,
   info,
   critical,
+  primary1Color,
+  primary2Color,
+  primary3Color,
+  accent1Color,
+  accent2Color,
+  accent3Color,
+  textColor,
 };

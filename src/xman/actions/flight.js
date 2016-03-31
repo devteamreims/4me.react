@@ -50,7 +50,11 @@ import {
   getFlightByIfplId,
 } from '../selectors/flight-list';
 
-export function setMach(ifplId, machReduction, who) {
+import {
+  getActionAuthor,
+} from '../selectors/flight';
+
+export function setMach(ifplId, machReduction) {
   return (dispatch, getState) => {
     // Check if flight exists
     const flight = getFlightByIfplId(getState(), ifplId);
@@ -61,6 +65,7 @@ export function setMach(ifplId, machReduction, who) {
     }
 
 
+    const who = getActionAuthor(getState());
 
     // Dispatch action
     dispatch(setMachAction(ifplId, machReduction, who));
@@ -79,7 +84,7 @@ export function setMach(ifplId, machReduction, who) {
   }
 }
 
-export function setSpeed(ifplId, speed, who) {
+export function setSpeed(ifplId, speed) {
   return (dispatch, getState) => {
     // Check if flight exists
     const flight = getFlightByIfplId(getState(), ifplId);
@@ -88,6 +93,8 @@ export function setSpeed(ifplId, speed, who) {
       console.log(`XMAN Actions : setSpeed : unknown flight with id ${ifplId}`);
       return;
     }
+
+    const who = getActionAuthor(getState());
 
     // Dispatch action
     dispatch(setSpeedAction(ifplId, speed, who));
@@ -105,7 +112,7 @@ export function setSpeed(ifplId, speed, who) {
   }
 }
 
-export function setMcs(ifplId, mcs, who) {
+export function setMcs(ifplId, mcs) {
   return (dispatch, getState) => {
     const flight = getFlightByIfplId(getState(), ifplId);
 
@@ -114,6 +121,7 @@ export function setMcs(ifplId, mcs, who) {
       return;
     }
 
+    const who = getActionAuthor(getState());
 
     // Dispatch action
     dispatch(setMcsAction(ifplId, mcs, who));
@@ -132,16 +140,18 @@ export function setMcs(ifplId, mcs, who) {
   }
 }
 
-export function clearAction(ifplId, who) {
+export function clearAction(ifplId) {
   return (dispatch, getState) => {
     // Check if flight exists
-        const flight = getFlightByIfplId(getState(), ifplId);
+    const flight = getFlightByIfplId(getState(), ifplId);
 
     if(_.isEmpty(flight)) {
       console.log(`XMAN Actions : clearAction : unknown flight with id ${ifplId}`);
       return;
     }
 
+
+    const who = getActionAuthor(getState());
 
     // Dispatch action
     dispatch(clearActionAction(ifplId, who));

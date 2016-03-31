@@ -5,13 +5,13 @@ import {
   getFlightByIfplId,
 } from './flight-list';
 
-const advisedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.speed', null);
-const advisedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.machReduction', null);
+export const getAdvisedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.speed', null);
+export const getAdvisedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.machReduction', null);
 
-const appliedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.speed', null);
-const appliedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.machReduction', null);
+export const getAppliedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.speed', null);
+export const getAppliedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.machReduction', null);
 
-const minimumCleanSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.minimumCleanSpeed', false);
+export const getMinimumCleanSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.minimumCleanSpeed', false);
 
 
 export const getTotalDelay = (state, ifplId) => {
@@ -20,7 +20,7 @@ export const getTotalDelay = (state, ifplId) => {
 
 
 export const isFlightInSpeedMode = (state, ifplId) => {
-  return advisedSpeed(state, ifplId) !== null;
+  return getAdvisedSpeed(state, ifplId) !== null;
 }
 
 export const isFlightInMachMode = (state, ifplId) => !isFlightInSpeedMode(state, ifplId);
@@ -61,19 +61,19 @@ export function hasPendingAction(state, ifplId) {
     return false;
   }
 
-  const mcs = minimumCleanSpeed(state, ifplId);
+  const mcs = getMinimumCleanSpeed(state, ifplId);
 
   // Establish mode
   let advised;
   let applied;
 
-  if(advisedSpeed(state, ifplId) !== null) {
+  if(getAdvisedSpeed(state, ifplId) !== null) {
     // Assume speed mode
-    advised = advisedSpeed(state, ifplId);
-    applied = appliedSpeed(state, ifplId);
+    advised = getAdvisedSpeed(state, ifplId);
+    applied = getAppliedSpeed(state, ifplId);
   } else {
-    advised = -advisedMach(state, ifplId);
-    applied = -appliedMach(state, ifplId);
+    advised = -getAdvisedMach(state, ifplId);
+    applied = -getAppliedMach(state, ifplId);
   }
 
   return !isActionComplete(advised, applied, mcs);
@@ -92,4 +92,46 @@ export function isFlightTonedDown(state, ifplId) {
 
   return !_.matchesProperty(path, value)(flight);
 
+}
+
+export function getAppliedBy(state, ifplId) {
+  const flight = getFlightByIfplId(state, ifplId);
+  return _.get(flight, 'currentStatus', {});
+}
+
+export function getAppliedBySectors(state, ifplId) {
+  return _.get(getAppliedBy(state, ifplId), 'who.sectors', []);
+}
+
+export function getAppliedByCwpName(state, ifplId) {
+  return _.get(getAppliedBy(state, ifplId), 'who.cwp.name', '');
+}
+
+export function getAppliedByWhen(state, ifplId) {
+  return _.get(getAppliedBy(state, ifplId), 'when', 0);
+}
+
+
+import {
+  getSectors,
+} from '../../core/selectors/sector';
+
+import {
+  getCwpId,
+  getCwpName,
+} from '../../core/selectors/cwp';
+
+export function getActionAuthor(state) {
+  const sectors = getSectors(state) || [];
+  const name = getCwpName(state) || '';
+  const id = getCwpId(state) || '';
+
+  const cwp = {name, id};
+  return {
+    sectors,
+    cwp: {
+      id,
+      name,
+    },
+  };
 }

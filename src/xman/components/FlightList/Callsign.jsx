@@ -1,13 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import FlatButton from 'material-ui/lib/flat-button';
+import ToneDowner from './ToneDowner';
 
 class Callsign extends Component {
   render() {
+    const {
+      callsign,
+      destination,
+      ...other,
+    } = this.props;
+
+    const style = {
+      callsign: {
+        display: 'block',
+        fontSize: '150%',
+      },
+      destination: {
+        fontWeight: 'normal',
+      },
+    };
+
     return (
       <div>
-        <span>{this.props.callsign}</span>
-        <span>{this.props.destination}</span>
+        <span style={style.callsign}>{callsign}</span>
+        <ToneDowner
+          path="destination"
+          value={destination}
+          style={style.destination}
+        >
+          <span>{destination}</span>
+        </ToneDowner>
       </div>
     );
   }
@@ -17,5 +41,7 @@ Callsign.PropTypes = {
   callsign: React.PropTypes.string.isRequired,
   destination: React.PropTypes.string.isRequired,
 };
+
+
 
 export default Callsign;

@@ -52,7 +52,6 @@ export default function flightListReducer(state = defaultState, action) {
     case REFRESH:
       return Object.assign({}, state, {
         isLoading: true,
-        flights: [],
         error: null
       });
     case COMPLETE:

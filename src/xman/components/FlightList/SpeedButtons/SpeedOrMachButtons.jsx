@@ -2,23 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import MachButtons from './MachButtons';
+import SpeedButtons from './SpeedButtons';
+
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
 
 class SpeedOrMachButtons extends Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   render() {
     const {
       ifplId,
       isSpeedMode,
       isMachMode,
-      ...other,
     } = this.props;
 
     if(isMachMode) {
       return (
-        <MachButtons ifplId={ifplId} {...other} />
+        <MachButtons ifplId={ifplId} />
       );
     } else if(isSpeedMode) {
       return (
-        <span>Speed buttons ! {ifplId}</span>
+        <SpeedButtons ifplId={ifplId} />
       );
     }
 
@@ -34,26 +42,17 @@ SpeedOrMachButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
 };
 
-
-import {
-  getFlightByIfplId,
-} from '../../../selectors/flight-list';
-
 import {
   isFlightInSpeedMode,
   isFlightInMachMode,
 } from '../../../selectors/flight';
 
 const mapStateToProps = (state, ownProps) => {
-
   const {
     ifplId,
   } = ownProps;
 
-  const flight = getFlightByIfplId(state, ifplId);
-
   return {
-    flight,
     isSpeedMode: isFlightInSpeedMode(state, ifplId),
     isMachMode: isFlightInMachMode(state, ifplId),
   };

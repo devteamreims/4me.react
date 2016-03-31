@@ -3,16 +3,31 @@ import { connect } from 'react-redux';
 
 import LinearProgress from 'material-ui/lib/linear-progress';
 
-import Callsign from './Callsign';
-import Delay from './Delay';
-import FlightLevel from './FlightLevel';
-import Cop from './Cop';
-import SpeedButtons from './SpeedButtons';
+import FlightRow from './FlightRow';
 
-const styles = {
+import Table from 'material-ui/lib/table/table';
+import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
+import TableRow from 'material-ui/lib/table/table-row';
+import TableHeader from 'material-ui/lib/table/table-header';
+import TableRowColumn from 'material-ui/lib/table/table-row-column';
+import TableBody from 'material-ui/lib/table/table-body';
+
+const style = {
   table: {
     width: '100%',
     color: '#FFF',
+    backgroundColor: 'inherit',
+    fontSize: '20px',
+  },
+  tableHeader: {
+    tableRow: {
+      borderBottom: '1px solid #666',
+      tableHeaderColumn: {
+        fontSize: 20,
+        color: '#FFF',
+        textAlign: 'center',
+      },
+    },
   },
 };
 
@@ -26,6 +41,15 @@ const Loader = (props) => {
   return (<span></span>);
 };
 
+const columnWidths = [
+  '10%',
+  '5%',
+  '10%',
+  '15%',
+  '35%',
+  '20%',
+];
+
 class FlightList extends Component {
   render() {
     const {
@@ -34,63 +58,56 @@ class FlightList extends Component {
       ...other,
     } = this.props;
 
+    function getStyles(styles, column) {
+      return Object.assign({}, styles, {width: columnWidths[column]});
+    }
+
+    let i = 0;
+
     return (
       <div>
         <Loader />
-        <table
-          style={styles.table}
+        <Table
+          style={style.table}
+          selectable={false}
         >
-          <thead>
-            <tr>
-              <th>Callsign</th>
-              <th>Delay</th>
-              <th>FL</th>
-              <th>COP</th>
-              <th>Speed</th>
-              <th>Applied</th>
-            </tr>
-          </thead>
-          <tbody>
-            {_.map(flights, (flight, index) => {
-              return (
-                <tr
-                  key={index}
-                  style={flight.isHighlighted ? {backgroundColor: 'red'} : {}}
-                >
-                  <td>
-                    <Callsign
-                      callsign={flight.arcid}
-                      destination={flight.destination}
-                    />
-                  </td>
-                  <td>
-                    <Delay
-                      delay={flight.delay}
-                    />
-                  </td>
-                  <td>
-                    <FlightLevel
-                      currentFlightLevel={flight.position.vertical.currentFlightLevel}
-                    />
-                  </td>
-                  <td>
-                    <Cop
-                      name="ABNUR"
-                      targetTime="bla"
-                      estimatedTime="bli"
-                    />
-                  </td>
-                  <td>
-                    <SpeedButtons
-                      ifplId={flight.ifplId}
-                    />
-                  </td>
-                  <td>UXR, 5 minutes ago</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}
+          >
+            <TableRow style={style.tableHeader.tableRow}>
+              <TableHeaderColumn
+                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+              >Callsign</TableHeaderColumn>
+              <TableHeaderColumn
+                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+              >Delay</TableHeaderColumn>
+              <TableHeaderColumn
+                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+              >FL</TableHeaderColumn>
+              <TableHeaderColumn
+                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+              >COP</TableHeaderColumn>
+              <TableHeaderColumn
+                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+              >Speed</TableHeaderColumn>
+              <TableHeaderColumn
+                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)
+              }>Applied</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody style={style.tableBody}>
+            {_.map(flights, (flight, index) =>
+              <FlightRow
+                key={index}
+                flight={flight}
+                isHighlighted={flight.isHighlighted}
+                isTonedDown={flight.isTonedDown}
+                widths={columnWidths}
+              />
+            )}
+          </TableBody>
+        </Table>
       </div>
     );
   }
@@ -103,12 +120,14 @@ import {
 
 import {
   isFlightHighlighted,
+  isFlightTonedDown,
 } from '../../selectors/flight';
 
 const mapStateToProps = (state) => {
   const flights = _.map(getFlights(state), flight => {
     return {
       isHighlighted: isFlightHighlighted(state, flight.ifplId),
+      isTonedDown: isFlightTonedDown(state, flight.ifplId),
       ...flight,
     };
   });
