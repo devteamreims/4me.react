@@ -15,7 +15,7 @@ class Callsign extends Component {
     const style = {
       callsign: {
         display: 'block',
-        fontSize: '150%',
+        fontSize: 24,
       },
       destination: {
         fontWeight: 'normal',
