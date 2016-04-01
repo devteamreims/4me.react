@@ -6,6 +6,7 @@ import SpeedButtons from './SpeedButtons';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
+import './buttons.scss';
 
 class SpeedOrMachButtons extends Component {
   constructor(props) {
@@ -22,11 +23,15 @@ class SpeedOrMachButtons extends Component {
 
     if(isMachMode) {
       return (
-        <MachButtons ifplId={ifplId} />
+        <div className="xman-buttons">
+          <MachButtons ifplId={ifplId} />
+        </div>
       );
     } else if(isSpeedMode) {
       return (
-        <SpeedButtons ifplId={ifplId} />
+        <div className="xman-buttons">
+          <SpeedButtons ifplId={ifplId} />
+        </div>
       );
     }
 

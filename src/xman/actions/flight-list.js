@@ -52,9 +52,6 @@ export function refreshFullList() {
     console.log('Loading XMAN flights with these params :');
     console.log(queryParams);
 
-    // Update socket subscription
-    setSubscriptionFilter(queryParams);
-
     return axios.get(apiUrl, {
       params: queryParams
     }).then((response) => {

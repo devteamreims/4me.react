@@ -64,8 +64,6 @@ class MachButtons extends Component {
     }
 
     const buttonStyles = {
-      marginLeft: 6,
-      marginRight: 6,
       fontWeight: 'inherit',
     };
 

@@ -5,10 +5,23 @@ import {
 export const CONNECTED = 'xman/socket/CONNECTED';
 export const DISCONNECTED = 'xman/socket/DISCONNECTED';
 
+import {
+  getQueryParams,
+} from '../selectors/flight-list';
+
+import {
+  setSubscriptionFilter,
+} from '../socket';
+
 export function socketConnected() {
   return (dispatch, getState) => {
-    return dispatch(refreshFullList())
-      .then(() => dispatch(socketConnectedAction()))
+
+    const queryParams = getQueryParams(getState());
+
+    // Update socket subscription
+    setSubscriptionFilter(queryParams);
+
+    return dispatch(socketConnectedAction());
   };
 }
 
