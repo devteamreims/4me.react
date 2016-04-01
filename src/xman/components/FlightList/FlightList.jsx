@@ -66,7 +66,6 @@ class FlightList extends Component {
 
     return (
       <div>
-        <Loader />
         <Table
           style={style.table}
           selectable={false}
@@ -108,6 +107,7 @@ class FlightList extends Component {
             )}
           </TableBody>
         </Table>
+        <Loader visible={isLoading} />
       </div>
     );
   }

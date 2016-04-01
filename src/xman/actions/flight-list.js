@@ -4,6 +4,7 @@ export const REFRESH = 'xman/flightList/REFRESH';
 export const COMPLETE = 'xman/flightList/COMPLETE';
 export const FAIL = 'xman/flightList/FAIL';
 
+export const CLEAR = 'xman/flightList/CLEAR';
 export const UPDATE_FLIGHT = 'xman/flightList/UPDATE_FLIGHT';
 
 import api from '../../api';
@@ -75,6 +76,12 @@ export function fail(rawError) {
 export function start() {
   return {
     type: REFRESH,
+  };
+}
+
+export function clear() {
+  return {
+    type: CLEAR,
   };
 }
 

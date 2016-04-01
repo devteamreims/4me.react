@@ -5,6 +5,7 @@ import {
   REFRESH,
   COMPLETE,
   FAIL,
+  CLEAR,
   UPDATE_FLIGHT,
 } from '../actions/flight-list';
 
@@ -65,6 +66,10 @@ export default function flightListReducer(state = defaultState, action) {
         isLoading: false,
         flights: [],
         error: 'Socket disconnected'
+      });
+    case CLEAR:
+      return Object.assign({}, state, {
+        flights: [],
       });
     case FAIL:
       return Object.assign({}, state, {

@@ -19,6 +19,10 @@ import {
   setSubscriptionFilter,
 } from '../socket';
 
+import {
+  clear as clearFlightList,
+} from './flight-list';
+
 export function toggleVerticalFilter(value) {
   return (dispatch, getState) => {
     // Prevent activating verticalFilter if geographicalFilter is disabled
@@ -34,12 +38,14 @@ export function toggleVerticalFilter(value) {
       value = !verticalFilter;
     }
 
-    // Inform backend of our change of subscription here
     dispatch(setVerticalFilterAction(value));
 
     // Send socket change
     const queryParams = getQueryParams(getState());
     setSubscriptionFilter(queryParams);
+
+    // Clear current list
+    dispatch(clearFlightList());
 
     // Refresh full list
     dispatch(refreshFullList());
@@ -63,7 +69,10 @@ export function toggleGeographicalFilter(value) {
     const queryParams = getQueryParams(getState());
     setSubscriptionFilter(queryParams);
 
+    // Clear current list
+    dispatch(clearFlightList());
 
+    // Refresh full list
     dispatch(refreshFullList());
   }
 }
