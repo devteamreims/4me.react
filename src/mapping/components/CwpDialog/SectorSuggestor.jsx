@@ -6,6 +6,14 @@ import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 
 import _ from 'lodash';
 
+import {
+  fullWhite,
+} from 'material-ui/lib/styles/colors';
+
+import {
+  primary1Color
+} from '../../../theme/colors';
+
 class SectorSuggestor extends Component {
 
   componentWillMount() {
@@ -52,7 +60,7 @@ class SectorSuggestor extends Component {
             label={s.prettySectors}
             onTouchTap={this.props.onSuggestionClick(s.sectors)}
             style={buttonStyle}
-            primary
+            backgroundColor={primary1Color}
           />
         )
       );

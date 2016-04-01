@@ -48,26 +48,36 @@ class CwpDialog extends Component {
   }
 
   addSector = (state, sector) => {
-    const tempSectors = _(state)
+    let tempSectors = _(state)
       .concat(sector)
       .concat(...this.props.boundSectors)
-      .uniq()
-      .value();
 
-    return tempSectors;
+    if(sector === 'HR') {
+      tempSectors = tempSectors.concat('YR');
+    }
+
+    return tempSectors.compact().uniq().value();
   };
 
   removeSector = (state, sector) => {
-    const tempSectors = _(state)
+    let tempSectors = _(state)
       .without(sector)
-      .concat(...this.props.boundSectors)
-      .uniq()
-      .value();
+      .concat(...this.props.boundSectors);
 
-    return tempSectors;
+
+    if(sector === 'HR') {
+      tempSectors = tempSectors.without('YR');
+    }
+
+    return tempSectors.compact().uniq().value();
   };
 
   toggleSector = (state, sector) => {
+    // Toggling YR is disabled, YR's state is bound to HR's
+    if(sector === 'YR') {
+      return state;
+    }
+
     if(_.includes(state, sector)) {
       return this.removeSector(state, sector);
     }
@@ -180,9 +190,16 @@ class CwpDialog extends Component {
       />
     ];
 
+    const style = {
+      title: {
+        cursor: 'pointer',
+        color: this.context.muiTheme.palette.textColor,
+      },
+    };
+
     const fullTitle = (
       <AppBar
-        title={this.computeTitleString()}
+        title={<span style={style.title}>{this.computeTitleString()}</span>}
         iconElementLeft={<div></div>}
       />
     );
@@ -193,6 +210,7 @@ class CwpDialog extends Component {
       content = [
         ...content,
         <CwpEnabler
+          key="cwp-enabler"
           isEnabled={!isDisabled}
           onStatusChange={this.handlerEnableDisable}
         />
@@ -232,6 +250,10 @@ class CwpDialog extends Component {
     );
   }
 }
+
+CwpDialog.contextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
+};
 
 import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 

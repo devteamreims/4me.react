@@ -3,13 +3,15 @@ import _ from 'lodash';
 
 import Checkbox from 'material-ui/lib/checkbox';
 
-class SingleGroupPicker extends Component {
-  constructor(props) {
-    super(props);
-  }
+const style = {
+  legend: {
+    cursor: 'pointer',
+  },
+};
 
+class SingleGroupPicker extends Component {
   isSectorDisabled = (sector) => {
-    return _.includes(this.props.boundSectors, sector);
+    return _.includes(this.props.boundSectors, sector) || sector === 'YR';
   };
 
   isSectorChecked = (sector) => {
@@ -23,6 +25,7 @@ class SingleGroupPicker extends Component {
       >
         <legend
           onClick={this.props.toggleSectors(this.props.sectors)}
+          style={style.legend}
         >
           {this.props.groupName}
         </legend>

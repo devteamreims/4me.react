@@ -17,7 +17,7 @@ const styles = {
   outerDiv: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   north: {
     container: {
@@ -37,39 +37,36 @@ const styles = {
       flexShrink: '0',
       textAlign: 'center',
       display: 'inline',
-      padding: '10px',
+      padding: '5px',
     }
   },
   west: {
     container: {
-      flexBasis: '50%',
       display: 'flex',
-      flexGrow: '0',
+      flexGrow: '1',
       flexDirection: 'row-reverse',
       flexWrap: 'wrap-reverse',
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
       maxWidth: '500px',
       paddingLeft: '100px',
     },
     element: {
       display: 'inline',
-      padding: '10px',
+      padding: '5px',
       margin: '0',
     }
   },
   east: {
     container: {
-      flexBasis: '50%',
       display: 'flex',
-      flexGrow: '0',
+      flexGrow: '1',
       flexDirection: 'row',
       flexWrap: 'wrap',
       maxWidth: '500px',
-      marginLeft: '100px',
     },
     element: {
       display: 'inline',
-      padding: '10px',
+      padding: '5px',
     }
   },
 };
