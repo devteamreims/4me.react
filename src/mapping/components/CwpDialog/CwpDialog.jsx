@@ -206,17 +206,6 @@ class CwpDialog extends Component {
 
     let content = [];
 
-    if(isEmpty) {
-      content = [
-        ...content,
-        <CwpEnabler
-          key="cwp-enabler"
-          isEnabled={!isDisabled}
-          onStatusChange={this.handlerEnableDisable}
-        />
-      ];
-    }
-
     if(!isDisabled) {
       content = [
         ...content,
@@ -230,6 +219,17 @@ class CwpDialog extends Component {
           boundSectors={boundSectors}
           tempSectors={this.state.tempSectors}
           toggleSectors={this.handleToggleSectors}
+        />
+      ];
+    }
+
+    if(isEmpty) {
+      content = [
+        ...content,
+        <CwpEnabler
+          key="cwp-enabler"
+          isEnabled={!isDisabled}
+          onStatusChange={this.handlerEnableDisable}
         />
       ];
     }

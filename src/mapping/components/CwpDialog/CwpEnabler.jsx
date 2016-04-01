@@ -10,12 +10,12 @@ const style = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginBottom: '30px',
+    //marginBottom: '30px',
+    marginTop: '30px',
   },
   button: {
-    width: '200px',
+    width: 'auto',
     flexGrow: '0',
-    display: 'flex',
     flexShrink: '0',
     marginLeft: 50,
   },
@@ -37,12 +37,12 @@ class CwpEnabler extends Component {
         >
           <RadioButton
             value="enabled"
-            label="CWP Enabled"
+            label="Enabled"
             style={style.button}
           />
           <RadioButton
             value="disabled"
-            label="CWP Disabled"
+            label="Disabled"
             style={style.button}
           />
         </RadioButtonGroup>

@@ -13,6 +13,6 @@ export function getNotifications(state) {
 
   return {
     count: pendingActionCount,
-    priority: 'info',
+    priority: 'warning',
   };
 }

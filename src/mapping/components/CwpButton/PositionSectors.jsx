@@ -6,7 +6,7 @@ class PositionSectors extends Component {
     const style = {
       display: 'block',
       fontSize: '18px',
-      fontWeight: 500,
+      fontWeight: 600,
       ..._.pick(this.context.muiTheme.raisedButton, ['color']),
     };
 

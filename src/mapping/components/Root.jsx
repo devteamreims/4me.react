@@ -18,6 +18,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    marginTop: '30px',
   },
   north: {
     container: {
