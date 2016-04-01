@@ -18,7 +18,12 @@ class SpeedButtons extends Component {
   handleUndo = (event) => {
     const {
       undoAction,
+      disableActions,
     } = this.props;
+
+    if(disableActions) {
+      return;
+    }
 
     undoAction();
   };
@@ -27,7 +32,12 @@ class SpeedButtons extends Component {
     const {
       minimumCleanSpeed,
       setMcs,
+      disableActions,
     } = this.props;
+
+    if(disableActions) {
+      return;
+    }
 
     setMcs(!minimumCleanSpeed);
   };
@@ -35,7 +45,12 @@ class SpeedButtons extends Component {
   handleSetSpeed = (speed) => (event) => {
     const {
       setSpeed,
+      disableActions,
     } = this.props;
+
+    if(disableActions) {
+      return;
+    }
 
     setSpeed(speed);
   };
@@ -47,6 +62,7 @@ class SpeedButtons extends Component {
       minimumCleanSpeed,
       areButtonsDisabled,
       isUndoButtonDisabled,
+      disableActions,
     } = this.props;
 
     function getXmanState(speed) {
@@ -85,11 +101,13 @@ class SpeedButtons extends Component {
           style={buttonStyles}
           onClick={this.handleMcs}
         />
-        <UndoButton
-          disabled={isUndoButtonDisabled}
-          style={buttonStyles}
-          onClick={isUndoButtonDisabled ? () => {} : this.handleUndo}
-        />
+        {!disableActions &&
+          <UndoButton
+            disabled={isUndoButtonDisabled}
+            style={buttonStyles}
+            onClick={isUndoButtonDisabled ? () => {} : this.handleUndo}
+          />
+        }
       </span>
     );
   }
@@ -97,6 +115,7 @@ class SpeedButtons extends Component {
 
 SpeedButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
+  disableActions: React.PropTypes.bool,
 }
 
 import {

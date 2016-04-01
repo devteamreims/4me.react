@@ -19,18 +19,25 @@ class SpeedOrMachButtons extends Component {
       ifplId,
       isSpeedMode,
       isMachMode,
+      disableActions,
     } = this.props;
 
     if(isMachMode) {
       return (
         <div className="xman-buttons">
-          <MachButtons ifplId={ifplId} />
+          <MachButtons
+            ifplId={ifplId}
+            disableActions={disableActions}
+          />
         </div>
       );
     } else if(isSpeedMode) {
       return (
         <div className="xman-buttons">
-          <SpeedButtons ifplId={ifplId} />
+          <SpeedButtons
+            ifplId={ifplId}
+            disableActions={disableActions}
+          />
         </div>
       );
     }
@@ -52,6 +59,10 @@ import {
   isFlightInMachMode,
 } from '../../../selectors/flight';
 
+import {
+  getSectors,
+} from '../../../../core/selectors/sector';
+
 const mapStateToProps = (state, ownProps) => {
   const {
     ifplId,
@@ -60,6 +71,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isSpeedMode: isFlightInSpeedMode(state, ifplId),
     isMachMode: isFlightInMachMode(state, ifplId),
+    disableActions: _.isEmpty(getSectors(state)),
   };
 };
 

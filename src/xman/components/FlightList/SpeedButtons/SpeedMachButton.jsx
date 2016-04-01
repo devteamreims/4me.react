@@ -10,6 +10,8 @@ import {
 
 import XmanButton from './XmanButton';
 
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
 function prepareStyles(xmanState = 'empty') {
   let labelColor = fullBlack;
   let backgroundColor = fullWhite;
@@ -34,8 +36,10 @@ function prepareStyles(xmanState = 'empty') {
 }
 
 class SpeedMachButton extends Component {
-  shouldComponentUpdate(nextProps) {
-    return this.props.xmanState !== nextProps.xmanState;
+  constructor(props) {
+    super(props);
+
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
 
   render() {

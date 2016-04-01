@@ -18,7 +18,12 @@ class MachButtons extends Component {
   handleUndo = (event) => {
     const {
       undoAction,
+      disableActions,
     } = this.props;
+
+    if(disableActions) {
+      return;
+    }
 
     undoAction();
   };
@@ -27,7 +32,12 @@ class MachButtons extends Component {
     const {
       minimumCleanSpeed,
       setMcs,
+      disableActions,
     } = this.props;
+
+    if(disableActions) {
+      return;
+    }
 
     setMcs(!minimumCleanSpeed);
   };
@@ -35,7 +45,12 @@ class MachButtons extends Component {
   handleSetMach = (mach) => (event) => {
     const {
       setMach,
+      disableActions,
     } = this.props;
+
+    if(disableActions) {
+      return;
+    }
 
     setMach(mach);
   };
@@ -47,6 +62,7 @@ class MachButtons extends Component {
       minimumCleanSpeed,
       areButtonsDisabled,
       isUndoButtonDisabled,
+      disableActions,
     } = this.props;
 
     function getXmanState(mach) {
@@ -61,6 +77,8 @@ class MachButtons extends Component {
 
         return isSoft ? 'advisedSoft' : 'advised';
       }
+
+      return xmanState;
     }
 
     const buttonStyles = {
@@ -85,11 +103,13 @@ class MachButtons extends Component {
           style={buttonStyles}
           onClick={this.handleMcs}
         />
-        <UndoButton
-          disabled={isUndoButtonDisabled}
-          style={buttonStyles}
-          onClick={isUndoButtonDisabled ? () => {} : this.handleUndo}
-        />
+        {!disableActions &&
+          <UndoButton
+            disabled={isUndoButtonDisabled}
+            style={buttonStyles}
+            onClick={isUndoButtonDisabled ? () => {} : this.handleUndo}
+          />
+        }
       </span>
     );
   }
@@ -97,6 +117,7 @@ class MachButtons extends Component {
 
 MachButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
+  disableActions: React.PropTypes.bool,
 }
 
 import {
