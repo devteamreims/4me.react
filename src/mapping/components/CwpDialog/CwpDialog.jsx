@@ -17,9 +17,6 @@ class CwpDialog extends Component {
   constructor(props) {
     super(props);
 
-    console.log(`Constructing component, props are :`);
-    console.log(this.props);
-
     this.state = {
       tempSectors: _.clone(this.props.boundSectors),
       isDisabled: this.props.isDisabled,
@@ -27,9 +24,6 @@ class CwpDialog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('New props !');
-    console.log(nextProps);
-
     const newState = {};
 
     if(nextProps.isDisabled !== this.props.isDisabled) {
