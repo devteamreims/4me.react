@@ -1,6 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const neatPaths = require('node-neat').includePaths.map((p) => {
+  return "includePaths[]=" + p;
+}).join('&');
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -28,6 +32,9 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify('production'),
     __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
   }),
+  new webpack.ProvidePlugin({
+    Promise: "bluebird",
+  }),
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
@@ -42,7 +49,7 @@ const plugins = [
 const sassLoaders = [
   'css-loader?sourceMap',
   'autoprefixer-loader',
-  'sass-loader?outputStyle=compressed'
+  'sass-loader?outputStyle=expanded&' + neatPaths,
 ];
 
 module.exports = {
@@ -81,13 +88,9 @@ module.exports = {
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
         loader: 'url-loader?limit=8192&name=images/[name].[ext]?[hash]'
       },
-      {
-        test: /\.(woff|woff2|ttf|eot)$/,
-        loader: 'url-loader?limit=8192&name=fonts/[name].[ext]?[hash]'
-      }
     ]
   },
   plugins: plugins,
