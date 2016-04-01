@@ -12,28 +12,20 @@ import {
   error,
 } from '../../../theme/colors';
 
-const StatusButton = (props) => {
-  const status = _.get(props, 'status', 'normal');
-  let Icon;
-  let color;
+import StatusIcon from '../Status/StatusIcon';
 
-  switch(status) {
-    case 'normal':
-      Icon = Normal;
-      break;
-    case 'warning':
-      Icon = Warning;
-      color = warning;
-      break;
-    case 'error':
-    default:
-      Icon = Err;
-      color = error;
-      break;
-  }
+const StatusButton = (props) => {
+  const {
+    status = 'normal',
+    ...other,
+  } = props;
+
   return (
-    <IconButton {..._.omit(props, 'status')}>
-      <Icon color={color} />
+    <IconButton {...other}>
+      <StatusIcon
+        level={status}
+        colored={status !== 'normal'}
+      />
     </IconButton>
   );
 };

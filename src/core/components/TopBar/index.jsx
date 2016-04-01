@@ -10,23 +10,6 @@ import StatusButton from './StatusButton';
 
 import { Link } from 'react-router';
 
-import {
-  getCwpName,
-} from '../../selectors/cwp';
-
-import {
-  getSectors
-} from '../../selectors/sector';
-
-import {
-  getPrettifySectors
-} from '../../selectors/sectorTree';
-
-import {
-  getStatusString
-} from '../../selectors/status';
-
-
 export class TopBar extends Component {
   _goToDashboard() {
     this.context.router.push('/');
@@ -77,13 +60,30 @@ TopBar.contextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 };
 
+
+import {
+  getCwpName,
+} from '../../selectors/cwp';
+
+import {
+  getSectors,
+} from '../../selectors/sector';
+
+import {
+  getPrettifySectors,
+} from '../../selectors/sectorTree';
+
+import {
+  getGlobalStatusString,
+} from '../../selectors/status';
+
 const mapStateToProps = (state) => {
   const sectors = getSectors(state);
   return {
     cwpName: getCwpName(state),
     sectors,
     prettifiedSectors: getPrettifySectors(state)(sectors),
-    status: getStatusString(state),
+    status: getGlobalStatusString(state),
   }
 };
 

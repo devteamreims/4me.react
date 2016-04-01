@@ -7,19 +7,26 @@ import mapping from './mapping';
 
 import { Route } from 'react-router';
 
-const stubNotifications = {
-  count: 2,
-  priority: 'critical',
-};
+const stubNotifications = {};
 
 const getNotifications = () => {
   return stubNotifications;
 }
 
+const stubStatus = {
+  status: 'normal',
+  items: [],
+};
+
+const getStatus = () => {
+  return stubStatus;
+};
+
 const defaults = {
   bootstrap: () => () => {},
   getNotifications,
   onSectorChange: () => () => {},
+  getStatus,
 };
 
 const organs = _.map([

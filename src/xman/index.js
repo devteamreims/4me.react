@@ -12,6 +12,8 @@ import {
 
 import { getNotifications } from './selectors/notifications';
 
+import { getStatus } from './selectors/status';
+
 export default {
   name: 'xman',
   bootstrap,
@@ -20,4 +22,5 @@ export default {
   rootReducer,
   onSectorChange,
   getNotifications,
+  getStatus,
 };
