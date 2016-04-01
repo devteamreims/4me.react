@@ -8,6 +8,8 @@ import PositionSectors from './PositionSectors';
 
 import { cwpButton as buttonTheme } from '../../theme/colors';
 
+import './button.scss';
+
 class CwpButton extends Component {
   constructor(props) {
     super(props);
@@ -53,15 +55,14 @@ class CwpButton extends Component {
     );
 
     return (
-      <div>
-        <RaisedButton
-          backgroundColor={backgroundColor}
-          style={buttonStyle}
-          onClick={this.openDialog}
-        >
-          {inside}
-        </RaisedButton>
-      </div>
+      <RaisedButton
+        backgroundColor={backgroundColor}
+        style={buttonStyle}
+        onClick={this.openDialog}
+        className="mapping-cwp-button"
+      >
+        {inside}
+      </RaisedButton>
     );
   }
 }
