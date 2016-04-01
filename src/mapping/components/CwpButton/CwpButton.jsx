@@ -6,18 +6,6 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import PositionName from './PositionName';
 import PositionSectors from './PositionSectors';
 
-import { getPrettifySectors } from '../../../core/selectors/sectorTree';
-
-import {
-  getSectorsByCwpId,
-  isCwpEmpty,
-} from '../../selectors/map';
-
-import {
-  getName,
-  isDisabled as isCwpDisabled,
-} from '../../selectors/cwp';
-
 import { cwpButton as buttonTheme } from '../../theme/colors';
 
 class CwpButton extends Component {
@@ -26,7 +14,13 @@ class CwpButton extends Component {
   }
 
   openDialog = () => {
-    this.props.openDialog(this.props.cwpId);
+    const {
+      openDialog,
+      isButtonEnabled,
+      cwpId,
+    } = this.props;
+
+    isButtonEnabled && openDialog(cwpId);
   };
 
   render() {
@@ -63,7 +57,6 @@ class CwpButton extends Component {
         <RaisedButton
           backgroundColor={backgroundColor}
           style={buttonStyle}
-          //disabled={this.props.isDisabled}
           onClick={this.openDialog}
         >
           {inside}
@@ -77,14 +70,34 @@ CwpButton.contextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 };
 
+import { getPrettifySectors } from '../../../core/selectors/sectorTree';
+
+import {
+  getSectorsByCwpId,
+  isCwpEmpty,
+} from '../../selectors/map';
+
+import {
+  getName,
+  isDisabled as isCwpDisabled,
+} from '../../selectors/cwp';
+
+import {
+  isSupervisor,
+  isFmp,
+} from '../../../core/selectors/cwp';
+
 const mapStateToProps = () => (state, ownProps) => {
   const sectors = getSectorsByCwpId(state, ownProps.cwpId);
+  // Demo mode here
+  const isButtonEnabled = isSupervisor(state) || isFmp(state) || true;
   return {
     sectors,
     prettySectors: getPrettifySectors(state)(sectors),
     name: getName(state, ownProps.cwpId),
     isDisabled: isCwpDisabled(state, ownProps.cwpId),
     isEmpty: isCwpEmpty(state, ownProps.cwpId),
+    isButtonEnabled,
   };
 };
 
@@ -94,7 +107,7 @@ import {
 } from '../../actions/dialog';
 
 const mapDispatchToProps = {
-  openDialog: open
+  openDialog: open,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CwpButton);
