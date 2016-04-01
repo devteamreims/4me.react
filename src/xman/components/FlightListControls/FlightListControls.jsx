@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import ExtendedControls from './ExtendedControls';
+import VerticalControl from './VerticalControl';
+import GeographicalControl from './GeographicalControl';
 
 import Checkbox from 'material-ui/lib/checkbox';
+
+const style = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    maxWidth: '100%',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  element: {
+    display: 'inline',
+    flexGrow: '0',
+  },
+};
 
 class FlightListControls extends Component {
 
@@ -24,13 +40,23 @@ class FlightListControls extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div style={style.container}>
         <Checkbox
           label="Highlight pending actions"
           checked={isPendingActionFilterEnabled}
           onCheck={this.togglePendingAction}
+          style={style.element}
         />
-        {showExtendedControls && <ExtendedControls />}
+        {showExtendedControls &&
+          <GeographicalControl
+            style={style.element}
+          />
+        }
+        {showExtendedControls &&
+          <VerticalControl
+            style={style.element}
+          />
+        }
       </div>
     );
   }
