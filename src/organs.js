@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 
 import xman from './xman';
-import Arcid from './arcid/Arcid';
+import arcid from './arcid';
 import mapping from './mapping';
 
 import { Route } from 'react-router';
@@ -31,11 +31,7 @@ const defaults = {
 
 const organs = _.map([
   xman,
-  {
-    name: 'arcid',
-    bootstrap: () => (dispatch, getState) => {console.log('Bootstrapping ARCID');},
-    rootComponent: Arcid,
-  },
+  arcid,
   mapping,
 ], organ => _.defaults(organ, defaults));
 

@@ -10,10 +10,8 @@ const style = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
-    maxWidth: '100%',
     justifyContent: 'space-between',
-    margin: 10,
+    padding: 10,
   },
   element: {
     display: 'inline',
