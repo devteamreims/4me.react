@@ -18,7 +18,6 @@ const styles = {
     display: 'flex',
     flexGrow: '0',
     width: '100%',
-    border: '1px solid red',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     alignContent: 'flex-start',
