@@ -35,7 +35,6 @@ export class App extends Component {
     this.props.startBootstrap();
   }
 
-
   render() {
     if(this.props.isErrored) {
       return (
@@ -56,7 +55,7 @@ export class App extends Component {
         <TopBar id="topbar" />
         <div id="main-wrap">
             <div id="leftnav">
-              <LeftMenu />
+              <LeftMenu location={this.props.location} />
             </div>
             <div id="content">
               {this.props.children}

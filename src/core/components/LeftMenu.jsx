@@ -41,6 +41,12 @@ function notificationToIcon(count, priority = 'info') {
   )
 }
 
+const style = {
+  selectedItem: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+};
+
 class LeftMenu extends Component {
   render() {
     const Organs = _.map(this.props.organs, (organ) => {
@@ -50,10 +56,17 @@ class LeftMenu extends Component {
         rightIcon = notificationToIcon(organ.notifications.count, organ.notifications.priority)
       }
 
+      const itemStyle = {};
+
+      if(this.context.router.isActive(organ.linkTo)) {
+        Object.assign(itemStyle, style.selectedItem);
+      }
+
       return (
         <MenuItem
           key={organ.title}
           primaryText={organ.title}
+          style={itemStyle}
           containerElement={<Link to={organ.linkTo} />}
           rightIcon={rightIcon}
         />
