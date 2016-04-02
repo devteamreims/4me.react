@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux';
 //import profileReducer from './profile';
 //import queryReducer from './query';
-//import historyReducer from './history';
-//import statusReducer from './status';
-//import autocompleteReducer from './autocomplete';
+import history from './history';
+import socket from './socket';
+import autocomplete from './autocomplete';
+
 
 const rootReducer = combineReducers({
 //  profile: profileReducer,
 //  query: queryReducer,
-//  history: historyReducer,
-//  status: statusReducer,
-//  autocomplete: autocompleteReducer,
+  history,
+  socket,
+  autocomplete,
 });
 
 export default rootReducer;

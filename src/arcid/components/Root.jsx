@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 
 
 import Paper from 'material-ui/lib/paper';
+import Divider from 'material-ui/lib/divider';
+
+import SearchBox from './SearchBox';
+import History from './History';
+
+import theme from '../../theme';
 
 const style = {
   outer: {
@@ -15,8 +21,8 @@ const style = {
   leftPanel: {
     overflowY: 'auto',
     overflowX: 'hidden',
-    width: '200px',
-    paddingLeft: 10,
+    width: '282px',
+    //paddingLeft: 10,
     zIndex: 100,
   },
   rightPanel: {
@@ -24,6 +30,11 @@ const style = {
     overflowY: 'auto',
     overflowX: 'hidden',
     width: '200px',
+  },
+  searchBoxContainer: {
+    padding: 10,
+    paddingRight: 0,
+    backgroundColor: theme.palette.primary1Color,
   },
 }
 
@@ -35,7 +46,11 @@ class ArcidRoot extends Component {
           zDepth={3}
           style={style.leftPanel}
         >
-          Left Panel
+          <div style={style.searchBoxContainer}>
+            <SearchBox />
+          </div>
+          <Divider />
+          <History />
         </Paper>
         <Paper
           zDepth={1}
