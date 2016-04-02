@@ -39,7 +39,7 @@ export default function configureStore(initialState) {
       middleware,
       window.devToolsExtension ?
         window.devToolsExtension() :
-        require('../dev/DevTools').default.instrument(),
+        require('../dev/DevTools').default.instrument({ maxAge: 30 }),
 
       // Optional. Lets you write ?debug_session=<key> in address bar to persist debug sessions
       persistState(getDebugSessionKey())
