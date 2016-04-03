@@ -6,6 +6,8 @@ import moment from 'moment';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Highlighter from 'react-highlighter';
 
+import theme from '../../../theme';
+
 const style = {
   container: {
     paddingTop: '5px',
@@ -43,7 +45,7 @@ class AutoCompleteFlight extends Component {
           <Highlighter
             search={searchString}
             matchElement="span"
-            matchStyle={{color: 'red'}}
+            matchStyle={{color: theme.palette.accent1Color}}
           >
             {_.toUpper(callsign)}
           </Highlighter>

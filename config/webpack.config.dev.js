@@ -52,7 +52,10 @@ module.exports = {
   },
   resolve: {
     // We can now require('file') instead of require('file.jsx')
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx', '.scss'],
+    /*alias:{
+      'material-ui': '/home/kouak/Dev/node/material-ui',
+    },*/
   },
   module: {
     loaders: [
@@ -74,7 +77,7 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
         loader: 'url-loader?limit=8192'
       }
-    ]
+    ],
   },
   plugins: plugins,
   devServer: {

@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import AutoComplete from 'material-ui/lib/auto-complete';
+import AutoComplete from './CustomAutoComplete';
 import IconButton from 'material-ui/lib/icon-button';
 import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import RefreshIcon from 'material-ui/lib/svg-icons/navigation/refresh';
+import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
 
 import AutoCompleteFlight from './AutoCompleteFlight';
 import Spinner from './Spinner';
@@ -20,7 +21,7 @@ const style = {
     flexDirection: 'row',
   },
   underlineStyle: {
-    borderColor: theme.palette.accent2Color,
+    borderColor: theme.palette.accent1Color,
   },
 };
 
@@ -30,56 +31,89 @@ class SearchBox extends Component {
     super(props);
   }
 
+  handlePerformQuery = (event) => {
+    const {
+      isLoading,
+      startQuery,
+      searchString,
+      clearSearch,
+      showResults,
+    } = this.props;
+
+    if(isLoading || !searchString) {
+      return;
+    }
+
+    console.log(`Starting query for ${searchString}`);
+
+    clearSearch();
+    startQuery(searchString);
+    showResults();
+  }
+
   handleUpdateInput = _.debounce((searchString, dataSource) => {
     const {
       startSearch,
       clearSearch,
     } = this.props;
 
+
     if(searchString === '') {
       clearSearch();
     } else {
       startSearch(searchString);
     }
+
   }, 200);
 
-  handleNewRequest = (item) => {
+  handleNewRequest = (flight, index) => {
     const {
       clearSearch,
+      clearQuery,
+      showHistory,
+      getProfile,
     } = this.props;
 
+    if(index === -1) {
+      console.log('Enter key pressed !');
+      this.handlePerformQuery();
+      return;
+    }
+
     console.log(`IfplId selected !`);
-    console.log(item.ifplId);
+    console.log(flight.ifplId);
+
+    getProfile(flight);
 
     clearSearch();
-
-    this.clearTimeout = setTimeout(() => {
-      clearSearch()
-      clearTimeout(this.clearTimeout)
-    }, 2000);
+    clearQuery();
+    showHistory();
   };
 
   handleOnFocus = (event) => {
     const {
       clearSearch,
+      clearQuery,
     } = this.props;
 
     clearSearch();
   };
 
-
   render() {
     const {
       flights,
       isAutocompleteLoading,
+      isQueryLoading,
+      isLoading,
+      clearQuery,
       searchString,
+      showClearResultsButton,
       ...other,
     } = this.props;
 
+
     let dataSource = [];
-    if(searchString === '') {
-      undefined;
-    } else if(isAutocompleteLoading) {
+    if(isLoading) {
       const spinner = {
         text: 'spinner',
         value: (
@@ -110,7 +144,6 @@ class SearchBox extends Component {
 
           return {
             text: callsign,
-            ifplId,
             value: (
               <AutoCompleteFlight
                 callsign={callsign}
@@ -120,6 +153,7 @@ class SearchBox extends Component {
                 searchString={searchString}
               />
             ),
+            ...flight,
           };
         });
 
@@ -129,15 +163,25 @@ class SearchBox extends Component {
 
     let Button;
 
-    if(isAutocompleteLoading) {
+    if(isQueryLoading) {
       Button = (
         <IconButton disabled={true}>
           <RefreshIcon />
         </IconButton>
       );
+    } else if(showClearResultsButton) {
+      Button = (
+        <IconButton
+          onClick={clearQuery}
+        >
+          <ClearIcon />
+        </IconButton>
+      );
     } else {
       Button = (
-        <IconButton>
+        <IconButton
+          onClick={this.handlePerformQuery}
+        >
           <SearchIcon />
         </IconButton>
       );
@@ -151,11 +195,14 @@ class SearchBox extends Component {
           fullWidth={true}
           filter={AutoComplete.noFilter}
           underlineFocusStyle={style.underlineStyle}
+          onSubmit={this.handlePerformQuery}
           onUpdateInput={this.handleUpdateInput}
           onNewRequest={this.handleNewRequest}
           onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
           searchText={searchString}
-          menuCloseDelay={2000}
+          menuCloseDelay={100}
+          disabled={isQueryLoading || showClearResultsButton}
         />
         {Button}
       </div>
@@ -165,15 +212,34 @@ class SearchBox extends Component {
 
 import {
   isLoading as isAutocompleteLoading,
-  getFlights,
-  getQuery,
+  getFlights as getAutocompleteFlights,
+  getQuery as getAutocompleteString,
 } from '../../selectors/autocomplete';
 
+import {
+  isLoading as isQueryLoading,
+  getFlights as getQueryFlights,
+  getQueryCallsign as getQueryString,
+} from '../../selectors/query';
+
+const emptyFlights = [];
+
 const mapStateToProps = (state) => {
+  const flights = getAutocompleteFlights(state);
+
+  const searchString = getAutocompleteString(state) || getQueryString(state);
+
+  const querySearchString = getQueryString(state);
+
+  const showClearResultsButton = querySearchString || !_.isEmpty(getQueryFlights(state));
+
   return {
-    flights: getFlights(state),
+    flights,
     isAutocompleteLoading: isAutocompleteLoading(state),
-    searchString: getQuery(state),
+    isQueryLoading: isQueryLoading(state),
+    isLoading: isQueryLoading(state) || isAutocompleteLoading(state),
+    searchString,
+    showClearResultsButton,
   };
 };
 
@@ -182,9 +248,28 @@ import {
   clearSearch,
 } from '../../actions/autocomplete';
 
+import {
+  startQuery,
+  clearQuery,
+} from '../../actions/query';
+
+import {
+  showResults,
+  showHistory,
+} from '../../actions/resultTabs';
+
+import {
+  getProfile,
+} from '../../actions/profile';
+
 const mapDispatchToProps = {
   startSearch,
   clearSearch,
+  startQuery,
+  clearQuery,
+  showResults,
+  showHistory,
+  getProfile,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);

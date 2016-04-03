@@ -50,6 +50,7 @@ export class TopBar extends Component {
           </div>
         }
         iconElementLeft={<div></div>}
+        style={{flexShrink: '0'}}
       />
     );
   }

@@ -5,7 +5,8 @@ import Paper from 'material-ui/lib/paper';
 import Divider from 'material-ui/lib/divider';
 
 import SearchBox from './SearchBox';
-import History from './History';
+import HistoryOrResults from './HistoryOrResults';
+import FlightProfile from './FlightProfile';
 
 import theme from '../../theme';
 
@@ -19,14 +20,16 @@ const style = {
     width: '100%',
   },
   leftPanel: {
-    overflowY: 'auto',
     overflowX: 'hidden',
     width: '282px',
     //paddingLeft: 10,
+    display: 'flex',
+    flexDirection: 'column',
     zIndex: 100,
   },
   rightPanel: {
     flexGrow: '1',
+    display: 'flex',
     overflowY: 'auto',
     overflowX: 'hidden',
     width: '200px',
@@ -35,8 +38,15 @@ const style = {
     padding: 10,
     paddingRight: 0,
     backgroundColor: theme.palette.primary1Color,
+    flexGrow: '0',
+    flexShrink: '0',
   },
-}
+  history: {
+    flexGrow: '1',
+    overflowY: 'auto',
+  }
+};
+
 
 class ArcidRoot extends Component {
   render() {
@@ -49,14 +59,14 @@ class ArcidRoot extends Component {
           <div style={style.searchBoxContainer}>
             <SearchBox />
           </div>
-          <Divider />
-          <History />
+          <Divider style={{flexShrink: '0'}}/>
+          <HistoryOrResults />
         </Paper>
         <Paper
           zDepth={1}
           style={style.rightPanel}
         >
-          Right Panel
+          <FlightProfile />
         </Paper>
       </div>
     );

@@ -1,48 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-import moment from 'moment';
-
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Divider from 'material-ui/lib/divider';
+import FlightList from '../FlightList';
 
 class History extends Component {
+
+  handleTouchTap = (event, flight) => {
+    const {
+      getProfile,
+    } = this.props;
+
+    console.log(`Clicked on history flight with ifplId : ${flight.ifplId}`);
+
+    getProfile(flight);
+  };
+
   render() {
     const {
       flights,
+      selectedIfplId,
+      ...other,
     } = this.props;
 
     return (
-      <List>
-        {_.map(flights, (flight, index) => {
-          const {
-            callsign,
-            departure,
-            destination,
-            eobt,
-            ifplId,
-          } = flight;
-
-          const formattedEobt = moment.utc(eobt).format('YYYY-MM-DD HH:mm');
-          return (
-            <div key={index}>
-              <ListItem
-                primaryText={callsign}
-                secondaryText={
-                  <p>
-                    <span>{departure} -> {destination}</span><br />
-                    <span>{formattedEobt}</span>
-                  </p>
-                }
-                secondaryTextLines={2}
-              />
-              <Divider />
-            </div>
-          );
-        })}
-      </List>
+      <FlightList
+        flights={flights}
+        onTouchTap={this.handleTouchTap}
+        selectedIfplId={selectedIfplId}
+        {...other}
+      />
     );
   }
 }
@@ -51,12 +37,26 @@ import {
   getFlights,
 } from '../../selectors/history';
 
+import {
+  getSelectedIfplId,
+} from '../../selectors/profile';
+
 const mapStateToProps = (state) => {
   const flights = getFlights(state);
+  const selectedIfplId = getSelectedIfplId(state);
 
   return {
     flights,
+    selectedIfplId,
   };
 };
 
-export default connect(mapStateToProps)(History);
+import {
+  getProfile,
+} from '../../actions/profile';
+
+const mapDispatchToProps = {
+  getProfile,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(History);
