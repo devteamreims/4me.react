@@ -51,7 +51,7 @@ class SearchBox extends Component {
     showResults();
   }
 
-  handleUpdateInput = _.debounce((searchString, dataSource) => {
+  handleUpdateInput = (searchString, dataSource) => {
     const {
       startSearch,
       clearSearch,
@@ -64,7 +64,7 @@ class SearchBox extends Component {
       startSearch(searchString);
     }
 
-  }, 200);
+  };
 
   handleNewRequest = (flight, index) => {
     const {
