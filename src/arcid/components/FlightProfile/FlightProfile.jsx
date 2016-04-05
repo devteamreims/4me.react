@@ -87,7 +87,7 @@ class FlightProfile extends Component {
           </div>
           <Divider style={{flexShrink: '0'}}/>
           <PointProfile
-            flight={flight}
+            pointProfile={flight.pointProfile}
           />
         </div>
       );

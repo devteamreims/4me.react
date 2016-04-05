@@ -7,9 +7,15 @@ import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
 
-const style = {
+import theme from '../../theme';
+import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
+
+const styles = {
   selectedItem: {
     backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  secondaryText: {
+    color: ColorManipulator.fade(theme.palette.textColor, 0.5),
   },
 };
 
@@ -50,7 +56,7 @@ class FlightList extends Component {
           const itemStyle = {};
 
           if(selectedIfplId && flight.ifplId === selectedIfplId) {
-            Object.assign(itemStyle, style.selectedItem);
+            Object.assign(itemStyle, styles.selectedItem);
           }
 
           const formattedEobt = moment.utc(eobt).format('YYYY-MM-DD HH:mm');
@@ -60,7 +66,7 @@ class FlightList extends Component {
               <ListItem
                 primaryText={callsign}
                 secondaryText={
-                  <p>
+                  <p style={styles.secondaryText}>
                     <span>{departure} -> {destination}</span><br />
                     <span>{formattedEobt}</span>
                   </p>
