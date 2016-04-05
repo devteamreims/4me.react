@@ -16,6 +16,7 @@ class PointProfile extends Component {
   render() {
     const {
       flight,
+      style,
     } = this.props;
 
     return (

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
+//import moment from 'moment';
 
-import ToneDowner from './ToneDowner';
+import TimeAgo from '../../../utils/components/TimeAgo';
+
 
 const style = {
   wrapper: {
@@ -31,7 +32,7 @@ class AppliedBy extends Component {
         >
           {prettySectors || cwpName}
         </span>
-        {when !== 0 && <span style={style.when}>{moment(when).fromNow()}</span>}
+        {when !== 0 && <TimeAgo when={when} style={style.when} />}
       </div>
     );
   }

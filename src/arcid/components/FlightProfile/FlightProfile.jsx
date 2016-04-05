@@ -10,6 +10,7 @@ import Divider from 'material-ui/lib/divider';
 
 import Spinner from '../Spinner';
 import PointProfile from './PointProfile';
+import TimeAgo from '../../../utils/components/TimeAgo';
 
 const styles = {
   container: {
@@ -54,8 +55,6 @@ class FlightProfile extends Component {
     } else {
 
       const formattedEobt = moment.utc(flight.eobt).format('YYYY-MM-DD HH:mm');
-      const formattedLastUpdated = moment.utc(flight.fetched).fromNow();
-
       Content = (
         <div style={{display: 'flex', flexGrow: '1', flexDirection: 'column'}}>
           <div
@@ -70,7 +69,7 @@ class FlightProfile extends Component {
             <h1>{flight.callsign}</h1>
             <span>{flight.departure} -> {flight.destination}</span>
             <span>EOBT : {flight.eobt}</span>
-            <span>Delay: {flight.delay}</span>
+            <span>Delay: {flight.delay} min</span>
             <div
               style={{
                 display: 'flex',
@@ -79,7 +78,7 @@ class FlightProfile extends Component {
                 marginBottom: '10px',
               }}
             >
-              <div>Last Updated : {formattedLastUpdated}</div>
+              <div>Last Updated : <TimeAgo when={flight.fetched} /></div>
               <FlatButton
                 label="Force refresh"
                 onTouchTap={this.handleForceRefresh}
@@ -89,14 +88,6 @@ class FlightProfile extends Component {
           <Divider style={{flexShrink: '0'}}/>
           <PointProfile
             flight={flight}
-            style={{
-              display: 'flex',
-              flewGrow: '1',
-              overflowY: 'auto',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              padding: '10px',
-            }}
           />
         </div>
       );
