@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore  from './store/configureStore';
-import { Router, hashHistory } from 'react-router';
+import { Router, hashHistory, browserHistory } from 'react-router';
 
 import Perf from 'react-addons-perf';
 
@@ -36,8 +36,8 @@ if (process.env.NODE_ENV !== 'production') {
   );
 } else {
   ComponentEl = (
-    <div>
-      <Router history={hashHistory} routes={routes} />
+    <div id="main-container">
+      <Router history={browserHistory} routes={routes} />
     </div>
   );
 }
