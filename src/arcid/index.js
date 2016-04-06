@@ -11,12 +11,8 @@ import {
   onSectorChange,
 } from './actions/bootstrap';
 
-/*
-
-import { getNotifications } from './selectors/notifications';
-
 import { getStatus } from './selectors/status';
-*/
+
 
 export default {
   name: 'arcid',
@@ -25,6 +21,5 @@ export default {
   routes: <Route key="arcid" path='/arcid' component={rootComponent} />,
   rootReducer,
   onSectorChange,
-//  getNotifications,
-//  getStatus,
+  getStatus,
 };
