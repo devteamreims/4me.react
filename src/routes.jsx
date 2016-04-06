@@ -22,11 +22,14 @@ const Dashboard = () => (
 );
 
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={Dashboard} />
-    {organRoutes}
-    <Route path="/status" component={Status} />
-    <Route path="404" component={NotFoundView} />
-    <Redirect from="*" to="404" />
-  </Route>
+  <div>
+    <Redirect from="/" to="/xman" />
+    <Route path="/" component={App}>
+      {/* <IndexRoute component={Dashboard} /> */}
+      {organRoutes}
+      <Route path="/status" component={Status} />
+      <Route path="404" component={NotFoundView} />
+      <Redirect from="*" to="404" />
+    </Route>
+  </div>
 );
