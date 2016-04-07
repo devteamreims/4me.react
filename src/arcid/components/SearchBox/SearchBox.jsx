@@ -49,7 +49,7 @@ class SearchBox extends Component {
     clearSearch();
     startQuery(searchString);
     showResults();
-  }
+  };
 
   handleUpdateInput = (searchString, dataSource) => {
     const {
@@ -199,7 +199,6 @@ class SearchBox extends Component {
           onUpdateInput={this.handleUpdateInput}
           onNewRequest={this.handleNewRequest}
           onFocus={this.handleOnFocus}
-          onBlur={this.handleOnBlur}
           searchText={searchString}
           menuCloseDelay={100}
           disabled={isQueryLoading || showClearResultsButton}
