@@ -1,4 +1,4 @@
-const mappingUrl = 'http://mapping.4me';
+const mappingUrl = 'http://mapping.4me/';
 const core = {
   mapping: {
     cwp: {
@@ -12,8 +12,40 @@ const core = {
   socket: `${mappingUrl}`,
 };
 
+
+const arcidUrl = 'http://arcid.4me/';
+const arcid = {
+  history: `${arcidUrl}/history`,
+  autocomplete: (query) => `${arcidUrl}/autocomplete?search=${query}`,
+  socket: `${arcidUrl}`,
+  searchProfile: `${arcidUrl}/searchProfiles`,
+  searchCallsign: `${arcidUrl}/searchCallsign`,
+};
+
+const xmanUrl = 'http://xman.4me/';
+const xman = {
+  xman: {
+    getAll: `${xmanUrl}/xman`,
+  },
+  socket: `${xmanUrl}`,
+};
+
+const mapping = {
+  map: {
+    getMap: `${mappingUrl}/mapping`,
+    commit: `${mappingUrl}/mapping`,
+    suggest: (cwpId) => `${mappingUrl}/cwp/${cwpId}/suggest`,
+  },
+  cwp: {
+    getAll: `${mappingUrl}/cwp`,
+  },
+};
+
 const api = {
   core,
+  arcid,
+  xman,
+  mapping,
 };
 
 export default api;
