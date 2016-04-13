@@ -29,5 +29,9 @@ export const getQueryParams = (state) => {
     return {sectors, verticalFilter};
   }
 
+  if(_.isEmpty(sectors)) {
+    return {};
+  }
+
   return {sectors};
 };
