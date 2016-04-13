@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 import _ from 'lodash';
 
-
 const keys = [
   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '{BACKSPACE}'],
   ['A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -11,11 +10,23 @@ const keys = [
   ['W', 'X', 'C', 'V', 'B', 'N'],
 ];
 
+import {
+  fullBlack,
+  lightBlack,
+} from 'material-ui/lib/styles/colors';
+
+const backgroundColor = lightBlack;
+
 class Keyboard extends Component {
-  onClickHandler = (target, key) => (ev) => {
-    // Prevent focus change
+
+  preventFocus = (ev) => {
     ev.stopPropagation();
     ev.preventDefault();
+  };
+
+  onClickHandler = (target, key) => (ev) => {
+    // Prevent focus change
+    this.preventFocus(ev);
 
 
     if(!target) {
@@ -62,6 +73,12 @@ class Keyboard extends Component {
 
     const styles = {
       zIndex: 99999,
+      backgroundColor,
+      padding: '10px 30px',
+    };
+
+    const buttonStyles = {
+      margin: '5px',
     };
 
     if(hide) {
@@ -69,7 +86,10 @@ class Keyboard extends Component {
     }
 
     return (
-      <div style={styles}>
+      <div
+        style={styles}
+        onMouseDown={this.preventFocus}
+      >
         {_.map(keys, (row, index) =>
           <div
             key={index}
@@ -78,6 +98,8 @@ class Keyboard extends Component {
               <KeyboardButton
                 key={index}
                 onClick={this.onClickHandler(target, key)}
+                style={buttonStyles}
+                backgroundColor={fullBlack}
               >
                 {key}
               </KeyboardButton>
@@ -88,6 +110,10 @@ class Keyboard extends Component {
     );
   }
 }
+
+
+import FlatButton from 'material-ui/lib/flat-button';
+import BackspaceIcon from 'material-ui/lib/svg-icons/content/backspace';
 
 class KeyboardButton extends Component {
 
@@ -107,18 +133,45 @@ class KeyboardButton extends Component {
     ev.stopPropagation();
   };
 
-  render() {
+  isIconButton() {
     const {
       children,
     } = this.props;
 
+    if(children === '{BACKSPACE}') {
+      return true;
+    }
+
+    return false;
+  }
+
+  getIcon() {
+    const {
+      children,
+    } = this.props;
+
+    if(children === '{BACKSPACE}') {
+      return <BackspaceIcon />
+    }
+
+    return false;
+  }
+
+  render() {
+    const {
+      children,
+      ...other,
+    } = this.props;
+
     return (
-      <button
+      <FlatButton
         onMouseDown={this.handleMouseDown}
         onClick={this.handleClick}
+        icon={this.getIcon()}
+        {...other}
       >
-        {children}
-      </button>
+        {!this.isIconButton() && children}
+      </FlatButton>
     )
   }
 }
