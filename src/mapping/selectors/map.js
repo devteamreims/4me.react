@@ -23,6 +23,12 @@ export const getSectorsByCwpId = (state, cwpId) => {
 export const isCwpEmpty = (state, cwpId) => _.isEmpty(getSectorsByCwpId(state, cwpId));
 export const isEmpty = isCwpEmpty;
 
-import { isDisabled as isCwpDisabled } from './cwp';
 
-export const isDisabled = (state, cwpId) => isCwpDisabled(state, cwpId);
+export const isDisabled = (state, cwpId) => {
+  const mapItem = getMapByCwpId(state, cwpId);
+  if(!mapItem) {
+    return false;
+  }
+
+  return !!mapItem.disabled;
+};

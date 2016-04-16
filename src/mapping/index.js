@@ -7,7 +7,7 @@ import rootReducer from './reducers';
 
 import { bootstrap } from './actions/bootstrap';
 
-import { getNotifications } from './selectors/notifications';
+import { getStatus } from './selectors/status';
 
 export default {
   name: 'mapping',
@@ -15,5 +15,5 @@ export default {
   rootComponent,
   routes: <Route key="mapping" path='/mapping' component={rootComponent} />,
   rootReducer,
-  getNotifications,
+  getStatus,
 };

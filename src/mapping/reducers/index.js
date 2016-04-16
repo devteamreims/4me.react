@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import cwp from './cwp';
 import map from './map';
-//import statusReducer from './status';
+import status from './status';
 import suggest from './suggest';
 import dialog from './dialog';
 
@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   map,
   suggest,
   dialog,
+  status,
 });
 
 export default rootReducer;

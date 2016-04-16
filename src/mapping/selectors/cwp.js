@@ -11,9 +11,9 @@ export const getCwpById = (state, cwpId) => {
   return _.find(getCwps(state), cwp => parseInt(cwp.id) === parseInt(cwpId)) || {};
 };
 
-export const isDisabled = (state, cwpId) => {
-  return !!_.get(getCwpById(state, cwpId), 'disabled', true);
-};
+import { isDisabled as isCwpDisabled } from './map';
+
+export const isDisabled = isCwpDisabled;
 
 export const getName = (state, cwpId) => {
   return _.get(getCwpById(state, cwpId), 'name', `P${cwpId}`);

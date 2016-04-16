@@ -124,8 +124,6 @@ export function bindSectorsToCwp(cwpId, sectors) {
 
 export function setStatus(cwpId, disabled = false) {
   return (dispatch, getState) => {
-    const enabled = !disabled;
-
     const isEmpty = isCwpEmpty(getState(), cwpId);
 
     if(disabled && !isEmpty) {
@@ -133,7 +131,15 @@ export function setStatus(cwpId, disabled = false) {
       return Promise.reject();
     }
 
-    return Promise.resolve(dispatch(setCwpStatusAction(cwpId, disabled)));
+    return Promise.resolve(dispatch(setCwpStatusAction(cwpId, disabled)))
+      .then(() =>
+        dispatch((dispatch, getState) => {
+          const newMap = getMap(getState());
+
+          return dispatch(commitMap(newMap));
+        })
+      )
+      .then(() => dispatch(refreshMap()));
 
   };
 }

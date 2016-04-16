@@ -81,7 +81,7 @@ function handleCwpStatus(state, action) {
       Object.assign({}, {
         cwpId,
         disabled: action.disabled,
-        sectors: _.get(cwp, 'sectors', []),
+        sectors: cwp.sectors || [],
       }),
     ]
   });
