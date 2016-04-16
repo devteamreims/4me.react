@@ -32,3 +32,7 @@ export const isDisabled = (state, cwpId) => {
 
   return !!mapItem.disabled;
 };
+
+export const getOpenedCwpCount = (state) => {
+  return _.size(_.filter(getMap(state), mapItem => !_.isEmpty(mapItem.sectors)));
+};

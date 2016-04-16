@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import CwpButton from './CwpButton';
 import CwpDialog from './CwpDialog';
+import SectorCount from './SectorCount';
 
 import _ from 'lodash';
 
@@ -58,7 +59,7 @@ const styles = {
       display: 'inline',
       padding: '5px',
       margin: '0',
-    }
+    },
   },
   east: {
     container: {
@@ -71,9 +72,25 @@ const styles = {
     element: {
       display: 'inline',
       padding: '5px',
-    }
+    },
+  },
+  centerPiece: {
+    container: {
+      display: 'flex',
+      flexGrow: '1',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      maxWidth: '100px',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    element: {
+      display: 'block',
+      padding: '5px',
+    },
   },
 };
+
 
 class MappingButtons extends Component {
 
@@ -82,20 +99,34 @@ class MappingButtons extends Component {
   }
 
   render() {
-    return (
-      <div style={styles.outerDiv}>
-        {_.map(['north', 'west', 'east'], pos =>
-          <div
-            key={pos}
-            style={styles[pos].container}
-          >
-            {_.map(cwpRows[pos], cwpId =>
-              <div key={cwpId} style={styles[pos].element}>
-                <CwpButton cwpId={cwpId} />
-              </div>
-            )}
+
+    const posToElement = pos => (
+      <div
+        key={pos}
+        style={styles[pos].container}
+      >
+        {_.map(cwpRows[pos] || [], cwpId =>
+          <div key={cwpId} style={styles[pos].element}>
+            <CwpButton cwpId={cwpId} />
           </div>
         )}
+      </div>
+    );
+
+    const CenterPiece = (props) => (
+      <div
+        style={styles['centerPiece'].container}
+      >
+        <SectorCount />
+      </div>
+    );
+
+    return (
+      <div style={styles.outerDiv}>
+        {posToElement('north')}
+        {posToElement('west')}
+        <CenterPiece />
+        {posToElement('east')}
       </div>
     );
   }
