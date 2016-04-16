@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import CwpButton from './CwpButton';
 import CwpDialog from './CwpDialog';
-import SectorCount from './SectorCount';
+import RoomStatus from './RoomStatus';
 
 import _ from 'lodash';
 
@@ -74,19 +74,15 @@ const styles = {
       padding: '5px',
     },
   },
-  centerPiece: {
+  roomStatus: {
     container: {
       display: 'flex',
-      flexGrow: '1',
+      flexGrow: '0',
       flexDirection: 'row',
       flexWrap: 'wrap',
-      maxWidth: '100px',
+      //maxWidth: '100px',
       justifyContent: 'center',
       alignItems: 'center',
-    },
-    element: {
-      display: 'block',
-      padding: '5px',
     },
   },
 };
@@ -113,19 +109,13 @@ class MappingButtons extends Component {
       </div>
     );
 
-    const CenterPiece = (props) => (
-      <div
-        style={styles['centerPiece'].container}
-      >
-        <SectorCount />
-      </div>
-    );
-
     return (
       <div style={styles.outerDiv}>
         {posToElement('north')}
         {posToElement('west')}
-        <CenterPiece />
+        <div style={styles['roomStatus'].container}>
+          <RoomStatus />
+        </div>
         {posToElement('east')}
       </div>
     );
