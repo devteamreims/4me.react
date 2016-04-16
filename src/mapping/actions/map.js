@@ -132,15 +132,9 @@ export function setStatus(cwpId, disabled = false) {
     }
 
     return Promise.resolve(dispatch(setCwpStatusAction(cwpId, disabled)))
-      .then(() =>
-        dispatch((dispatch, getState) => {
-          const newMap = getMap(getState());
-
-          return dispatch(commitMap(newMap));
-        })
-      )
+      .then(() => getMap(getState()))
+      .then((newMap) => dispatch(commitMap(newMap)))
       .then(() => dispatch(refreshMap()));
-
   };
 }
 
