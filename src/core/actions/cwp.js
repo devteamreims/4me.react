@@ -11,7 +11,13 @@ export function fetchCwp() {
   return (dispatch, getState) => {
     dispatch(fetchAction());
 
-    return axios.get(api.core.mapping.cwp.getMine)
+    let apiUrl = api.core.mapping.cwp.getMine;
+
+    if(process.env.CWP_ID) {
+      apiUrl = api.core.mapping.cwp.getSingle(process.env.CWP_ID);
+    }
+
+    return axios.get(apiUrl)
       .then((response) => {
         console.log('This should not appear');
         const cwp = _.pick(response.data, ['id', 'name', 'disabled', 'type']);

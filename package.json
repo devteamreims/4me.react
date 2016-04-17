@@ -1,6 +1,6 @@
 {
   "name": "4me.react",
-  "description": "4me react try",
+  "description": "4ME User interface",
   "version": "0.0.1",
   "author": "Benjamin BERET <benjamin.beret@gmail.com>",
   "license": "MIT",
@@ -17,6 +17,17 @@
     "start": "webpack-dev-server --config ./config/webpack.config.dev.js --hot --inline --progress",
     "prebuild": "npm run clean:build && npm run build:html",
     "build": "NODE_ENV=production webpack -p --config ./config/webpack.config.prod.js --progress",
+    "build:demo": "NODE_ENV=production && rm -rf demo && mkdir demo && node ./bin/buildDemo.js",
+    "build:demo_old": [
+      "NODE_ENV=production",
+      "rm -rf demo && mkdir demo",
+      "&& npm run clean:build && npm run build:html",
+      "&& webpack -p --config ./config/webpack.config.demo.js --progress --cwp-id 32",
+      "&& mv build demo/cwp32",
+      "&& npm run clean:build && npm run build:html",
+      "&& npm run build:html && webpack -p --config ./config/webpack.config.demo.js --progress --cwp-id 33",
+      "&& mv build demo/cwp33"
+    ],
     "lint": "eslint config src/**/*.js src/**/*.jsx",
     "jscs": "jscs src/js/",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -40,6 +51,7 @@
     "file-loader": "0.8.5",
     "jscs": "2.10.1",
     "node-sass": "3.4.2",
+    "progress-bar-webpack-plugin": "1.6.0",
     "react-addons-perf": "0.14.7",
     "react-hot-loader": "1.3.0",
     "redux-devtools": "3.2.0",
@@ -48,7 +60,7 @@
     "sass-loader": "3.1.2",
     "style-loader": "0.13.0",
     "url-loader": "0.5.7",
-    "webpack": "1.12.13",
+    "webpack": "^1.13.0",
     "webpack-dev-server": "1.14.1"
   },
   "dependencies": {

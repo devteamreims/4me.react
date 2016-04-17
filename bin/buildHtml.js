@@ -10,21 +10,33 @@ var fs = require('fs');
 var colors = require('colors');
 var cheerio = require('cheerio');
 
-fs.readFile('src/index.html', 'utf8', (err, markup) => {
-  if (err) {
-    return console.log(err);
-  }
+function buildHtml(inputFile, outputFile) {
 
-  const $ = cheerio.load(markup);
+  console.log(`Building html, inputFile is ${inputFile}`);
 
-  // Since a separate spreadsheet is only utilized for the production build, need to dynamically add this here.
-  $('head').append('<link rel="stylesheet" href="/css/app.css">');
-
-  fs.writeFile('build/index.html', $.html(), 'utf8', function (err) {
+  fs.readFile(inputFile, 'utf8', (err, markup) => {
     if (err) {
       return console.log(err);
     }
-  });
 
-  console.log('index.html written to /build'.green);
-});
+    const $ = cheerio.load(markup);
+
+    // Since a separate spreadsheet is only utilized for the production build, need to dynamically add this here.
+    $('head').append('<link rel="stylesheet" href="/css/app.css">');
+
+    fs.writeFile(outputFile, $.html(), 'utf8', function (err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+
+    console.log(`index.html written to ${outputFile}`.green);
+  });
+}
+
+if (require.main === module) {
+  console.log('Called directly');
+  buildHtml('src/index.html', 'build/index.html');
+}
+
+module.exports = buildHtml;
