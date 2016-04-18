@@ -14,4 +14,4 @@ export const getCwpName = (state) => _.get(getRaw(state), 'cwp.name', '');
 
 export const isNormalCwp = (state) => getCwpType(state) === 'cwp';
 export const isSupervisor = (state) => getCwpType(state) === 'supervisor';
-export const isFmp = (state) => getCwpType(state) === 'fmp';
+export const isFmp = (state) => getCwpType(state) === 'flow-manager';
