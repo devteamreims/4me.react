@@ -82,8 +82,8 @@ class FlightRow extends Component {
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
           <Cop
             name={flight.cop}
-            targetTime={flight.estimatedTimeOverCop}
-            estimatedTime={flight.advisory.targetTimeOverCop}
+            targetTime={flight.advisory.targetTime}
+            estimatedTime={flight.advisory.estimatedTime}
           />
         </TableRowColumn>
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
