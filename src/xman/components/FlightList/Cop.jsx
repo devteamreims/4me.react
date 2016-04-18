@@ -19,7 +19,7 @@ class Cop extends Component {
 
     if(estimatedTime) {
       const eto = moment.utc(estimatedTime);
-      const timeDifference = eto.diff(tto, 'minutes');
+      const timeDifference = tto.diff(eto, 'minutes');
       if(timeDifference !== 0) {
         const sign = timeDifference >= 0 ? '+' : '';
         estimates += `(${sign}${timeDifference})`;
