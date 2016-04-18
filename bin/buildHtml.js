@@ -10,7 +10,11 @@ var fs = require('fs');
 var colors = require('colors');
 var cheerio = require('cheerio');
 
-function buildHtml(inputFile, outputFile) {
+function buildHtml(inputFile, outputFile, publicPath) {
+  
+  if(!publicPath) {
+    publicPath = '';
+  }
 
   console.log(`Building html, inputFile is ${inputFile}`);
 
@@ -22,7 +26,10 @@ function buildHtml(inputFile, outputFile) {
     const $ = cheerio.load(markup);
 
     // Since a separate spreadsheet is only utilized for the production build, need to dynamically add this here.
-    $('head').append('<link rel="stylesheet" href="/css/app.css">');
+    $('head').append('<link rel="stylesheet" href="' + publicPath + '/css/app.css">');
+
+    $('body').append(`<script src="${publicPath}/js/vendor.bundle.js"></script>`);
+    $('body').append(`<script src="${publicPath}/js/app.js"></script>`);
 
     fs.writeFile(outputFile, $.html(), 'utf8', function (err) {
       if (err) {

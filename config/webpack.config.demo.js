@@ -10,7 +10,8 @@ module.exports = (cwpId, pathPrefix) => {
   // Change output path
   const e = _.merge({}, prodConfig, {
     output: {
-      path: path.resolve(__dirname, '..', pathPrefix),
+      path: path.resolve(__dirname, '..', pathPrefix, `${cwpId}`),
+      publicPath: `/32/`,
     },
   });
 
