@@ -21,7 +21,7 @@ function delayToColor(delay, maxDelay = 20) {
 
 class Delay extends Component {
   render() {
-    const delay = this.props.delay || 0;
+    const delay = Math.floor((this.props.delay || 0) / 60);
 
     const color = delayToColor(delay);
 
