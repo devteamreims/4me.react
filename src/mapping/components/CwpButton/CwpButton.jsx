@@ -90,14 +90,16 @@ import {
 
 const mapStateToProps = () => (state, ownProps) => {
   const sectors = getSectorsByCwpId(state, ownProps.cwpId);
-  const isButtonEnabled = isSupervisor(state) || isFmp(state);
+
+  const isButtonEnabled = isSupervisor(state);
+
   return {
     sectors,
     prettySectors: getPrettifySectors(state)(sectors),
     name: getName(state, ownProps.cwpId),
     isDisabled: isCwpDisabled(state, ownProps.cwpId),
     isEmpty: isCwpEmpty(state, ownProps.cwpId),
-    isButtonEnabled: false,
+    isButtonEnabled: isButtonEnabled,
   };
 };
 
