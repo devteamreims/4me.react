@@ -11,7 +11,7 @@ var colors = require('colors');
 var cheerio = require('cheerio');
 
 function buildHtml(inputFile, outputFile, publicPath) {
-  
+
   if(!publicPath) {
     publicPath = '';
   }
@@ -30,6 +30,8 @@ function buildHtml(inputFile, outputFile, publicPath) {
 
     $('body').append(`<script src="${publicPath}/js/vendor.bundle.js"></script>`);
     $('body').append(`<script src="${publicPath}/js/app.js"></script>`);
+
+    $('.removed-in-prod').remove();
 
     fs.writeFile(outputFile, $.html(), 'utf8', function (err) {
       if (err) {
