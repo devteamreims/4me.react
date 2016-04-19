@@ -22,6 +22,9 @@ class CwpButton extends Component {
       cwpId,
     } = this.props;
 
+    console.log('POUET');
+    console.log(process.env.NODE_ENV);
+
     isButtonEnabled && openDialog(cwpId);
   };
 
@@ -91,7 +94,7 @@ import {
 const mapStateToProps = () => (state, ownProps) => {
   const sectors = getSectorsByCwpId(state, ownProps.cwpId);
 
-  const isButtonEnabled = isSupervisor(state);
+  const isButtonEnabled = isSupervisor(state) || process.env.NODE_ENV === 'development';
 
   return {
     sectors,
