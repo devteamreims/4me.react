@@ -87,8 +87,19 @@ export function clear() {
 
 function preprocessFlight(rawFlight) {
   const ifplId = _.get(rawFlight, 'flightId');
+  const position = _.get(rawFlight, 'position');
+
+  // Round currentFlightLevel here
+
+  if(position.vertical.currentFlightLevel % 10 > 7 || position.vertical.currentFlightLevel % 10 < 3) {
+    Object.assign(position.vertical, {
+      currentFlightLevel: Math.round(position.vertical.currentFlightLevel/10)*10,
+    });
+  }
+
   return {
     ifplId,
+    position,
     ...rawFlight,
   };
 }
