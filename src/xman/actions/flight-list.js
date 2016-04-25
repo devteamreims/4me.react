@@ -54,8 +54,9 @@ export function refreshFullList() {
     console.log(queryParams);
 
     return axios.get(apiUrl, {
-      params: queryParams
-    }).then((response) => {
+        params: queryParams
+      })
+      .then((response) => {
         return dispatch(complete(response.data));
       })
       .catch((error) => {

@@ -1,4 +1,5 @@
 import {refreshFullList} from './flight-list';
+import { fetchStatus } from './backend-status';
 
 import io from 'socket.io-client';
 import api from '../../api';
@@ -15,6 +16,7 @@ export function bootstrap() {
     // Connect to socket, set handlers
 
     return Promise.all([
+      dispatch(fetchStatus()),
       dispatch(refreshFullList()),
       setupSocketIo(dispatch, socketIo),
     ]);

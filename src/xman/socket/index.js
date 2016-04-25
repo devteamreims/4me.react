@@ -70,8 +70,12 @@ export function sendXmanAction(ifplId, status) {
 
 import {
   complete,
-  updateFlight
+  updateFlight,
 } from '../actions/flight-list';
+
+import {
+  setStatus,
+} from '../actions/backend-status';
 
 export function attachHandlerToSocket(dispatch, socket) {
 
@@ -90,6 +94,13 @@ export function attachHandlerToSocket(dispatch, socket) {
     console.log(flight);
 
     dispatch(updateFlight(flight));
+  });
+
+  socket.on('update_status', data => {
+    console.log('XMAN Socket : UPDATE_STATUS');
+    console.log(data);
+
+    dispatch(setStatus(data));
   });
 
 }
