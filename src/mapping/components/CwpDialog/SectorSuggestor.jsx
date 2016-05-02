@@ -11,7 +11,7 @@ import {
 } from 'material-ui/lib/styles/colors';
 
 import {
-  primary1Color
+  accent2Color,
 } from '../../../theme/colors';
 
 class SectorSuggestor extends Component {
@@ -53,6 +53,10 @@ class SectorSuggestor extends Component {
         marginBottom: 12,
       };
 
+      const labelStyle = {
+        fontSize: 20,
+      };
+
       inner = _.map(this.props.suggestions, (s, index) =>
         (
           <RaisedButton
@@ -60,7 +64,8 @@ class SectorSuggestor extends Component {
             label={s.prettySectors}
             onTouchTap={this.props.onSuggestionClick(s.sectors)}
             style={buttonStyle}
-            backgroundColor={primary1Color}
+            labelStyle={labelStyle}
+            backgroundColor={accent2Color}
           />
         )
       );

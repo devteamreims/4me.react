@@ -11,7 +11,7 @@ export const primary1Color = Colors.indigo500;
 export const primary2Color = Colors.indigo700;
 export const primary3Color = Colors.indigo200;
 export const accent1Color = Colors.lightBlueA200;
-export const accent2Color = Colors.pinkA400;
+export const accent2Color = Colors.pinkA700;
 export const accent3Color = Colors.pinkA100;
 export const textColor = Colors.fullWhite;
 
