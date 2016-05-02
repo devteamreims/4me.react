@@ -18,3 +18,9 @@ export const isDisabled = isCwpDisabled;
 export const getName = (state, cwpId) => {
   return _.get(getCwpById(state, cwpId), 'name', `P${cwpId}`);
 };
+
+const emptyBackupedRadios = [];
+export const getBackupedRadios = (state, cwpId) => {
+  return _.get(getCwpById(state, cwpId), 'backupedRadios', emptyBackupedRadios);
+};
+

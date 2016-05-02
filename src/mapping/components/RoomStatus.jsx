@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Paper from 'material-ui/lib/paper';
+import EmergencyFrequency from './EmergencyFrequency';
+
 class RoomStatus extends Component {
 
   render() {
@@ -10,9 +13,10 @@ class RoomStatus extends Component {
     } = this.props;
 
     return (
-      <div {...other}>
-        <p>Total : {openedCwpCount}</p>
-      </div>
+      <Paper style={{paddingLeft: 20, paddingRight: 20, textAlign: 'center'}} {...other}>
+        <h1>{openedCwpCount}</h1>
+        <p><EmergencyFrequency /></p>
+      </Paper>
     );
   }
 }
