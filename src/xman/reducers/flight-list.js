@@ -17,8 +17,7 @@ import {
 } from '../actions/flight';
 
 import {
-  SET_GEOGRAPHICAL_FILTER,
-  SET_VERTICAL_FILTER,
+  SET_FILTER,
 } from '../actions/list-filter';
 
 import {
@@ -37,8 +36,7 @@ const defaultState = {
   isLoading: false,
   flights: [],
   error: null,
-  geographicalFilter: true,
-  verticalFilter: true
+  listFilter: 'all'
 };
 
 export default function flightListReducer(state = defaultState, action) {
@@ -77,13 +75,9 @@ export default function flightListReducer(state = defaultState, action) {
         flights: [],
         error: action.error
       });
-    case SET_GEOGRAPHICAL_FILTER:
+    case SET_FILTER:
       return merge({}, state, {
-        geographicalFilter: action.value
-      });
-    case SET_VERTICAL_FILTER:
-      return merge({}, state, {
-        verticalFilter: action.value
+        listFilter: action.value
       });
     case UPDATE_FLIGHT:
       return Object.assign({}, state, {

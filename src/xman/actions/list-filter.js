@@ -1,5 +1,4 @@
-export const SET_GEOGRAPHICAL_FILTER = 'xman/listFilter/SET_GEOGRAPHICAL_FILTER';
-export const SET_VERTICAL_FILTER = 'xman/listFilter/SET_VERTICAL_FILTER';
+export const SET_FILTER = 'xman/listFilter/SET_FILTER';
 
 
 import {
@@ -23,47 +22,27 @@ import {
   clear as clearFlightList,
 } from './flight-list';
 
-export function toggleVerticalFilter(value) {
+export function setFilter(type = 'all') {
   return (dispatch, getState) => {
-    // Prevent activating verticalFilter if geographicalFilter is disabled
-    const geographicalFilter = getGeographicalFilter(getState());
+    const acceptedValues = ['all', 'geographical', 'vertical'];
 
-    if(!geographicalFilter) {
+    if(!_.includes(acceptedValues, type)) {
+      throw new Error(`xman/actions/list-filter/setFilter : type ${type} is not a valid filter`);
       return;
     }
 
-    const verticalFilter = getVerticalFilter(getState());
-
-    if(value === undefined) {
-      value = !verticalFilter;
+    // Dispatch action
+    switch(type) {
+      case 'all':
+        dispatch(setAllFilterAction());
+        break;
+      case 'geographical':
+        dispatch(setGeographicalFilterAction());
+        break;
+      case 'vertical':
+        dispatch(setVerticalFilterAction());
+        break;
     }
-
-    dispatch(setVerticalFilterAction(value));
-
-    // Send socket change
-    const queryParams = getQueryParams(getState());
-    setSubscriptionFilter(queryParams);
-
-    // Clear current list
-    dispatch(clearFlightList());
-
-    // Refresh full list
-    dispatch(refreshFullList());
-
-  };
-}
-
-export function toggleGeographicalFilter(value) {
-  return (dispatch, getState) => {
-    const geographicalFilter = getGeographicalFilter(getState());
-
-    if(value === undefined) {
-      value = !geographicalFilter;
-    }
-
-    dispatch(setGeographicalFilterAction(value));
-    // Bind our verticalFilter state to geographicalFilter;
-    dispatch(setVerticalFilterAction(value));
 
     // Send socket change
     const queryParams = getQueryParams(getState());
@@ -77,16 +56,35 @@ export function toggleGeographicalFilter(value) {
   }
 }
 
-function setVerticalFilterAction(value) {
+export function setGeographicalFilter() {
+  return dispatch => dispatch(setFilter('geographical'));
+}
+
+export function setVerticalFilter() {
+  return dispatch => dispatch(setFilter('vertical'));
+}
+
+export function setAllFilter() {
+  return dispatch => dispatch(setFilter('all'));
+}
+
+function setAllFilterAction() {
   return {
-    type: SET_VERTICAL_FILTER,
-    value,
+    type: SET_FILTER,
+    value: 'all',
+  }
+}
+
+function setVerticalFilterAction() {
+  return {
+    type: SET_FILTER,
+    value: 'vertical',
   };
 }
 
-function setGeographicalFilterAction(value) {
+function setGeographicalFilterAction() {
   return {
-    type: SET_GEOGRAPHICAL_FILTER,
-    value,
+    type: SET_FILTER,
+    value: 'geographical',
   };
 }

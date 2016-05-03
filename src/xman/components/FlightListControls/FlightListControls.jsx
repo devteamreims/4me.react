@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import VerticalControl from './VerticalControl';
-import GeographicalControl from './GeographicalControl';
-
-import Checkbox from 'material-ui/lib/checkbox';
+import FilterControl from './FilterControl';
+import SupervisorControl from './SupervisorControl';
 
 const style = {
   container: {
@@ -14,29 +12,51 @@ const style = {
     padding: 10,
   },
   element: {
-    display: 'inline',
-    flexGrow: '0',
+    display: 'flex',
+    flexDirection: 'row',
+    flexGrow: '1',
+    maxWidth: 700,
   },
 };
 
 class FlightListControls extends Component {
 
+  handleFilterChange = (event, value) => {
+    const {
+      setFilter,
+    } = this.props;
+
+    console.log('handleFilterChange !!!');
+    console.log(value);
+    console.log(setFilter);
+
+    setFilter(value);
+  };
+
   render() {
     const {
-      isPendingActionFilterEnabled,
+      hasSudoPower,
       showExtendedControls,
+      selectedFilter,
+      setFilter,
+      isLoading,
       ...other,
     } = this.props;
+
+
 
     return (
       <div style={style.container}>
         {showExtendedControls &&
-          <GeographicalControl
+          <FilterControl
             style={style.element}
+            onChange={this.handleFilterChange}
+            selected={selectedFilter}
+            disabled={isLoading}
           />
         }
-        {showExtendedControls &&
-          <VerticalControl
+        {hasSudoPower &&
+          <SupervisorControl
             style={style.element}
           />
         }
@@ -47,17 +67,33 @@ class FlightListControls extends Component {
 
 import {
   shouldShowFilters,
+  getFilter,
 } from '../../selectors/list-filter';
+
+import {
+  isLoading,
+} from '../../selectors/flight-list';
+
+import {
+  isSupervisor,
+} from '../../../core/selectors/cwp';
+
+import {
+  setFilter,
+} from '../../actions/list-filter';
 
 
 const mapStateToProps = (state) => {
   return {
     showExtendedControls: shouldShowFilters(state),
+    hasSudoPower: isSupervisor(state) || process.env.NODE_ENV === 'development',
+    selectedFilter: getFilter(state),
+    isLoading: isLoading(state),
   };
 };
 
 const mapDispatchToProps = {
-  togglePendingAction,
+  setFilter,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightListControls);

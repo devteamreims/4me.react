@@ -13,8 +13,7 @@ export const getKnownFlightIds = (state) => _.map(getFlights(state), f => f.ifpl
 export const getFlightByIfplId = (state, ifplId) => _.find(getFlights(state), f => f.ifplId === ifplId);
 
 import {
-  getVerticalFilter,
-  getGeographicalFilter
+  getFilter,
 } from './list-filter';
 
 import {
@@ -22,16 +21,25 @@ import {
 } from '../../core/selectors/sector';
 
 export const getQueryParams = (state) => {
-  const sectors = getGeographicalFilter(state) ? getSectors(state) : [];
-  const verticalFilter = _.isEmpty(sectors) ? false : getVerticalFilter(state);
+  const sectors = getSectors(state);
+  const selectedFilter = getFilter(state);
 
-  if(verticalFilter) {
-    return {sectors, verticalFilter};
-  }
-
-  if(_.isEmpty(sectors)) {
+  // No sectors bound, return empty
+  if(selectedFilter === 'all' || _.isEmpty(sectors)) {
     return {};
   }
 
-  return {sectors};
+  switch(selectedFilter) {
+    case 'geographical':
+      return {
+        sectors,
+      };
+    case 'vertical':
+      return {
+        sectors,
+        verticalFilter: true,
+      };
+  }
+
+  return {};
 };
