@@ -20,7 +20,10 @@ class SpeedOrMachButtons extends Component {
       isSpeedMode,
       isMachMode,
       disableActions,
+      isHighlighted,
     } = this.props;
+
+    const dimmed = !isHighlighted;
 
     if(isMachMode) {
       return (
@@ -28,6 +31,7 @@ class SpeedOrMachButtons extends Component {
           <MachButtons
             ifplId={ifplId}
             disableActions={disableActions}
+            dimmed={dimmed}
           />
         </div>
       );
@@ -37,6 +41,7 @@ class SpeedOrMachButtons extends Component {
           <SpeedButtons
             ifplId={ifplId}
             disableActions={disableActions}
+            dimmed={dimmed}
           />
         </div>
       );
@@ -52,6 +57,7 @@ class SpeedOrMachButtons extends Component {
 
 SpeedOrMachButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
+  isHighlighted: React.PropTypes.bool,
 };
 
 import {

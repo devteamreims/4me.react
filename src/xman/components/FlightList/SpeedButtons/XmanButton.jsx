@@ -18,6 +18,7 @@ class XmanButton extends Component {
   render() {
     const {
       style: propsStyle,
+      dimmed = false,
       ...other,
     } = this.props;
 

@@ -89,6 +89,7 @@ class FlightRow extends Component {
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
           <SpeedButtons
             ifplId={flight.ifplId}
+            isHighlighted={isHighlighted}
           />
         </TableRowColumn>
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>

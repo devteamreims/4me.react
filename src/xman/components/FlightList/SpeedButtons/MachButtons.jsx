@@ -63,6 +63,7 @@ class MachButtons extends Component {
       areButtonsDisabled,
       isUndoButtonDisabled,
       disableActions,
+      dimmed = false,
     } = this.props;
 
     function getXmanState(mach) {
@@ -94,6 +95,7 @@ class MachButtons extends Component {
             xmanState={getXmanState(mach)}
             disabled={areButtonsDisabled}
             style={buttonStyles}
+            dimmed={dimmed}
             onClick={this.handleSetMach(mach)}
           />
         )}
@@ -102,12 +104,14 @@ class MachButtons extends Component {
           selected={minimumCleanSpeed}
           style={buttonStyles}
           onClick={this.handleMcs}
+          dimmed={dimmed}
         />
         {!disableActions &&
           <UndoButton
             disabled={isUndoButtonDisabled}
             style={buttonStyles}
             onClick={isUndoButtonDisabled ? () => {} : this.handleUndo}
+            dimmed={dimmed}
           />
         }
       </span>
@@ -118,6 +122,7 @@ class MachButtons extends Component {
 MachButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
   disableActions: React.PropTypes.bool,
+  dimmed: React.PropTypes.bool,
 }
 
 import {

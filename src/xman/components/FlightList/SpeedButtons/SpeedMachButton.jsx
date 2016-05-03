@@ -6,15 +6,20 @@ import {
   green500,
   fullWhite,
   fullBlack,
+  grey700,
 } from 'material-ui/lib/styles/colors';
 
 import XmanButton from './XmanButton';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-function prepareStyles(xmanState = 'empty') {
+function prepareStyles(xmanState = 'empty', dimmed = false) {
   let labelColor = fullBlack;
   let backgroundColor = fullWhite;
+
+  if(dimmed) {
+    backgroundColor = grey700;
+  }
 
   switch(xmanState) {
     case 'advised':
@@ -46,13 +51,14 @@ class SpeedMachButton extends Component {
     const {
       xmanState,
       style = {},
+      dimmed = false,
       ...other,
     } = this.props;
 
     const {
       labelColor,
       backgroundColor,
-    } = prepareStyles(xmanState);
+    } = prepareStyles(xmanState, dimmed);
 
     Object.assign(style, {
       fontWeight: 'inherit',
@@ -69,6 +75,7 @@ class SpeedMachButton extends Component {
 
 SpeedMachButton.PropTypes = {
   xmanState: React.PropTypes.oneOf(['advised', 'advisedSoft', 'selected', 'empty']),
+  dimmed: React.PropTypes.bool,
 };
 
 export default SpeedMachButton;

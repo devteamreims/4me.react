@@ -14,6 +14,7 @@ export const accent1Color = Colors.pinkA700;
 export const accent2Color = Colors.grey100;
 export const accent3Color = Colors.pinkA100;
 export const textColor = Colors.fullWhite;
+export const canvasColor = '#303030';
 
 export default {
   success,
@@ -28,4 +29,5 @@ export default {
   accent2Color,
   accent3Color,
   textColor,
+  canvasColor,
 };
