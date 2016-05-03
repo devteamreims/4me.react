@@ -86,7 +86,7 @@ class FlightList extends Component {
               >FL</TableHeaderColumn>
               <TableHeaderColumn
                 style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
-              >COP</TableHeaderColumn>
+              >COP/TTO</TableHeaderColumn>
               <TableHeaderColumn
                 style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
               >Speed</TableHeaderColumn>

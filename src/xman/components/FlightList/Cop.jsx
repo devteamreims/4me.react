@@ -13,18 +13,7 @@ class Cop extends Component {
     } = this.props;
 
     const tto = moment.utc(targetTime);
-    const formattedTto = tto.format('HH:mm');
-
-    let estimates = `${formattedTto}`;
-
-    if(estimatedTime) {
-      const eto = moment.utc(estimatedTime);
-      const timeDifference = tto.diff(eto, 'minutes');
-      if(timeDifference !== 0) {
-        const sign = timeDifference >= 0 ? '+' : '';
-        estimates += `(${sign}${timeDifference})`;
-      }
-    }
+    const estimates = tto.format('HH:mm');
 
     return (
       <div style={{flexDirection: 'column'}}>
