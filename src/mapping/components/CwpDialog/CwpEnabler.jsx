@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import RadioButton from 'material-ui/lib/radio-button';
 import RadioButtonGroup from 'material-ui/lib/radio-button-group';
+import Toggle from 'material-ui/lib/toggle';
 
 const style = {
   group: {
@@ -30,22 +31,12 @@ class CwpEnabler extends Component {
 
     return (
       <div>
-        <RadioButtonGroup
-          defaultSelected={isEnabled ? 'enabled' : 'disabled'}
-          onChange={onStatusChange}
-          style={style.group}
-        >
-          <RadioButton
-            value="enabled"
-            label="Enabled"
-            style={style.button}
-          />
-          <RadioButton
-            value="disabled"
-            label="Disabled"
-            style={style.button}
-          />
-        </RadioButtonGroup>
+        <Toggle
+          label="CWP Enabled"
+          onToggle={onStatusChange}
+          defaultToggled={isEnabled}
+          labelPosition="right"
+        />
       </div>
     );
   }

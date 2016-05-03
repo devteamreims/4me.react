@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 import Checkbox from 'material-ui/lib/checkbox';
+import MicOk from 'material-ui/lib/svg-icons/av/mic';
+
+import {
+  success,
+} from '../../../theme/colors';
 
 const style = {
   legend: {
@@ -19,25 +24,44 @@ class SingleGroupPicker extends Component {
   };
 
   render() {
+    const {
+      style,
+      toggleSectors,
+      backupedRadios,
+      sectors,
+      ...other
+    } = this.props;
+
     return (
       <fieldset
-        style={this.props.style}
+        style={style}
       >
         <legend
-          onClick={this.props.toggleSectors(this.props.sectors)}
+          onClick={toggleSectors(this.props.sectors)}
           style={style.legend}
         >
           {this.props.groupName}
         </legend>
-        {_.map(this.props.sectors, sector =>
-            <Checkbox
+        {_.map(sectors, sector => {
+          let label = sector;
+          if(_.includes(backupedRadios, sector)) {
+            label = (
+              <span>
+                {sector}
+                <MicOk style={{width: 16, height: 16}} color={success} />
+              </span>
+            );
+          }
+          return (
+              <Checkbox
               key={sector}
-              label={sector}
+              label={label}
               checked={this.isSectorChecked(sector)}
               disabled={this.isSectorDisabled(sector)}
-              onCheck={this.props.toggleSectors([sector])}
+              onCheck={toggleSectors([sector])}
             />
-        )}
+          );
+        })}
       </fieldset>
     );
   }
@@ -49,6 +73,7 @@ SingleGroupPicker.propTypes = {
   toggleSectors: React.PropTypes.func.isRequired,
   groupName: React.PropTypes.string.isRequired,
   sectors: React.PropTypes.array.isRequired,
+  backupedRadios: React.PropTypes.array.isRequired,
 };
 
 export default SingleGroupPicker;

@@ -113,8 +113,8 @@ class CwpDialog extends Component {
       .then(() => this.props.onRequestClose());
   };
 
-  handlerEnableDisable = (ev, value) => {
-    if(value === 'enabled') {
+  handleEnableDisable = (ev, toggleEnabled) => {
+    if(toggleEnabled) {
       this.setState({isDisabled: false});
     } else {
       this.setState({isDisabled: true});
@@ -160,11 +160,13 @@ class CwpDialog extends Component {
       open,
       cwpId,
       isEmpty,
+      backupedRadios,
       ...other
     } = this.props;
 
     const {
       isDisabled,
+      tempSectors,
     } = this.state;
 
     const actionStyle = {
@@ -211,20 +213,25 @@ class CwpDialog extends Component {
         <SectorPicker
           key="sector-picker"
           boundSectors={boundSectors}
-          tempSectors={this.state.tempSectors}
+          tempSectors={tempSectors}
           toggleSectors={this.handleToggleSectors}
+          backupedRadios={backupedRadios}
         />
       ];
     }
 
     if(isEmpty) {
       content = [
-        ...content,
-        <CwpEnabler
-          key="cwp-enabler"
-          isEnabled={!isDisabled}
-          onStatusChange={this.handlerEnableDisable}
-        />
+        <div
+          style={{marginBottom: 10}}
+        >
+          <CwpEnabler
+            key="cwp-enabler"
+            isEnabled={!isDisabled}
+            onStatusChange={this.handleEnableDisable}
+          />
+        </div>,
+        ...content
       ];
     }
 
@@ -259,6 +266,7 @@ import {
 
 import {
   getName,
+  getBackupedRadios,
 } from '../../selectors/cwp';
 
 const mapStateToProps = (state, ownProps) => {
@@ -272,6 +280,7 @@ const mapStateToProps = (state, ownProps) => {
   const prettyBoundSectors = prettySectors(boundSectors);
   const isDisabled = isCwpDisabled(state, cwpId);
   const isEmpty = isCwpEmpty(state, cwpId);
+  const backupedRadios = getBackupedRadios(state, cwpId);
 
   const title = `${cwpName}`;
 
@@ -282,6 +291,7 @@ const mapStateToProps = (state, ownProps) => {
     prettySectors,
     isDisabled,
     isEmpty,
+    backupedRadios,
   };
 };
 

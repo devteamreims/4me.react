@@ -35,6 +35,7 @@ class SectorPicker extends Component {
       boundSectors,
       tempSectors,
       toggleSectors,
+      backupedRadios,
       ...other
     } = this.props;
 
@@ -69,6 +70,7 @@ class SectorPicker extends Component {
                 groupName={group.name}
                 sectors={group.sectors}
                 style={styles.element}
+                backupedRadios={backupedRadios}
               />
             )}
           </div>
@@ -82,6 +84,7 @@ SectorPicker.propTypes = {
   boundSectors: React.PropTypes.array.isRequired,
   tempSectors: React.PropTypes.array.isRequired,
   toggleSectors: React.PropTypes.func.isRequired,
+  backupedRadios: React.PropTypes.array.isRequired,
 };
 
 export default SectorPicker;
