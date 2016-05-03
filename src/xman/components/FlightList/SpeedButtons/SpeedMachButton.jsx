@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-  orange300,
+  orange200,
   orange800,
   green500,
   fullWhite,
@@ -22,7 +22,7 @@ function prepareStyles(xmanState = 'empty') {
       labelColor = fullWhite;
       break;
     case 'advisedSoft':
-      backgroundColor = orange300;
+      backgroundColor = orange200;
       break;
     case 'selected':
       backgroundColor = green500;
