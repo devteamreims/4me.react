@@ -21,15 +21,6 @@ const style = {
 
 class FlightListControls extends Component {
 
-  togglePendingAction = (ev, value) => {
-    const {
-      isPendingActionFilterEnabled,
-    } = this.props;
-    if(value !== isPendingActionFilterEnabled) {
-      return this.props.togglePendingAction();
-    }
-  }
-
   render() {
     const {
       isPendingActionFilterEnabled,
@@ -39,12 +30,6 @@ class FlightListControls extends Component {
 
     return (
       <div style={style.container}>
-        <Checkbox
-          label="Highlight pending actions"
-          checked={isPendingActionFilterEnabled}
-          onCheck={this.togglePendingAction}
-          style={style.element}
-        />
         {showExtendedControls &&
           <GeographicalControl
             style={style.element}
@@ -61,21 +46,13 @@ class FlightListControls extends Component {
 }
 
 import {
-  isPendingActionFilterEnabled,
-} from '../../selectors/highlighter';
-
-import {
   shouldShowFilters,
 } from '../../selectors/list-filter';
 
-import {
-  togglePendingAction,
-} from '../../actions/highlighter';
 
 const mapStateToProps = (state) => {
   return {
     showExtendedControls: shouldShowFilters(state),
-    isPendingActionFilterEnabled: isPendingActionFilterEnabled(state),
   };
 };
 
