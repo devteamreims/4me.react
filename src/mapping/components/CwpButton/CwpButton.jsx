@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import RaisedButton from 'material-ui/lib/raised-button';
+import MicOff from 'material-ui/lib/svg-icons/av/mic-off';
 
 import PositionName from './PositionName';
 import PositionSectors from './PositionSectors';
 
-import { cwpButton as buttonTheme } from '../../theme/colors';
+import {
+  cwpButton as buttonTheme,
+} from '../../theme/colors';
+
+import {
+  error,
+} from '../../../theme/colors';
 
 import './button.scss';
+
 
 class CwpButton extends Component {
   constructor(props) {
@@ -22,13 +30,18 @@ class CwpButton extends Component {
       cwpId,
     } = this.props;
 
-    console.log('POUET');
-    console.log(process.env.NODE_ENV);
-
     isButtonEnabled && openDialog(cwpId);
   };
 
   render() {
+
+    const {
+      isRadioOk,
+      isEmpty,
+      isDisabled,
+      name,
+      prettySectors,
+    } = this.props;
 
     const size = '100px';
     const buttonStyle = {
@@ -38,11 +51,11 @@ class CwpButton extends Component {
 
     let themeString = 'normal';
 
-    if(this.props.isEmpty) {
+    if(isEmpty) {
       themeString = 'empty';
     }
 
-    if(this.props.isDisabled) {
+    if(isDisabled) {
       themeString = 'disabled';
     }
 
@@ -52,8 +65,9 @@ class CwpButton extends Component {
 
     const inside = (
       <div>
-        <PositionName name={this.props.name} style={{color: textColor}} />
-        <PositionSectors sectorName={this.props.prettySectors} style={{color: textColor}} />
+        <PositionName name={name} style={{color: textColor}} />
+        <PositionSectors sectorName={prettySectors} style={{color: textColor}} />
+        {!isRadioOk && <MicOff color={error} style={{height: 20, width: 20}} />}
       </div>
     );
 
@@ -91,6 +105,10 @@ import {
   isFmp,
 } from '../../../core/selectors/cwp';
 
+import {
+  isRadioOk,
+} from '../../selectors/frequencies';
+
 const mapStateToProps = () => (state, ownProps) => {
   const sectors = getSectorsByCwpId(state, ownProps.cwpId);
 
@@ -103,6 +121,7 @@ const mapStateToProps = () => (state, ownProps) => {
     isDisabled: isCwpDisabled(state, ownProps.cwpId),
     isEmpty: isCwpEmpty(state, ownProps.cwpId),
     isButtonEnabled: isButtonEnabled,
+    isRadioOk: isRadioOk(state, ownProps.cwpId),
   };
 };
 
