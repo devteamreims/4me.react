@@ -47,4 +47,8 @@ CwpEnabler.PropTypes = {
   onStatusChange: React.PropTypes.func.isRequired,
 };
 
+CwpEnabler.contextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
+};
+
 export default CwpEnabler;

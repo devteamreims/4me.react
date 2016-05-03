@@ -11,7 +11,7 @@ import {
 } from 'material-ui/lib/styles/colors';
 
 import {
-  accent2Color,
+  accent1Color,
 } from '../../../theme/colors';
 
 class SectorSuggestor extends Component {
@@ -65,7 +65,7 @@ class SectorSuggestor extends Component {
             onTouchTap={this.props.onSuggestionClick(s.sectors)}
             style={buttonStyle}
             labelStyle={labelStyle}
-            backgroundColor={accent2Color}
+            backgroundColor={accent1Color}
           />
         )
       );
