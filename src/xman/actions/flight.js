@@ -52,6 +52,9 @@ import {
 
 import {
   getActionAuthor,
+  isFlightInMachMode,
+  getAppliedSpeed,
+  getAppliedMach,
 } from '../selectors/flight';
 
 export function setMach(ifplId, machReduction) {
@@ -133,6 +136,14 @@ export function setMcs(ifplId, mcs) {
         minimumCleanSpeed: mcs,
       },
     };
+
+    if(mcs === true && isFlightInMachMode(getState(), ifplId) && getAppliedMach(getState(), ifplId) === null) {
+      // We clicked on MCS while in mach mode, while having a null applied mach
+      // This is quite inefficient, and costs 2 round trips via socket, that's acceptable for now
+      dispatch(setMach(ifplId, 0));
+      // TODO : Fix this for speed mode
+    }
+
 
     // Emit action via socket
     sendXmanAction(ifplId, status);
