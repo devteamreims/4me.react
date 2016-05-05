@@ -2,21 +2,19 @@ import React, { Component } from 'react';
 
 import {
   faintBlack,
+  orange800,
+  yellow300,
+  green500,
 } from 'material-ui/lib/styles/colors';
 
 function delayToColor(delay, maxDelay = 20) {
-  const gradient = [
-    '#B2FF59',
-    '#FFD740',
-    '#FFAB40',
-    '#FF6E40',
-    '#FF5252'
-  ];
-
-  let index = Math.floor(delay/maxDelay * (gradient.length-1));
-  index = index > (gradient.length - 1) ? gradient.length-1 : index;
-
-  return gradient[index];
+  if(delay >= 7) {
+    return orange800;
+  } else if (delay >= 5 && delay < 7) {
+    return yellow300;
+  } else {
+    return green500;
+  }
 }
 
 class Delay extends Component {
