@@ -18,6 +18,7 @@ import theme from '../../../theme';
 
 import PointProfileLegend from './PointProfileLegend';
 import ColoredFlightLevel from './ColoredFlightLevel';
+import Trend from './Trend';
 
 const defaultStyles = {
   table: {
@@ -127,6 +128,8 @@ class PointProfile extends Component {
 
     const styles = Object.assign({}, defaultStyles, style);
 
+    let previousTrend;
+
     return (
       <div
         style={{
@@ -145,37 +148,42 @@ class PointProfile extends Component {
             displayRowCheckbox={false}
             style={styles.tableBody}
           >
-            {_.map(pointProfile, (point, index) =>
-              <TableRow
-                key={index}
-                ref={`PointProfile-${index}`}
-                style={index === highlightIndex ?
-                  Object.assign({}, styles.tableBodyRow, styles.selectedBodyRow) :
-                  styles.tableBodyRow
-                }
-              >
-                <TableRowColumn
-                  style={styles.tableBodyColumn}
+            {_.map(pointProfile, (point, index) => {
+              const showTrend = previousTrend !== point.trend || point.trend !== 'CRUISE';
+              previousTrend = point.trend;
+
+              return (
+                <TableRow
+                  key={index}
+                  ref={`PointProfile-${index}`}
+                  style={index === highlightIndex ?
+                    Object.assign({}, styles.tableBodyRow, styles.selectedBodyRow) :
+                    styles.tableBodyRow
+                  }
                 >
-                  {moment.utc(point.timeOver).format('HH:mm')}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={styles.tableBodyColumn}
-                >
-                  {point.name}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={styles.tableBodyColumn}
-                >
-                  <ColoredFlightLevel flightLevel={point.flightLevel} />
-                </TableRowColumn>
-                <TableRowColumn
-                  style={styles.tableBodyColumn}
-                >
-                  {point.trend}
-                </TableRowColumn>
-              </TableRow>
-            )}
+                  <TableRowColumn
+                    style={styles.tableBodyColumn}
+                  >
+                    {moment.utc(point.timeOver).format('HH:mm')}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={styles.tableBodyColumn}
+                  >
+                    {point.name}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={styles.tableBodyColumn}
+                  >
+                    <ColoredFlightLevel flightLevel={point.flightLevel} />
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={styles.tableBodyColumn}
+                  >
+                    {showTrend && <Trend trend={point.trend} />}
+                  </TableRowColumn>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>
