@@ -70,6 +70,8 @@ export const getMessages = (state) => {
     }
   });
 
+  // Handle XMAN OFF, XMAN MCS here
+
 
   return messages;
 };
