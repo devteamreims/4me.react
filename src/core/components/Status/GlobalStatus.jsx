@@ -60,12 +60,6 @@ const mapStateToProps = (state) => {
     };
   });
 
-  let test = [{
-    name: 'Organ 1',
-    status: 'warning',
-    items: [],
-  }];
-
   return {
     coreStatus,
     organStatuses,
