@@ -45,8 +45,8 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    shouldDisplayMessage: true,
-    shouldDisplayList: true,
+    shouldDisplayMessage: shouldDisplayMessage(state),
+    shouldDisplayList: shouldDisplayList(state),
   };
 };
 

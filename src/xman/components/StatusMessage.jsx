@@ -11,7 +11,6 @@ class StatusMessage extends Component {
   render() {
     const {
       messages,
-      status,
       ...other
     } = this.props;
 
@@ -39,13 +38,10 @@ import {
 } from '../selectors/status';
 
 const mapStateToProps = (state) => {
-  const status = getStatus(state);
   const messages = getMessages(state);
 
   return {
     messages,
-    status,
-    statusLevel: _.get(status, 'status'),
   };
 };
 

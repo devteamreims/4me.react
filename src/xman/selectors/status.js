@@ -54,13 +54,48 @@ export const getStatus = (state) => {
 
 
 export const getMessages = (state) => {
-  let messages = ['XMAN EGLL is OFF'];
+  let messages = [];
+
+  if(_.get(getSocketStatus(state), 'status', 'normal') !== 'normal') {
+    return ['Could not reach XMAN backend'];
+  }
+
+  if(_.get(getPositionServiceStatus(state), 'status', 'normal') !== 'normal') {
+    messages.push('XMAN could not fetch flight positions');
+  }
+
+  _.each(getFetchersStatuses(state), (value, key) => {
+    if(_.get(value, 'status', 'normal') !== 'normal') {
+      messages.push(`XMAN could not fetch ${key} flights`);
+    }
+  });
 
 
   return messages;
 };
 
 export const shouldDisplayList = (state) => {
+  // Lost connection to backend
+  if(_.get(getSocketStatus(state), 'status', 'normal') !== 'normal') {
+    return false;
+  }
+
+  // Position service is off
+  if(_.get(getPositionServiceStatus(state), 'status', 'normal') !== 'normal') {
+    return false;
+  }
+
+  const areAllFetchersOk = _.every(
+    _(getFetchersStatuses(state))
+      .map(val => _.get(val, 'status', 'normal'))
+      .value(),
+    status => status === 'normal'
+  );
+
+  if(!areAllFetchersOk) {
+    return false;
+  }
+
   return true;
 };
 
