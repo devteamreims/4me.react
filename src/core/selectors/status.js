@@ -58,7 +58,7 @@ export const getGlobalStatusString = (state) => {
   ]);
 };
 
-function maxStatus(items) {
+export function maxStatus(items) {
   const reduceStatus = (prev, current) => {
     if(current === 'critical' || prev === 'critical') {
       return 'critical';

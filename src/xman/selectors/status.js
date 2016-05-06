@@ -1,6 +1,10 @@
 import _ from 'lodash';
 import p from './prefix';
 
+import {
+  maxStatus,
+} from '../../core/selectors/status';
+
 export const getRaw = (state) => _.get(p(state), 'status', {});
 
 const getSocketStatus = (state) => _.get(getRaw(state), 'socket');
@@ -43,7 +47,23 @@ export const getStatus = (state) => {
   ];
 
   return {
-    status: 'normal',
+    status: maxStatus(_.map(items, item => item.status)),
     items,
   };
+};
+
+
+export const getMessages = (state) => {
+  let messages = ['XMAN EGLL is OFF'];
+
+
+  return messages;
+};
+
+export const shouldDisplayList = (state) => {
+  return true;
+};
+
+export const shouldDisplayMessage = (state) => {
+  return !_.isEmpty(getMessages(state));
 };
