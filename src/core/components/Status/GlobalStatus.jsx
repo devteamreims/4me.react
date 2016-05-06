@@ -16,6 +16,8 @@ export class GlobalStatus extends Component {
       organStatuses,
     } = this.props;
 
+    console.log(organStatuses);
+
     return (
       <div style={style}>
         <SingleStatus

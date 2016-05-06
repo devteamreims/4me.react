@@ -61,7 +61,7 @@ class SingleStatus extends Component {
 
 SingleStatus.PropTypes = {
   title: React.PropTypes.string.isRequired,
-  level: React.PropTypes.oneOf(['normal', 'warning', 'error']).isRequired,
+  level: React.PropTypes.oneOf(['normal', 'warning', 'critical']).isRequired,
   items: React.PropTypes.array.isRequired,
 };
 

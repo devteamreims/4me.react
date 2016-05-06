@@ -60,7 +60,7 @@ export const getGlobalStatusString = (state) => {
 
 export function maxStatus(items) {
   const reduceStatus = (prev, current) => {
-    if(current === 'critical' || prev === 'critical') {
+    if(current === 'critical' || prev === 'critical' || current === 'error' || prev === 'error') {
       return 'critical';
     }
 

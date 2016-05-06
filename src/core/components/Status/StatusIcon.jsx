@@ -22,6 +22,7 @@ class StatusIcon extends Component {
     let color = '#FFF';
 
     switch(level) {
+      case 'critical':
       case 'error':
         Icon = ErrorIcon;
         color = error;
@@ -45,7 +46,7 @@ class StatusIcon extends Component {
 }
 
 StatusIcon.PropTypes = {
-  level: React.PropTypes.oneOf(['normal', 'warning', 'error']).isRequired,
+  level: React.PropTypes.oneOf(['normal', 'warning', 'critical', 'error']).isRequired,
   colored: React.PropTypes.bool,
 };
 
