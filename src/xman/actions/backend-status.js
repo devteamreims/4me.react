@@ -12,7 +12,7 @@ export function fetchStatus() {
   // HTTP Request to fetch status
   return (dispatch, getState) => {
 
-    const apiUrl = api.xman.status;
+    const apiUrl = api.xman.status.getAll;
 
     return axios.get(apiUrl)
       .then((response) => {
@@ -48,7 +48,7 @@ export function setStatus(status) {
 function setFetcherServicesAction(fetchers) {
   return {
     type: SET_FETCHER_SERVICES_STATUS,
-    payload: _.mapValues(fetchers, pick(['status', 'lastUpdated'])),
+    payload: _.mapValues(fetchers, pick(['status', 'lastUpdated', 'forceMcs', 'forceOff'])),
   };
 }
 

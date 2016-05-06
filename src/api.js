@@ -29,9 +29,13 @@ const arcid = {
 
 const xman = {
   xman: {
-    getAll: `${xmanUrl}/xman`,
+    getAll: `${xmanUrl}/flights`,
   },
-  status: `${xmanUrl}/status`,
+  status: {
+    getAll: `${xmanUrl}/status`,
+    getFetcher: (fetcher) => `${xmanUrl}/status/fetchers/${fetcher}`,
+    setFetcher: (fetcher) => `${xmanUrl}/status/fetchers/${fetcher}`,
+  },
   socket: `${xmanUrl}`,
 };
 

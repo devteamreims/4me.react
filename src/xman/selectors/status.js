@@ -16,7 +16,12 @@ const getPrettySocketStatus = (state) => {
   };
 };
 
-const getFetchersStatuses = (state) => _.get(getRaw(state), 'fetcherServices');
+export const getFetchersStatuses = (state) => _.get(getRaw(state), 'fetcherServices');
+
+export const getSingleFetcherStatus = (state, fetcher) => _.get(getFetchersStatuses(state), fetcher);
+
+export const doesFetcherExist = (state, fetcher) => !_.isEmpty(getSingleFetcherStatus(state, fetcher));
+
 const getPrettyFetchersStatuses = (state) => {
   const prettyData = fetcher => ({
     name: `XMAN Fetcher : ${fetcher}`,
@@ -103,4 +108,12 @@ export const shouldDisplayList = (state) => {
 
 export const shouldDisplayMessage = (state) => {
   return !_.isEmpty(getMessages(state));
+};
+
+export const isForcedOff = (state, fetcher) => {
+  return _.get(getSingleFetcherStatus(state, fetcher), 'forcedOff', false);
+};
+
+export const isForcedMcs = (state, fetcher) => {
+  return _.get(getSingleFetcherStatus(state, fetcher), 'forcedMcs', false);
 };

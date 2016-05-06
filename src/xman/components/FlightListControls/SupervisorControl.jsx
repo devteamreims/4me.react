@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Toggle from 'material-ui/lib/toggle';
 
-const FETCHERS = ['EGLL', 'LSZH'];
 
 const toggleStyle = {
   display: 'inline',
@@ -10,25 +9,47 @@ const toggleStyle = {
 
 class SupervisorControl extends Component {
 
+  handleForceMcs = (fetcher) => (event, value) => {
+    const {
+      handleForceMcs,
+    } = this.props;
+
+    return handleForceMcs(fetcher, event, value);
+  };
+
+  handleForceOff = (fetcher) => (event, value) => {
+    const {
+      handleForceOff,
+    } = this.props;
+
+    return handleForceOff(fetcher, event, value);
+  };
+
   render() {
     const {
       style,
+      fetchers,
     } = this.props;
 
     return (
-      <div style={style} >
-        {_.map(FETCHERS, (f, key) => [
+      <div style={style}>
+        {_.map(fetchers, (value, fetcher) => [
           <Toggle
-            label={`${f} MCS`}
+            label={`${fetcher} MCS`}
             labelPosition="right"
             style={toggleStyle}
-            key={`MCS-${key}`}
+            key={`MCS-${fetcher}`}
+            onToggle={this.handleForceMcs(fetcher)}
+            disabled={_.get(value, 'forceOff', false)}
+            toggled={_.get(value, 'forceMcs', false)}
           />,
           <Toggle
-            label={`${f} OFF`}
+            label={`${fetcher} OFF`}
             labelPosition="right"
             style={toggleStyle}
-            key={`OFF-${key}`}
+            key={`OFF-${fetcher}`}
+            onToggle={this.handleForceOff(fetcher)}
+            toggled={_.get(value, 'forceOff', false)}
           />
         ])}
       </div>
@@ -36,5 +57,17 @@ class SupervisorControl extends Component {
   }
 }
 
+SupervisorControl.propTypes = {
+  style: React.PropTypes.object,
+  fetchers: React.PropTypes.object,
+  handleForceOff: React.PropTypes.func,
+  handleForceMcs: React.PropTypes.func,
+};
+
+SupervisorControl.defaultProps = {
+  handleForceOff: () => {},
+  handleForceMcs: () => {},
+  fetchers: {},
+};
 
 export default SupervisorControl;

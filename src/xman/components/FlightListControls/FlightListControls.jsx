@@ -19,6 +19,7 @@ const style = {
   },
 };
 
+
 class FlightListControls extends Component {
 
   handleFilterChange = (event, value) => {
@@ -33,6 +34,23 @@ class FlightListControls extends Component {
     setFilter(value);
   };
 
+  handleForceOff = (fetcher, event, value) => {
+    const {
+      toggleForceOff,
+    } = this.props;
+
+    return toggleForceOff(fetcher, value);
+  };
+
+  handleForceMcs = (fetcher, event, value) => {
+    const {
+      toggleForceMcs,
+    } = this.props;
+
+    return toggleForceMcs(fetcher, value);
+  };
+
+
   render() {
     const {
       hasSudoPower,
@@ -40,9 +58,11 @@ class FlightListControls extends Component {
       selectedFilter,
       setFilter,
       isLoading,
+      fetchers,
       ...other,
     } = this.props;
 
+    console.log(fetchers);
 
 
     return (
@@ -58,6 +78,9 @@ class FlightListControls extends Component {
         {hasSudoPower &&
           <SupervisorControl
             style={style.element}
+            fetchers={fetchers}
+            handleForceOff={this.handleForceOff}
+            handleForceMcs={this.handleForceMcs}
           />
         }
       </div>
@@ -82,18 +105,32 @@ import {
   setFilter,
 } from '../../actions/list-filter';
 
+import {
+  getFetchersStatuses,
+} from '../../selectors/status';
+
+import {
+  toggleForceOff,
+  toggleForceMcs,
+} from '../../actions/fetcher-status';
+
 
 const mapStateToProps = (state) => {
+  const fetchers = _.mapValues(getFetchersStatuses(state), f => _.pick(f, ['forceMcs', 'forceOff']));
+
   return {
     showExtendedControls: shouldShowFilters(state),
     hasSudoPower: isSupervisor(state) || process.env.NODE_ENV === 'development',
     selectedFilter: getFilter(state),
     isLoading: isLoading(state),
+    fetchers,
   };
 };
 
 const mapDispatchToProps = {
   setFilter,
+  toggleForceOff,
+  toggleForceMcs,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightListControls);
