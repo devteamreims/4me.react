@@ -57,6 +57,14 @@ export const getStatus = (state) => {
   };
 };
 
+export const isForcedOff = (state, fetcher) => {
+  return _.get(getSingleFetcherStatus(state, fetcher), 'forceOff', false);
+};
+
+export const isForcedMcs = (state, fetcher) => {
+  return _.get(getSingleFetcherStatus(state, fetcher), 'forceMcs', false);
+};
+
 
 export const getMessages = (state) => {
   let messages = [];
@@ -69,14 +77,15 @@ export const getMessages = (state) => {
     messages.push('XMAN could not fetch flight positions');
   }
 
-  _.each(getFetchersStatuses(state), (value, key) => {
+  _.each(getFetchersStatuses(state), (value, fetcher) => {
     if(_.get(value, 'status', 'normal') !== 'normal') {
-      messages.push(`XMAN could not fetch ${key} flights`);
+      messages.push(`XMAN could not fetch ${fetcher} flights`);
+    } else if(isForcedOff(state, fetcher)) {
+      messages.push(`XMAN ${fetcher} has been turned off by the supervisor`);
+    } else if(isForcedMcs(state, fetcher)) {
+      messages.push(`XMAN ${fetcher} is in minimum clean speed mode`);
     }
   });
-
-  // Handle XMAN OFF, XMAN MCS here
-
 
   return messages;
 };
@@ -108,12 +117,4 @@ export const shouldDisplayList = (state) => {
 
 export const shouldDisplayMessage = (state) => {
   return !_.isEmpty(getMessages(state));
-};
-
-export const isForcedOff = (state, fetcher) => {
-  return _.get(getSingleFetcherStatus(state, fetcher), 'forcedOff', false);
-};
-
-export const isForcedMcs = (state, fetcher) => {
-  return _.get(getSingleFetcherStatus(state, fetcher), 'forcedMcs', false);
 };
