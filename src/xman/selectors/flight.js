@@ -5,8 +5,21 @@ import {
   getFlightByIfplId,
 } from './flight-list';
 
+import {
+  isForcedOff,
+} from './status';
+
 export const getAdvisedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.speed', null);
-export const getAdvisedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.machReduction', null);
+export const getAdvisedMach = (state, ifplId) => {
+  const flight = getFlightByIfplId(state, ifplId);
+  const fetcher = flight.destination;
+
+  if(isForcedOff(state, fetcher)) {
+    return null;
+  }
+
+  return _.get(getFlightByIfplId(state, ifplId), 'advisory.machReduction', null);
+}
 
 export const getAppliedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.speed', null);
 export const getAppliedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.machReduction', null);
