@@ -12,7 +12,7 @@ import {
 export const getAdvisedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.speed', null);
 export const getAdvisedMach = (state, ifplId) => {
   const flight = getFlightByIfplId(state, ifplId);
-  const fetcher = flight.destination;
+  const fetcher = _.get(flight, 'destination');
 
   if(isForcedOff(state, fetcher)) {
     return null;

@@ -27,10 +27,6 @@ class FlightListControls extends Component {
       setFilter,
     } = this.props;
 
-    console.log('handleFilterChange !!!');
-    console.log(value);
-    console.log(setFilter);
-
     setFilter(value);
   };
 

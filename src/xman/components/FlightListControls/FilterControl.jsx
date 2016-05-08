@@ -23,8 +23,8 @@ class FilterControl extends Component {
       <RadioButtonGroup
         style={style}
         name="filter_control"
-        defaultSelected={selected}
         onChange={onChange}
+        valueSelected={selected}
       >
         <RadioButton
           value="all"
