@@ -10,6 +10,10 @@ import {
 } from '../selectors/cwp';
 
 import {
+  getSectors,
+} from '../selectors/sector';
+
+import {
   fetchSectors,
   bindNewSectors,
 } from './sector';
@@ -45,10 +49,13 @@ export function connectSocket() {
     mySocket.on('mapping:refresh', (data) => {
       console.log('core/socket: Got refresh signal from mapping backend');
       console.log(data);
+
+      const oldSectors = getSectors(getState());
+
       return dispatch(fetchSectors())
         .then((data) => {
           const { sectors } = data;
-          return dispatch(bindNewSectors(sectors));
+          return dispatch(bindNewSectors(oldSectors, sectors));
         });
     });
 

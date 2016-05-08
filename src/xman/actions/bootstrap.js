@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import {refreshFullList} from './flight-list';
 import { fetchStatus } from './backend-status';
 
@@ -23,9 +25,24 @@ export function bootstrap() {
   };
 }
 
-export function onSectorChange() {
+import {
+  setFilter,
+} from './list-filter';
+
+import {
+  getSectors,
+} from '../../core/selectors/sector';
+
+export function onSectorChange(oldSectors, newSectors) {
   return (dispatch, getState) => {
     console.log('Dispatching xman on sector change');
+    console.log(oldSectors);
+    console.log(newSectors);
+
+    if(_.isEmpty(getSectors(getState()))) {
+      // New sectors bound: nothing
+    }
+
     return Promise.all([
       dispatch(refreshFullList()),
     ]);
