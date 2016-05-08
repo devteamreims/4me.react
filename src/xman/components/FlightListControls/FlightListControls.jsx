@@ -25,7 +25,12 @@ class FlightListControls extends Component {
   handleFilterChange = (event, value) => {
     const {
       setFilter,
+      selectedFilter,
     } = this.props;
+
+    if(value === selectedFilter) {
+      return;
+    }
 
     setFilter(value);
   };
