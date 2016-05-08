@@ -24,7 +24,7 @@ export const getAdvisedMach = (state, ifplId) => {
 export const getAppliedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.speed', null);
 export const getAppliedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.machReduction', null);
 
-export const getMinimumCleanSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.minimumCleanSpeed', false);
+export const getMinimumCleanSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.minimumCleanSpeed', null);
 
 
 export const getTotalDelay = (state, ifplId) => {
@@ -37,6 +37,8 @@ export const isFlightInSpeedMode = (state, ifplId) => {
 }
 
 export const isFlightInMachMode = (state, ifplId) => !isFlightInSpeedMode(state, ifplId);
+
+export const isFlightInMcsMode = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.minimumCleanSpeed', false);
 
 export function isActionComplete(advisedSpeed, appliedSpeed, minimumCleanSpeed) {
   if(!advisedSpeed || advisedSpeed === 0) {
@@ -74,13 +76,17 @@ export function hasPendingAction(state, ifplId) {
     return false;
   }
 
+  if(isFlightInMcsMode(state, ifplId)) {
+    return getMinimumCleanSpeed(state, ifplId) === null;
+  }
+
   const mcs = getMinimumCleanSpeed(state, ifplId);
 
   // Establish mode
   let advised;
   let applied;
 
-  if(getAdvisedSpeed(state, ifplId) !== null) {
+  if(isFlightInSpeedMode(state, ifplId)) {
     // Assume speed mode
     advised = getAdvisedSpeed(state, ifplId);
     applied = getAppliedSpeed(state, ifplId);
@@ -91,6 +97,21 @@ export function hasPendingAction(state, ifplId) {
 
   return !isActionComplete(advised, applied, mcs);
 }
+
+export function hasSetAction(state, ifplId) {
+  const flight = getFlightByIfplId(state, ifplId);
+
+  if(_.isEmpty(flight)) {
+    return false;
+  }
+
+  return (
+    getAppliedSpeed(state, ifplId) !== null
+    || getAppliedMach(state,ifplId) !== null
+    || getMinimumCleanSpeed(state, ifplId) !== null
+  );
+}
+
 
 export function isFlightTonedDown(state, ifplId) {
   const flight = getFlightByIfplId(state, ifplId);

@@ -4,7 +4,7 @@ import Callsign from './Callsign';
 import Delay from './Delay';
 import FlightLevel from './FlightLevel';
 import Cop from './Cop';
-import SpeedButtons from './SpeedButtons';
+import ActionButtons from './ActionButtons';
 import AppliedBy from './AppliedBy';
 
 import TableRow from 'material-ui/lib/table/table-row';
@@ -72,6 +72,7 @@ class FlightRow extends Component {
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
           <Delay
             delay={flight.delay}
+            isTonedDown={isTonedDown}
           />
         </TableRowColumn>
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
@@ -87,9 +88,10 @@ class FlightRow extends Component {
           />
         </TableRowColumn>
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
-          <SpeedButtons
+          <ActionButtons
             ifplId={flight.ifplId}
             isHighlighted={isHighlighted}
+            isTonedDown={isTonedDown}
           />
         </TableRowColumn>
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>

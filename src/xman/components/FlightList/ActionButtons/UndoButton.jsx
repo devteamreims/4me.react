@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import RaisedButton from 'material-ui/lib/raised-button';
 
@@ -15,6 +16,23 @@ import XmanButton from './XmanButton';
 
 
 class UndoButton extends Component {
+  handleUndo = (event) => {
+    const {
+      disabled,
+      readOnly,
+      clearAction,
+    } = this.props;
+
+    console.log('Called !');
+
+    if(disabled || readOnly) {
+      return;
+    }
+
+    clearAction();
+
+  };
+
   render() {
     let {
       disabled,
@@ -36,8 +54,9 @@ class UndoButton extends Component {
       disabled={disabled}
       icon={<UndoIcon />}
       labelColor={fullBlack}
-      backgroundColor={disabled ? null : backgroundColor}
+      backgroundColor={backgroundColor}
       style={style}
+      onClick={this.handleUndo}
       {...other}
     />
   }
@@ -48,4 +67,35 @@ UndoButton.PropTypes = {
   dimmed: React.PropTypes.bool,
 };
 
-export default UndoButton;
+import {
+  hasSetAction,
+} from '../../../selectors/flight';
+
+const mapStateToProps = (state, ownProps) => {
+  const {
+    ifplId,
+    readOnly,
+  } = ownProps;
+
+  return {
+    disabled: !hasSetAction(state, ifplId),
+  };
+};
+
+import {
+  clearAction,
+} from '../../../actions/flight';
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const {
+    ifplId,
+  } = ownProps;
+
+  return {
+    clearAction: () => dispatch(clearAction(ifplId, {})),
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(UndoButton);
+

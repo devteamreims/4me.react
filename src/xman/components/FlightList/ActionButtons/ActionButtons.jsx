@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import MachButtons from './MachButtons';
-import SpeedButtons from './SpeedButtons';
-
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './buttons.scss';
 
-class SpeedOrMachButtons extends Component {
+import McsModeButtons from './McsModeButtons';
+import MachModeButtons from './MachModeButtons';
+
+class ActionButtons extends Component {
   constructor(props) {
     super(props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
@@ -19,43 +19,43 @@ class SpeedOrMachButtons extends Component {
       ifplId,
       isSpeedMode,
       isMachMode,
-      disableActions,
+      isMcsMode,
+      readOnly,
       isHighlighted,
+      isTonedDown,
     } = this.props;
 
-    const dimmed = !isHighlighted;
+    const dimmed = !isHighlighted || isTonedDown;
 
-    if(isMachMode) {
+    if(isMcsMode) {
       return (
-        <div className="xman-buttons">
-          <MachButtons
-            ifplId={ifplId}
-            disableActions={disableActions}
-            dimmed={dimmed}
-          />
-        </div>
+        <McsModeButtons
+          ifplId={ifplId}
+          dimmed={dimmed}
+          readOnly={readOnly}
+        />
+      );
+    } else if(isMachMode) {
+      return (
+        <MachModeButtons
+          ifplId={ifplId}
+          dimmed={dimmed}
+          readOnly={readOnly}
+        />
       );
     } else if(isSpeedMode) {
       return (
-        <div className="xman-buttons">
-          <SpeedButtons
-            ifplId={ifplId}
-            disableActions={disableActions}
-            dimmed={dimmed}
-          />
-        </div>
+        <span>Speed mode !</span>
       );
     }
 
-
-    // This should never happen
     return (
-      <span>Woops !</span>
+      <span>Should never happen</span>
     );
   }
 }
 
-SpeedOrMachButtons.PropTypes = {
+ActionButtons.PropTypes = {
   ifplId: React.PropTypes.string.isRequired,
   isHighlighted: React.PropTypes.bool,
 };
@@ -63,6 +63,9 @@ SpeedOrMachButtons.PropTypes = {
 import {
   isFlightInSpeedMode,
   isFlightInMachMode,
+  isFlightInMcsMode,
+  getMinimumCleanSpeed,
+  hasSetAction,
 } from '../../../selectors/flight';
 
 import {
@@ -77,8 +80,12 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isSpeedMode: isFlightInSpeedMode(state, ifplId),
     isMachMode: isFlightInMachMode(state, ifplId),
-    disableActions: _.isEmpty(getSectors(state)),
+    isMcsMode: isFlightInMcsMode(state, ifplId),
+    minimumCleanSpeed: getMinimumCleanSpeed(state, ifplId),
+    readOnly: _.isEmpty(getSectors(state)),
+    isUndoButtonDisabled: !hasSetAction(state, ifplId),
   };
 };
 
-export default connect(mapStateToProps)(SpeedOrMachButtons);
+
+export default connect(mapStateToProps)(ActionButtons);

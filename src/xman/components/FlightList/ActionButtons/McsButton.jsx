@@ -9,11 +9,8 @@ import {
   fullWhite,
   fullBlack,
   grey700,
+  orange800,
 } from 'material-ui/lib/styles/colors';
-
-import {
-  canvasColor,
-} from '../../../../theme/colors';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
@@ -27,6 +24,7 @@ class McsButton extends Component {
     const {
       selected = false,
       dimmed = false,
+      advised = false,
       ...other,
     } = this.props;
 
@@ -37,16 +35,21 @@ class McsButton extends Component {
       backgroundColor = grey700;
     }
 
+    if(advised) {
+      backgroundColor = orange800;
+      labelColor = fullWhite;
+    }
+
     if(selected) {
       backgroundColor = green500;
       labelColor = fullWhite;
     }
 
     return <XmanButton
-      {...other}
       icon={<AirplaneIcon />}
       backgroundColor={backgroundColor}
       labelColor={labelColor}
+      {...other}
     />
   }
 }

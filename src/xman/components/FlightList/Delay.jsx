@@ -7,7 +7,7 @@ import {
   green500,
 } from 'material-ui/lib/styles/colors';
 
-function delayToColor(delay, maxDelay = 20) {
+function delayToColor(delay) {
   if(delay >= 7) {
     return orange800;
   } else if (delay >= 5 && delay < 7) {
@@ -19,18 +19,24 @@ function delayToColor(delay, maxDelay = 20) {
 
 class Delay extends Component {
   render() {
-    const delay = Math.floor((this.props.delay || 0) / 60);
+    const {
+      delay,
+      isTonedDown,
+    } = this.props;
 
-    const color = delayToColor(delay);
+    const displayDelay = Math.floor((delay || 0) / 60);
+
+    const color = isTonedDown ? null : delayToColor(displayDelay);
 
     return (
-      <span style={{color}}>{delay}</span>
+      <span style={{color}}>{displayDelay}</span>
     );
   }
 }
 
 Delay.PropTypes = {
-  delay: React.PropTypes.number
+  delay: React.PropTypes.number,
+  isTonedDown: React.PropTypes.bool,
 };
 
 export default Delay;
