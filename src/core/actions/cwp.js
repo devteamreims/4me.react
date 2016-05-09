@@ -19,7 +19,6 @@ export function fetchCwp() {
 
     return axios.get(apiUrl)
       .then((response) => {
-        console.log('This should not appear');
         const cwp = _.pick(response.data, ['id', 'name', 'disabled', 'type']);
         return dispatch(completeAction(cwp));
       })

@@ -32,7 +32,13 @@ export const getBootstrappingString = (state) => {
   }
 };
 
-export const isErrored = (state) => isCwpErrored(state) || isSectorTreeErrored(state) || isSectorErrored(state);
+import {
+  isConnected,
+} from './socket';
+
+export const isErrored = (state) => isCwpErrored(state) || isSectorTreeErrored(state) || isSectorErrored(state) || !isConnected(state);
+
+
 export const getErrorString = (state) => {
   if(isCwpErrored(state)) {
     return 'Error fetching our CWP';
@@ -44,6 +50,10 @@ export const getErrorString = (state) => {
 
   if(isSectorErrored(state)) {
     return 'Error fetching our sectors';
+  }
+
+  if(!isConnected(state)) {
+    return 'Could not connect to mapping backend socket';
   }
 
   return '';

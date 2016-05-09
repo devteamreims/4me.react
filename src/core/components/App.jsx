@@ -5,15 +5,6 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import { startBootstrap } from '../actions/bootstrap';
-
-import {
-  isBootstrapping,
-  getBootstrappingString,
-  isErrored,
-  getErrorString,
-} from '../selectors/bootstrap';
-
 import LoadingScreen from './LoadingScreen';
 
 import TopBar from './TopBar';
@@ -63,7 +54,15 @@ export class App extends Component {
     if(this._shouldTriggerKeyboard(el.target)) {
       this.setState({keyboardOpen: false, keyboardTarget: null});
     }
-  }
+  };
+
+  handleRestart = (ev) => {
+    const {
+      startBootstrap,
+    } = this.props;
+
+    startBootstrap();
+  };
 
   componentDidMount() {
     window.addEventListener('focus', this.focusHandler, true);
@@ -76,17 +75,26 @@ export class App extends Component {
   }
 
   render() {
-    if(this.props.isErrored) {
+    const {
+      isErrored,
+      errorMessage,
+      isBootstrapping,
+      bootstrapMessage,
+      location,
+      children,
+    } = this.props;
+
+    if(isErrored) {
       return (
-        <LoadingScreen message={this.props.errorMessage}>
-          <span onClick={() => this.props.startBootstrap()}>Restart bootstrap ?</span>
+        <LoadingScreen message={errorMessage}>
+          <span onClick={this.handleRestart}>Reload ?</span>
         </LoadingScreen>
       );
     }
 
-    if(this.props.isBootstrapping) {
+    if(isBootstrapping) {
       return (
-        <LoadingScreen message={this.props.bootstrapMessage} />
+        <LoadingScreen message={bootstrapMessage} />
       );
     }
 
@@ -100,10 +108,10 @@ export class App extends Component {
         <TopBar id="topbar" />
         <div id="main-wrap">
             <div id="leftnav">
-              <LeftMenu location={this.props.location} />
+              <LeftMenu location={location} />
             </div>
             <div id="content">
-              {this.props.children}
+              {children}
             </div>
         </div>
         <Keyboard
@@ -114,6 +122,15 @@ export class App extends Component {
     );
   }
 }
+
+import { startBootstrap } from '../actions/bootstrap';
+
+import {
+  isBootstrapping,
+  getBootstrappingString,
+  isErrored,
+  getErrorString,
+} from '../selectors/bootstrap';
 
 const mapDispatchToProps = {
   startBootstrap,

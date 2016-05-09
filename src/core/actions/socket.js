@@ -20,6 +20,10 @@ import {
 
 let mySocket;
 
+import {
+  startBootstrap,
+} from './bootstrap';
+
 export function connectSocket() {
   return (dispatch, getState) => {
     console.log('Connecting socket !');
@@ -38,6 +42,12 @@ export function connectSocket() {
     mySocket.on('connect', (socket) => {
       console.log('Socket connected');
       return dispatch(socketConnected());
+    });
+
+    mySocket.on('reconnect', socket => {
+      console.log('core/socket: Socket reconnected !');
+      // On reconnect, rebootstrap the app
+      return dispatch(startBootstrap());
     });
 
     mySocket.on('disconnect', () => {

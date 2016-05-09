@@ -23,8 +23,6 @@ export function startBootstrap() {
       dispatch(fetchSectorTree()),
     ])
     .then(() => {
-      const cwpId = getCwpId(getState());
-      console.log(`Fetching sectors for our cwpId ${cwpId}`);
       return Promise.all([
         dispatch(fetchSectors(true)),
         dispatch(connectSocket()),
