@@ -10,6 +10,7 @@ class Cop extends Component {
       name,
       targetTime,
       estimatedTime,
+      overrideText,
     } = this.props;
 
     const tto = moment.utc(targetTime);
@@ -23,7 +24,7 @@ class Cop extends Component {
         >
           <span>{name}</span>
         </ToneDowner>
-        <div>{estimates}</div>
+        <div>{overrideText || estimates}</div>
       </div>
     );
   }
@@ -33,6 +34,7 @@ Cop.PropTypes = {
   name: React.PropTypes.string.isRequired,
   targetTime: React.PropTypes.number.isRequired,
   estimatedTime: React.PropTypes.number.isRequired,
+  overrideText: React.PropTypes.string,
 };
 
 export default Cop;

@@ -123,11 +123,23 @@ import {
   isFlightTonedDown,
 } from '../../selectors/flight';
 
+import {
+  isForcedOff,
+  isForcedMcs,
+} from '../../selectors/status';
+
 const mapStateToProps = (state) => {
   const flights = _.map(getFlights(state), flight => {
+    const {
+      ifplId,
+      destination,
+    } = flight;
+
     return {
-      isHighlighted: isFlightHighlighted(state, flight.ifplId),
-      isTonedDown: isFlightTonedDown(state, flight.ifplId),
+      isHighlighted: isFlightHighlighted(state, ifplId),
+      isTonedDown: isFlightTonedDown(state, ifplId),
+      isForcedOff: isForcedOff(state, destination),
+      isForcedMcs: isForcedMcs(state, destination),
       ...flight,
     };
   });

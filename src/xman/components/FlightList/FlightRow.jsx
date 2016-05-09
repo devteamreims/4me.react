@@ -35,6 +35,13 @@ class FlightRow extends Component {
       ...other,
     } = this.props;
 
+    const {
+      isForcedOff = false,
+      isForcedMcs = false,
+    } = flight;
+
+    console.log(flight);
+
     const style = {
       tableRowColumn: {
         fontSize: 18,
@@ -57,6 +64,14 @@ class FlightRow extends Component {
 
     function getStyles(styles, column) {
       return Object.assign({}, styles, {width: widths[column]});
+    }
+
+    let copOverrideText;
+
+    if(isForcedOff) {
+      copOverrideText = 'XMAN OFF';
+    } else if(isForcedMcs) {
+      copOverrideText = 'FORCE MCS';
     }
 
     return (
@@ -85,6 +100,7 @@ class FlightRow extends Component {
             name={flight.cop}
             targetTime={flight.advisory.targetTime}
             estimatedTime={flight.advisory.estimatedTime}
+            overrideText={copOverrideText}
           />
         </TableRowColumn>
         <TableRowColumn style={getStyles(style.tableRowColumn, i++)}>
