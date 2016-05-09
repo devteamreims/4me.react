@@ -11,6 +11,11 @@ let mySocket;
 export function setupSocketIo(dispatch, socketIo) {
   console.log('Initializing socket.io');
 
+  if(mySocket) {
+    console.log('xman/socket: Trying to reattach handlers on an existing socket');
+    return;
+  }
+
   mySocket = socketIo;
 
   socketIo.on('connect', function(socket) {

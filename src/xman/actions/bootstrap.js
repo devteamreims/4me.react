@@ -6,7 +6,10 @@ import { fetchStatus } from './backend-status';
 import io from 'socket.io-client';
 import api from '../../api';
 
-import { setupSocketIo } from '../socket';
+import {
+  setupSocketIo,
+  getSocket,
+} from '../socket';
 
 import {
   setFilter,
@@ -20,7 +23,17 @@ export function bootstrap() {
   return (dispatch, getState) => {
     console.log('Bootstrapping XMAN !!');
 
-    const socketIo = io.connect(api.xman.socket);
+    // Only setup a new socket if we don't have one
+    const setupSocket = () => {
+      if(getSocket()) {
+        console.log('xman/bootstrap: Bootstrapping xman while already having a socket.');
+        return;
+      }
+
+      const socketIo = io.connect(api.xman.socket);
+
+      return setupSocketIo(dispatch, socketIo);
+    };
 
     // Refresh flight list,
     // Connect to socket, set handlers
@@ -33,7 +46,7 @@ export function bootstrap() {
     return Promise.all([
       dispatch(fetchStatus()),
       dispatch(onSectorChange([], newSectors)),
-      setupSocketIo(dispatch, socketIo),
+      setupSocket(),
     ]);
   };
 }

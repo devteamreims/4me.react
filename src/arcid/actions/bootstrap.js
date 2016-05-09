@@ -2,7 +2,10 @@ import io from 'socket.io-client';
 
 import api from '../../api';
 
-import { setupSocketIo } from '../socket';
+import {
+  setupSocketIo,
+  getSocket,
+} from '../socket';
 
 import {
   refreshHistory,
@@ -12,13 +15,23 @@ export function bootstrap() {
   return (dispatch, getState) => {
     console.log('Bootstrapping ARCID !!');
 
-    // Connect to socket, set handlers
-    const socketIo = io.connect(api.arcid.socket);
+    // Only setup a new socket if we don't have one
+    const setupSocket = () => {
+      if(getSocket()) {
+        console.log('arcid/bootstrap: Bootstrapping arcid while already having a socket.');
+        return;
+      }
+
+      const socketIo = io.connect(api.xman.socket);
+
+      return setupSocketIo(dispatch, socketIo);
+    };
+
 
     // Refresh history
 
     return Promise.all([
-      setupSocketIo(dispatch, socketIo),
+      setupSocket(),
       dispatch(refreshHistory()),
     ]);
   };
