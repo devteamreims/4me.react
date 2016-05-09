@@ -40,18 +40,19 @@ export function connectSocket() {
     mySocket = io.connect(socketUrl, {query: `cwp-id=${cwpId}`});
 
     mySocket.on('connect', (socket) => {
-      console.log('Socket connected');
+      console.log('core/socket: Socket connected');
       return dispatch(socketConnected());
     });
 
     mySocket.on('reconnect', socket => {
       console.log('core/socket: Socket reconnected !');
       // On reconnect, rebootstrap the app
+      // This is needed to clear our current state and refetch proper information (sectors & everything)
       return dispatch(startBootstrap());
     });
 
     mySocket.on('disconnect', () => {
-      mySocket = undefined;
+      //mySocket = undefined;
       console.log('Socket disconnected ...');
       return dispatch(socketDisconnected());
     });
