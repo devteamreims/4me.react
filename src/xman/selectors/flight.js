@@ -105,6 +105,10 @@ export function hasSetAction(state, ifplId) {
     return false;
   }
 
+  if(isFlightInMcsMode(state, ifplId)) {
+    return getMinimumCleanSpeed(state, ifplId) !== null;
+  }
+
   return (
     getAppliedSpeed(state, ifplId) !== null
     || getAppliedMach(state,ifplId) !== null
