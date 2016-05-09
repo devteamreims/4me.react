@@ -8,6 +8,14 @@ import api from '../../api';
 
 import { setupSocketIo } from '../socket';
 
+import {
+  setFilter,
+} from './list-filter';
+
+import {
+  getSectors,
+} from '../../core/selectors/sector';
+
 export function bootstrap() {
   return (dispatch, getState) => {
     console.log('Bootstrapping XMAN !!');
@@ -17,27 +25,24 @@ export function bootstrap() {
     // Refresh flight list,
     // Connect to socket, set handlers
 
+    const newSectors = getSectors(getState());
+
+    // Here we dispatch onSectorChange with [] as old sectors and getSectors as newSectors
+    // onSectorChange will handle setting the right filter
+
     return Promise.all([
       dispatch(fetchStatus()),
-      dispatch(refreshFullList()),
+      dispatch(onSectorChange([], newSectors)),
       setupSocketIo(dispatch, socketIo),
     ]);
   };
 }
 
-import {
-  setFilter,
-} from './list-filter';
 
-import {
-  getSectors,
-} from '../../core/selectors/sector';
 
 export function onSectorChange(oldSectors, newSectors) {
   return (dispatch, getState) => {
     console.log('Dispatching xman on sector change');
-    console.log(oldSectors);
-    console.log(newSectors);
 
     if(_.isEmpty(oldSectors) !== _.isEmpty(newSectors)) {
       // Here, we have a transition like :
