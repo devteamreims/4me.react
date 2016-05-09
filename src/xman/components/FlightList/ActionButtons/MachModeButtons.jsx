@@ -73,7 +73,7 @@ class MachModeButtons extends Component {
             key={index}
             label={`${mach}`}
             xmanState={getXmanState(mach)}
-            disabled={disabled}
+            disabled={disabled && mach !== appliedMach}
             onClick={this.handleMach(mach)}
             dimmed={dimmed}
             {...other}
