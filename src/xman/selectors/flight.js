@@ -128,6 +128,16 @@ export function isFlightTonedDown(state, ifplId) {
 
   const {path, value} = filter;
 
+  // Here we must handle flightLevel rounding
+  // Calculate distance between filter FL and flight FL
+  // tone down if > 5
+  if(path === 'position.vertical.currentFlightLevel') {
+    const flightValue = _.get(flight, path);
+    const distance = Math.abs(flightValue - value);
+
+    return distance > 5;
+  }
+
   return !_.matchesProperty(path, value)(flight);
 
 }
