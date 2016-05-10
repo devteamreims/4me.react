@@ -1,6 +1,10 @@
 import _ from 'lodash';
 import p from './prefix';
 
+import {
+  maxStatus,
+} from '../../core/selectors/status';
+
 const defaultSocketStatus = {
   status: 'normal',
   name: 'ARCID Socket',
@@ -27,7 +31,7 @@ export const getStatus = (state) => {
   ];
 
   return {
-    status: 'normal',
+    status: maxStatus(_.map(items, item => item.status)),
     items,
   };
 };
