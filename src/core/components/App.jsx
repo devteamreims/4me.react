@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import LoadingScreen from './LoadingScreen';
+import FlatButton from 'material-ui/lib/flat-button';
 
+import LoadingScreen from './LoadingScreen';
 import TopBar from './TopBar';
 import LeftMenu from './LeftMenu';
 import Keyboard from './Keyboard';
@@ -86,15 +87,19 @@ export class App extends Component {
 
     if(isErrored) {
       return (
-        <LoadingScreen message={errorMessage}>
-          <span onClick={this.handleRestart}>Reload ?</span>
+        <LoadingScreen
+          actions={<FlatButton label="Reload" onTouchTap={this.handleRestart} />}
+        >
+          {errorMessage}
         </LoadingScreen>
       );
     }
 
     if(isBootstrapping) {
       return (
-        <LoadingScreen message={bootstrapMessage} />
+        <LoadingScreen>
+          {bootstrapMessage}
+        </LoadingScreen>
       );
     }
 

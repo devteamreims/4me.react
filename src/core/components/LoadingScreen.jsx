@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 
-export default class LoadingScreen extends Component {
+
+import ErrorModal from './ErrorModal';
+
+class LoadingScreen extends Component {
   render() {
-    const message = this.props.message || 'Loading ...';
+    const {
+      children = 'Loading ...',
+      title = 'Loading ...',
+      actions,
+    } = this.props;
+
     return (
-      <div>
-        {message}
-        {this.props.children}
-      </div>
+      <ErrorModal
+        title={title}
+        actions={actions}
+      >
+        {children}
+      </ErrorModal>
     );
   }
 }
+
+
+export default LoadingScreen;
