@@ -12,7 +12,7 @@ export function setupSocketIo(dispatch, socketIo) {
   mySocket = socketIo;
 
   socketIo.on('connect', function(socket) {
-    console.log('Connected to server !');
+    console.log('arcid/socket: Connected to server !');
     dispatch(socketConnected());
   });
 
