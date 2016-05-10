@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
 
 import Paper from 'material-ui/lib/paper';
 import Divider from 'material-ui/lib/divider';
@@ -7,6 +8,8 @@ import Divider from 'material-ui/lib/divider';
 import SearchBox from './SearchBox';
 import HistoryOrResults from './HistoryOrResults';
 import FlightProfile from './FlightProfile';
+
+import ErrorModal from '../../core/components/ErrorModal';
 
 import theme from '../../theme';
 
@@ -50,6 +53,20 @@ const style = {
 
 class ArcidRoot extends Component {
   render() {
+    const {
+      isErrored,
+    } = this.props;
+
+    if(isErrored) {
+      return (
+        <ErrorModal
+          title="ARCID unavailable"
+        >
+          Could not connect to arcid backend
+        </ErrorModal>
+      );
+    }
+
     return (
       <div style={style.outer}>
         <Paper
@@ -73,4 +90,14 @@ class ArcidRoot extends Component {
   }
 }
 
-export default ArcidRoot;
+import {
+  isErrored,
+} from '../selectors/status';
+
+const mapStateToProps = (state) => {
+  return {
+    isErrored: isErrored(state),
+  };
+};
+
+export default connect(mapStateToProps)(ArcidRoot);

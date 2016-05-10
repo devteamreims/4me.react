@@ -35,3 +35,7 @@ export const getStatus = (state) => {
     items,
   };
 };
+
+export const isErrored = (state) => {
+  return _.get(getStatus(state), 'status') === 'critical';
+};
