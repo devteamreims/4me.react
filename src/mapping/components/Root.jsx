@@ -6,6 +6,8 @@ import CwpButton from './CwpButton';
 import CwpDialog from './CwpDialog';
 import RoomStatus from './RoomStatus';
 
+import ErrorModal from '../../core/components/ErrorModal';
+
 import _ from 'lodash';
 
 const cwpRows = {
@@ -128,14 +130,38 @@ class MappingRoot extends Component {
     return nextProps.isDialogOpen !== this.props.isDialogOpen;
   }
 
+  handleRequestClose = (event) => {
+    const {
+      closeDialog,
+    } = this.props;
+
+    closeDialog();
+  };
+
   render() {
+    const {
+      isErrored,
+      isDialogOpen,
+      dialogCwpId,
+    } = this.props;
+
+    if(isErrored) {
+      return (
+        <ErrorModal
+          title="MAPPING unavailable"
+        >
+          Could not connect to mapping backend
+        </ErrorModal>
+      );
+    }
+
     return (
       <div>
         <CwpDialog
-          open={this.props.isDialogOpen}
+          open={isDialogOpen}
           modal={false}
-          cwpId={this.props.cwpId}
-          onRequestClose={this.props.closeDialog}
+          cwpId={dialogCwpId}
+          onRequestClose={this.handleRequestClose}
         />
         <MappingButtons />
       </div>
@@ -145,22 +171,27 @@ class MappingRoot extends Component {
 
 import {
   isOpen,
-  getCwpId,
+  getCwpId as getDialogCwpId,
 } from '../selectors/dialog';
+
+import {
+  isErrored,
+} from '../selectors/status';
+
+const mapStateToProps = (state) => {
+  const isDialogOpen = isOpen(state);
+  const dialogCwpId = getDialogCwpId(state);
+
+  return {
+    isDialogOpen,
+    dialogCwpId,
+    isErrored: isErrored(state),
+  };
+};
 
 import {
   close as closeDialog
 } from '../actions/dialog';
-
-const mapStateToProps = (state) => {
-  const isDialogOpen = isOpen(state);
-  const cwpId = getCwpId(state);
-
-  return {
-    isDialogOpen,
-    cwpId,
-  };
-};
 
 const mapDispatchToProps = {
   closeDialog,

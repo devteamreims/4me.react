@@ -1,30 +1,34 @@
 import _ from 'lodash';
+import { combineReducers } from 'redux';
 
 import {
   CONNECTED as SOCKET_CONNECTED,
   DISCONNECTED as SOCKET_DISCONNECTED,
 } from '../actions/socket';
 
-const defaultState = {
-  level: 'normal',
+
+
+const defaultSocketState = {
+  connected: false,
   lastUpdated: Date.now(),
-  message: ''
 };
 
-export default function statusReducer(state = defaultState, action) {
+function socketReducer(state = defaultSocketState, action) {
   switch(action.type) {
     case SOCKET_CONNECTED:
       return Object.assign({}, state, {
-        level: 'normal',
+        connected: true,
         lastUpdated: Date.now(),
-        message: ''
       });
     case SOCKET_DISCONNECTED:
       return Object.assign({}, state, {
-        level: 'critical',
+        connected: false,
         lastUpdated: Date.now(),
-        message: 'Lost socket connection to backend'
       });
   }
   return state;
 }
+
+export default combineReducers({
+  socket: socketReducer,
+});
