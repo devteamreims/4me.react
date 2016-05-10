@@ -22,7 +22,7 @@ export function bootstrap() {
         return;
       }
 
-      const socketIo = io.connect(api.xman.socket);
+      const socketIo = io.connect(api.arcid.socket);
 
       return setupSocketIo(dispatch, socketIo);
     };
