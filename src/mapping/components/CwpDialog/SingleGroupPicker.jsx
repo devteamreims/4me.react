@@ -16,7 +16,7 @@ const style = {
 
 class SingleGroupPicker extends Component {
   isSectorDisabled = (sector) => {
-    return _.includes(this.props.boundSectors, sector) || sector === 'YR';
+    return _.includes(this.props.boundSectors, sector);
   };
 
   isSectorChecked = (sector) => {

@@ -10,7 +10,7 @@ const sectorGroups = [
       sectors: ['HN', 'KN', 'UB', 'UN'],
     }, {
       name: '5R',
-      sectors: ['HR', 'YR', 'KR', 'XR', 'UR'],
+      sectors: ['HYR', 'KR', 'XR', 'UR'],
     }
   ],[
     {

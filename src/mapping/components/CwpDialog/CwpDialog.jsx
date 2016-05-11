@@ -46,10 +46,6 @@ class CwpDialog extends Component {
       .concat(sector)
       .concat(...this.props.boundSectors)
 
-    if(sector === 'HR') {
-      tempSectors = tempSectors.concat('YR');
-    }
-
     return tempSectors.compact().uniq().value();
   };
 
@@ -59,18 +55,10 @@ class CwpDialog extends Component {
       .concat(...this.props.boundSectors);
 
 
-    if(sector === 'HR') {
-      tempSectors = tempSectors.without('YR');
-    }
-
     return tempSectors.compact().uniq().value();
   };
 
   toggleSector = (state, sector) => {
-    // Toggling YR is disabled, YR's state is bound to HR's
-    if(sector === 'YR') {
-      return state;
-    }
 
     if(_.includes(state, sector)) {
       return this.removeSector(state, sector);
