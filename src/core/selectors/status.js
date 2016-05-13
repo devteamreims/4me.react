@@ -73,3 +73,27 @@ export function maxStatus(items) {
 
   return _.reduce(items, reduceStatus);
 }
+
+import {
+  isNormalCwp,
+  isSupervisor,
+  isFmp,
+  isTechSupervisor,
+} from './cwp';
+
+/*
+ * Returns a string : dumb, normal, extended
+ * Controls the amout of info displayed on the status page
+ */
+
+export const getDisplayLevel = state => {
+  if(isTechSupervisor(state)) {
+    return 'extended';
+  }
+
+  if(isSupervisor(state)) {
+    return 'normal';
+  }
+
+  return 'dumb';
+};

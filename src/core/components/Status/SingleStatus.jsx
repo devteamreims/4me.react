@@ -24,6 +24,7 @@ class SingleStatus extends Component {
       title,
       items,
       level,
+      displayLevel,
     } = this.props;
 
     return (
@@ -36,7 +37,7 @@ class SingleStatus extends Component {
           />
           {_.toUpper(title)}
         </h1>
-        {_.map(items, (item, index) =>
+        {displayLevel !== 'dumb' && _.map(items, (item, index) =>
           <div
             key={index}
             style={style.itemContainer}
@@ -63,6 +64,7 @@ SingleStatus.PropTypes = {
   title: React.PropTypes.string.isRequired,
   level: React.PropTypes.oneOf(['normal', 'warning', 'critical']).isRequired,
   items: React.PropTypes.array.isRequired,
+  displayLevel: React.PropTypes.oneOf(['dumb', 'normal', 'extended']).isRequired,
 };
 
 export default SingleStatus;

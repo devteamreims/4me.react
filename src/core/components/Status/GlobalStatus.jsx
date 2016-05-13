@@ -14,6 +14,7 @@ export class GlobalStatus extends Component {
     const {
       coreStatus,
       organStatuses,
+      displayLevel,
     } = this.props;
 
     console.log(organStatuses);
@@ -25,6 +26,7 @@ export class GlobalStatus extends Component {
           title={coreStatus.name}
           level={coreStatus.status}
           items={coreStatus.items}
+          displayLevel={displayLevel}
         />
         {_.map(organStatuses, (organStatus, index) =>
           <SingleStatus
@@ -32,6 +34,7 @@ export class GlobalStatus extends Component {
             title={organStatus.name}
             level={organStatus.status}
             items={organStatus.items}
+            displayLevel={displayLevel}
           />
         )}
       </div>
@@ -44,6 +47,7 @@ import organs from '../../../organs';
 
 import {
   getCoreStatus,
+  getDisplayLevel,
 } from '../../selectors/status';
 
 const mapStateToProps = (state) => {
@@ -63,6 +67,7 @@ const mapStateToProps = (state) => {
   return {
     coreStatus,
     organStatuses,
+    displayLevel: getDisplayLevel(state),
   };
 }
 
