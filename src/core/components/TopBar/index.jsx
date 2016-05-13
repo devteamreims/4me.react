@@ -45,7 +45,7 @@ export class TopBar extends Component {
               status={this.props.status}
               onClick={() => this._goToStatus()}
             />
-            <HelpButton />
+            {false && <HelpButton />}
             <RefreshButton />
           </div>
         }
