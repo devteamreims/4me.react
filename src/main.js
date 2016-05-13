@@ -7,7 +7,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore  from './store/configureStore';
-import { Router, hashHistory } from 'react-router';
 
 import Perf from 'react-addons-perf';
 
@@ -17,7 +16,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-import routes from './routes';
+import MainRouter from './MainRouter';
 
 const store = configureStore();
 const rootElement = document.getElementById('app');
@@ -30,14 +29,14 @@ if (process.env.NODE_ENV !== 'production') {
   // If using routes
   ComponentEl = (
     <div id="main-container">
-      <Router history={hashHistory} routes={routes} />
+      <MainRouter />
       <DevTools />
     </div>
   );
 } else {
   ComponentEl = (
     <div id="main-container">
-      <Router history={hashHistory} routes={routes} />
+      <MainRouter />
     </div>
   );
 }
