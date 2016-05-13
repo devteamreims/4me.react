@@ -2,6 +2,7 @@ import {
   isNormalCwp,
   isSupervisor,
   isFmp,
+  isTechSupervisor,
 } from './cwp';
 
 export const getIndexRoute = (state) => {
@@ -11,6 +12,10 @@ export const getIndexRoute = (state) => {
 
   if(isFmp(state)) {
     return '/arcid';
+  }
+
+  if(isTechSupervisor(state)) {
+    return '/status';
   }
 
   return '/xman';
