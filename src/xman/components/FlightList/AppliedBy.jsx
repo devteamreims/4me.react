@@ -38,7 +38,7 @@ class AppliedBy extends Component {
   }
 }
 
-AppliedBy.PropTypes = {
+AppliedBy.propTypes = {
   ifplId: React.PropTypes.string.isRequired,
 };
 

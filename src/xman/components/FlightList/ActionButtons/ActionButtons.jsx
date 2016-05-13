@@ -55,7 +55,7 @@ class ActionButtons extends Component {
   }
 }
 
-ActionButtons.PropTypes = {
+ActionButtons.propTypes = {
   ifplId: React.PropTypes.string.isRequired,
   isHighlighted: React.PropTypes.bool,
 };

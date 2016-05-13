@@ -62,7 +62,7 @@ class UndoButton extends Component {
   }
 }
 
-UndoButton.PropTypes = {
+UndoButton.propTypes = {
   disabled: React.PropTypes.bool,
   dimmed: React.PropTypes.bool,
 };

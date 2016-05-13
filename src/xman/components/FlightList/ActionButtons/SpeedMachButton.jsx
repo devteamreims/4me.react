@@ -73,7 +73,7 @@ class SpeedMachButton extends Component {
   }
 }
 
-SpeedMachButton.PropTypes = {
+SpeedMachButton.propTypes = {
   xmanState: React.PropTypes.oneOf(['advised', 'advisedSoft', 'selected', 'empty']),
   dimmed: React.PropTypes.bool,
 };

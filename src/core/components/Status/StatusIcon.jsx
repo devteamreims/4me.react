@@ -45,7 +45,7 @@ class StatusIcon extends Component {
   }
 }
 
-StatusIcon.PropTypes = {
+StatusIcon.propTypes = {
   level: React.PropTypes.oneOf(['normal', 'warning', 'critical', 'error']).isRequired,
   colored: React.PropTypes.bool,
 };

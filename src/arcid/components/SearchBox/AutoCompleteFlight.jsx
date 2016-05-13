@@ -58,7 +58,7 @@ class AutoCompleteFlight extends Component {
 }
 
 
-AutoCompleteFlight.PropTypes = {
+AutoCompleteFlight.propTypes = {
   searchString: React.PropTypes.string,
   callsign: React.PropTypes.string.isRequired,
   departure: React.PropTypes.string.isRequired,

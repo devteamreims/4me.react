@@ -30,7 +30,7 @@ class Cop extends Component {
   }
 }
 
-Cop.PropTypes = {
+Cop.propTypes = {
   name: React.PropTypes.string.isRequired,
   targetTime: React.PropTypes.number.isRequired,
   estimatedTime: React.PropTypes.number.isRequired,

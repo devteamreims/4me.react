@@ -120,7 +120,7 @@ class FlightRow extends Component {
   }
 }
 
-FlightRow.PropTypes = {
+FlightRow.propTypes = {
   flight: React.PropTypes.object.isRequired,
   isHighlighted: React.PropTypes.bool,
   isTonedDown: React.PropTypes.bool,

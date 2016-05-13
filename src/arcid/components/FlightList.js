@@ -84,7 +84,7 @@ class FlightList extends Component {
   }
 }
 
-FlightList.PropTypes = {
+FlightList.propTypes = {
   onTouchTap: React.PropTypes.func,
   flights: React.PropTypes.array.isRequired,
   selectedIfplId: React.PropTypes.string,

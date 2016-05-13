@@ -191,7 +191,7 @@ class PointProfile extends Component {
   }
 }
 
-PointProfile.PropTypes = {
+PointProfile.propTypes = {
   pointProfile: React.PropTypes.object.isRequired,
 };
 

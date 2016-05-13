@@ -113,7 +113,7 @@ class SpeedButtons extends Component {
   }
 }
 
-SpeedButtons.PropTypes = {
+SpeedButtons.propTypes = {
   ifplId: React.PropTypes.string.isRequired,
   disableActions: React.PropTypes.bool,
 }

@@ -25,7 +25,7 @@ class FlightLevel extends Component {
   }
 }
 
-FlightLevel.PropTypes = {
+FlightLevel.propTypes = {
   currentFlightLevel: React.PropTypes.number,
 };
 

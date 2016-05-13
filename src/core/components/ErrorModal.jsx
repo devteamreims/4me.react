@@ -48,7 +48,7 @@ class ErrorModal extends Component {
   }
 }
 
-ErrorModal.PropTypes = {
+ErrorModal.propTypes = {
   title: React.PropTypes.string,
 };
 

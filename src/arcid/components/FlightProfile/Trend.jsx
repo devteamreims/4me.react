@@ -40,7 +40,7 @@ class Trend extends Component {
   }
 }
 
-Trend.PropTypes = {
+Trend.propTypes = {
   trend: React.PropTypes.oneOf(['CLIMB', 'CRUISE', 'DESCENT']).isRequired,
 };
 

@@ -51,7 +51,7 @@ class ColoredFlightLevel extends Component {
   }
 }
 
-ColoredFlightLevel.PropTypes = {
+ColoredFlightLevel.propTypes = {
   flightLevel: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number,

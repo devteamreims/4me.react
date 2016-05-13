@@ -54,7 +54,7 @@ class McsButton extends Component {
   }
 }
 
-McsButton.PropTypes = {
+McsButton.propTypes = {
   selected: React.PropTypes.bool,
   dimmed: React.PropTypes.bool,
 };

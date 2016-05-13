@@ -37,7 +37,7 @@ class Callsign extends Component {
   }
 }
 
-Callsign.PropTypes = {
+Callsign.propTypes = {
   callsign: React.PropTypes.string.isRequired,
   destination: React.PropTypes.string.isRequired,
 };

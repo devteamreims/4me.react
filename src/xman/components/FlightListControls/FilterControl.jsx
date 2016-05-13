@@ -49,7 +49,7 @@ class FilterControl extends Component {
   }
 }
 
-FilterControl.PropTypes = {
+FilterControl.propTypes = {
   style: React.PropTypes.object,
   selected: React.PropTypes.oneOf(['all', 'geographical', 'vertical']).isRequired,
   onChange: React.PropTypes.func,

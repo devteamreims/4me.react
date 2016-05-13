@@ -42,7 +42,7 @@ class CwpEnabler extends Component {
   }
 }
 
-CwpEnabler.PropTypes = {
+CwpEnabler.propTypes = {
   isEnabled: React.PropTypes.bool.isRequired,
   onStatusChange: React.PropTypes.func.isRequired,
 };

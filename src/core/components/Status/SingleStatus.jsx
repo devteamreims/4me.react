@@ -60,7 +60,7 @@ class SingleStatus extends Component {
   }
 }
 
-SingleStatus.PropTypes = {
+SingleStatus.propTypes = {
   title: React.PropTypes.string.isRequired,
   level: React.PropTypes.oneOf(['normal', 'warning', 'critical']).isRequired,
   items: React.PropTypes.array.isRequired,

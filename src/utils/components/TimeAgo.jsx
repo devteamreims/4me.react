@@ -35,7 +35,7 @@ class TimeAgo extends Component {
   }
 }
 
-TimeAgo.PropTypes = {
+TimeAgo.propTypes = {
   when: React.PropTypes.number.isRequired,
 };
 

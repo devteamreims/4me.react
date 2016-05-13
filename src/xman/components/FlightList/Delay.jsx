@@ -34,7 +34,7 @@ class Delay extends Component {
   }
 }
 
-Delay.PropTypes = {
+Delay.propTypes = {
   delay: React.PropTypes.number,
   isTonedDown: React.PropTypes.bool,
 };
