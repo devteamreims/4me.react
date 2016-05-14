@@ -7,6 +7,7 @@ import AppBar from 'material-ui/lib/app-bar';
 import RefreshButton from './RefreshButton';
 import HelpButton from './HelpButton';
 import StatusButton from './StatusButton';
+import Clock from './Clock';
 
 import { Link } from 'react-router';
 
@@ -34,10 +35,16 @@ export class TopBar extends Component {
     return (
       <AppBar
         title={
-          <span
-            onClick={() => this._goToDashboard()}
-            style={styles.title}
-          >4ME ({this.props.cwpName}){sectors}</span>
+          <span style={{color: this.context.muiTheme.palette.textColor}}>
+            <span
+              onClick={() => this._goToDashboard()}
+              style={styles.title}
+            >
+              4ME ({this.props.cwpName}){sectors}
+            </span>
+            {' - '}
+            <Clock style={Object.assign({}, styles.title, {cursor: undefined})} />
+          </span>
         }
         iconElementRight={
           <div>
@@ -49,7 +56,7 @@ export class TopBar extends Component {
             <RefreshButton />
           </div>
         }
-        iconElementLeft={<div></div>}
+        iconElementLeft={<span></span>}
         style={{flexShrink: '0'}}
       />
     );
