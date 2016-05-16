@@ -78,8 +78,10 @@ export const getMessages = (state) => {
   }
 
   _.each(getFetchersStatuses(state), (value, fetcher) => {
-    if(_.get(value, 'status', 'normal') !== 'normal') {
+    if(_.get(value, 'status', 'normal') === 'critical') {
       messages.push(`XMAN could not fetch ${fetcher} flights`);
+    } else if(_.get(value, 'status', 'normal') !== 'normal') {
+      messages.push(_.get(value, 'error', `Something is wrong with ${fetcher} data`));
     } else if(isForcedOff(state, fetcher)) {
       messages.push(`XMAN ${fetcher} has been turned off by the supervisor`);
     } else if(isForcedMcs(state, fetcher)) {
@@ -101,11 +103,12 @@ export const shouldDisplayList = (state) => {
     return false;
   }
 
+  // Fetchers in warning state won't hide the flight list
   const areAllFetchersOk = _.every(
     _(getFetchersStatuses(state))
       .map(val => _.get(val, 'status', 'normal'))
       .value(),
-    status => status === 'normal'
+    status => status !== 'critical'
   );
 
   if(!areAllFetchersOk) {

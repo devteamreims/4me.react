@@ -48,13 +48,13 @@ export function setStatus(status) {
 function setFetcherServicesAction(fetchers) {
   return {
     type: SET_FETCHER_SERVICES_STATUS,
-    payload: _.mapValues(fetchers, pick(['status', 'lastUpdated', 'forceMcs', 'forceOff'])),
+    payload: _.mapValues(fetchers, pick(['status', 'lastUpdated', 'forceMcs', 'forceOff', 'error'])),
   };
 }
 
 function setPositionServiceAction(positions) {
   return {
     type: SET_POSITION_SERVICE_STATUS,
-    payload: pick(['status', 'lastUpdated'], positions),
+    payload: pick(['status', 'lastUpdated', 'error'], positions),
   };
 }
