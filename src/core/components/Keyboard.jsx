@@ -74,11 +74,11 @@ class Keyboard extends Component {
     const styles = {
       zIndex: 99999,
       backgroundColor,
-      padding: '10px 30px',
+      margin: 0,
     };
 
     const buttonStyles = {
-      margin: '5px',
+      margin: '5px 5px',
     };
 
     if(hide) {
@@ -93,6 +93,7 @@ class Keyboard extends Component {
         {_.map(keys, (row, index) =>
           <div
             key={index}
+            style={{margin: '5px 30px'}}
           >
             {_.map(row, (key, index) =>
               <KeyboardButton
