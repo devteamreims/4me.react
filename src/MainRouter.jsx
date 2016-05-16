@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
-import { connect } from 'react-redux';
 
 
 import App from './core/components/App';
@@ -29,7 +28,7 @@ class MainRouter extends Component {
         history={hashHistory}
         {...other}
       >
-        <Redirect from="/" to={indexRoute} />
+        <Redirect from="/" to="/xman" />
         <Route path="/" component={App}>
           {/* <IndexRoute component={Dashboard} /> */}
           {organRoutes}
@@ -42,14 +41,4 @@ class MainRouter extends Component {
   }
 }
 
-import {
-  getIndexRoute,
-} from './core/selectors/routes';
-
-const mapStateToProps = (state) => {
-  return {
-    indexRoute: getIndexRoute(state),
-  };
-};
-
-export default connect(mapStateToProps)(MainRouter);
+export default MainRouter;

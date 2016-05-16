@@ -13,7 +13,11 @@ import { Link } from 'react-router';
 
 export class TopBar extends Component {
   _goToDashboard() {
-    this.context.router.push('/');
+    const {
+      indexRoute,
+    } = this.props;
+
+    this.context.router.push(indexRoute || '/');
   }
 
   _goToStatus() {
@@ -85,6 +89,10 @@ import {
   getGlobalStatusString,
 } from '../../selectors/status';
 
+import {
+  getIndexRoute,
+} from '../../selectors/routes';
+
 const mapStateToProps = (state) => {
   const sectors = getSectors(state);
   return {
@@ -92,6 +100,7 @@ const mapStateToProps = (state) => {
     sectors,
     prettifiedSectors: getPrettifySectors(state)(sectors),
     status: getGlobalStatusString(state),
+    indexRoute: getIndexRoute(state),
   }
 };
 
