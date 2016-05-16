@@ -39,13 +39,11 @@ export class TopBar extends Component {
     return (
       <AppBar
         title={
-          <span style={{color: this.context.muiTheme.palette.textColor}}>
-            <span
-              onClick={() => this._goToDashboard()}
-              style={styles.title}
-            >
-              4ME ({this.props.cwpName}){sectors}
-            </span>
+          <span
+            onClick={() => this._goToDashboard()}
+            style={styles.title}
+          >
+            4ME ({this.props.cwpName}){sectors}
             {' - '}
             <Clock style={Object.assign({}, styles.title, {cursor: undefined})} />
           </span>
