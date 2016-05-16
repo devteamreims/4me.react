@@ -126,10 +126,6 @@ class MappingButtons extends Component {
 
 class MappingRoot extends Component {
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.isDialogOpen !== this.props.isDialogOpen;
-  }
-
   handleRequestClose = (event) => {
     const {
       closeDialog,

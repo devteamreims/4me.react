@@ -114,10 +114,8 @@ export function bindSectorsToCwp(cwpId, sectors) {
 
 
 
-    // commitMap and refresh
-
-    return dispatch(commitMap(newMap))
-      .then(() => dispatch(refreshMap()));
+    // commitMap (we will get a refresh signal from the backend)
+    return dispatch(commitMap(newMap));
 
   };
 }

@@ -11,6 +11,7 @@ import Divider from 'material-ui/lib/divider';
 import SectorPicker from './SectorPicker';
 import SectorSuggestor from './SectorSuggestor';
 import CwpEnabler from './CwpEnabler';
+import Loader from './Loader';
 
 
 class CwpDialog extends Component {
@@ -147,8 +148,9 @@ class CwpDialog extends Component {
       prettySectors,
       open,
       cwpId,
-      isEmpty,
+      hasNoSectorsBound,
       backupedRadios,
+      isLoading,
       ...other
     } = this.props;
 
@@ -171,6 +173,7 @@ class CwpDialog extends Component {
         label="CONFIRM"
         onTouchTap={this.handleConfirm}
         style={actionStyle}
+        disabled={isLoading}
       />
     ];
 
@@ -190,37 +193,44 @@ class CwpDialog extends Component {
 
     let content = [];
 
-    if(!isDisabled) {
+    if(isLoading) {
       content = [
         ...content,
-        <SectorSuggestor
-          key="sector-suggestor"
-          cwpId={cwpId}
-          onSuggestionClick={this.handleSuggestion}
-        />,
-        <SectorPicker
-          key="sector-picker"
-          boundSectors={boundSectors}
-          tempSectors={tempSectors}
-          toggleSectors={this.handleToggleSectors}
-          backupedRadios={backupedRadios}
-        />
+        <Loader />
       ];
-    }
-
-    if(isEmpty) {
-      content = [
-        <div
-          style={{marginBottom: 10}}
-        >
-          <CwpEnabler
-            key="cwp-enabler"
-            isEnabled={!isDisabled}
-            onStatusChange={this.handleEnableDisable}
+    } else {
+      if(!isDisabled) {
+        content = [
+          ...content,
+          <SectorSuggestor
+            key="sector-suggestor"
+            cwpId={cwpId}
+            onSuggestionClick={this.handleSuggestion}
+          />,
+          <SectorPicker
+            key="sector-picker"
+            boundSectors={boundSectors}
+            tempSectors={tempSectors}
+            toggleSectors={this.handleToggleSectors}
+            backupedRadios={backupedRadios}
           />
-        </div>,
-        ...content
-      ];
+        ];
+      }
+
+      if(hasNoSectorsBound) {
+        content = [
+          <div
+            style={{marginBottom: 10}}
+          >
+            <CwpEnabler
+              key="cwp-enabler"
+              isEnabled={!isDisabled}
+              onStatusChange={this.handleEnableDisable}
+            />
+          </div>,
+          ...content
+        ];
+      }
     }
 
     return (
@@ -249,7 +259,8 @@ import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 import {
   getSectorsByCwpId,
   isDisabled as isCwpDisabled,
-  isEmpty as isCwpEmpty
+  isEmpty as isCwpEmpty,
+  isLoading as isMapLoading,
 } from '../../selectors/map';
 
 import {
@@ -267,7 +278,7 @@ const mapStateToProps = (state, ownProps) => {
   const prettySectors = getPrettifySectors(state);
   const prettyBoundSectors = prettySectors(boundSectors);
   const isDisabled = isCwpDisabled(state, cwpId);
-  const isEmpty = isCwpEmpty(state, cwpId);
+  const hasNoSectorsBound = isCwpEmpty(state, cwpId);
   const backupedRadios = getBackupedRadios(state, cwpId);
 
   const title = `${cwpName}`;
@@ -278,8 +289,9 @@ const mapStateToProps = (state, ownProps) => {
     prettyBoundSectors,
     prettySectors,
     isDisabled,
-    isEmpty,
+    hasNoSectorsBound,
     backupedRadios,
+    isLoading: isMapLoading(state),
   };
 };
 

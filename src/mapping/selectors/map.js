@@ -5,7 +5,12 @@ export const getRaw = (state) => _.get(p(state), 'map', {});
 
 export const getMap = (state) => _.get(getRaw(state), 'map');
 
-export const isLoading = (state) => !!_.get(getRaw(state), 'isLoading', false);
+export const isLoading = (state) => {
+  const isRefreshing = !!_.get(getRaw(state), 'isLoading', false);
+  const isCommitting = !!_.get(getRaw(state), 'isCommitting', false);
+
+  return isCommitting || isRefreshing;
+};
 
 export const getCommitError = (state) => _.get(getRaw(state), 'commitError');
 export const getRefreshError = (state) => _.get(getRaw(state), 'refreshError');

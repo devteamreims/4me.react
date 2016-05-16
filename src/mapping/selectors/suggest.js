@@ -5,7 +5,10 @@ export const getRaw = (state) => _.get(p(state), 'suggest', {});
 
 export const getCwpId = (state) => _.get(getRaw(state), 'cwpId', -1);
 
-export const isLoading = (state) => !!_.get(getRaw(state), 'isLoading', false);
+export const isLoading = (state) => {
+  const isSuggestLoading = !!_.get(getRaw(state), 'isLoading', false);
+  return isSuggestLoading;
+};
 
 import {
   getSectorsByCwpId

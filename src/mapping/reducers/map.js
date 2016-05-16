@@ -12,6 +12,7 @@ import {
 
 const defaultState = {
   isLoading: true,
+  isCommitting: false,
   lastUpdated: Date.now(),
   map: [],
   refreshError: null,
@@ -41,16 +42,16 @@ export default function mapReducer(state = defaultState, action) {
       });
     case COMMIT:
       return Object.assign({}, state, {
-        isLoading: true,
+        isCommitting: true,
         commitError: null,
       });
     case COMMIT_COMPLETE:
       return Object.assign({}, state, {
-        isLoading: false,
+        isCommitting: false,
       });
     case COMMIT_FAIL:
       return Object.assign({}, state, {
-        isLoading: false,
+        isCommitting: false,
         commitError: action.error,
       });
     case SET_CWP_STATUS:

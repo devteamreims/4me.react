@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import RaisedButton from 'material-ui/lib/raised-button';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
-
 import _ from 'lodash';
 
 import {
@@ -13,6 +9,9 @@ import {
 import {
   accent1Color,
 } from '../../../theme/colors';
+
+import Loader from './Loader';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 class SectorSuggestor extends Component {
 
@@ -37,14 +36,7 @@ class SectorSuggestor extends Component {
       };
 
       inner = (
-        <div style={style.container}>
-          <RefreshIndicator
-            left={0}
-            top={0}
-            status="loading"
-            style={style.refresh}
-          />
-        </div>
+        <Loader />
       );
 
     } else {
