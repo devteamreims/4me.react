@@ -40,15 +40,15 @@ class FlightRow extends Component {
       isForcedMcs = false,
     } = flight;
 
-    console.log(flight);
-
     const style = {
       tableRowColumn: {
-        fontSize: 18,
+        fontSize: '',
         textAlign: 'center',
+        paddingTop: 10,
+        paddingBottom: 10,
       },
       tableRow: {
-        height: 100,
+
       },
     };
 

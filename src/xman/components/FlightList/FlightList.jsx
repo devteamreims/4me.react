@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LinearProgress from 'material-ui/lib/linear-progress';
 
 import FlightRow from './FlightRow';
+import theme from '../../../theme';
 
 import Table from 'material-ui/lib/table/table';
 import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
@@ -17,13 +18,18 @@ const style = {
     width: '100%',
     color: '#FFF',
     backgroundColor: 'inherit',
-    fontSize: '20px',
+    fontSize: '16px',
+  },
+  tableHeaderColumn: {
+    fontSize: 20,
+    color: theme.palette.accent1Color,
+    textAlign: 'center',
   },
   tableHeader: {
     tableRow: {
       borderBottom: '1px solid #666',
       tableHeaderColumn: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#FFF',
         textAlign: 'center',
       },
@@ -76,22 +82,22 @@ class FlightList extends Component {
           >
             <TableRow style={style.tableHeader.tableRow}>
               <TableHeaderColumn
-                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+                style={getStyles(style.tableHeaderColumn, i++)}
               >Callsign</TableHeaderColumn>
               <TableHeaderColumn
-                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+                style={getStyles(style.tableHeaderColumn, i++)}
               >Delay</TableHeaderColumn>
               <TableHeaderColumn
-                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+                style={getStyles(style.tableHeaderColumn, i++)}
               >FL</TableHeaderColumn>
               <TableHeaderColumn
-                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+                style={getStyles(style.tableHeaderColumn, i++)}
               >COP/TTO</TableHeaderColumn>
               <TableHeaderColumn
-                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)}
+                style={getStyles(style.tableHeaderColumn, i++)}
               >Speed</TableHeaderColumn>
               <TableHeaderColumn
-                style={getStyles(style.tableHeader.tableRow.tableHeaderColumn, i++)
+                style={getStyles(style.tableHeaderColumn, i++)
               }>Applied</TableHeaderColumn>
             </TableRow>
           </TableHeader>
