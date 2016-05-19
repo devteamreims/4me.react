@@ -24,7 +24,7 @@ class Delay extends Component {
       isTonedDown,
     } = this.props;
 
-    const displayDelay = Math.floor((delay || 0) / 60);
+    const displayDelay = delay === -1 ? 0 : Math.floor((delay || 0) / 60);
 
     const color = isTonedDown ? null : delayToColor(displayDelay);
 
