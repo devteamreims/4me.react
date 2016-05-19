@@ -16,6 +16,7 @@ import { getStatus } from './selectors/status';
 
 export default {
   name: 'arcid',
+  displayName: 'ETFMS PROFILE',
   bootstrap,
   rootComponent,
   routes: <Route key="arcid" path='/arcid' component={rootComponent} />,
