@@ -11,6 +11,8 @@ import { getStatus } from './selectors/status';
 
 export default {
   name: 'mapping',
+  displayName: 'control room',
+  linkTo: 'mapping',
   bootstrap,
   rootComponent,
   routes: <Route key="mapping" path='/mapping' component={rootComponent} />,
