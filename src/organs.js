@@ -29,11 +29,18 @@ const defaults = {
   getStatus,
 };
 
-const organs = _.map([
-  xman,
-  arcid,
-  mapping,
-], organ => _.defaults(organ, defaults));
+const organs = _(
+  [
+    xman,
+    arcid,
+    mapping,
+  ]
+).map(organ => _.defaults(organ, defaults))
+.map(organ => Object.assign({}, {
+  linkTo: _.kebabCase(organ.name),
+  displayName: _.capitalize(organ.name),
+}, organ))
+.value();
 
 export function getReducers() {
   return _.reduce(organs, (prev, organ) => {

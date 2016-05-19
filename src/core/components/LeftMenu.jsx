@@ -91,8 +91,8 @@ LeftMenu.contextTypes = {
 const mapStateToProps = (state) => {
   const organProps = _.map(organs, organ => {
     return {
-      title: organ.name.toUpperCase(),
-      linkTo: organ.name,
+      title: _.toUpper(organ.displayName),
+      linkTo: organ.linkTo,
       notifications: organ.getNotifications(state),
     };
   });
