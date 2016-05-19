@@ -70,6 +70,7 @@ class FlightProfile extends Component {
             <span>{flight.departure} -> {flight.destination}</span>
             <span>EOBT : {flight.eobt}</span>
             <span>Delay: {flight.delay} min</span>
+            <span>Type of aircraft : {flight.aircraftType}</span>
             <div
               style={{
                 display: 'flex',

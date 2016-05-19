@@ -115,6 +115,7 @@ export function complete(profile = {}) {
     eobt,
     delay,
     pointProfile,
+    aircraftType,
     airspaceProfile,
     fetched,
   } = profile;
@@ -129,6 +130,7 @@ export function complete(profile = {}) {
       eobt,
       delay,
       pointProfile,
+      aircraftType,
       airspaceProfile,
       fetched,
     });
