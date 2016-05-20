@@ -83,12 +83,19 @@ export class App extends Component {
       bootstrapMessage,
       location,
       children,
+      shouldZoomUi,
+      uiZoom,
     } = this.props;
+
+    const styles = shouldZoomUi ? {
+      zoom: uiZoom,
+    } : undefined;
 
     if(isErrored) {
       return (
         <LoadingScreen
           actions={<FlatButton label="Reload" onTouchTap={this.handleRestart} />}
+          style={styles}
         >
           {errorMessage}
         </LoadingScreen>
@@ -97,7 +104,7 @@ export class App extends Component {
 
     if(isBootstrapping) {
       return (
-        <LoadingScreen>
+        <LoadingScreen style={styles}>
           {bootstrapMessage}
         </LoadingScreen>
       );
@@ -109,7 +116,7 @@ export class App extends Component {
     } = this.state;
 
     return (
-      <div>
+      <div style={styles}>
         <TopBar id="topbar" />
         <div id="main-wrap">
             <div id="leftnav">
@@ -137,6 +144,10 @@ import {
   getErrorString,
 } from '../selectors/bootstrap';
 
+import {
+  isNormalCwp,
+} from '../selectors/cwp';
+
 const mapDispatchToProps = {
   startBootstrap,
 };
@@ -147,6 +158,8 @@ const mapStateToProps = (state) => {
     isErrored: isErrored(state),
     bootstrapMessage: getBootstrappingString(state),
     errorMessage: getErrorString(state),
+    shouldZoomUi: isNormalCwp(state),
+    uiZoom: 1.20,
   };
 };
 
