@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
     bootstrapMessage: getBootstrappingString(state),
     errorMessage: getErrorString(state),
     shouldZoomUi: isNormalCwp(state),
-    uiZoom: 1.10,
+    uiZoom: 1.15,
   };
 };
 
