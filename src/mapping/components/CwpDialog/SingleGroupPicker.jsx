@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
+import {mapping as mappingConfig} from '../../../config';
+
 import Checkbox from 'material-ui/lib/checkbox';
 import MicOk from 'material-ui/lib/svg-icons/av/mic';
 
@@ -22,6 +24,10 @@ class SingleGroupPicker extends Component {
   isSectorChecked = (sector) => {
     return _.includes(this.props.tempSectors, sector);
   };
+
+  shouldDisplayEmergencyFrequencies() {
+    return !_.get(mappingConfig, 'disableEmergencyRadios', false);
+  }
 
   render() {
     const {
@@ -48,7 +54,9 @@ class SingleGroupPicker extends Component {
             label = (
               <span>
                 {sector}
-                <MicOk style={{width: 16, height: 16}} color={success} />
+                {this.shouldDisplayEmergencyFrequencies() &&
+                  <MicOk style={{width: 16, height: 16}} color={success} />
+                }
               </span>
             );
           }

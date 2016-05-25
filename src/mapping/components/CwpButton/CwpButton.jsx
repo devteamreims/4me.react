@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+
+import {mapping as mappingConfig} from '../../../config';
 
 import RaisedButton from 'material-ui/lib/raised-button';
 import MicOff from 'material-ui/lib/svg-icons/av/mic-off';
@@ -21,6 +24,10 @@ import './button.scss';
 class CwpButton extends Component {
   constructor(props) {
     super(props);
+  }
+
+  shouldDisplayEmergencyFrequencies() {
+    return !_.get(mappingConfig, 'disableEmergencyRadios', false);
   }
 
   openDialog = () => {
@@ -67,7 +74,7 @@ class CwpButton extends Component {
       <div>
         <PositionName name={name} style={{color: textColor}} />
         <PositionSectors sectorName={prettySectors} style={{color: textColor}} />
-        {!isRadioOk && <MicOff color={error} style={{height: 20, width: 20}} />}
+        {this.shouldDisplayEmergencyFrequencies() && !isRadioOk && <MicOff color={error} style={{height: 20, width: 20}} />}
       </div>
     );
 
