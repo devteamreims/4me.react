@@ -24,7 +24,6 @@ export default function mapReducer(state = defaultState, action) {
     case FETCH:
       return Object.assign({}, state, {
         isLoading: true,
-        map: [],
       });
     case FETCH_COMPLETE:
       return Object.assign({}, state, {
