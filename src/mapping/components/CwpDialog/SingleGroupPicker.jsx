@@ -10,12 +10,6 @@ import {
   success,
 } from '../../../theme/colors';
 
-const style = {
-  legend: {
-    cursor: 'pointer',
-  },
-};
-
 class SingleGroupPicker extends Component {
   isSectorDisabled = (sector) => {
     return _.includes(this.props.boundSectors, sector);
@@ -38,13 +32,15 @@ class SingleGroupPicker extends Component {
       ...other
     } = this.props;
 
+
+
     return (
       <fieldset
         style={style}
       >
         <legend
           onClick={toggleSectors(this.props.sectors)}
-          style={style.legend}
+          style={{cursor: 'pointer'}}
         >
           {this.props.groupName}
         </legend>
