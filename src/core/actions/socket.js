@@ -70,6 +70,11 @@ export function connectSocket() {
         });
     });
 
+    mySocket.on('force_reload', data => {
+      console.log('core/socket: Reloading app');
+      window.location.reload(true);
+    });
+
 
     return mySocket;
   };
