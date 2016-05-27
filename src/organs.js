@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 
 import xman from './xman';
-import arcid from './arcid';
+//import arcid from './arcid';
 import mapping from './mapping';
 
 import { Route } from 'react-router';
@@ -32,7 +32,7 @@ const defaults = {
 const organs = _(
   [
     xman,
-    arcid,
+    //arcid,
     mapping,
   ]
 ).map(organ => _.defaults(organ, defaults))
