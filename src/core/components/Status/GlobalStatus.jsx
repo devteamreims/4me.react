@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
 
   const organStatuses = _.map(organs, organ => {
     const status = organ.getStatus(state);
-    const name = organ.name;
+    const name = organ.displayName;
 
     return {
       name,
