@@ -58,7 +58,7 @@ class MachModeButtons extends Component {
       }
 
       if(mach === advisedMach) {
-        const isSoft = minimumCleanSpeed || appliedMach >= advisedMach;
+        const isSoft = dimmed;
 
         return isSoft ? 'advisedSoft' : 'advised';
       }

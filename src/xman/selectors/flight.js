@@ -49,11 +49,7 @@ export function isActionComplete(advisedSpeed, appliedSpeed, minimumCleanSpeed) 
     return true;
   }
 
-  if(!appliedSpeed) {
-    return false;
-  }
-
-  if(advisedSpeed >= appliedSpeed) {
+  if(appliedSpeed !== null) {
     return true;
   }
 
@@ -91,8 +87,8 @@ export function hasPendingAction(state, ifplId) {
     advised = getAdvisedSpeed(state, ifplId);
     applied = getAppliedSpeed(state, ifplId);
   } else {
-    advised = -getAdvisedMach(state, ifplId);
-    applied = -getAppliedMach(state, ifplId);
+    advised = getAdvisedMach(state, ifplId) === null ? null : -getAdvisedMach(state, ifplId);
+    applied = getAppliedMach(state, ifplId) === null ? null : -getAdvisedMach(state, ifplId);
   }
 
   return !isActionComplete(advised, applied, mcs);
