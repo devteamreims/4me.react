@@ -22,7 +22,9 @@ class SupervisorControl extends Component {
       handleForceOff,
     } = this.props;
 
-    return handleForceOff(fetcher, event, value);
+    // Invert value, since our toggled in active when XMAN is ON
+    // and not when it is forced off
+    return handleForceOff(fetcher, event, !value);
   };
 
   render() {
@@ -44,12 +46,12 @@ class SupervisorControl extends Component {
             toggled={_.get(value, 'forceMcs', false)}
           />,
           <Toggle
-            label={`${fetcher} OFF`}
+            label={`${fetcher} ON/OFF`}
             labelPosition="right"
             style={toggleStyle}
             key={`OFF-${fetcher}`}
             onToggle={this.handleForceOff(fetcher)}
-            toggled={_.get(value, 'forceOff', false)}
+            toggled={!_.get(value, 'forceOff', false)}
           />
         ])}
       </div>
