@@ -18,7 +18,7 @@ export default {
   name: 'xman',
   bootstrap,
   rootComponent,
-  routes: <Route key="xman" path='/xman' component={rootComponent} />,
+  routes: <Route key="xman" path="/xman" component={rootComponent} />,
   rootReducer,
   onSectorChange,
   getNotifications,

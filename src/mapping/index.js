@@ -15,7 +15,7 @@ export default {
   linkTo: 'mapping',
   bootstrap,
   rootComponent,
-  routes: <Route key="mapping" path='/mapping' component={rootComponent} />,
+  routes: <Route key="mapping" path="/mapping" component={rootComponent} />,
   rootReducer,
   getStatus,
 };

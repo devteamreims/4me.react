@@ -19,7 +19,7 @@ export default {
   displayName: 'ETFMS PROFILE',
   bootstrap,
   rootComponent,
-  routes: <Route key="arcid" path='/arcid' component={rootComponent} />,
+  routes: <Route key="arcid" path="/arcid" component={rootComponent} />,
   rootReducer,
   onSectorChange,
   getStatus,
