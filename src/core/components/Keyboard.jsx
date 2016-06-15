@@ -15,7 +15,12 @@ import {
   lightBlack,
 } from 'material-ui/lib/styles/colors';
 
+import {
+  canvasColor,
+} from '../../theme/colors';
+
 const backgroundColor = lightBlack;
+const keyBackgroundColor = canvasColor;
 
 class Keyboard extends Component {
 
@@ -100,7 +105,7 @@ class Keyboard extends Component {
                 key={index}
                 onClick={this.onClickHandler(target, key)}
                 style={buttonStyles}
-                backgroundColor={fullBlack}
+                backgroundColor={keyBackgroundColor}
               >
                 {key}
               </KeyboardButton>
