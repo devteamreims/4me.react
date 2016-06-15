@@ -28,8 +28,7 @@
       "&& npm run build:html && webpack -p --config ./config/webpack.config.demo.js --progress --cwp-id 33",
       "&& mv build demo/cwp33"
     ],
-    "lint": "eslint config src/**/*.js src/**/*.jsx",
-    "jscs": "jscs src/js/",
+    "lint": "eslint src/**/*.js src/**/*.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -45,11 +44,13 @@
     "colors": "1.1.2",
     "copy-webpack-plugin": "0.3.3",
     "css-loader": "0.23.1",
-    "eslint": "1.10.3",
-    "eslint-plugin-react": "3.16.1",
+    "eslint": "2.10.0",
+    "eslint-config-airbnb": "9.0.1",
+    "eslint-plugin-import": "1.8.1",
+    "eslint-plugin-jsx-a11y": "1.4.2",
+    "eslint-plugin-react": "5.1.1",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.8.5",
-    "jscs": "2.10.1",
     "node-sass": "3.7.0",
     "progress-bar-webpack-plugin": "1.6.0",
     "react-addons-perf": "0.14.7",
