@@ -18,6 +18,7 @@ import theme from '../../../theme';
 
 import PointProfileLegend from './PointProfileLegend';
 import ColoredFlightLevel from './ColoredFlightLevel';
+import ColorizedContent from '../../../core/components/ColorizedContent';
 import Trend from './Trend';
 
 const defaultStyles = {
@@ -174,7 +175,9 @@ class PointProfile extends Component {
                   <TableRowColumn
                     style={styles.tableBodyColumn}
                   >
-                    {_.get(point, 'airspace.center', 'XXXX')}
+                    <ColorizedContent hash={_.get(point, 'airspace.center', 'XXXX')}>
+                      {_.get(point, 'airspace.center', 'XXXX')}
+                    </ColorizedContent>
                   </TableRowColumn>
                   <TableRowColumn
                     style={styles.tableBodyColumn}
