@@ -15,6 +15,8 @@ import Keyboard from './Keyboard';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import mainTheme from '../../theme';
 
+import '../../styles/disable-select.scss';
+
 export class App extends Component {
 
   constructor(props) {
@@ -85,17 +87,25 @@ export class App extends Component {
       children,
       shouldZoomUi,
       uiZoom,
+      shouldDisableSelect,
     } = this.props;
 
     const styles = shouldZoomUi ? {
       zoom: uiZoom,
-    } : undefined;
+    } : {};
+
+    let className;
+
+    if(shouldDisableSelect) {
+      className = 'disable-select';
+    }
 
     if(isErrored) {
       return (
         <LoadingScreen
           actions={<FlatButton label="Reload" onTouchTap={this.handleRestart} />}
           style={styles}
+          className={className}
         >
           {errorMessage}
         </LoadingScreen>
@@ -104,7 +114,10 @@ export class App extends Component {
 
     if(isBootstrapping) {
       return (
-        <LoadingScreen style={styles}>
+        <LoadingScreen
+          className={className}
+          style={styles}
+        >
           {bootstrapMessage}
         </LoadingScreen>
       );
@@ -116,7 +129,10 @@ export class App extends Component {
     } = this.state;
 
     return (
-      <div style={styles}>
+      <div
+        className={className}
+        style={styles}
+      >
         <TopBar id="topbar" />
         <div id="main-wrap">
             <div id="leftnav">
@@ -159,6 +175,7 @@ const mapStateToProps = (state) => {
     bootstrapMessage: getBootstrappingString(state),
     errorMessage: getErrorString(state),
     shouldZoomUi: isNormalCwp(state),
+    shouldDisableSelect: !(process.env.NODE_ENV === 'development' || __DEMO__ === true),
     uiZoom: 1.20,
   };
 };

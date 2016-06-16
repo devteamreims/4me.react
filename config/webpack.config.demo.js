@@ -20,6 +20,7 @@ module.exports = (cwpId, pathPrefix) => {
     ...e.plugins,
     new webpack.DefinePlugin({
       'process.env.CWP_ID': JSON.stringify(cwpId),
+      '__DEMO__': JSON.stringify(true),
     }),
   ];
 
