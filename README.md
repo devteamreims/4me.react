@@ -2,6 +2,9 @@
 
 This is 4ME main client.
 
+[![Dependencies](https://david-dm.org/devteamreims/4me.react.svg)](https://david-dm.org/devteamreims/4me.react)
+
+
 ## Build (dev env)
 
 ```
