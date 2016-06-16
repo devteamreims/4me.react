@@ -61,6 +61,11 @@ class PointProfileLegend extends Component {
               <TableHeaderColumn
                 style={styles.tableHeaderColumn}
               >
+                Center
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                style={styles.tableHeaderColumn}
+              >
                 FL
               </TableHeaderColumn>
               <TableHeaderColumn

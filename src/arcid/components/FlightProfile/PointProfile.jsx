@@ -174,6 +174,11 @@ class PointProfile extends Component {
                   <TableRowColumn
                     style={styles.tableBodyColumn}
                   >
+                    {_.get(point, 'airspace.center', 'XXXX')}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={styles.tableBodyColumn}
+                  >
                     <ColoredFlightLevel flightLevel={point.flightLevel} />
                   </TableRowColumn>
                   <TableRowColumn
