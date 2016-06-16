@@ -17,10 +17,9 @@ export class GlobalStatus extends Component {
       displayLevel,
     } = this.props;
 
-    console.log(organStatuses);
-
     return (
       <div style={style}>
+        <h3>Version {process.env.VERSION}</h3>
         <SingleStatus
           key="core"
           title={coreStatus.name}

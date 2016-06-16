@@ -20,6 +20,7 @@ const plugins = [
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development'),
+    'process.env.VERSION': JSON.stringify(require('../package.json').version),
     __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
   }),
   new webpack.ProvidePlugin({
