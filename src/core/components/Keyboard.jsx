@@ -56,11 +56,32 @@ class Keyboard extends Component {
     target.dispatchEvent(keyUpEvent);
 
     const valueBefore = target.value;
+
+    let {
+      selectionStart,
+      selectionEnd,
+    } = target;
+
     // Change target's value
     if(key === '{BACKSPACE}') {
-      target.value = valueBefore.substring(0, valueBefore.length - 1);
+      if(selectionEnd === selectionStart) {
+        // Here we have nothing selected, remove char before selectionStart
+
+        // Move caret backwards
+        selectionStart--;
+
+        // Remove selected character
+        target.value = valueBefore.slice(0, target.selectionStart - 1 > 0 ? target.selectionStart - 1 : 0) + valueBefore.slice(target.selectionEnd, valueBefore.length);
+      } else {
+        // Here, we have a substring selected, remove it
+        // No need to move the caret here, selectionStart is fine
+        target.value = valueBefore.slice(0, target.selectionStart) + valueBefore.slice(target.selectionEnd, valueBefore.length);
+      }
     } else {
-      target.value = valueBefore + key;
+      // Add key
+      target.value = valueBefore.slice(0, selectionStart) + key + valueBefore.slice(selectionEnd, valueBefore.length);
+      // Move caret forward
+      selectionStart++;
     }
 
     if(valueBefore !== target.value) {
@@ -68,6 +89,8 @@ class Keyboard extends Component {
       const changeEvent = new Event('input', {bubbles: true});
       target.dispatchEvent(changeEvent);
     }
+
+    target.setSelectionRange(selectionStart, selectionStart);
   };
 
   render() {
