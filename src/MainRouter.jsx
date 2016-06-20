@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
 
-
 import App from './core/components/App';
 import NotFoundView from './core/views/NotFoundView';
 import Status from './core/components/Status';
@@ -20,9 +19,9 @@ const organRoutes = _.map(organs, (organ) =>
 class MainRouter extends Component {
   render() {
     const {
-      indexRoute,
-      ...other,
+      ...other
     } = this.props;
+
     return (
       <Router
         history={hashHistory}
