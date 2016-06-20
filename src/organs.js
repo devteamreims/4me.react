@@ -35,12 +35,13 @@ const organs = _(
     arcid,
     mapping,
   ]
-).map(organ => _.defaults(organ, defaults))
-.map(organ => Object.assign({}, {
-  linkTo: _.kebabCase(organ.name),
-  displayName: _.capitalize(organ.name),
-}, organ))
-.value();
+)
+  .map(organ => _.defaults(organ, defaults))
+  .map(organ => Object.assign({}, {
+    linkTo: _.kebabCase(organ.name),
+    displayName: _.capitalize(organ.name),
+  }, organ))
+  .value();
 
 export function getReducers() {
   return _.reduce(organs, (prev, organ) => {
