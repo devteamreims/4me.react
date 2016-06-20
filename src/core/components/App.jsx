@@ -11,6 +11,7 @@ import LoadingScreen from './LoadingScreen';
 import TopBar from './TopBar';
 import LeftMenu from './LeftMenu';
 import Keyboard from './Keyboard';
+import ReturnToDashboard from './ReturnToDashboard';
 
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import mainTheme from '../../theme';
@@ -66,6 +67,14 @@ export class App extends Component {
 
     startBootstrap();
   };
+
+  handleUserInteraction = _.debounce((ev) => {
+    const {
+      interact,
+    } = this.props;
+
+    interact();
+  }, 100);
 
   componentDidMount() {
     window.addEventListener('focus', this.focusHandler, true);
@@ -132,8 +141,13 @@ export class App extends Component {
       <div
         className={className}
         style={styles}
+        onClick={this.handleUserInteraction}
+        onMouseDown={this.handleUserInteraction}
+        onKeyDown={this.handleUserInteraction}
+        onWheel={this.handleUserInteraction}
       >
         <TopBar id="topbar" />
+        <ReturnToDashboard />
         <div id="main-wrap">
             <div id="leftnav">
               <LeftMenu location={location} />
@@ -154,6 +168,10 @@ export class App extends Component {
 import { startBootstrap } from '../actions/bootstrap';
 
 import {
+  interact,
+} from '../actions/returnToDashboard';
+
+import {
   isBootstrapping,
   getBootstrappingString,
   isErrored,
@@ -166,6 +184,7 @@ import {
 
 const mapDispatchToProps = {
   startBootstrap,
+  interact,
 };
 
 const mapStateToProps = (state) => {
