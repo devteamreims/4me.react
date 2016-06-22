@@ -1,4 +1,4 @@
-# Current
+# 0.2.2
   * Add Changelog
   * Add a precommit linting rule
   * Add david-dm badge to README
