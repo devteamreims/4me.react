@@ -21,7 +21,8 @@ const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development'),
     'process.env.VERSION': JSON.stringify(require('../package.json').version),
-    __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+    __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
+    '__DEMO__': JSON.stringify(false),
   }),
   new webpack.ProvidePlugin({
     Promise: "bluebird",
