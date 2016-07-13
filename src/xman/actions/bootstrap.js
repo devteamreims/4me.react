@@ -57,20 +57,17 @@ export function onSectorChange(oldSectors, newSectors) {
   return (dispatch, getState) => {
     console.log('Dispatching xman on sector change');
 
-    if(_.isEmpty(oldSectors) !== _.isEmpty(newSectors)) {
-      // Here, we have a transition like :
-      // no sectors => sectors or sectors => no sectors
-      const newFilter = _.isEmpty(newSectors) ? 'all' : 'geographical';
-      return Promise.all([
-        // setFilter will refresh xman list
-        dispatch(setFilter(newFilter)),
-      ]);
+    const sectorToNoSectors = _.isEmpty(oldSectors) !== _.isEmpty(newSectors);
+
+    let newFilter;
+
+    if(sectorToNoSectors) {
+      newFilter = _.isEmpty(newSectors) ? 'all' : 'geographical';
     }
 
-
-
     return Promise.all([
-      dispatch(refreshFullList()),
+      // setFilter will refresh xman list
+      dispatch(setFilter(newFilter)),
     ]);
   };
 }

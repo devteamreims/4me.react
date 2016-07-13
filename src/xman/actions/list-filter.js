@@ -22,14 +22,16 @@ import {
   clear as clearFlightList,
 } from './flight-list';
 
-export function setFilter(type = 'all') {
+export function setFilter(type) {
   return (dispatch, getState) => {
-    const acceptedValues = ['all', 'geographical', 'vertical'];
+    const acceptedValues = [undefined, 'all', 'geographical', 'vertical'];
 
     if(!_.includes(acceptedValues, type)) {
       throw new Error(`xman/actions/list-filter/setFilter : type ${type} is not a valid filter`);
       return;
     }
+
+    // When 'type' is undefined, do not change the type of filter, but update socket subscription
 
     // Dispatch action
     switch(type) {
