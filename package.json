@@ -28,7 +28,7 @@
       "&& npm run build:html && webpack -p --config ./config/webpack.config.demo.js --progress --cwp-id 33",
       "&& mv build demo/cwp33"
     ],
-    "lint": "eslint src/**/*.js src/**/*.jsx",
+    "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "precommit": [
