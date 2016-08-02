@@ -24,7 +24,7 @@ export default {
   displayName: 'control room',
   linkTo: 'mapping',
   bootstrap,
-  rootComponent,
+  rootComponent: enhancedComponent,
   routes: <Route key="mapping" path="/mapping" component={enhancedComponent} />,
   rootReducer,
   getStatus,

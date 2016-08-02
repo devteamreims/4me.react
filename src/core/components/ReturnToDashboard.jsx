@@ -66,11 +66,14 @@ class ReturnToDashboard extends Component {
     }
 
 
+    // Present time is after return to dashboard timeout, redirect user
     if(moment().isAfter(returnToDashboardTime)) {
+      // Redirect
       router.push(targetRoute || '/');
 
       this.setState(initialState);
 
+      // Disable future redirect
       if(redirectEnabled) {
         disableRedirect();
       }
@@ -78,6 +81,8 @@ class ReturnToDashboard extends Component {
       return;
     }
 
+
+    // Calculate progress to display or not the progress bar
     const interval = moment(returnToDashboardTime).diff(lastUserInteraction);
 
 
@@ -115,9 +120,7 @@ class ReturnToDashboard extends Component {
     } = this.props;
 
     if(!showProgress || !redirectEnabled) {
-      return (
-        <span></span>
-      );
+      return null;
     }
 
     return (

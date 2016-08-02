@@ -29,9 +29,27 @@ export default function withRedirectToDashboard(getShouldEnableRedirection, getT
         const {
           enableRedirect,
           targetRoute,
+          shouldEnableRedirection,
         } = this.props;
 
-        enableRedirect(targetRoute);
+        if(shouldEnableRedirection) {
+          enableRedirect(targetRoute);
+        }
+      }
+
+      componentDidUpdate(prevProps) {
+        const {
+          enableRedirect,
+          disableRedirect,
+          shouldEnableRedirection,
+          targetRoute,
+        } = this.props;
+
+        if(shouldEnableRedirection) {
+          enableRedirect(targetRoute);
+        } else {
+          disableRedirect();
+        }
       }
 
       componentWillUnmount() {
