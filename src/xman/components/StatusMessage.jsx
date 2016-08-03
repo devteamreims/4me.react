@@ -7,18 +7,15 @@ import Paper from 'material-ui/lib/paper';
 
 
 class StatusMessage extends Component {
-
   render() {
     const {
       messages,
-      ...other
+      ...other,
     } = this.props;
 
-    const inside = _.map(messages, message => {
-      return (
-        <h3 style={{margin: 0}}>{message}</h3>
-      );
-    });
+    const inside = _.map(messages, message =>
+      <h3 style={{margin: 0}}>{message}</h3>
+    );
 
     return (
       <Paper
@@ -33,7 +30,6 @@ class StatusMessage extends Component {
 }
 
 import {
-  getStatus,
   getMessages,
 } from '../selectors/status';
 

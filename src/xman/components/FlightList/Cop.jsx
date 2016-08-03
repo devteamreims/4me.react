@@ -1,34 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import moment from 'moment';
 
 import ToneDowner from './ToneDowner';
 
-class Cop extends Component {
-  render() {
-    const {
-      name,
-      targetTime,
-      estimatedTime,
-      overrideText,
-    } = this.props;
+const Cop = ({name, targetTime, overrideText}) => {
+  const tto = moment.utc(targetTime);
+  const estimates = tto.format('HH:mm');
 
-    const tto = moment.utc(targetTime);
-    const estimates = tto.format('HH:mm');
-
-    return (
-      <div style={{flexDirection: 'column'}}>
-        <ToneDowner
-          path="cop"
-          value={name}
-        >
-          <span>{name}</span>
-        </ToneDowner>
-        <div>{overrideText || estimates}</div>
-      </div>
-    );
-  }
-}
+  return (
+    <div style={{flexDirection: 'column'}}>
+      <ToneDowner
+        path="cop"
+        value={name}
+      >
+        <span>{name}</span>
+      </ToneDowner>
+      <div>{overrideText || estimates}</div>
+    </div>
+  );
+};
 
 Cop.propTypes = {
   name: React.PropTypes.string.isRequired,

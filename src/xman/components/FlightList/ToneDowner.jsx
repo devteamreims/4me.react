@@ -28,7 +28,6 @@ class ToneDowner extends Component {
     const {
       isHighlighted,
       style,
-      ...other,
     } = this.props;
 
     const defaultStyle = {
@@ -38,7 +37,7 @@ class ToneDowner extends Component {
       cursor: 'pointer',
     };
 
-    if(isHighlighted) {
+    if (isHighlighted) {
       Object.assign(defaultStyle, {color: highlightColor});
     }
 
@@ -47,8 +46,6 @@ class ToneDowner extends Component {
       onMouseLeave: this.handleMouseLeave,
       style: Object.assign({}, defaultStyle, style),
     };
-
-
 
     return React.cloneElement(this.props.children, mergedProps);
   }

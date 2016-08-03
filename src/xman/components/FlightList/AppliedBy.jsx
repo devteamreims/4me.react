@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-//import moment from 'moment';
+// import moment from 'moment';
 
 import TimeAgo from '../../../utils/components/TimeAgo';
 
@@ -15,28 +15,16 @@ const style = {
   sectors: {},
 };
 
-class AppliedBy extends Component {
-
-  render() {
-    const {
-      cwpName,
-      prettySectors,
-      when,
-      flight,
-    } = this.props;
-
-    return (
-      <div style={style.wrapper}>
-        <span
-          style={style.sectors}
-        >
-          {prettySectors || cwpName}
-        </span>
-        {when !== 0 && <TimeAgo when={when} style={style.when} />}
-      </div>
-    );
-  }
-}
+const AppliedBy = ({cwpName, prettySectors, when}) => (
+  <div style={style.wrapper}>
+    <span
+      style={style.sectors}
+    >
+      {prettySectors || cwpName}
+    </span>
+    {when !== 0 && <TimeAgo when={when} style={style.when} />}
+  </div>
+);
 
 AppliedBy.propTypes = {
   ifplId: React.PropTypes.string.isRequired,

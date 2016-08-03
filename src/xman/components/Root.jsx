@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-
 import Divider from 'material-ui/lib/divider';
 
 import FlightList from './FlightList';
@@ -43,12 +41,10 @@ import {
   shouldDisplayList,
 } from '../selectors/status';
 
-const mapStateToProps = (state) => {
-  return {
-    shouldDisplayMessage: shouldDisplayMessage(state),
-    shouldDisplayList: shouldDisplayList(state),
-  };
-};
+const mapStateToProps = (state) => ({
+  shouldDisplayMessage: shouldDisplayMessage(state),
+  shouldDisplayList: shouldDisplayList(state),
+});
 
 const mapDispatchToProps = {
 };

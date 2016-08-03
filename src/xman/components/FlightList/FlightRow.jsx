@@ -8,7 +8,6 @@ import ActionButtons from './ActionButtons';
 import AppliedBy from './AppliedBy';
 
 import TableRow from 'material-ui/lib/table/table-row';
-import TableHeader from 'material-ui/lib/table/table-header';
 import TableRowColumn from 'material-ui/lib/table/table-row-column';
 
 import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
@@ -32,7 +31,6 @@ class FlightRow extends Component {
       isHighlighted,
       isTonedDown,
       widths,
-      ...other,
     } = this.props;
 
     const {
@@ -54,11 +52,11 @@ class FlightRow extends Component {
 
     let i = 0;
 
-    if(isHighlighted) {
+    if (isHighlighted) {
       Object.assign(style.tableRow, {backgroundColor: highlightedColor});
     }
 
-    if(isTonedDown) {
+    if (isTonedDown) {
       Object.assign(style.tableRow, {color: tonedDownColor});
     }
 
@@ -68,9 +66,9 @@ class FlightRow extends Component {
 
     let copOverrideText;
 
-    if(isForcedOff) {
+    if (isForcedOff) {
       copOverrideText = 'XMAN OFF';
-    } else if(isForcedMcs) {
+    } else if (isForcedMcs) {
       copOverrideText = 'FORCE MCS';
     }
 

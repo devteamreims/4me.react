@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import _ from 'lodash';
+
 import Toggle from 'material-ui/lib/toggle';
 
 
@@ -52,7 +54,7 @@ class SupervisorControl extends Component {
             key={`OFF-${fetcher}`}
             onToggle={this.handleForceOff(fetcher)}
             toggled={!_.get(value, 'forceOff', false)}
-          />
+          />,
         ])}
       </div>
     );

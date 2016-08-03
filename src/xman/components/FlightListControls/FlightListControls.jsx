@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import FilterControl from './FilterControl';
 import SupervisorControl from './SupervisorControl';
@@ -28,7 +29,7 @@ class FlightListControls extends Component {
       selectedFilter,
     } = this.props;
 
-    if(value === selectedFilter) {
+    if (value === selectedFilter) {
       return;
     }
 
@@ -57,13 +58,9 @@ class FlightListControls extends Component {
       hasSudoPower,
       showExtendedControls,
       selectedFilter,
-      setFilter,
       isLoading,
       fetchers,
-      ...other,
     } = this.props;
-
-    console.log(fetchers);
 
 
     return (
