@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import _ from 'lodash';
 
-import Toggle from 'material-ui/lib/toggle';
+import Toggle from 'material-ui/Toggle';
 
 
 const toggleStyle = {

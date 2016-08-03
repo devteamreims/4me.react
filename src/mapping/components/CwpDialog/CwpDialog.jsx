@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
-import AppBar from 'material-ui/lib/app-bar';
-import Divider from 'material-ui/lib/divider';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import AppBar from 'material-ui/AppBar';
+import Divider from 'material-ui/Divider';
 
 
 import SectorPicker from './SectorPicker';

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-import TrendUp from 'material-ui/lib/svg-icons/action/trending-up';
-import TrendFlat from 'material-ui/lib/svg-icons/action/trending-flat';
-import TrendDown from 'material-ui/lib/svg-icons/action/trending-down';
+import TrendUp from 'material-ui/svg-icons/action/trending-up';
+import TrendFlat from 'material-ui/svg-icons/action/trending-flat';
+import TrendDown from 'material-ui/svg-icons/action/trending-down';
 
 
 import {
   blue500,
   green500,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 const colors = {
   CLIMB: blue500,

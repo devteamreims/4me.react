@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import UndoIcon from 'material-ui/lib/svg-icons/content/undo';
+import UndoIcon from 'material-ui/svg-icons/content/undo';
 
 import {
   redA200,
   grey700,
   fullBlack,
   fullWhite,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 import XmanButton from './XmanButton';
 

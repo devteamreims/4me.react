@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Paper from 'material-ui/lib/paper';
-import MenuItem from 'material-ui/lib/menus/menu-item';
+import Paper from 'material-ui/Paper';
+import MenuItem from 'material-ui/MenuItem';
 
 import { Link } from 'react-router';
 

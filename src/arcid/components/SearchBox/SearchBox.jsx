@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import AutoComplete from './CustomAutoComplete';
-import IconButton from 'material-ui/lib/icon-button';
-import SearchIcon from 'material-ui/lib/svg-icons/action/search';
-import RefreshIcon from 'material-ui/lib/svg-icons/navigation/refresh';
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import IconButton from 'material-ui/IconButton';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import AutoCompleteFlight from './AutoCompleteFlight';
 import Spinner from './Spinner';

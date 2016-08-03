@@ -1,7 +1,7 @@
 import React from 'react';
 
-import IconButton from 'material-ui/lib/icon-button';
-import Refresh from 'material-ui/lib/svg-icons/navigation/refresh';
+import IconButton from 'material-ui/IconButton';
+import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
 const RefreshButton = (state) => (
   <IconButton

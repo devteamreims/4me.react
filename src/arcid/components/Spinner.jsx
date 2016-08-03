@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import MenuItem from 'material-ui/MenuItem';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 const styles = {
   container: {
@@ -13,7 +13,7 @@ const styles = {
   }
 };
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {pure} from 'recompose';
 
 class Spinner extends Component {
   /*
@@ -21,12 +21,6 @@ class Spinner extends Component {
    * unless value is already a MenuItem or a Divider
    */
   static displayName = 'MenuItem';
-
-  constructor(props) {
-    super(props);
-
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
 
   defaultProps = {
     show: false,
@@ -60,4 +54,4 @@ class Spinner extends Component {
   }
 }
 
-export default Spinner;
+export default pure(Spinner);

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import MenuItem from 'material-ui/lib/menus/menu-item';
+import MenuItem from 'material-ui/MenuItem';
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {pure} from 'recompose'
 
 class EmptyResults extends Component {
   /*
@@ -17,9 +17,8 @@ class EmptyResults extends Component {
     this.props = {
       show: true,
     };
-
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
+
   render() {
     const {
       show,
@@ -39,4 +38,4 @@ class EmptyResults extends Component {
   }
 }
 
-export default EmptyResults;
+export default pure(EmptyResults);

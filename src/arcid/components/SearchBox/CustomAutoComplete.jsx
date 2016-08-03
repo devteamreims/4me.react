@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import keycode from 'keycode';
-import TextField from 'material-ui/lib/text-field';
-import Menu from 'material-ui/lib/menus/menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import Divider from 'material-ui/lib/divider';
-import Popover from 'material-ui/lib/popover/popover';
-import propTypes from 'material-ui/lib/utils/prop-types';
+
+import TextField from 'material-ui/TextField';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
+import Popover from 'material-ui/Popover';
+
+import propTypes from 'material-ui/utils/propTypes';
 import warning from 'warning';
-import deprecated from 'material-ui/lib/utils/deprecatedPropType';
+import deprecated from 'material-ui/utils/deprecatedPropType';
 
 function getStyles(props, context, state) {
   const {anchorEl} = state;

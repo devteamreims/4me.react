@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+
+import RaisedButton from 'material-ui/RaisedButton';
+
 import {
   fullWhite,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 import {
   accent1Color,
 } from '../../../theme/colors';
 
 import Loader from './Loader';
-import RaisedButton from 'material-ui/lib/raised-button';
 
 class SectorSuggestor extends Component {
 

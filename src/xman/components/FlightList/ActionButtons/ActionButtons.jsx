@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {pure} from 'recompose';
 
 import './buttons.scss';
 
@@ -9,11 +9,6 @@ import McsModeButtons from './McsModeButtons';
 import MachModeButtons from './MachModeButtons';
 
 class ActionButtons extends Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
-
   render() {
     const {
       ifplId,
@@ -88,4 +83,4 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 
-export default connect(mapStateToProps)(ActionButtons);
+export default connect(mapStateToProps)(pure(ActionButtons));

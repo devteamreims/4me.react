@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const defaultStyle = {
   minWidth: 0,
   width: 60,
 };
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {pure} from 'recompose';
 
 class XmanButton extends Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
-
   render() {
     const {
       style: propsStyle,
@@ -32,4 +27,4 @@ class XmanButton extends Component {
   }
 }
 
-export default XmanButton;
+export default pure(XmanButton);

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
 
-import RaisedButton from 'material-ui/lib/raised-button';
-import FlatButton from 'material-ui/lib/flat-button';
-import Divider from 'material-ui/lib/divider';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
 
 import Spinner from '../Spinner';
 import PointProfile from './PointProfile';

@@ -7,14 +7,13 @@ import Cop from './Cop';
 import ActionButtons from './ActionButtons';
 import AppliedBy from './AppliedBy';
 
-import TableRow from 'material-ui/lib/table/table-row';
-import TableRowColumn from 'material-ui/lib/table/table-row-column';
+import {TableRow, TableRowColumn} from 'material-ui/Table';
 
-import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
+import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
 import {
   faintBlack,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 import {
   primary1Color,

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import FlatButton from 'material-ui/lib/flat-button';
+import FlatButton from 'material-ui/FlatButton';
 
 import LoadingScreen from './LoadingScreen';
 import TopBar from './TopBar';
@@ -13,7 +13,7 @@ import LeftMenu from './LeftMenu';
 import Keyboard from './Keyboard';
 import ReturnToDashboard from './ReturnToDashboard';
 
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import mainTheme from '../../theme';
 
 import '../../styles/disable-select.scss';

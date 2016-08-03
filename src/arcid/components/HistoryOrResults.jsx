@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Tabs from 'material-ui/lib/tabs/tabs';
-import Tab from 'material-ui/lib/tabs/tab';
+import {
+  Tab,
+  Tabs,
+} from 'material-ui/Tabs';
 
 import History from './History';
 import Results from './Results';

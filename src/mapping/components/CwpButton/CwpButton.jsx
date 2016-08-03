@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import {mapping as mappingConfig} from '../../../config';
 
-import RaisedButton from 'material-ui/lib/raised-button';
-import MicOff from 'material-ui/lib/svg-icons/av/mic-off';
+import RaisedButton from 'material-ui/RaisedButton';
+import MicOff from 'material-ui/svg-icons/av/mic-off';
 
 import PositionName from './PositionName';
 import PositionSectors from './PositionSectors';

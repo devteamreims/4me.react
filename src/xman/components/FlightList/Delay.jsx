@@ -4,7 +4,7 @@ import {
   orange800,
   yellow300,
   green500,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 function delayToColor(delay) {
   if (delay >= 7) {
