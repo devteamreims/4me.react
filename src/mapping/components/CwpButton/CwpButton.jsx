@@ -54,6 +54,15 @@ class CwpButton extends Component {
     const buttonStyle = {
       height: size,
       width: size,
+      borderRadius: '50%',
+    };
+
+    const containerStyle = {
+      minHeight: size,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     };
 
     let themeString = 'normal';
@@ -71,7 +80,7 @@ class CwpButton extends Component {
     const { backgroundColor, textColor } = theme;
 
     const inside = (
-      <div>
+      <div style={containerStyle}>
         <PositionName name={name} style={{color: textColor}} />
         <PositionSectors sectorName={prettySectors} style={{color: textColor}} />
         {this.shouldDisplayEmergencyFrequencies() && !isRadioOk && <MicOff color={error} style={{height: 20, width: 20}} />}
@@ -84,6 +93,7 @@ class CwpButton extends Component {
         style={buttonStyle}
         onClick={this.openDialog}
         className="mapping-cwp-button"
+        rippleStyle={{borderRadius: '50%'}}
       >
         {inside}
       </RaisedButton>

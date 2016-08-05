@@ -1,3 +1,8 @@
 div.mapping-cwp-button, div.mapping-cwp-button > button {
   border-radius: 50% !important;
 }
+
+/* Override material-ui overlay style */
+div.mapping-cwp-button > button > div, div.mapping-cwp-button > button > div > div {
+  border-radius: 50% !important;
+}
