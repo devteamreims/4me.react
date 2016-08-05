@@ -99,9 +99,15 @@ export class App extends Component {
       shouldDisableSelect,
     } = this.props;
 
-    const styles = shouldZoomUi ? {
-      zoom: uiZoom,
-    } : {};
+
+    const styles = {};
+
+    // Here we apply zoom to body
+    // Some material-ui components will not remain self contained in our DOM tree
+    // Some will append elements to document.body, hence the need for a full body zoom level
+    if(shouldZoomUi) {
+      document.body.style.zoom = uiZoom;
+    }
 
     let className;
 
