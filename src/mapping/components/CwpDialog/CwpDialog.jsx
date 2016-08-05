@@ -187,7 +187,8 @@ class CwpDialog extends Component {
     const fullTitle = (
       <AppBar
         title={<span style={style.title}>{this.computeTitleString()}</span>}
-        iconElementLeft={<div></div>}
+        showMenuIconButton={false}
+        style={{padding: '0 12px', marginBottom: '12px'}}
       />
     );
 
