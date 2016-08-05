@@ -13,6 +13,8 @@ import AutoCompleteFlight from './AutoCompleteFlight';
 import Spinner from './Spinner';
 import EmptyResults from './EmptyResults';
 
+import MenuItem from 'material-ui/MenuItem';
+
 import theme from '../../../theme';
 
 const style = {
@@ -145,13 +147,21 @@ class SearchBox extends Component {
           return {
             text: callsign,
             value: (
-              <AutoCompleteFlight
-                callsign={callsign}
-                departure={departure}
-                destination={destination}
-                eobt={eobt}
-                searchString={searchString}
-              />
+              <MenuItem
+                style={{
+                  paddingTop: '5px',
+                  paddingBottom: '5px',
+                  lineHeight: '20px',
+                }}
+              >
+                <AutoCompleteFlight
+                  callsign={callsign}
+                  departure={departure}
+                  destination={destination}
+                  eobt={eobt}
+                  searchString={searchString}
+                />
+              </MenuItem>
             ),
             ...flight,
           };
@@ -193,6 +203,7 @@ class SearchBox extends Component {
           hintText="Search callsign"
           dataSource={dataSource}
           fullWidth={true}
+          animated={false}
           filter={AutoComplete.noFilter}
           underlineFocusStyle={style.underlineStyle}
           onSubmit={this.handlePerformQuery}

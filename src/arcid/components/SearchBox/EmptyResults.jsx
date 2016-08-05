@@ -2,40 +2,30 @@ import React, { Component } from 'react';
 
 import MenuItem from 'material-ui/MenuItem';
 
-import {pure} from 'recompose'
-
 class EmptyResults extends Component {
   /*
    * mui AutoComplete tries to wrap 'value' in a <MenuItem > component
    * unless value is already a MenuItem or a Divider
    */
-  static displayName = 'MenuItem';
-
-  constructor(props) {
-    super(props);
-
-    this.props = {
-      show: true,
-    };
-  }
+  static muiName = MenuItem.muiName;
 
   render() {
     const {
       show,
     } = this.props;
 
-    if(show) {
-      return (
-        <MenuItem
-          disabled={true}
-        >
-          <i>Nothing found ...</i>
-        </MenuItem>
-      );
+    if(!show) {
+      return null;
     }
 
-    return <span></span>;
+    return (
+      <MenuItem
+        disabled={true}
+      >
+        <i>Nothing found ...</i>
+      </MenuItem>
+    );
   }
 }
 
-export default pure(EmptyResults);
+export default EmptyResults;

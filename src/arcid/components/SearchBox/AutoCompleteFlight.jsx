@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import {ListItem} from 'material-ui/List';
 import Highlighter from 'react-highlighter';
+import MenuItem from 'material-ui/MenuItem';
 
 import theme from '../../../theme';
 
@@ -26,8 +27,6 @@ const style = {
 };
 
 class AutoCompleteFlight extends Component {
-  static muiName = 'MenuItem';
-
   render() {
     const {
       callsign,
@@ -40,7 +39,7 @@ class AutoCompleteFlight extends Component {
     const formattedEobt = moment.utc(eobt).format('YYYY-MM-DD HH:mm');
 
     return (
-      <div style={style.container}>
+      <div style={{display: 'flex', flexDirection: 'column', cursor: 'pointer'}}>
         <h3 style={style.callsign}>
           <Highlighter
             search={searchString}
@@ -50,7 +49,7 @@ class AutoCompleteFlight extends Component {
             {_.toUpper(callsign)}
           </Highlighter>
         </h3>
-        <span style={style.depDest}>{departure} -> {destination}</span><br />
+        <span style={style.depDest}>{departure} -> {destination}</span>
         <span style={style.EOBT}>EOBT : {formattedEobt}</span>
       </div>
     );
