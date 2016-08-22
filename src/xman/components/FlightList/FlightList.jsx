@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import LinearProgress from 'material-ui/lib/linear-progress';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import FlightRow from './FlightRow';
 import theme from '../../../theme';
 
-import Table from 'material-ui/lib/table/table';
-import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
-import TableRow from 'material-ui/lib/table/table-row';
-import TableHeader from 'material-ui/lib/table/table-header';
-import TableBody from 'material-ui/lib/table/table-body';
+import {
+  Table,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableBody
+} from 'material-ui/Table';
 
 const style = {
   table: {

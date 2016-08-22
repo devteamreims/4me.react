@@ -13,7 +13,7 @@ const keys = [
 import {
   fullBlack,
   lightBlack,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 import {
   canvasColor,
@@ -141,8 +141,8 @@ class Keyboard extends Component {
 }
 
 
-import FlatButton from 'material-ui/lib/flat-button';
-import BackspaceIcon from 'material-ui/lib/svg-icons/content/backspace';
+import FlatButton from 'material-ui/FlatButton';
+import BackspaceIcon from 'material-ui/svg-icons/content/backspace';
 
 class KeyboardButton extends Component {
 

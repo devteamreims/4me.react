@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 import {mapping as mappingConfig} from '../../../config';
 
-import Checkbox from 'material-ui/lib/checkbox';
-import MicOk from 'material-ui/lib/svg-icons/av/mic';
+import Checkbox from 'material-ui/Checkbox';
+import MicOk from 'material-ui/svg-icons/av/mic';
 
 import {
   success,

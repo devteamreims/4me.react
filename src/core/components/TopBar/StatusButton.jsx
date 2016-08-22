@@ -1,11 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
 
-import IconButton from 'material-ui/lib/icon-button';
+import IconButton from 'material-ui/IconButton';
 
-import Normal from 'material-ui/lib/svg-icons/action/done';
-import Warning from 'material-ui/lib/svg-icons/alert/warning';
-import Err from 'material-ui/lib/svg-icons/alert/error';
+import Normal from 'material-ui/svg-icons/action/done';
+import Warning from 'material-ui/svg-icons/alert/warning';
+import Err from 'material-ui/svg-icons/alert/error';
 
 import {
   warning,

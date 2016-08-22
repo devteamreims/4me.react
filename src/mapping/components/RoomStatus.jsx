@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import {mapping as mappingConfig} from '../../config';
 
-import Paper from 'material-ui/lib/paper';
+import Paper from 'material-ui/Paper';
 import EmergencyFrequency from './EmergencyFrequency';
 
 class RoomStatus extends Component {

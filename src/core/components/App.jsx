@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import FlatButton from 'material-ui/lib/flat-button';
+import FlatButton from 'material-ui/FlatButton';
 
 import LoadingScreen from './LoadingScreen';
 import TopBar from './TopBar';
@@ -13,7 +13,7 @@ import LeftMenu from './LeftMenu';
 import Keyboard from './Keyboard';
 import ReturnToDashboard from './ReturnToDashboard';
 
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import mainTheme from '../../theme';
 
 import '../../styles/disable-select.scss';
@@ -99,9 +99,15 @@ export class App extends Component {
       shouldDisableSelect,
     } = this.props;
 
-    const styles = shouldZoomUi ? {
-      zoom: uiZoom,
-    } : {};
+
+    const styles = {};
+
+    // Here we apply zoom to body
+    // Some material-ui components will not remain self contained in our DOM tree
+    // Some will append elements to document.body, hence the need for a full body zoom level
+    if(shouldZoomUi) {
+      document.body.style.zoom = uiZoom;
+    }
 
     let className;
 

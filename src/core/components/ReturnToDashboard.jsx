@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
-import LinearProgress from 'material-ui/lib/linear-progress';
+import LinearProgress from 'material-ui/LinearProgress';
 
 const initialState = {
   showProgress: false,

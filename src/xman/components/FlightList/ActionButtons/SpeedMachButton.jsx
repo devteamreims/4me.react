@@ -7,11 +7,11 @@ import {
   fullWhite,
   fullBlack,
   grey700,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
 import XmanButton from './XmanButton';
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {pure} from 'recompose';
 
 function prepareStyles(xmanState = 'empty', dimmed = false) {
   let labelColor = fullBlack;
@@ -41,12 +41,6 @@ function prepareStyles(xmanState = 'empty', dimmed = false) {
 }
 
 class SpeedMachButton extends Component {
-  constructor(props) {
-    super(props);
-
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
-
   render() {
     const {
       xmanState,
@@ -78,4 +72,4 @@ SpeedMachButton.propTypes = {
   dimmed: React.PropTypes.bool,
 };
 
-export default SpeedMachButton;
+export default pure(SpeedMachButton);

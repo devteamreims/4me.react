@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import RadioButton from 'material-ui/lib/radio-button';
-import RadioButtonGroup from 'material-ui/lib/radio-button-group';
-import Toggle from 'material-ui/lib/toggle';
+import Toggle from 'material-ui/Toggle';
 
 const style = {
   group: {

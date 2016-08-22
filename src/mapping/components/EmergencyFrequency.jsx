@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import IconButton from 'material-ui/lib/icon-button';
-import MicOk from 'material-ui/lib/svg-icons/av/mic';
-import MicOff from 'material-ui/lib/svg-icons/av/mic-off';
-import Popover from 'material-ui/lib/popover/popover';
+import IconButton from 'material-ui/IconButton';
+import MicOk from 'material-ui/svg-icons/av/mic';
+import MicOff from 'material-ui/svg-icons/av/mic-off';
+import Popover from 'material-ui/Popover';
 
 import {
   success,

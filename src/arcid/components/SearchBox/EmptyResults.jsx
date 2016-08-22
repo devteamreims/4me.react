@@ -1,41 +1,30 @@
 import React, { Component } from 'react';
 
-import MenuItem from 'material-ui/lib/menus/menu-item';
-
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import MenuItem from 'material-ui/MenuItem';
 
 class EmptyResults extends Component {
   /*
    * mui AutoComplete tries to wrap 'value' in a <MenuItem > component
    * unless value is already a MenuItem or a Divider
    */
-  static displayName = 'MenuItem';
+  static muiName = MenuItem.muiName;
 
-  constructor(props) {
-    super(props);
-
-    this.props = {
-      show: true,
-    };
-
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
   render() {
     const {
       show,
     } = this.props;
 
-    if(show) {
-      return (
-        <MenuItem
-          disabled={true}
-        >
-          <i>Nothing found ...</i>
-        </MenuItem>
-      );
+    if(!show) {
+      return null;
     }
 
-    return <span></span>;
+    return (
+      <MenuItem
+        disabled={true}
+      >
+        <i>Nothing found ...</i>
+      </MenuItem>
+    );
   }
 }
 

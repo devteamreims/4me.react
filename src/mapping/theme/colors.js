@@ -3,9 +3,9 @@ import {
   indigo500,
   fullWhite,
   fullBlack,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
-import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
+import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
 export const cwpButton = {
   normal: {

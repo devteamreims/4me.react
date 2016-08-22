@@ -1,6 +1,6 @@
 import React from 'react';
 import pure from 'recompose/pure';
-import SvgIcon from 'material-ui/lib/svg-icon';
+import SvgIcon from 'material-ui/SvgIcon';
 
 let NumericBox1 = (props) => (
   <SvgIcon {...props}>

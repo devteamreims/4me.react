@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Divider from 'material-ui/lib/divider';
+import {
+  List,
+  ListItem,
+} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
 
 import theme from '../../theme';
-import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
+import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
 const styles = {
   selectedItem: {

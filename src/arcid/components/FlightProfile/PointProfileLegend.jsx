@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
-import Table from 'material-ui/lib/table/table';
-import TableHeader from 'material-ui/lib/table/table-header';
-import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
-import TableRow from 'material-ui/lib/table/table-row';
+import {
+  Table,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+} from 'material-ui/Table';
 
 import theme from '../../../theme';
 

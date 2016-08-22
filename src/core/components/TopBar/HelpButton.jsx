@@ -1,7 +1,7 @@
 import React from 'react';
 
-import IconButton from 'material-ui/lib/icon-button';
-import Help from 'material-ui/lib/svg-icons/action/help';
+import IconButton from 'material-ui/IconButton';
+import Help from 'material-ui/svg-icons/action/help';
 
 const HelpButton = (state) => (
   <IconButton

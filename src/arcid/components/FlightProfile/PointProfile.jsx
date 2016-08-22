@@ -6,13 +6,14 @@ import moment from 'moment';
 
 import shallowCompare from 'react-addons-shallow-compare';
 
-import Table from 'material-ui/lib/table/table';
-import TableHeader from 'material-ui/lib/table/table-header';
-import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
-import TableBody from 'material-ui/lib/table/table-body';
-import TableRow from 'material-ui/lib/table/table-row';
-import TableRowColumn from 'material-ui/lib/table/table-row-column';
-
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn
+} from 'material-ui/Table';
 
 import theme from '../../../theme';
 

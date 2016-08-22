@@ -1,4 +1,4 @@
-import * as Colors from 'material-ui/lib/styles/colors';
+import * as Colors from 'material-ui/styles/colors';
 
 export const success = Colors.green600;
 export const warning = Colors.orange800;

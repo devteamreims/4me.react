@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import XmanButton from './XmanButton';
 
-import AirplaneIcon from 'material-ui/lib/svg-icons/maps/flight';
+import AirplaneIcon from 'material-ui/svg-icons/maps/flight';
 
 import {
   green500,
@@ -10,16 +10,11 @@ import {
   fullBlack,
   grey700,
   orange800,
-} from 'material-ui/lib/styles/colors';
+} from 'material-ui/styles/colors';
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {pure} from 'recompose';
 
 class McsButton extends Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
-
   render() {
     const {
       selected = false,
@@ -59,4 +54,4 @@ McsButton.propTypes = {
   dimmed: React.PropTypes.bool,
 };
 
-export default McsButton;
+export default pure(McsButton);

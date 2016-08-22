@@ -28,7 +28,8 @@ export function createRootReducer(reducers) {
 export default function configureStore(initialState) {
   let enhancer;
   const logger = createLogger();
-  const middleware = applyMiddleware(thunk, logger);
+  //const middleware = applyMiddleware(thunk, logger);
+  const middleware = applyMiddleware(thunk);
 
   if (process.env.NODE_ENV !== 'production') {
     const getDebugSessionKey = () => {

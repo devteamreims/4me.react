@@ -4,14 +4,16 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import AutoComplete from './CustomAutoComplete';
-import IconButton from 'material-ui/lib/icon-button';
-import SearchIcon from 'material-ui/lib/svg-icons/action/search';
-import RefreshIcon from 'material-ui/lib/svg-icons/navigation/refresh';
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import IconButton from 'material-ui/IconButton';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import AutoCompleteFlight from './AutoCompleteFlight';
 import Spinner from './Spinner';
 import EmptyResults from './EmptyResults';
+
+import MenuItem from 'material-ui/MenuItem';
 
 import theme from '../../../theme';
 
@@ -145,13 +147,21 @@ class SearchBox extends Component {
           return {
             text: callsign,
             value: (
-              <AutoCompleteFlight
-                callsign={callsign}
-                departure={departure}
-                destination={destination}
-                eobt={eobt}
-                searchString={searchString}
-              />
+              <MenuItem
+                style={{
+                  paddingTop: '5px',
+                  paddingBottom: '5px',
+                  lineHeight: '20px',
+                }}
+              >
+                <AutoCompleteFlight
+                  callsign={callsign}
+                  departure={departure}
+                  destination={destination}
+                  eobt={eobt}
+                  searchString={searchString}
+                />
+              </MenuItem>
             ),
             ...flight,
           };
@@ -193,6 +203,7 @@ class SearchBox extends Component {
           hintText="Search callsign"
           dataSource={dataSource}
           fullWidth={true}
+          animated={false}
           filter={AutoComplete.noFilter}
           underlineFocusStyle={style.underlineStyle}
           onSubmit={this.handlePerformQuery}

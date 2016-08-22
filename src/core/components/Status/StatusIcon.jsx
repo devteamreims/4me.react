@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import NormalIcon from 'material-ui/lib/svg-icons/action/done';
-import WarningIcon from 'material-ui/lib/svg-icons/alert/warning';
-import ErrorIcon from 'material-ui/lib/svg-icons/alert/error';
+import NormalIcon from 'material-ui/svg-icons/action/done';
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
+import ErrorIcon from 'material-ui/svg-icons/alert/error';
 
 import {
   success,
