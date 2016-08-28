@@ -1,5 +1,6 @@
 # 0.2.3
   * Properly update XMAN socket subscription
+
 # 0.2.2
   * Add Changelog
   * Add a precommit linting rule
