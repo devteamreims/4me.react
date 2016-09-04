@@ -29,7 +29,8 @@
       "&& mv build demo/cwp33"
     ],
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check-deps": "npm-check --production"
   },
   "precommit": [],
   "devDependencies": {
@@ -74,6 +75,7 @@
     "material-ui": "0.15.4",
     "moment": "2.12.0",
     "node-neat": "1.7.2",
+    "npm-check": "5.2.3",
     "react": "15.3.1",
     "react-addons-shallow-compare": "15.3.1",
     "react-dom": "15.3.1",
