@@ -1,3 +1,9 @@
+# v0.2.4
+  * Correct returnToDashboard mechanism [#103](devteamreims/4ME#103)/[#104](devteamreims/4ME#104)
+  * Setup ESLint for this project
+  * Migrate to react 15 and material-ui 0.15 [#106](devteamreims/4ME#106)
+  * Add npm-check script and integrates with gitlab-ci [#115](devteamreims/4ME#115)/[#45](devteamreims/4ME#45)
+
 # 0.2.3
   * Properly update XMAN socket subscription
 
@@ -5,11 +11,11 @@
   * Add Changelog
   * Add a precommit linting rule
   * Add david-dm badge to README
-  * Add version to status page [#91](https://github.com/devteamreims/4ME/issues/91)
-  * Prevent drag to select in prod env [#94](https://github.com/devteamreims/4ME/issues/94)
-  * Fix keyboard caret position handling [#93](https://github.com/devteamreims/4ME/issues/93)
-  * Add elastic return to homepage [#90](https://github.com/devteamreims/4ME/issues/90)
-  * Display control center in pointProfile [#66](https://github.com/devteamreims/4ME/issues/66)
+  * Add version to status page [#91](devteamreims/4ME#91)
+  * Prevent drag to select in prod env [#94](devteamreims/4ME#94)
+  * Fix keyboard caret position handling [#93](devteamreims/4ME#93)
+  * Add elastic return to homepage [#90](devteamreims/4ME#90)
+  * Display control center in pointProfile [#66](devteamreims/4ME#66)
 
 # 0.2.1
   * Initial version
