@@ -11,6 +11,7 @@
   },
   "bugs": "https://github.com/devteamreims/4ME/issues",
   "scripts": {
+    "preversion": "git add Changelog.md",
     "clean:build": "rm -rf build && mkdir build",
     "build:html": "node ./bin/buildHtml.js",
     "prestart": "rm -rf build",
