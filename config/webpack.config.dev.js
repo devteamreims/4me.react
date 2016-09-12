@@ -1,9 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const neatPaths = require('node-neat').includePaths.map((p) => {
-  return "includePaths[]=" + p;
-}).join('&');
+const neatPaths = require('node-neat').includePaths
+  .map(p => `includePaths[]= + ${p}`);
+  .join('&');
 
 // App files location
 const PATHS = {
@@ -31,9 +31,6 @@ const plugins = [
 ];
 
 const sassLoaders = [
-  'style-loader',
-  'css-loader?sourceMap',
-  'autoprefixer-loader',
   'sass-loader?outputStyle=expanded&' + neatPaths
 ];
 
@@ -55,9 +52,6 @@ module.exports = {
   resolve: {
     // We can now require('file') instead of require('file.jsx')
     extensions: ['', '.js', '.jsx', '.scss'],
-    /*alias:{
-      'material-ui': '/home/kouak/Dev/node/material-ui',
-    },*/
   },
   module: {
     loaders: [
@@ -68,11 +62,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: sassLoaders.join('!')
+        loaders: ['style-loader', 'css-loader', 'postcss-loader', ...sassLoaders]
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!autoprefixer-loader'
+        loaders: ['style-loader', 'css-loader', 'postcss-loader']
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {

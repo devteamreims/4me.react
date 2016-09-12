@@ -42,15 +42,14 @@ const plugins = [
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false
-    }
+    },
+    exclude: ['src/api.endpoints.js'],
   }),
   // This plugin moves all the CSS into a separate stylesheet
   new ExtractTextPlugin('css/app.css', { allChunks: true })
 ];
 
 const sassLoaders = [
-  'css-loader?sourceMap',
-  'autoprefixer-loader',
   'sass-loader?outputStyle=expanded&' + neatPaths,
 ];
 
@@ -81,12 +80,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!'))
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader', ...sassLoaders)
       },
       {
         test: /\.css$/,
         include: PATHS.styles,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader')
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader')
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
