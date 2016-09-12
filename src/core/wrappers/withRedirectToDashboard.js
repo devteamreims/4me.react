@@ -98,5 +98,3 @@ export default function withRedirectToDashboard(getShouldEnableRedirection, getT
     return connect(mapStateToProps, mapDispatchToProps)(withRouter(wrapped));
   };
 };
-
-export default withRedirectToDashboard;
