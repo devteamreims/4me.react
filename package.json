@@ -16,7 +16,8 @@
     "prestart": "rm -rf build",
     "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.config.dev.js --hot --inline --progress",
     "prebuild": "npm run clean:build",
-    "build": "NODE_ENV=production webpack -p --config ./config/webpack.config.prod.js --progress",
+    "build:ci": "NODE_ENV=production webpack -p --config ./config/webpack.config.prod.js",
+    "build": "npm run build:ci -- --progress",
     "build:demo": "NODE_ENV=production && rm -rf demo && mkdir demo && node ./bin/buildDemo.js",
     "build:demo_old": [
       "NODE_ENV=production",

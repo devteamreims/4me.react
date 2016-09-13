@@ -28,7 +28,7 @@ build:artifact:
   stage: build
   script:
     - npm install --silent
-    - npm run build
+    - npm run build:ci
   artifacts:
     paths:
       - build/
