@@ -5,6 +5,7 @@ const neatPaths = require('node-neat').includePaths;
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // App files location
 const PATHS = {
@@ -23,14 +24,12 @@ const plugins = [
     minimize: true,
     debug: false
   }),
-  /*
   new CopyWebpackPlugin([
     {
-      from: PATHS.images,
-      to: 'images'
-    }
+      from: PATHS.app + '/config.api.js',
+      to: PATHS.build + '/js/config.api.js'
+    },
   ]),
-  */
   // Shared code
   //new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'js/vendor.bundle.js'}),
   // Avoid publishing files when compilation fails
@@ -59,12 +58,11 @@ module.exports = {
   entry: {
     app: PATHS.entry,
     vendor: ['react'],
-    api: PATHS.app + '/api.endpoints.js',
   },
   output: {
     path: PATHS.build,
     filename: 'js/[name].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   stats: {
     colors: true
@@ -80,7 +78,8 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        include: PATHS.app
+        include: PATHS.app,
+        exclude: PATHS.app + '/config.api.js',
       },
       {
         test: /\.scss$/,

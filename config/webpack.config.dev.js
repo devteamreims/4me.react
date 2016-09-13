@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const neatPaths = require('node-neat').includePaths;
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../src'),
@@ -27,6 +29,12 @@ const plugins = [
     Promise: "bluebird",
   }),
   new webpack.NamedModulesPlugin(),
+  new CopyWebpackPlugin([
+    {
+      from: PATHS.app + '/config.api.js',
+      to: PATHS.build + '/js/config.api.js',
+    },
+  ]),
   new HtmlWebpackPlugin({
     template: PATHS.app + '/index.html',
   }),
@@ -61,7 +69,8 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        include: PATHS.app
+        include: PATHS.app,
+        exclude: [PATHS.app + '/config.api.js']
       },
       {
         test: /\.scss$/,
