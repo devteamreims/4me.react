@@ -1,3 +1,7 @@
+# Master
+  * Update dependencies, use Webpack2
+  * Extract API endpoints configuration to a separate file, non bundled, and overridable at runtime
+  
 # v0.2.4
   * Correct returnToDashboard mechanism [#103](devteamreims/4ME#103)/[#104](devteamreims/4ME#104)
   * Setup ESLint for this project
