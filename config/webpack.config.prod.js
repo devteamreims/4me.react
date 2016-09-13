@@ -25,7 +25,7 @@ const plugins = [
     }
   ]),
   // Shared code
-  new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.bundle.js'),
+  new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'js/vendor.bundle.js'}),
   // Avoid publishing files when compilation fails
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
@@ -37,7 +37,6 @@ const plugins = [
   new webpack.ProvidePlugin({
     Promise: "bluebird",
   }),
-  new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -46,7 +45,7 @@ const plugins = [
     exclude: ['src/api.endpoints.js'],
   }),
   // This plugin moves all the CSS into a separate stylesheet
-  new ExtractTextPlugin('css/app.css', { allChunks: true })
+  new ExtractTextPlugin({filename: 'css/app.css', allChunks: true })
 ];
 
 const sassLoaders = [
@@ -80,12 +79,16 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader', ...sassLoaders)
+        loader: ExtractTextPlugin.extract({
+          loader: ['style-loader', 'css-loader', 'postcss-loader', ...sassLoaders],
+        })
       },
       {
         test: /\.css$/,
         include: PATHS.styles,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader')
+        loader: ExtractTextPlugin.extract({
+          loader: ['style-loader', 'css-loader', 'postcss-loader'],
+        }),
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
