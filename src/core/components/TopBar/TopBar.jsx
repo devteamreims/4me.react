@@ -11,6 +11,9 @@ import Clock from './Clock';
 
 import { Link } from 'react-router';
 
+import * as Colors from '../../../theme/colors';
+
+
 export class TopBar extends Component {
   _goToDashboard() {
     const {
@@ -22,6 +25,19 @@ export class TopBar extends Component {
 
   _goToStatus() {
     this.context.router.push('/status');
+  }
+
+  getColor = () => {
+    const {
+      sectors,
+      isNormalCwp,
+    } = this.props;
+
+    if(isNormalCwp && _.isEmpty(sectors)) {
+      return Colors.accent1Color;
+    }
+
+    return Colors.primary1Color;
   }
 
   render() {
@@ -59,7 +75,7 @@ export class TopBar extends Component {
           </div>
         }
         iconElementLeft={<span></span>}
-        style={{flexShrink: '0'}}
+        style={{flexShrink: '0', backgroundColor: this.getColor()}}
       />
     );
   }
@@ -73,6 +89,7 @@ TopBar.contextTypes = {
 
 import {
   getCwpName,
+  isNormalCwp,
 } from '../../selectors/cwp';
 
 import {
@@ -96,6 +113,7 @@ const mapStateToProps = (state) => {
   return {
     cwpName: getCwpName(state),
     sectors,
+    isNormalCwp: isNormalCwp(state),
     prettifiedSectors: getPrettifySectors(state)(sectors),
     status: getGlobalStatusString(state),
     indexRoute: getIndexRoute(state),

@@ -1,6 +1,7 @@
 # Master
   * Update dependencies, use Webpack2
   * Extract API endpoints configuration to a separate file, non bundled, and overridable at runtime
+  * Change topbar color when no sectors are bound [#108](devteamreims/4ME#108)
   
 # v0.2.4
   * Correct returnToDashboard mechanism [#103](devteamreims/4ME#103)/[#104](devteamreims/4ME#104)
