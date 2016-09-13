@@ -1,31 +1,38 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const neatPaths = require('node-neat').includePaths.map((p) => {
-  return "includePaths[]=" + p;
-}).join('&');
+const neatPaths = require('node-neat').includePaths;
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../src'),
-  entry: path.resolve(__dirname, '../src/main.js'),
+  entry: path.resolve(__dirname, '../src/index.js'),
   styles: path.resolve(__dirname, '../src/styles'),
   images: path.resolve(__dirname, '../src/images'),
   build: path.resolve(__dirname, '../build')
 };
 
 const plugins = [
+  new HtmlWebpackPlugin({
+    template: PATHS.app + '/index.html',
+  }),
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false
+  }),
+  /*
   new CopyWebpackPlugin([
     {
       from: PATHS.images,
       to: 'images'
     }
   ]),
+  */
   // Shared code
-  new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'js/vendor.bundle.js'}),
+  //new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'js/vendor.bundle.js'}),
   // Avoid publishing files when compilation fails
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
@@ -37,25 +44,22 @@ const plugins = [
   new webpack.ProvidePlugin({
     Promise: "bluebird",
   }),
-  new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.UglifyJsPlugin({
+  /*new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false
     },
     exclude: ['src/api.endpoints.js'],
   }),
-  // This plugin moves all the CSS into a separate stylesheet
-  new ExtractTextPlugin({filename: 'css/app.css', allChunks: true })
-];
+  */
 
-const sassLoaders = [
-  'sass-loader?outputStyle=expanded&' + neatPaths,
+  // This plugin moves all the CSS into a separate stylesheet
 ];
 
 module.exports = {
   entry: {
     app: PATHS.entry,
-    vendor: ['react']
+    vendor: ['react'],
+    api: PATHS.app + '/api.endpoints.js',
   },
   output: {
     path: PATHS.build,
@@ -69,26 +73,23 @@ module.exports = {
     // We can now require('file') instead of require('file.jsx')
     extensions: ['', '.js', '.jsx', '.scss']
   },
+  target: 'web',
   module: {
     noParse: /\.min\.js$/,
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['babel'],
         include: PATHS.app
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          loader: ['style-loader', 'css-loader', 'postcss-loader', ...sassLoaders],
-        })
+        loaders: ['style', 'css', 'postcss', 'sass'],
       },
       {
         test: /\.css$/,
         include: PATHS.styles,
-        loader: ExtractTextPlugin.extract({
-          loader: ['style-loader', 'css-loader', 'postcss-loader'],
-        }),
+        loaders: ['style', 'css', 'postcss'],
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
@@ -96,6 +97,9 @@ module.exports = {
         loader: 'url-loader?limit=8192&name=images/[name].[ext]?[hash]'
       },
     ]
+  },
+  sassLoader: {
+    includePaths: neatPaths,
   },
   plugins: plugins,
   devtool: 'source-map'

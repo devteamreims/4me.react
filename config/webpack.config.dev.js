@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 const neatPaths = require('node-neat').includePaths;
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../src'),
@@ -26,17 +27,16 @@ const plugins = [
     Promise: "bluebird",
   }),
   new webpack.NamedModulesPlugin(),
-];
-
-const sassLoaders = [
-  'sass?outputStyle=expanded&' + neatPaths
+  new HtmlWebpackPlugin({
+    template: PATHS.app + '/index.html',
+  }),
 ];
 
 module.exports = {
   env : process.env.NODE_ENV,
   entry: {
     app: [
-      //'webpack-dev-server/client?http://localhost:3000',
+      'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server',
       'react-hot-loader/patch',
       PATHS.entry,
