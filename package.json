@@ -29,7 +29,7 @@
       "&& mv build demo/cwp33"
     ],
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No test specified\" && exit 0",
     "check-deps": "npm-check --production --skip-unused"
   },
   "devDependencies": {
