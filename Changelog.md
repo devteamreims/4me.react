@@ -1,6 +1,6 @@
-# Master
+# v0.2.5
   * Update dependencies, use Webpack2
-  * Extract API endpoints configuration to a separate file, non bundled, and overridable at runtime
+  * Extract API endpoints configuration to a separate file, non bundled, and overridable at runtime [#119](devteamreims/4ME#119)/[#118](devteamreims/4ME#118)
   * Change topbar color when no sectors are bound [#108](devteamreims/4ME#108)
   
 # v0.2.4
