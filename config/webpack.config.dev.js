@@ -1,46 +1,54 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const neatPaths = require('node-neat').includePaths.map((p) => {
-  return "includePaths[]=" + p;
-}).join('&');
+const neatPaths = require('node-neat').includePaths;
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../src'),
-  entry: path.resolve(__dirname, '../src/main.js'),
+  entry: path.resolve(__dirname, '../src/index.js'),
   styles: path.resolve(__dirname, '../src/styles'),
   build: path.resolve(__dirname, '../build')
 };
 
 const plugins = [
-  // Shared code
-  new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.bundle.js'),
+// Shared code
+  new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'js/vendor.bundle.js'}),
   // Avoid publishing files when compilation fails
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development'),
     'process.env.VERSION': JSON.stringify(require('../package.json').version),
-    __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
+    '__DEV__': JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     '__DEMO__': JSON.stringify(false),
   }),
   new webpack.ProvidePlugin({
     Promise: "bluebird",
   }),
-  new webpack.optimize.OccurenceOrderPlugin(),
-];
-
-const sassLoaders = [
-  'style-loader',
-  'css-loader?sourceMap',
-  'autoprefixer-loader',
-  'sass-loader?outputStyle=expanded&' + neatPaths
+  new webpack.NamedModulesPlugin(),
+  new CopyWebpackPlugin([
+    {
+      from: PATHS.app + '/config.api.js',
+      to: PATHS.build + '/js/config.api.js',
+    },
+  ]),
+  new HtmlWebpackPlugin({
+    template: PATHS.app + '/index.html',
+  }),
 ];
 
 module.exports = {
   env : process.env.NODE_ENV,
   entry: {
-    app: PATHS.entry,
+    app: [
+      'webpack-dev-server/client?http://localhost:3000',
+      'webpack/hot/only-dev-server',
+      'react-hot-loader/patch',
+      PATHS.entry,
+    ],
     vendor: ['react']
   },
   output: {
@@ -55,24 +63,28 @@ module.exports = {
   resolve: {
     // We can now require('file') instead of require('file.jsx')
     extensions: ['', '.js', '.jsx', '.scss'],
-    /*alias:{
-      'material-ui': '/home/kouak/Dev/node/material-ui',
-    },*/
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel'],
-        include: PATHS.app
+        loaders: ['babel'],
+        include: PATHS.app,
+        exclude: [PATHS.app + '/config.api.js']
       },
       {
         test: /\.scss$/,
-        loader: sassLoaders.join('!')
+        loaders: [
+          'style',
+          'css',
+          'postcss',
+          'sass',
+        ],
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!autoprefixer-loader'
+        //loader: ['style-loader', 'css-loader', 'postcss-loader']
+        loaders: ['style', 'css', 'postcss'],
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
@@ -80,6 +92,9 @@ module.exports = {
         loader: 'url-loader?limit=8192'
       }
     ],
+  },
+  sassLoader: {
+    includePaths: neatPaths,
   },
   plugins: plugins,
   devServer: {

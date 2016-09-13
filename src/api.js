@@ -1,22 +1,27 @@
-import {
-  mappingUrl,
-  xmanUrl,
-  arcidUrl,
-} from './api.endpoints';
+import {get} from 'lodash';
+
+if(!window.FOURME_CONFIG) {
+  throw new Error('Must have a FOURME_CONFIG variable set ! Please create a config.api.js file');
+}
+
+const coreMappingUrl = get(window.FOURME_CONFIG, 'core_mapping_url', 'core.mapping.4me');
+const mappingUrl = get(window.FOURME_CONFIG, 'mapping_url', 'mapping.4me');
+const arcidUrl = get(window.FOURME_CONFIG, 'arcid_url', 'arcid.4me');
+const xmanUrl = get(window.FOURME_CONFIG, 'xman_url', 'xman.4me');
 
 
 const core = {
   mapping: {
     cwp: {
-      getMine: `${mappingUrl}/cwp/getMine`,
-      getSingle: (cwpId) => `${mappingUrl}/cwp/${cwpId}`,
+      getMine: `${coreMappingUrl}/cwp/getMine`,
+      getSingle: (cwpId) => `${coreMappingUrl}/cwp/${cwpId}`,
     },
     sectors: {
-      getMine: (cwpId) => `${mappingUrl}/mapping/cwp/${cwpId}`,
-      getTree: `${mappingUrl}/sectors`,
+      getMine: (cwpId) => `${coreMappingUrl}/mapping/cwp/${cwpId}`,
+      getTree: `${coreMappingUrl}/sectors`,
     },
   },
-  socket: `${mappingUrl}`,
+  socket: `${coreMappingUrl}`,
 };
 
 const arcid = {

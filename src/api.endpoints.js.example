@@ -1,3 +1,0 @@
-export const mappingUrl = 'http://mapping.4me';
-export const arcidUrl = 'http://arcid.4me';
-export const xmanUrl = 'http://xman.4me';
