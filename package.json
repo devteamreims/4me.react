@@ -31,7 +31,7 @@
     ],
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "check-deps": "npm-check --production"
+    "check-deps": "npm-check --production --skip-unused"
   },
   "precommit": [],
   "devDependencies": {
