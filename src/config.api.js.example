@@ -1,6 +1,8 @@
 // This is 4ME configuration file
 // These are sensible defaults
 window.FOURME_CONFIG = {
+// Override cwpId (demo website)
+  overrideCwpId: 32,
   core_mapping_url:'http://mapping.4me',
   mapping_url: 'http://mapping.4me',
   xman_url: 'http://xman.4me',

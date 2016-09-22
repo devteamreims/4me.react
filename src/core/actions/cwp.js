@@ -13,8 +13,8 @@ export function fetchCwp() {
 
     let apiUrl = api.core.mapping.cwp.getMine;
 
-    if(process.env.CWP_ID) {
-      apiUrl = api.core.mapping.cwp.getSingle(process.env.CWP_ID);
+    if(process.env.CWP_ID || _.get(window, 'FOURME_CONFIG.overrideCwpId')) {
+      apiUrl = api.core.mapping.cwp.getSingle(process.env.CWP_ID || _.get(window, 'FOURME_CONFIG.overrideCwpId'));
     }
 
     return axios.get(apiUrl)
