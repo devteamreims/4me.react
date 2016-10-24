@@ -10,7 +10,7 @@ import {
 } from '../selectors/cwp';
 
 
-import axios from 'axios';
+import axios, {CancelToken} from 'axios';
 
 import api from '../../api';
 
@@ -26,22 +26,17 @@ export const SET_CWP_STATUS = 'mapping/map/SET_CWP_STATUS';
 
 // Refresh CWPs
 // Uses redux thunk
+
+let refreshCancelToken;
+
 export function refreshMap() {
   return (dispatch, getState) => {
-    // Check if loading
-    //let isLoading = isMappingLoading(getState());
-
-    // Here we should abort current request and restart one
-    // This is not currently implemented in axios
-    // See here : https://github.com/mzabriskie/axios/issues/50
-
-    // Current workaround is to let first request fly and to just resend one
-    /*
-    if(isLoading) {
-      console.log('Already loading !!');
+    // Check if a request is already in flight
+    if(refreshCancelToken) {
+      console.log('Cancelling request !');
+      refreshCancelToken.cancel('New request incoming !');
       return;
     }
-    */
 
     dispatch(start());
 
@@ -50,12 +45,24 @@ export function refreshMap() {
 
     console.log('Loading Mapping from backend');
 
-    return axios.get(apiUrl)
-      .then((response) => {
-        return dispatch(complete(response.data));
+    refreshCancelToken = CancelToken.source();
+
+    return axios
+      .get(apiUrl, {
+        cancelToken: refreshCancelToken.token,
       })
-      .catch((error) => {
-        return dispatch(fail(error));
+      .then(
+        response => dispatch(complete(response.data)),
+        error => {
+          if(axios.isCancel(error)) {
+            console.log('Request has been cancelled !');
+            return;
+          }
+          return dispatch(fail(error));
+        }
+      )
+      .then(() => {
+        refreshCancelToken = null;
       });
   }
 }
@@ -144,14 +151,17 @@ function commitMap(map) {
     const apiUrl = api.mapping.map.commit;
 
     return axios.post(apiUrl, map)
-      .catch((error) => {
-        return dispatch(commitFail(error));
-      })
-      .then((response) => {
-        console.log('Commit complete !');
-        console.log(response);
-        return dispatch(commitComplete(response));
-      });
+      .catch()
+      .then(
+        response => {
+          console.log('Commit complete !');
+          console.log(response);
+          return dispatch(commitComplete(response));
+        },
+        error => {
+          return dispatch(commitFail(error));
+        }
+      );
   }
 }
 
