@@ -18,7 +18,11 @@ class CwpDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.state = this._getDefaultState();
+  }
+
+  _getDefaultState() {
+    return {
       tempSectors: _.clone(this.props.boundSectors),
       isDisabled: this.props.isDisabled,
     };
@@ -26,6 +30,12 @@ class CwpDialog extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newState = {};
+
+    // Discard any state when we close or open the dialog
+    if(nextProps.open !== this.props.open) {
+      this.setState(this._getDefaultState);
+      return;
+    }
 
     if(nextProps.isDisabled !== this.props.isDisabled) {
       // Here we have an external prop change, discard internal state
