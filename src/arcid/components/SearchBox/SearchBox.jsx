@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import AutoComplete from './CustomAutoComplete';
+// import AutoComplete from './CustomAutoComplete';
+import AutoComplete from 'material-ui/AutoComplete';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
@@ -28,11 +29,6 @@ const style = {
 };
 
 class SearchBox extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   handlePerformQuery = (event) => { // eslint-disable-line no-unused-vars
     const {
       isLoading,
@@ -99,6 +95,10 @@ class SearchBox extends Component {
     clearSearch();
   };
 
+  handleOnBlur = (event) => { // eslint-disable-line no-unused-vars
+    this.setState({isFocused: false});
+  };
+
   render() {
     const {
       flights,
@@ -122,7 +122,7 @@ class SearchBox extends Component {
 
       dataSource = [spinner];
     } else {
-      if(_.isEmpty(flights)) {
+      if(_.isEmpty(flights) && searchString) {
         const emptyResults = {
           text: 'empty-results',
           value: (
@@ -199,7 +199,7 @@ class SearchBox extends Component {
           hintText="Search callsign"
           dataSource={dataSource}
           fullWidth={true}
-          animated={false}
+          animated={true}
           filter={AutoComplete.noFilter}
           underlineFocusStyle={style.underlineStyle}
           onSubmit={this.handlePerformQuery}
