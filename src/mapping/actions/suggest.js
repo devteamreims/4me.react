@@ -8,9 +8,9 @@ export const COMPLETE = 'mapping/suggest/COMPLETE';
 
 
 export function fetchSuggestions(cwpId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     // Check if loading
-    let isLoading = false;
+    // let isLoading = false;
 
     // Here we should abort current request and restart one
     // This is not currently implemented in axios
@@ -37,8 +37,6 @@ export function fetchSuggestions(cwpId) {
       .catch((error) => {
         return dispatch(fail(cwpId, error));
       });
-
-
   };
 }
 

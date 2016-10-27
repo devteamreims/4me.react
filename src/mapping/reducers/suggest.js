@@ -1,6 +1,3 @@
-import _ from 'lodash';
-
-
 import {
   FETCH,
   COMPLETE,

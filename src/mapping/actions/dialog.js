@@ -3,8 +3,9 @@ export const CLOSE = 'mapping/dialog/CLOSE';
 
 import {
   getCwpById,
-  isDisabled as isCwpDisabled,
 } from '../selectors/cwp';
+
+import _ from 'lodash';
 
 export function open(cwpId) {
   return (dispatch, getState) => {

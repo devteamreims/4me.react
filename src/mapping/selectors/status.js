@@ -21,7 +21,7 @@ const getSocketStatus = (state) => {
   }
 
   return Object.assign({}, defaultSocketStatus, {status: 'critical'});
-}
+};
 
 export const getStatus = (state) => {
   const items = [

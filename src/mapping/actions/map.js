@@ -1,5 +1,5 @@
 import {
-  isLoading as isMappingLoading,
+  isLoading as isMappingLoading, // eslint-disable-line no-unused-vars
   getMap,
   getSectorsByCwpId,
   isEmpty as isCwpEmpty,
@@ -9,8 +9,8 @@ import {
   getCwpById,
 } from '../selectors/cwp';
 
-
 import axios from 'axios';
+import _ from 'lodash';
 
 import api from '../../api';
 
@@ -27,9 +27,9 @@ export const SET_CWP_STATUS = 'mapping/map/SET_CWP_STATUS';
 // Refresh CWPs
 // Uses redux thunk
 export function refreshMap() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     // Check if loading
-    //let isLoading = isMappingLoading(getState());
+    // let isLoading = isMappingLoading(getState());
 
     // Here we should abort current request and restart one
     // This is not currently implemented in axios
@@ -57,7 +57,7 @@ export function refreshMap() {
       .catch((error) => {
         return dispatch(fail(error));
       });
-  }
+  };
 }
 
 export function bindSectorsToCwp(cwpId, sectors) {
@@ -66,14 +66,14 @@ export function bindSectorsToCwp(cwpId, sectors) {
     const cwpExists = !_.isEmpty(getCwpById(getState(), cwpId));
 
     if(!cwpExists) {
-      console.log('Could not bind sectors to unknown cwp !' + cwpId);
+      console.log(`Could not bind sectors to unknown cwp : ${cwpId}!`);
       return Promise.reject();
     }
 
     const boundSectors = getSectorsByCwpId(getState(), cwpId);
 
     if(!_.isEmpty(_.without(boundSectors, ...sectors))) {
-      console.log('Could not remove sectors from cwp !' + cwpId);
+      console.log(`Could not remove sectors from cwp : ${cwpId}`);
       return Promise.reject();
     }
 
@@ -112,11 +112,8 @@ export function bindSectorsToCwp(cwpId, sectors) {
     console.log('New map is :');
     console.log(newMap);
 
-
-
     // commitMap (we will get a refresh signal from the backend)
     return dispatch(commitMap(newMap));
-
   };
 }
 
@@ -137,8 +134,7 @@ export function setStatus(cwpId, disabled = false) {
 }
 
 function commitMap(map) {
-  return (dispatch, getState) => {
-
+  return (dispatch) => {
     dispatch(commitStart());
 
     const apiUrl = api.mapping.map.commit;
@@ -152,7 +148,7 @@ function commitMap(map) {
         console.log(response);
         return dispatch(commitComplete(response));
       });
-  }
+  };
 }
 
 export function commitFail(rawError) {

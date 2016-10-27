@@ -3,8 +3,6 @@ import {
   socketDisconnected,
 } from '../actions/socket';
 
-import _ from 'lodash';
-
 let mySocket;
 
 // Global socketIo object event handler
@@ -13,12 +11,12 @@ export function setupSocketIo(dispatch, socketIo) {
 
   mySocket = socketIo;
 
-  socketIo.on('connect', function(socket) {
+  socketIo.on('connect', (socket) => { // eslint-disable-line no-unused-vars
     console.log('Connected to server !');
     dispatch(socketConnected());
   });
 
-  socketIo.on('disconnect', (socket) => dispatch(socketDisconnected()));
+  socketIo.on('disconnect', (socket) => dispatch(socketDisconnected())); // eslint-disable-line no-unused-vars
 
   attachHandlerToSocket(dispatch, socketIo);
 
@@ -36,13 +34,10 @@ import {
 } from '../actions/map';
 
 export function attachHandlerToSocket(dispatch, socket) {
-
   socket.on('map_updated', (data) => {
     console.log('MAPPING Socket: map_updated');
     console.log(data);
 
     dispatch(setMap(data));
   });
-
-
 }

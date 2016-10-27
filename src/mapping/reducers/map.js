@@ -67,7 +67,7 @@ function handleCwpStatus(state, action) {
   const cwpId = action.cwpId;
 
   const cwp = _.find(state.map, cwp => cwp.cwpId === cwpId) || {};
-  let map = _.reject(state.map, cwp => cwp.cwpId === cwpId);
+  const map = _.reject(state.map, cwp => cwp.cwpId === cwpId);
 
   // This CWP is not in our map and we are trying to enable it
   // Nothing to do

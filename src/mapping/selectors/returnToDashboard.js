@@ -1,6 +1,7 @@
+import _ from 'lodash';
+
 import {
   isNormalCwp,
-  isFmp,
 } from '../../core/selectors/cwp';
 
 import {
@@ -23,4 +24,4 @@ export const shouldRedirectToDashboard = (state) => {
   }
 
   return false;
-}
+};
