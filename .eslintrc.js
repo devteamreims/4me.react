@@ -91,7 +91,7 @@ module.exports = {
     'react/jsx-equals-spacing': 'error',
     'react/jsx-filename-extension': ['error', {extensions: ['.js', '.jsx']}],
     'react/jsx-first-prop-new-line': ['error', 'multiline'],
-    'react/jsx-handler-names': 'error',
+    'react/jsx-handler-names': 'off',
     'react/jsx-indent': ['error', 2],
     'react/jsx-indent-props': ['error', 2],
     'react/jsx-max-props-per-line': ['error', {maximum: 3}],
