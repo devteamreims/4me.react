@@ -12,14 +12,14 @@ const sectorGroups = [
       name: '5R',
       sectors: ['HYR', 'KR', 'XR', 'UR'],
     }
-  ],[
+  ], [
     {
       name: 'KD2F',
       sectors: ['KD', 'KF', 'UF'],
     }, {
       name: '4H',
       sectors: ['HH', 'KH', 'XH', 'UH'],
-    },{
+    }, {
       name: '4E',
       sectors: ['HE', 'KE', 'XE', 'UE'],
     }, {
@@ -36,7 +36,6 @@ class SectorPicker extends Component {
       tempSectors,
       toggleSectors,
       backupedRadios,
-      ...other
     } = this.props;
 
     const styles = {

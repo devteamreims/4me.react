@@ -29,10 +29,7 @@ class SingleGroupPicker extends Component {
       toggleSectors,
       backupedRadios,
       sectors,
-      ...other
     } = this.props;
-
-
 
     return (
       <fieldset
@@ -57,7 +54,7 @@ class SingleGroupPicker extends Component {
             );
           }
           return (
-              <Checkbox
+            <Checkbox
               key={sector}
               label={label}
               checked={this.isSectorChecked(sector)}

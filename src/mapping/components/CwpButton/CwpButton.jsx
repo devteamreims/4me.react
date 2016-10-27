@@ -37,11 +37,12 @@ class CwpButton extends Component {
       cwpId,
     } = this.props;
 
-    isButtonEnabled && openDialog(cwpId);
+    if(isButtonEnabled) {
+      openDialog(cwpId);
+    }
   };
 
   render() {
-
     const {
       isRadioOk,
       isEmpty,
@@ -83,7 +84,11 @@ class CwpButton extends Component {
       <div style={containerStyle}>
         <PositionName name={name} style={{color: textColor}} />
         <PositionSectors sectorName={prettySectors} style={{color: textColor}} />
-        {this.shouldDisplayEmergencyFrequencies() && !isRadioOk && <MicOff color={error} style={{height: 20, width: 20}} />}
+        {
+          this.shouldDisplayEmergencyFrequencies() &&
+          !isRadioOk &&
+          <MicOff color={error} style={{height: 20, width: 20}} />
+        }
       </div>
     );
 
@@ -119,7 +124,6 @@ import {
 
 import {
   isSupervisor,
-  isFmp,
 } from '../../../core/selectors/cwp';
 
 import {
@@ -144,7 +148,6 @@ const mapStateToProps = () => (state, ownProps) => {
 
 import {
   open,
-  close,
 } from '../../actions/dialog';
 
 const mapDispatchToProps = {
