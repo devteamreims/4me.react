@@ -1,6 +1,7 @@
 # Master
   * Correct ESLint setup, add a Gitlab-CI lint job
-  
+  * Allow cwpId to be overriden via external configuration file at loaded at runtime
+
 # v0.2.5
   * Update dependencies, use Webpack2
   * Extract API endpoints configuration to a separate file, non bundled, and overridable at runtime [#119](devteamreims/4ME#119)/[#118](devteamreims/4ME#118)
