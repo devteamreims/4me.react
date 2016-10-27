@@ -52,7 +52,7 @@ class FlightList extends Component {
             departure,
             destination,
             eobt,
-            ifplId,
+            ifplId, // eslint-disable-line no-unused-vars
           } = flight;
 
           const itemStyle = {};

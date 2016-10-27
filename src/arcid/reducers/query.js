@@ -1,11 +1,3 @@
-
-const defaultState = {
-  isLoading: false,
-  callsign: '',
-  error: null,
-  flights: [],
-};
-
 import {
   START,
   COMPLETE,
@@ -18,6 +10,13 @@ import {
   START as PROFILE_START,
 } from '../actions/profile';
 */
+
+const defaultState = {
+  isLoading: false,
+  callsign: '',
+  error: null,
+  flights: [],
+};
 
 export default function queryReducer(state = defaultState, action) {
   switch(action.type) {

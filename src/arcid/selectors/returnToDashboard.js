@@ -12,6 +12,7 @@ import {
   getNotifications as getXmanNotifications,
 } from '../../xman/selectors/notifications';
 
+import _ from 'lodash';
 
 // Redirect from arcid to dashboard if :
 // * Normal CWP
@@ -26,5 +27,4 @@ export const shouldRedirectToDashboard = (state) => {
   }
 
   return isFmp(state) || isSupervisor(state);
-}
-
+};

@@ -2,7 +2,6 @@ const defaultState = {
   visibleTab: 'history',
 };
 
-
 import {
   SELECT_TAB,
 } from '../actions/resultTabs';
@@ -14,4 +13,3 @@ export default function resultTabReducer(state = defaultState, action) {
   }
   return state;
 }
-

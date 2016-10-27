@@ -4,7 +4,6 @@ import TrendUp from 'material-ui/svg-icons/action/trending-up';
 import TrendFlat from 'material-ui/svg-icons/action/trending-flat';
 import TrendDown from 'material-ui/svg-icons/action/trending-down';
 
-
 import {
   blue500,
   green500,
@@ -27,16 +26,14 @@ class Trend extends Component {
 
     switch(trend) {
       case 'CLIMB':
-        return <TrendUp color={color} />
+        return <TrendUp color={color} />;
       case 'CRUISE':
-        return <TrendFlat color={color} />
+        return <TrendFlat color={color} />;
       case 'DESCENT':
-        return <TrendDown color={color} />
+        return <TrendDown color={color} />;
     }
 
-    return (
-      <span></span>
-    );
+    return null;
   }
 }
 

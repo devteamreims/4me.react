@@ -12,7 +12,7 @@ import {
 } from './history';
 
 export function bootstrap() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     console.log('Bootstrapping ARCID !!');
 
     // Only setup a new socket if we don't have one
@@ -38,8 +38,6 @@ export function bootstrap() {
 }
 
 export function onSectorChange() {
-  return (dispatch, getState) => {
-    console.log('Dispatching arcid on sector change');
-    return;
-  };
+  console.log('Dispatching arcid on sector change');
+  return;
 }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import _ from 'lodash';
-
 import ColorizedContent from '../../../core/components/ColorizedContent';
 
 function flightLevelToHash(flightLevel) {
@@ -29,9 +27,9 @@ class ColoredFlightLevel extends Component {
 
 ColoredFlightLevel.propTypes = {
   flightLevel: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]).isRequired,
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]).isRequired,
 };
 
 export default ColoredFlightLevel;

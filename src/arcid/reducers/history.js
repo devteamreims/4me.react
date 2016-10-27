@@ -1,16 +1,17 @@
-const defaultState = {
-  lastUpdated: null,
-  isLoading: false,
-  error: null,
-  flights: [],
-};
-
+import _ from 'lodash';
 
 import {
   FETCH_START,
   FETCH_COMPLETE,
   OPTIMISTIC_ADD,
 } from '../actions/history';
+
+const defaultState = {
+  lastUpdated: null,
+  isLoading: false,
+  error: null,
+  flights: [],
+};
 
 const emptyHistory = [];
 

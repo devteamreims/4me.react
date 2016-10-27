@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-
 export const START = 'arcid/profile/START';
 export const COMPLETE = 'arcid/profile/COMPLETE';
 export const FAIL = 'arcid/profile/FAIL';
@@ -27,7 +26,6 @@ import {
 import {
   hasMultipleResults,
 } from '../selectors/query';
-
 
 export function getProfile(flight, forceRefresh = false) {
   return (dispatch, getState) => {
@@ -72,20 +70,19 @@ export function getProfile(flight, forceRefresh = false) {
         }
 
         return dispatch(complete(results));
-
       })
       .catch((err) => {
-        if(err.status = 404) {
+        if(err.status === 404) {
           return dispatch(error(`${ifplId} : Flight plan not found`, err));
         }
         return dispatch(error(null, err));
       });
-  }
+  };
 }
 
-export function errorNotFound(ifplId, callsign = '') {
-  return (dispatch, getState) => {
-    dispatch(error());
+export function errorNotFound(ifplId, callsign = '') { // eslint no-unused-vars: 0
+  return (dispatch) => {
+    dispatch(error(`${ifplId} / ${callsign} : Not found`));
   };
 }
 
@@ -98,7 +95,7 @@ export function error(err, rawError) {
 }
 
 export function start(ifplId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: START,
       ifplId,
@@ -107,7 +104,7 @@ export function start(ifplId) {
 }
 
 export function complete(profile = {}) {
-  let {
+  const {
     ifplId,
     callsign,
     departure,
@@ -120,7 +117,7 @@ export function complete(profile = {}) {
     fetched,
   } = profile;
 
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: COMPLETE,
       ifplId,

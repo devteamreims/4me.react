@@ -11,12 +11,12 @@ export function setupSocketIo(dispatch, socketIo) {
 
   mySocket = socketIo;
 
-  socketIo.on('connect', function(socket) {
+  socketIo.on('connect', (socket) => { // eslint-disable-line no-unused-vars
     console.log('arcid/socket: Connected to server !');
     dispatch(socketConnected());
   });
 
-  socketIo.on('disconnect', (socket) => dispatch(socketDisconnected()));
+  socketIo.on('disconnect', (socket) => dispatch(socketDisconnected())); // eslint-disable-line no-unused-vars
 
   attachHandlerToSocket(dispatch, socketIo);
 
@@ -34,14 +34,10 @@ import {
 } from '../actions/history';
 
 export function attachHandlerToSocket(dispatch, socket) {
-
   socket.on('update_history', (data) => {
     console.log('UPDATE_FLIGHTS');
     console.log(data);
 
     dispatch(setHistory(data));
   });
-
-
 }
-

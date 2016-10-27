@@ -10,7 +10,7 @@ import api from '../../api';
 const HISTORY_SIZE_LIMIT = 10;
 
 export function refreshHistory() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({type: FETCH_START});
 
     const apiUrl = api.arcid.history;
@@ -29,15 +29,11 @@ export function refreshHistory() {
           type: FETCH_COMPLETE,
           flights: [],
           error: 'An error occured fetching arcid history',
-          rawError: err
+          rawError: err,
         });
       });
   };
 }
-
-import {
-  getFlights,
-} from '../selectors/history';
 
 const formatFlight = (item) => _.pick(item, [
   'ifplId',
@@ -45,22 +41,22 @@ const formatFlight = (item) => _.pick(item, [
   'departure',
   'destination',
   'eobt',
-  'fetched'
+  'fetched',
 ]);
 
 export function optimisticAdd(item) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const flight = formatFlight(item);
 
     return dispatch({
       type: OPTIMISTIC_ADD,
       flight,
     });
-  }
+  };
 }
 
 export function setHistory(rawData) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     return dispatch({
       type: FETCH_COMPLETE,
       flights: _.map(_.take(rawData, HISTORY_SIZE_LIMIT), formatFlight),

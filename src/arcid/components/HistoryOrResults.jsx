@@ -52,15 +52,13 @@ class HistoryOrResults extends Component {
       visibleTab,
     } = this.props;
 
-    let Content = <span></span>;
+    let Content = null;
 
     if(visibleTab === 'history') {
       Content = <History />;
     } else if(visibleTab === 'results') {
-      Content = <Results />
+      Content = <Results />;
     }
-
-
 
     return (
       <div style={styles.outer}>
@@ -99,9 +97,6 @@ import {
 } from '../selectors/resultTabs';
 
 const mapStateToProps = state => {
-
-  const visibleTab = 'history';
-
   return {
     visibleTab: getVisibleTab(state),
   };

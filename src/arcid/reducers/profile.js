@@ -4,13 +4,14 @@ import {
   FAIL,
 } from '../actions/profile';
 
+import _ from 'lodash';
+
 const defaultState = {
   isLoading: false,
   ifplId: null,
   data: {},
   error: null,
 };
-
 
 export default function results(state = defaultState, action) {
   switch(action.type) {

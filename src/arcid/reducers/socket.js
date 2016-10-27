@@ -1,14 +1,13 @@
+import {
+  CONNECTED,
+  DISCONNECTED,
+} from '../actions/socket';
+
 const defaultState = {
   connected: false,
   lastUpdated: Date.now(),
   error: 'Connection to backend failed (websocket)',
 };
-
-
-import {
-  CONNECTED,
-  DISCONNECTED,
-} from '../actions/socket';
 
 export default function statusReducer(state = defaultState, action) {
   switch(action.type) {

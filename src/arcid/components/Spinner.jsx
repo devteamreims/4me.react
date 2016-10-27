@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import MenuItem from 'material-ui/MenuItem';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 const styles = {
@@ -32,26 +31,24 @@ class Spinner extends Component {
       style = {},
     } = this.props;
 
-    if(show) {
-      return (
-        <div
-          style={Object.assign(styles.container, style)}
-        >
-          <RefreshIndicator
-            left={0}
-            top={0}
-            status={show && 'loading'}
-            style={styles.refresh}
-          />
-        </div>
-      );
+    if(!show) {
+      return null;
     }
 
     return (
-      <span></span>
+      <div
+        style={Object.assign(styles.container, style)}
+      >
+        <RefreshIndicator
+          left={0}
+          top={0}
+          status={show && 'loading'}
+          style={styles.refresh}
+        />
+      </div>
     );
-
   }
+
 }
 
 export default pure(Spinner);
