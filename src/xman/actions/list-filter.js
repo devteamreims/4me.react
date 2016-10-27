@@ -1,10 +1,6 @@
 export const SET_FILTER = 'xman/listFilter/SET_FILTER';
 
-
-import {
-  getVerticalFilter,
-  getGeographicalFilter,
-} from '../selectors/list-filter';
+import _ from 'lodash';
 
 import {
   refreshFullList,
@@ -28,7 +24,6 @@ export function setFilter(type) {
 
     if(!_.includes(acceptedValues, type)) {
       throw new Error(`xman/actions/list-filter/setFilter : type ${type} is not a valid filter`);
-      return;
     }
 
     // When 'type' is undefined, do not change the type of filter, but update socket subscription
@@ -55,7 +50,7 @@ export function setFilter(type) {
 
     // Refresh full list
     dispatch(refreshFullList());
-  }
+  };
 }
 
 export function setGeographicalFilter() {
@@ -74,7 +69,7 @@ function setAllFilterAction() {
   return {
     type: SET_FILTER,
     value: 'all',
-  }
+  };
 }
 
 function setVerticalFilterAction() {

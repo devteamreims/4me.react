@@ -67,7 +67,8 @@ export const isForcedMcs = (state, fetcher) => {
 
 
 export const getMessages = (state) => {
-  let messages = [];
+  // We have some mutations on this array later on, hence the 'let' declaration
+  let messages = []; // eslint-disable-line prefer-const
 
   if(_.get(getSocketStatus(state), 'status', 'normal') !== 'normal') {
     return ['Could not reach XMAN backend'];

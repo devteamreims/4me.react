@@ -24,14 +24,6 @@ import {
   DISCONNECTED as SOCKET_DISCONNECTED,
 } from '../actions/socket';
 
-import {
-  getFlightById
-} from '../selectors/flight';
-
-import {
-  getFlights
-} from '../selectors/flight-list';
-
 const defaultState = {
   isLoading: false,
   flights: [],
@@ -47,7 +39,7 @@ export default function flightListReducer(state = defaultState, action) {
     case CLEAR_ACTION:
       return Object.assign({}, state, {
         flights: _.map(state.flights, flightByFlightReducer(action))
-      })
+      });
     case REFRESH:
       return Object.assign({}, state, {
         isLoading: true,
@@ -88,15 +80,13 @@ export default function flightListReducer(state = defaultState, action) {
 }
 
 function updateFlights(state, flight) {
-
   const updatedFlightId = _.get(flight, 'ifplId', null);
 
 
   const oldFlightIndex = _.findIndex(state.flights, f => f.ifplId === updatedFlightId);
   const oldFlight = state.flights[oldFlightIndex];
 
-
-  console.log('Updating flight, index is : ' + oldFlightIndex);
+  console.log(`Updating flight, index is ${oldFlightIndex}`);
   console.log(oldFlight);
 
   return [
@@ -106,9 +96,6 @@ function updateFlights(state, flight) {
   ];
 }
 
-function flightsWithout(flights, ifplIds = []) {
-  return _.reject(flights, f => _.includes(ifplIds, f.ifplId));
-}
 
 function flightByFlightReducer(action) {
   return (flight) => {

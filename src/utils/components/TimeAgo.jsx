@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 class TimeAgo extends Component {
-
   constructor(props) {
     super(props);
 

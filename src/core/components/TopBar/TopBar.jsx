@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
+
+import _ from 'lodash';
 
 import AppBar from 'material-ui/AppBar';
 
@@ -8,8 +9,6 @@ import RefreshButton from './RefreshButton';
 import HelpButton from './HelpButton';
 import StatusButton from './StatusButton';
 import Clock from './Clock';
-
-import { Link } from 'react-router';
 
 import * as Colors from '../../../theme/colors';
 
@@ -74,7 +73,7 @@ export class TopBar extends Component {
             <RefreshButton />
           </div>
         }
-        iconElementLeft={<span></span>}
+        iconElementLeft={<span />}
         style={{flexShrink: '0', backgroundColor: this.getColor()}}
       />
     );
@@ -117,7 +116,7 @@ const mapStateToProps = (state) => {
     prettifiedSectors: getPrettifySectors(state)(sectors),
     status: getGlobalStatusString(state),
     indexRoute: getIndexRoute(state),
-  }
+  };
 };
 
 export default connect(mapStateToProps)(TopBar);

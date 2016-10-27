@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-
 import RaisedButton from 'material-ui/RaisedButton';
-
-import {
-  fullWhite,
-} from 'material-ui/styles/colors';
 
 import {
   accent1Color,
@@ -17,56 +12,46 @@ import Loader from './Loader';
 
 class SectorSuggestor extends Component {
 
-  componentWillMount() {
-    console.log('Mounting Suggestor !');
-    console.log(this.props.cwpId);
-    this.props.fetchSuggestions();
+  componentDidMount() {
+    const { fetchSuggestions } = this.props;
+    fetchSuggestions();
   }
 
   render() {
-    let inner;
+    const {
+      isLoading,
+      suggestions,
+      onSuggestionClick,
+    } = this.props;
 
-    if(this.props.isLoading) {
-      const style = {
-        container: {
-          textAlign: 'center',
-        },
-        refresh: {
-          display: 'inline-block',
-          position: 'relative',
-        },
-      };
 
-      inner = (
-        <Loader />
-      );
+    if(isLoading) {
+      return <Loader />;
+    }
 
-    } else {
-      const buttonStyle = {
-        marginRight: 12,
-        marginBottom: 12,
-      };
+    const buttonStyle = {
+      marginRight: 12,
+      marginBottom: 12,
+    };
 
-      const labelStyle = {
-        fontSize: 20,
-      };
+    const labelStyle = {
+      fontSize: 20,
+    };
 
-      inner = _.map(this.props.suggestions, (s, index) =>
-        (
+
+    return (
+      <div>
+        {_.map(suggestions, (s, index) => (
           <RaisedButton
             key={index}
             label={s.prettySectors}
-            onTouchTap={this.props.onSuggestionClick(s.sectors)}
+            onTouchTap={onSuggestionClick(s.sectors)}
             style={buttonStyle}
             labelStyle={labelStyle}
             backgroundColor={accent1Color}
           />
-        )
-      );
-    }
-
-    return (
-      <div>{inner}</div>
+        ))}
+      </div>
     );
   }
 }
@@ -103,8 +88,6 @@ const mapStateToProps = (state, ownProps) => {
       ...s,
     })
   );
-
-
 
   return {
     isLoading,

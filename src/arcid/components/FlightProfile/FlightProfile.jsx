@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
-import _ from 'lodash';
-
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 
@@ -14,7 +10,7 @@ import TimeAgo from '../../../utils/components/TimeAgo';
 
 const styles = {
   container: {
-    //margin: 10,
+    // margin: 10,
     display: 'flex',
     flexGrow: '1',
     flexDirection: 'column',
@@ -23,7 +19,7 @@ const styles = {
 
 class FlightProfile extends Component {
 
-  handleForceRefresh = (event) => {
+  handleForceRefresh = (ev) => { // eslint-disable-line no-unused-vars
     const {
       fetchProfile,
       flight,
@@ -34,7 +30,6 @@ class FlightProfile extends Component {
 
   render() {
     const {
-      selectedIfplId,
       isErrored,
       error,
       flight,
@@ -49,12 +44,8 @@ class FlightProfile extends Component {
         <span>{error}</span>
       );
     } else if(isEmpty) {
-      Content = (
-        <span></span>
-      );
+      Content = null;
     } else {
-
-      const formattedEobt = moment.utc(flight.eobt).format('YYYY-MM-DD HH:mm');
       Content = (
         <div style={{display: 'flex', flexGrow: '1', flexDirection: 'column'}}>
           <div
@@ -86,7 +77,7 @@ class FlightProfile extends Component {
               />
             </div>
           </div>
-          <Divider style={{flexShrink: '0'}}/>
+          <Divider style={{flexShrink: '0'}} />
           <PointProfile
             pointProfile={flight.pointProfile}
           />

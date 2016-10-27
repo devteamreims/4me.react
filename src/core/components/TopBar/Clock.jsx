@@ -23,7 +23,7 @@ class Clock extends Component {
       ...other,
     } = this.props;
     const time = moment.utc().format('DD/MM HH:mm:ss');
-    return <span {...other} >{time}</span>
+    return (<span {...other} >{time}</span>);
   }
 }
 

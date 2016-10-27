@@ -17,7 +17,7 @@ const defaultStyles = {
   },
   tableHeader: {},
   tableHeaderRow: {
-    //backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    // backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   tableHeaderColumn: {
     fontSize: 20,

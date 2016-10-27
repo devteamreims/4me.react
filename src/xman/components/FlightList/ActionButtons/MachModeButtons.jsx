@@ -11,7 +11,7 @@ const possibleMachs = [0, 1, 2, 3, 4];
 
 class MachModeButtons extends Component {
 
-  handleMcs = (event) => {
+  handleMcs = (event) => { // eslint-disable-line no-unused-vars
     const {
       readOnly,
       setMcs,
@@ -25,7 +25,7 @@ class MachModeButtons extends Component {
     setMcs(!minimumCleanSpeed);
   };
 
-  handleMach = (mach) => (event) => {
+  handleMach = (mach) => (event) => { // eslint-disable-line no-unused-vars
     const {
       readOnly,
       setMach,
@@ -51,8 +51,6 @@ class MachModeButtons extends Component {
     } = this.props;
 
     function getXmanState(mach) {
-      let xmanState = 'empty';
-
       if(mach === appliedMach) {
         return 'selected';
       }
@@ -63,7 +61,7 @@ class MachModeButtons extends Component {
         return isSoft ? 'advisedSoft' : 'advised';
       }
 
-      return xmanState;
+      return 'empty';
     }
 
     return (

@@ -1,8 +1,11 @@
+# Master
+  * Correct ESLint setup, add a Gitlab-CI lint job
+  
 # v0.2.5
   * Update dependencies, use Webpack2
   * Extract API endpoints configuration to a separate file, non bundled, and overridable at runtime [#119](devteamreims/4ME#119)/[#118](devteamreims/4ME#118)
   * Change topbar color when no sectors are bound [#108](devteamreims/4ME#108)
-  
+
 # v0.2.4
   * Correct returnToDashboard mechanism [#103](devteamreims/4ME#103)/[#104](devteamreims/4ME#104)
   * Setup ESLint for this project

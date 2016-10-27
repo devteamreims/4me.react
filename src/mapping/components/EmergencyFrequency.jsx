@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
+
 import IconButton from 'material-ui/IconButton';
 import MicOk from 'material-ui/svg-icons/av/mic';
 import MicOff from 'material-ui/svg-icons/av/mic-off';

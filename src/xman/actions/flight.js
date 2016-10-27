@@ -53,7 +53,7 @@ import {
 import {
   getActionAuthor,
   isFlightInMachMode,
-  getAppliedSpeed,
+  getAppliedSpeed, // eslint-disable-line no-unused-vars
   getAppliedMach,
 } from '../selectors/flight';
 
@@ -84,7 +84,7 @@ export function setMach(ifplId, machReduction) {
 
     // Emit action via socket
     sendXmanAction(ifplId, status);
-  }
+  };
 }
 
 export function setSpeed(ifplId, speed) {
@@ -112,7 +112,7 @@ export function setSpeed(ifplId, speed) {
 
     // Emit action via socket
     sendXmanAction(ifplId, status);
-  }
+  };
 }
 
 export function setMcs(ifplId, mcs) {
@@ -147,8 +147,7 @@ export function setMcs(ifplId, mcs) {
 
     // Emit action via socket
     sendXmanAction(ifplId, status);
-
-  }
+  };
 }
 
 export function clearAction(ifplId) {
@@ -179,5 +178,5 @@ export function clearAction(ifplId) {
 
     // Emit action via socket
     sendXmanAction(ifplId, status);
-  }
+  };
 }

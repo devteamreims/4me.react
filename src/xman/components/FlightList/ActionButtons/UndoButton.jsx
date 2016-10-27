@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import RaisedButton from 'material-ui/RaisedButton';
-
 import UndoIcon from 'material-ui/svg-icons/content/undo';
 
 import {
-  redA200,
   grey700,
   fullBlack,
   fullWhite,
@@ -16,7 +13,7 @@ import XmanButton from './XmanButton';
 
 
 class UndoButton extends Component {
-  handleUndo = (event) => {
+  handleUndo = (event) => { // eslint-disable-line no-unused-vars
     const {
       disabled,
       readOnly,
@@ -30,35 +27,37 @@ class UndoButton extends Component {
     }
 
     clearAction();
-
   };
 
   render() {
-    let {
+    const {
       disabled,
       backgroundColor = fullWhite,
-      iconColor = redA200,
       style,
       dimmed = false,
       ...other,
     } = this.props;
 
+    let overridenBackgroundColor = backgroundColor;
+
 
     if(dimmed) {
-      backgroundColor = grey700;
+      overridenBackgroundColor = grey700;
     } else if(disabled) {
-      backgroundColor = null;
+      overridenBackgroundColor = null;
     }
 
-    return <XmanButton
-      disabled={disabled}
-      icon={<UndoIcon />}
-      labelColor={fullBlack}
-      backgroundColor={backgroundColor}
-      style={style}
-      onClick={this.handleUndo}
-      {...other}
-    />
+    return (
+      <XmanButton
+        disabled={disabled}
+        icon={<UndoIcon />}
+        labelColor={fullBlack}
+        backgroundColor={overridenBackgroundColor}
+        style={style}
+        onClick={this.handleUndo}
+        {...other}
+      />
+    );
   }
 }
 
@@ -74,7 +73,6 @@ import {
 const mapStateToProps = (state, ownProps) => {
   const {
     ifplId,
-    readOnly,
   } = ownProps;
 
   return {
@@ -98,4 +96,3 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(UndoButton);
-

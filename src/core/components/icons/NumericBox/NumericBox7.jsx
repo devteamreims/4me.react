@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 import React from 'react';
 import pure from 'recompose/pure';
 import SvgIcon from 'material-ui/SvgIcon';

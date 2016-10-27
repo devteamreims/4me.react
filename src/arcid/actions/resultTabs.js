@@ -1,6 +1,5 @@
 export const SELECT_TAB = 'arcid/resultTabs/SELECT_TAB';
 
-
 function selectTab(tab) {
   return {
     type: SELECT_TAB,

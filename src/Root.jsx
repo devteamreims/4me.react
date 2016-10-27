@@ -4,7 +4,6 @@ import MainRouter from './MainRouter';
 import { Provider } from 'react-redux';
 
 const Root = ({store}) => {
-
   const DevTools = process.env.NODE_ENV === 'development' && require('./dev/DevTools').default;
 
   return (
@@ -15,7 +14,6 @@ const Root = ({store}) => {
       </div>
     </Provider>
   );
-
-}
+};
 
 export default Root;

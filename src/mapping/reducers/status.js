@@ -1,12 +1,9 @@
-import _ from 'lodash';
 import { combineReducers } from 'redux';
 
 import {
   CONNECTED as SOCKET_CONNECTED,
   DISCONNECTED as SOCKET_DISCONNECTED,
 } from '../actions/socket';
-
-
 
 const defaultSocketState = {
   connected: false,

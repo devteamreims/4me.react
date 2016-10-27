@@ -4,13 +4,9 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import moment from 'moment';
 
-import shallowCompare from 'react-addons-shallow-compare';
-
 import {
   Table,
   TableBody,
-  TableHeader,
-  TableHeaderColumn,
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
@@ -30,7 +26,7 @@ const defaultStyles = {
   },
   tableHeader: {},
   tableHeaderRow: {
-    //backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    // backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   tableHeaderColumn: {
     fontSize: 20,
@@ -52,6 +48,44 @@ class PointProfile extends Component {
 
     this.state = this._processIndex(pointProfile);
     this.refreshInterval = null;
+    this._rowRef = [];
+  }
+
+  componentDidMount() {
+    const interval = 20 * 1000;
+
+    // First, set scroll to proper position
+    const {
+      scrollIndex,
+    } = this.state;
+
+    const ref = this._rowRef[scrollIndex];
+
+    const el = ReactDOM.findDOMNode(ref);
+
+    if(el) {
+      el.scrollIntoView();
+    }
+
+    // Then, make the highlight bar progress as the flight moves
+    this.refreshInterval = setInterval(() => {
+      const {pointProfile} = this.props;
+
+      const newState = this._processIndex(pointProfile);
+      this.setState(newState);
+
+      const {highlightIndex} = newState;
+      const maxIndex = this.props.pointProfile.length - 1;
+      if(highlightIndex === maxIndex) {
+        clearInterval(this.refreshInterval);
+      }
+    }, interval);
+  }
+
+  componentWillUnmount() {
+    if(this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
   }
 
   _processIndex = (pointProfile) => {
@@ -78,45 +112,6 @@ class PointProfile extends Component {
     };
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
-  componentDidMount() {
-    const interval = 20*1000;
-
-    // First, set scroll to proper position
-    const {
-      scrollIndex,
-    } = this.state;
-
-    const ref = this.refs[`PointProfile-${scrollIndex}`];
-
-    const el = ReactDOM.findDOMNode(ref);
-
-    if(el) {
-      el.scrollIntoView();
-    }
-
-    // Then, make the highlight bar progress as the flight moves
-    this.refreshInterval = setInterval(() => {
-      const {pointProfile} = this.props;
-
-      const newState = this._processIndex(pointProfile);
-      this.setState(newState);
-
-      const {highlightIndex} = newState;
-      const maxIndex = this.props.pointProfile.length - 1;
-      if(highlightIndex === maxIndex) {
-        clearInterval(this.refreshInterval);
-      }
-    }, interval);
-  }
-
-  componentWillUnmount() {
-    this.refreshInterval && clearInterval(this.refreshInterval);
-  }
-
   render() {
     const {
       pointProfile,
@@ -125,7 +120,6 @@ class PointProfile extends Component {
 
     const {
       highlightIndex,
-      scrollIndex,
     } = this.state;
 
     const styles = Object.assign({}, defaultStyles, style);
@@ -157,7 +151,11 @@ class PointProfile extends Component {
               return (
                 <TableRow
                   key={index}
-                  ref={`PointProfile-${index}`}
+                  ref={
+                    ref => {
+                      this._rowRef[index] = ref;
+                    }
+                  }
                   style={index === highlightIndex ?
                     Object.assign({}, styles.tableBodyRow, styles.selectedBodyRow) :
                     styles.tableBodyRow

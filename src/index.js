@@ -4,7 +4,7 @@ import './styles/styles.scss';
 
 import React from 'react';
 import { render } from 'react-dom';
-import configureStore  from './store/configureStore';
+import configureStore from './store/configureStore';
 
 import Perf from 'react-addons-perf';
 

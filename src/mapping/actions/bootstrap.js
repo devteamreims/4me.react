@@ -10,7 +10,7 @@ import {
 } from '../socket';
 
 export function bootstrap() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     console.log('Bootstrapping MAPPING !!');
     // Fetch CWPs and fetch map
 

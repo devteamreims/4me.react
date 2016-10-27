@@ -10,15 +10,14 @@ export const SET_POSITION_SERVICE_STATUS = 'xman/backend-status/SET_POSITION_SER
 
 export function fetchStatus() {
   // HTTP Request to fetch status
-  return (dispatch, getState) => {
-
+  return (dispatch) => {
     const apiUrl = api.xman.status.getAll;
 
     return axios.get(apiUrl)
       .then((response) => {
         return dispatch(setStatus(response.data));
       })
-      .catch((error) => {
+      .catch((error) => { // eslint-disable-line no-unused-vars
         // Set status to errored
         dispatch(setFetcherServicesAction({}));
         dispatch(setPositionServiceAction({
@@ -31,7 +30,7 @@ export function fetchStatus() {
 
 export function setStatus(status) {
   // After having a backendStatus object (socket or http)
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const {positions, fetchers} = _.get(status, 'items');
 
     if(!positions || !fetchers) {

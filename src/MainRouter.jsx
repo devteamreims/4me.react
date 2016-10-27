@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
+import {
+  Router,
+  Route,
+  IndexRoute, // eslint-disable-line no-unused-vars
+  Redirect,
+  hashHistory,
+} from 'react-router';
 
 import App from './core/components/App';
 import NotFoundView from './core/views/NotFoundView';

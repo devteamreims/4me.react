@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import _ from 'lodash';
 
@@ -11,7 +10,6 @@ const keys = [
 ];
 
 import {
-  fullBlack,
   lightBlack,
 } from 'material-ui/styles/colors';
 
@@ -23,6 +21,8 @@ const backgroundColor = lightBlack;
 const keyBackgroundColor = canvasColor;
 
 class Keyboard extends Component {
+
+  handleMouseDown = (ev) => this.preventFocus(ev);
 
   preventFocus = (ev) => {
     ev.stopPropagation();
@@ -41,7 +41,7 @@ class Keyboard extends Component {
 
     const KeyboardEventInit = {
       bubbles: true,
-      cancelable : true,
+      cancelable: true,
       key: key,
       shiftKey: true,
     };
@@ -59,7 +59,7 @@ class Keyboard extends Component {
 
     let {
       selectionStart,
-      selectionEnd,
+      selectionEnd, // eslint-disable-line prefer-const
     } = target;
 
     // Change target's value
@@ -71,10 +71,12 @@ class Keyboard extends Component {
         selectionStart--;
 
         // Remove selected character
+        // eslint-disable-next-line max-len
         target.value = valueBefore.slice(0, target.selectionStart - 1 > 0 ? target.selectionStart - 1 : 0) + valueBefore.slice(target.selectionEnd, valueBefore.length);
       } else {
         // Here, we have a substring selected, remove it
         // No need to move the caret here, selectionStart is fine
+        // eslint-disable-next-line max-len
         target.value = valueBefore.slice(0, target.selectionStart) + valueBefore.slice(target.selectionEnd, valueBefore.length);
       }
     } else {
@@ -116,7 +118,7 @@ class Keyboard extends Component {
     return (
       <div
         style={styles}
-        onMouseDown={this.preventFocus}
+        onMouseDown={this.handleMouseDown}
       >
         {_.map(keys, (row, index) =>
           <div
@@ -156,7 +158,9 @@ class KeyboardButton extends Component {
       onClick,
     } = this.props;
 
-    onClick && onClick(ev);
+    if(onClick) {
+      onClick(ev);
+    }
 
     ev.preventDefault();
     ev.stopPropagation();
@@ -180,10 +184,10 @@ class KeyboardButton extends Component {
     } = this.props;
 
     if(children === '{BACKSPACE}') {
-      return <BackspaceIcon />
+      return <BackspaceIcon />;
     }
 
-    return false;
+    return null;
   }
 
   render() {
@@ -201,7 +205,7 @@ class KeyboardButton extends Component {
       >
         {!this.isIconButton() && children}
       </FlatButton>
-    )
+    );
   }
 }
 

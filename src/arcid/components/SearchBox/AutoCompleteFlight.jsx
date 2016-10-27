@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 
-import {ListItem} from 'material-ui/List';
 import Highlighter from 'react-highlighter';
-import MenuItem from 'material-ui/MenuItem';
 
 import theme from '../../../theme';
 

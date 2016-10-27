@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import p from './prefix';
 
 import {
   getFlightByIfplId,
@@ -19,11 +18,13 @@ export const getAdvisedMach = (state, ifplId) => {
   }
 
   return _.get(getFlightByIfplId(state, ifplId), 'advisory.machReduction', null);
-}
+};
 
 export const getAppliedSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.speed', null);
+// eslint-disable-next-line max-len
 export const getAppliedMach = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.machReduction', null);
 
+// eslint-disable-next-line max-len
 export const getMinimumCleanSpeed = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'currentStatus.minimumCleanSpeed', null);
 
 
@@ -34,10 +35,11 @@ export const getTotalDelay = (state, ifplId) => {
 
 export const isFlightInSpeedMode = (state, ifplId) => {
   return getAdvisedSpeed(state, ifplId) !== null;
-}
+};
 
 export const isFlightInMachMode = (state, ifplId) => !isFlightInSpeedMode(state, ifplId);
 
+// eslint-disable-next-line max-len
 export const isFlightInMcsMode = (state, ifplId) => _.get(getFlightByIfplId(state, ifplId), 'advisory.minimumCleanSpeed', false);
 
 export function isActionComplete(advisedSpeed, appliedSpeed, minimumCleanSpeed) {
@@ -106,9 +108,9 @@ export function hasSetAction(state, ifplId) {
   }
 
   return (
-    getAppliedSpeed(state, ifplId) !== null
-    || getAppliedMach(state,ifplId) !== null
-    || getMinimumCleanSpeed(state, ifplId) !== null
+    getAppliedSpeed(state, ifplId) !== null ||
+    getAppliedMach(state, ifplId) !== null ||
+    getMinimumCleanSpeed(state, ifplId) !== null
   );
 }
 
@@ -135,7 +137,6 @@ export function isFlightTonedDown(state, ifplId) {
   }
 
   return !_.matchesProperty(path, value)(flight);
-
 }
 
 export function getAppliedBy(state, ifplId) {
@@ -170,7 +171,6 @@ export function getActionAuthor(state) {
   const name = getCwpName(state) || '';
   const id = getCwpId(state) || '';
 
-  const cwp = {name, id};
   return {
     sectors,
     cwp: {

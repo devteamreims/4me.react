@@ -11,7 +11,7 @@ const possibleSpeeds = [280, 270, 260, 250, 240];
 
 class SpeedModeButtons extends Component {
 
-  handleMcs = (event) => {
+  handleMcs = (event) => { // eslint-disable-line no-unused-vars
     const {
       readOnly,
       setMcs,
@@ -25,7 +25,7 @@ class SpeedModeButtons extends Component {
     setMcs(!minimumCleanSpeed);
   };
 
-  handleSpeed = (speed) => (event) => {
+  handleSpeed = (speed) => (event) => { // eslint-disable-line no-unused-vars
     const {
       readOnly,
       setSpeed,
@@ -51,8 +51,6 @@ class SpeedModeButtons extends Component {
     } = this.props;
 
     function getXmanState(speed) {
-      let xmanState = 'empty';
-
       if(speed === appliedSpeed) {
         return 'selected';
       }
@@ -63,7 +61,7 @@ class SpeedModeButtons extends Component {
         return isSoft ? 'advisedSoft' : 'advised';
       }
 
-      return xmanState;
+      return 'empty';
     }
 
     return (
@@ -135,7 +133,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     clearAction: () => dispatch(clearAction(ifplId, {})),
     setMcs: (mcs) => dispatch(setMcs(ifplId, mcs)),
-    setSpeed: (speed) => dispatch(setMach(ifplId, speed)),
+    setSpeed: (speed) => dispatch(setSpeed(ifplId, speed)),
   };
 };
 

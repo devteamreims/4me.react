@@ -22,6 +22,9 @@ export const getDelay = (state) => _.get(getProfile(state), 'delay', 0);
 
 export const getError = (state) => _.get(getRaw(state), 'error', null);
 
-export const getFlight = (state) => _.pick(getProfile(state), ['ifplId', 'callsign', 'departure', 'destination', 'eobt', 'fetched']);
+export const getFlight = (state) => _.pick(
+  getProfile(state),
+  ['ifplId', 'callsign', 'departure', 'destination', 'eobt', 'fetched'],
+);
 
 export const isErrored = (state) => getError(state) !== null;

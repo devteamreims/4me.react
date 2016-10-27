@@ -13,14 +13,13 @@ const styles = {
 };
 
 class Loader extends Component {
-
   render() {
     const {
       hidden,
     } = this.props;
 
     if(hidden) {
-      return (<span></span>);
+      return null;
     }
 
     return (

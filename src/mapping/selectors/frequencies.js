@@ -11,7 +11,6 @@ import {
 import _ from 'lodash';
 
 const emptyArray = [];
-const emptyObject = {};
 
 export function getNonBackupedFrequencies(state, cwpId) {
   const cwp = getCwpById(state, cwpId);

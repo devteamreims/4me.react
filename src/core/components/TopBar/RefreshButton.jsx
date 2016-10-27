@@ -3,7 +3,7 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
-const RefreshButton = (state) => (
+const RefreshButton = () => (
   <IconButton
     onClick={() => window.location.reload(true)}
   >

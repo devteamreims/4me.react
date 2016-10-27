@@ -23,7 +23,7 @@ export const getSuggestions = (state, cwpId) => {
 
   const suggestions = _.get(getRaw(state), 'suggestions', []);
 
-  const addBoundSectorsToSuggestion = (cwpId) => (suggestion) => {
+  const addBoundSectorsToSuggestion = (cwpId) => (suggestion) => { // eslint-disable-line no-unused-vars
     if(_.isEmpty(sectorsBound)) {
       return suggestion;
     }

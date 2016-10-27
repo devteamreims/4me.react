@@ -82,7 +82,7 @@ const styles = {
       flexGrow: '0',
       flexDirection: 'row',
       flexWrap: 'wrap',
-      //maxWidth: '100px',
+      // maxWidth: '100px',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -97,7 +97,6 @@ class MappingButtons extends Component {
   }
 
   render() {
-
     const posToElement = pos => (
       <div
         key={pos}
@@ -115,7 +114,7 @@ class MappingButtons extends Component {
       <div style={styles.outerDiv}>
         {posToElement('north')}
         {posToElement('west')}
-        <div style={styles['roomStatus'].container}>
+        <div style={styles.roomStatus.container}>
           <RoomStatus />
         </div>
         {posToElement('east')}
@@ -126,7 +125,7 @@ class MappingButtons extends Component {
 
 class MappingRoot extends Component {
 
-  handleRequestClose = (event) => {
+  handleRequestClose = (event) => { // eslint-disable-line no-unused-vars
     const {
       closeDialog,
     } = this.props;

@@ -14,8 +14,6 @@ const style = {
   }
 };
 
-import {pure} from 'recompose';
-
 class Spinner extends Component {
   /*
    * mui AutoComplete tries to wrap 'value' in a <MenuItem > component
@@ -24,7 +22,6 @@ class Spinner extends Component {
   static muiName = MenuItem.muiName;
 
   render() {
-
     const {
       show,
     } = this.props;

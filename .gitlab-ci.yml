@@ -18,6 +18,13 @@ check_deps:
     - npm run check-deps --silent
   allow_failure: true
 
+lint:
+  stage: test
+  script:
+    - npm install --silent
+    - npm run lint -- --quiet
+  allow_failure: true
+
 jest:
   stage: test
   script:

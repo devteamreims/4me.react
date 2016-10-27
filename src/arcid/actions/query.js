@@ -59,7 +59,7 @@ export function startQuery(callsign) {
         }
 
         console.log(`Single result for ${ifplId}, fetching profile !`);
-        //return dispatch(getProfile(flight));
+        // return dispatch(getProfile(flight));
       })
       .catch(err => dispatch(errorAction('An error occured contacting arcid backend', err)));
   };
@@ -88,10 +88,6 @@ function errorAction(error, rawError = {}) {
     error,
     rawError,
   };
-}
-
-function emptyResultsAction(query) {
-  return errorAction(`${query} returned no results, check with flow management`);
 }
 
 function completeAction(flights) {

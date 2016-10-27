@@ -15,7 +15,7 @@ import theme from '../../theme';
 
 const style = {
   outer: {
-    //border: '1px solid red',
+    // border: '1px solid red',
     display: 'flex',
     flexDirection: 'row',
     minHeight: '100%',
@@ -25,7 +25,7 @@ const style = {
   leftPanel: {
     overflowX: 'hidden',
     width: '282px',
-    //paddingLeft: 10,
+    // paddingLeft: 10,
     display: 'flex',
     flexDirection: 'column',
     zIndex: 100,
@@ -76,7 +76,7 @@ class ArcidRoot extends Component {
           <div style={style.searchBoxContainer}>
             <SearchBox />
           </div>
-          <Divider style={{flexShrink: '0'}}/>
+          <Divider style={{flexShrink: '0'}} />
           <HistoryOrResults />
         </Paper>
         <Paper

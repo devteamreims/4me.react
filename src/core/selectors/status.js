@@ -1,4 +1,3 @@
-import p from './prefix';
 import _ from 'lodash';
 
 import {
@@ -6,7 +5,7 @@ import {
 } from './socket';
 
 export const isNormal = (state) => isConnected(state);
-export const isWarning = (state) => false;
+export const isWarning = () => false;
 export const isErrored = (state) => !isConnected(state);
 
 export const getStatusString = (state) => {
@@ -32,7 +31,6 @@ export const getSocketStatus = (state) => {
     status,
   };
 };
-
 
 
 export const getCoreStatus = (state) => {
@@ -75,9 +73,7 @@ export function maxStatus(items) {
 }
 
 import {
-  isNormalCwp,
   isSupervisor,
-  isFmp,
   isTechSupervisor,
 } from './cwp';
 

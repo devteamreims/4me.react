@@ -5,8 +5,6 @@ import _ from 'lodash';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import AppBar from 'material-ui/AppBar';
-import Divider from 'material-ui/Divider';
-
 
 import SectorPicker from './SectorPicker';
 import SectorSuggestor from './SectorSuggestor';
@@ -43,15 +41,15 @@ class CwpDialog extends Component {
   }
 
   addSector = (state, sector) => {
-    let tempSectors = _(state)
+    const tempSectors = _(state)
       .concat(sector)
-      .concat(...this.props.boundSectors)
+      .concat(...this.props.boundSectors);
 
     return tempSectors.compact().uniq().value();
   };
 
   removeSector = (state, sector) => {
-    let tempSectors = _(state)
+    const tempSectors = _(state)
       .without(sector)
       .concat(...this.props.boundSectors);
 
@@ -60,7 +58,6 @@ class CwpDialog extends Component {
   };
 
   toggleSector = (state, sector) => {
-
     if(_.includes(state, sector)) {
       return this.removeSector(state, sector);
     }
@@ -68,20 +65,20 @@ class CwpDialog extends Component {
     return this.addSector(state, sector);
   };
 
-  handleToggleSectors = (sectors) => (ev, checked) => {
+  handleToggleSectors = (sectors) => (ev, checked) => { // eslint-disable-line no-unused-vars
     const state = this.state.tempSectors;
     const tempSectors = _.reduce(sectors, this.toggleSector, state);
     this.setState({tempSectors});
   };
 
-  handleSuggestion = (sectors) => (ev) => {
+  handleSuggestion = (sectors) => (ev) => { // eslint-disable-line no-unused-vars
     console.log('Selecting sectors from suggestion !');
     console.log(sectors);
     this.props.bindSectorsToCwp(this.props.cwpId, sectors)
       .then(() => this.props.onRequestClose());
   };
 
-  handleConfirm = (ev) => {
+  handleConfirm = (ev) => { // eslint-disable-line no-unused-vars
     console.log('New sectors are :');
     console.log(this.state.tempSectors);
 
@@ -90,8 +87,6 @@ class CwpDialog extends Component {
     } = this.props;
 
     const shouldUpdateCwpStatus = this.state.isDisabled !== this.props.isDisabled;
-    const shouldEnableCwp = shouldUpdateCwpStatus && !this.state.isDisabled;
-    const shouldDisableCwp = shouldUpdateCwpStatus && this.state.isDisabled;
 
     if(shouldUpdateCwpStatus) {
       console.log(`Changing cwp ${cwpId} status : isDisabled : ${this.props.isDisabled} => ${this.state.isDisabled}`);
@@ -142,10 +137,10 @@ class CwpDialog extends Component {
 
   render() {
     const {
-      title,
+      title, // eslint-disable-line no-unused-vars
       boundSectors,
-      prettyBoundSectors,
-      prettySectors,
+      prettyBoundSectors, // eslint-disable-line no-unused-vars
+      prettySectors, // eslint-disable-line no-unused-vars
       open,
       cwpId,
       hasNoSectorsBound,
@@ -238,7 +233,6 @@ class CwpDialog extends Component {
       <Dialog
         open={open}
         title={fullTitle}
-        //titleStyle={{backgroundColor: 'blue'}}
         style={{padding: 0, margin: 0}}
         contentStyle={{maxWidth: 'none'}}
         actions={actions}

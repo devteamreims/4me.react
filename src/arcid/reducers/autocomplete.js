@@ -39,10 +39,10 @@ export default function autocompleteReducer(state = defaultState, action) {
         flights: [],
         query: null,
         lastUpdated: null,
-      })
+      });
     // When the user clicks on a profile, remove autocomplete results
-    //case PROFILE_START:
-    //  return Object.assign({}, state, defaultState);
+    // case PROFILE_START:
+    //   return Object.assign({}, state, defaultState);
   }
   return state;
 }

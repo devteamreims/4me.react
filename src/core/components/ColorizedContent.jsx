@@ -18,15 +18,19 @@ const colors = _.map([
 
 /* http://stackoverflow.com/a/7616484/194685 */
 function hashCode(str) {
-  let hash = 0, i, chr, len;
+  let hash = 0;
+  let i;
+  let chr;
+  let len;
+
   if (str.length === 0) return hash;
   for (i = 0, len = str.length; i < len; i++) {
-    chr   = str.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
+    chr = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
     hash |= 0; // Convert to 32bit integer
   }
   return hash;
-};
+}
 
 /* This component will wrap content in a span with a random color based on prop 'hash'
  * If hash is set to -1, then we'll return a specific color (bluegrey)
@@ -36,7 +40,7 @@ class ColorizedContent extends Component {
 
   _hashToColor(rawHash) {
     if(rawHash === -1) {
-      return Colors['blueGrey' + colorLevel];
+      return Colors[`blueGrey${colorLevel}`];
     }
 
     let hash;
@@ -57,7 +61,6 @@ class ColorizedContent extends Component {
     const {
       hash,
       children,
-      ...other
     } = this.props;
 
     const color = this._hashToColor(hash);
@@ -72,9 +75,9 @@ class ColorizedContent extends Component {
 
 ColorizedContent.propTypes = {
   hash: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]).isRequired,
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]).isRequired,
 };
 
 export default ColorizedContent;

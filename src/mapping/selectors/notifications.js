@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import p from './prefix';
 
 import {
   getMap,
@@ -19,5 +18,3 @@ export const getNotifications = (state) => {
     priority: 'info',
   };
 };
-
-

@@ -8,7 +8,7 @@ import _ from 'lodash';
 import api from '../../api';
 
 export function fetchCwp() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(fetchAction());
 
     let apiUrl = api.core.mapping.cwp.getMine;
@@ -27,8 +27,7 @@ export function fetchCwp() {
         return Promise.reject(error);
       });
   };
-};
-
+}
 
 function completeAction(cwp) {
   return {

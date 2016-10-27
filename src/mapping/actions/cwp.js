@@ -1,4 +1,4 @@
-/*import {
+/* import {
   isLoading as isCwpLoading
 } from '../selectors/cwp';
 */
@@ -14,11 +14,9 @@ export const COMPLETE = 'mapping/cwp/COMPLETE';
 // Refresh CWPs
 // Uses redux thunk
 export function refreshCwps() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     // Check if loading
-    //let isLoading = isCwpLoading(getState());
-
-    const isLoading = true;
+    // let isLoading = isCwpLoading(getState());
 
     // Here we should abort current request and restart one
     // This is not currently implemented in axios
@@ -45,7 +43,7 @@ export function refreshCwps() {
       .catch((error) => {
         return dispatch(fail(error));
       });
-  }
+  };
 }
 
 export function fail(rawError) {

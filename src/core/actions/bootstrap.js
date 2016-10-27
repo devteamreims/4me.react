@@ -1,17 +1,15 @@
-
 import { fetchCwp } from './cwp';
 import { fetchSectorTree } from './sectorTree';
 import { fetchSectors } from './sector';
 import { connectSocket } from './socket';
 
-import { getCwpId } from '../selectors/cwp';
 
 import _ from 'lodash';
 
 import organs from '../../organs';
 
 export function startBootstrap() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     // Start our bootstrap process
 
     // First, fetch our cwpId and sectorTree
@@ -33,6 +31,5 @@ export function startBootstrap() {
 
       return Promise.all(_.map(bootstrapThunks, thunk => dispatch(thunk())));
     });
-
-  }
+  };
 }

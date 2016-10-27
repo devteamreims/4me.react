@@ -1,17 +1,14 @@
 import _ from 'lodash';
-import React from 'react';
 
 import xman from './xman';
 import arcid from './arcid';
 import mapping from './mapping';
 
-import { Route } from 'react-router';
-
 const stubNotifications = {};
 
 const getNotifications = () => {
   return stubNotifications;
-}
+};
 
 const stubStatus = {
   status: 'normal',

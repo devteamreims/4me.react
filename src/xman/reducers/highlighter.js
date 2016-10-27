@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import merge from 'lodash/merge';
 
 import {

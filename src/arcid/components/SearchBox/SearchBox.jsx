@@ -33,7 +33,7 @@ class SearchBox extends Component {
     super(props);
   }
 
-  handlePerformQuery = (event) => {
+  handlePerformQuery = (event) => { // eslint-disable-line no-unused-vars
     const {
       isLoading,
       startQuery,
@@ -53,7 +53,7 @@ class SearchBox extends Component {
     showResults();
   };
 
-  handleUpdateInput = (searchString, dataSource) => {
+  handleUpdateInput = (searchString, dataSource) => { // eslint-disable-line no-unused-vars
     const {
       startSearch,
       clearSearch,
@@ -65,7 +65,6 @@ class SearchBox extends Component {
     } else {
       startSearch(searchString);
     }
-
   };
 
   handleNewRequest = (flight, index) => {
@@ -82,7 +81,7 @@ class SearchBox extends Component {
       return;
     }
 
-    console.log(`IfplId selected !`);
+    console.log('IfplId selected !');
     console.log(flight.ifplId);
 
     getProfile(flight);
@@ -92,10 +91,9 @@ class SearchBox extends Component {
     showHistory();
   };
 
-  handleOnFocus = (event) => {
+  handleOnFocus = (event) => { // eslint-disable-line no-unused-vars
     const {
       clearSearch,
-      clearQuery,
     } = this.props;
 
     clearSearch();
@@ -110,7 +108,6 @@ class SearchBox extends Component {
       clearQuery,
       searchString,
       showClearResultsButton,
-      ...other,
     } = this.props;
 
 
@@ -119,7 +116,7 @@ class SearchBox extends Component {
       const spinner = {
         text: 'spinner',
         value: (
-          <Spinner show={isAutocompleteLoading}/>
+          <Spinner show={isAutocompleteLoading} />
         ),
       };
 
@@ -138,7 +135,6 @@ class SearchBox extends Component {
         const processedFlights = _.map(flights, flight => {
           const {
             callsign,
-            ifplId,
             departure,
             destination,
             eobt,
@@ -231,8 +227,6 @@ import {
   getFlights as getQueryFlights,
   getQueryCallsign as getQueryString,
 } from '../../selectors/query';
-
-const emptyFlights = [];
 
 const mapStateToProps = (state) => {
   const flights = getAutocompleteFlights(state);

@@ -1,5 +1,4 @@
 import {
-  isNormalCwp,
   isSupervisor,
   isFmp,
   isTechSupervisor,

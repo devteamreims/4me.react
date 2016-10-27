@@ -5,7 +5,6 @@ import { Route } from 'react-router';
 import rootComponent from './components/Root';
 import rootReducer from './reducers';
 
-
 import {
   bootstrap,
   onSectorChange,
