@@ -158,7 +158,9 @@ class KeyboardButton extends Component {
       onClick,
     } = this.props;
 
-    onClick && onClick(ev);
+    if(onClick) {
+      onClick(ev);
+    }
 
     ev.preventDefault();
     ev.stopPropagation();
@@ -182,10 +184,10 @@ class KeyboardButton extends Component {
     } = this.props;
 
     if(children === '{BACKSPACE}') {
-      return <BackspaceIcon />
+      return <BackspaceIcon />;
     }
 
-    return false;
+    return null;
   }
 
   render() {
@@ -203,7 +205,7 @@ class KeyboardButton extends Component {
       >
         {!this.isIconButton() && children}
       </FlatButton>
-    )
+    );
   }
 }
 

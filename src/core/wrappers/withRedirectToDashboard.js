@@ -70,11 +70,11 @@ export default function withRedirectToDashboard(getShouldEnableRedirection, getT
 
       render() {
         const {
-          shouldEnableRedirection,
-          enableRedirect,
-          disableRedirect,
-          router,
-          targetRoute,
+          shouldEnableRedirection, // eslint-disable-line no-unused-vars
+          enableRedirect, // eslint-disable-line no-unused-vars
+          disableRedirect, // eslint-disable-line no-unused-vars
+          router, // eslint-disable-line no-unused-vars
+          targetRoute, // eslint-disable-line no-unused-vars
           ...other
         } = this.props;
 

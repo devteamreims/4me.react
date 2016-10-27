@@ -94,7 +94,6 @@ class SearchBox extends Component {
   handleOnFocus = (event) => { // eslint-disable-line no-unused-vars
     const {
       clearSearch,
-      clearQuery,
     } = this.props;
 
     clearSearch();
