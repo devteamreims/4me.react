@@ -9,8 +9,7 @@ import {
 import { withRouter } from 'react-router';
 
 export default function withRedirectToDashboard(getShouldEnableRedirection, getTargetRoute) {
-  return DecoratedComponent => {
-
+  return (DecoratedComponent) => {
     if(typeof getShouldEnableRedirection !== 'function') {
       throw new Error('withRedirectToDashboard: getShouldEnableRedirection should be a valid state selector');
     }
@@ -37,7 +36,7 @@ export default function withRedirectToDashboard(getShouldEnableRedirection, getT
         }
       }
 
-      componentDidUpdate(prevProps) {
+      componentDidUpdate() {
         const {
           enableRedirect,
           disableRedirect,
@@ -97,4 +96,4 @@ export default function withRedirectToDashboard(getShouldEnableRedirection, getT
 
     return connect(mapStateToProps, mapDispatchToProps)(withRouter(wrapped));
   };
-};
+}

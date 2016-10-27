@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 
-import Paper from 'material-ui/Paper';
-
 import {
   Card,
   CardActions,
-  CardHeader,
   CardTitle,
   CardText,
 } from 'material-ui/Card';
@@ -37,7 +34,7 @@ class ErrorModal extends Component {
       <div style={style.wrapper}>
         <Card style={style.inside}>
           {title &&
-            <CardTitle title={title}/>
+            <CardTitle title={title} />
           }
           <CardText>{children}</CardText>
           {actions &&

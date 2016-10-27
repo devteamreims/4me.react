@@ -39,12 +39,12 @@ export function connectSocket() {
 
     mySocket = io.connect(socketUrl, {query: `cwp-id=${cwpId}`});
 
-    mySocket.on('connect', (socket) => {
+    mySocket.on('connect', (socket) => { // eslint-disable-line no-unused-vars
       console.log('core/socket: Socket connected');
       return dispatch(socketConnected());
     });
 
-    mySocket.on('reconnect', socket => {
+    mySocket.on('reconnect', (socket) => { // eslint-disable-line no-unused-vars
       console.log('core/socket: Socket reconnected !');
       // On reconnect, rebootstrap the app
       // This is needed to clear our current state and refetch proper information (sectors & everything)
@@ -52,7 +52,7 @@ export function connectSocket() {
     });
 
     mySocket.on('disconnect', () => {
-      //mySocket = undefined;
+      // mySocket = undefined;
       console.log('Socket disconnected ...');
       return dispatch(socketDisconnected());
     });
@@ -70,7 +70,7 @@ export function connectSocket() {
         });
     });
 
-    mySocket.on('force_reload', data => {
+    mySocket.on('force_reload', () => { // eslint-disable-line no-unused-vars
       console.log('core/socket: Reloading app');
       window.location.reload(true);
     });

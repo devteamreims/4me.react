@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
+
+import _ from 'lodash';
 
 import SingleStatus from './SingleStatus';
 
@@ -50,7 +51,6 @@ import {
 } from '../../selectors/status';
 
 const mapStateToProps = (state) => {
-
   const coreStatus = getCoreStatus(state);
 
   const organStatuses = _.map(organs, organ => {
@@ -68,6 +68,6 @@ const mapStateToProps = (state) => {
     organStatuses,
     displayLevel: getDisplayLevel(state),
   };
-}
+};
 
 export default connect(mapStateToProps)(GlobalStatus);

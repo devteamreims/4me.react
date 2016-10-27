@@ -2,21 +2,13 @@ export const FETCH = 'core/sectorTree/FETCH';
 export const COMPLETE = 'core/sectorTree/COMPLETE';
 export const ERROR = 'core/sectorTree/ERROR';
 
-const tree = [{
-  name: 'UXR',
-  elementarySectors: ['UR', 'XR'],
-}, {
-  name: 'KHR',
-  elementarySectors: ['KR', 'YR', 'HR'],
-}];
-
 import _ from 'lodash';
 import axios from 'axios';
 
 import api from '../../api';
 
 export function fetchSectorTree() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(fetchAction());
 
     return axios.get(api.core.mapping.sectors.getTree)

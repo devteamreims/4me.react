@@ -30,6 +30,7 @@ class ReturnToDashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line no-unused-vars
     const usedProps = ['returnToDashboardTime', 'redirectEnabled', 'targetRoute'];
     const prepareForComparison = (props) => {
       return {
@@ -91,7 +92,9 @@ class ReturnToDashboard extends Component {
 
     if(moment().isBefore(cutOff)) {
       // Do not display the bar before threshold is passed
-      this.state.showProgress && this.setState({showProgress: false});
+      if(this.state.showProgress) {
+        this.setState({showProgress: false});
+      }
       return;
     }
 
@@ -105,7 +108,6 @@ class ReturnToDashboard extends Component {
       showProgress: true,
       progressPercentage: percentage,
     });
-
   };
 
   render() {
@@ -115,7 +117,6 @@ class ReturnToDashboard extends Component {
     } = this.state;
 
     const {
-      router,
       redirectEnabled,
     } = this.props;
 

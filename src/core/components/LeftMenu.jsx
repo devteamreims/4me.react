@@ -34,11 +34,11 @@ function notificationToIcon(count, priority = 'info') {
     return;
   }
 
-  let ComponentSlug = NumericBox[count] || NumericBox['9plus'];
+  const ComponentSlug = NumericBox[count] || NumericBox['9plus'];
 
   return (
     <ComponentSlug style={{fill: color}} />
-  )
+  );
 }
 
 const style = {
@@ -53,7 +53,7 @@ class LeftMenu extends Component {
       let rightIcon = false;
 
       if(organ.notifications.count >= 1) {
-        rightIcon = notificationToIcon(organ.notifications.count, organ.notifications.priority)
+        rightIcon = notificationToIcon(organ.notifications.count, organ.notifications.priority);
       }
 
       const itemStyle = {};
@@ -71,7 +71,6 @@ class LeftMenu extends Component {
           rightIcon={rightIcon}
         />
       );
-
     });
 
     return (
@@ -102,6 +101,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-//export default LeftMenu;
+// export default LeftMenu;
 
 export default connect(mapStateToProps)(LeftMenu);

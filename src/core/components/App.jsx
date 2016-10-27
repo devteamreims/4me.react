@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
@@ -19,6 +17,9 @@ import mainTheme from '../../theme';
 import '../../styles/disable-select.scss';
 
 export class App extends Component {
+  static childContextTypes = {
+    muiTheme: React.PropTypes.object,
+  };
 
   constructor(props) {
     super(props);
@@ -28,10 +29,6 @@ export class App extends Component {
       keyboardTarget: null,
     };
   }
-
-  static childContextTypes = {
-    muiTheme: React.PropTypes.object,
-  };
 
   getChildContext() {
     return {
@@ -43,9 +40,18 @@ export class App extends Component {
     this.props.startBootstrap();
   }
 
+  componentDidMount() {
+    window.addEventListener('focus', this.focusHandler, true);
+    window.addEventListener('blur', this.blurHandler, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('focus', this.focusHandler, true);
+    window.removeEventListener('blur', this.blurHandler, true);
+  }
+
   _shouldTriggerKeyboard(target) {
-    return _.get(target, 'nodeName') === 'INPUT'
-      && _.get(target, 'type') === 'text';
+    return _.get(target, 'nodeName') === 'INPUT' && _.get(target, 'type') === 'text';
   }
 
   focusHandler = (el) => {
@@ -60,7 +66,7 @@ export class App extends Component {
     }
   };
 
-  handleRestart = (ev) => {
+  handleRestart = (ev) => { // eslint-disable-line no-unused-vars
     const {
       startBootstrap,
     } = this.props;
@@ -68,23 +74,13 @@ export class App extends Component {
     startBootstrap();
   };
 
-  handleUserInteraction = _.debounce((ev) => {
+  handleUserInteraction = _.debounce((ev) => { // eslint-disable-line no-unused-vars
     const {
       interact,
     } = this.props;
 
     interact();
   }, 100);
-
-  componentDidMount() {
-    window.addEventListener('focus', this.focusHandler, true);
-    window.addEventListener('blur', this.blurHandler, true);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('focus', this.focusHandler, true);
-    window.removeEventListener('blur', this.blurHandler, true);
-  }
 
   render() {
     const {
@@ -155,12 +151,12 @@ export class App extends Component {
         <TopBar id="topbar" />
         <ReturnToDashboard />
         <div id="main-wrap">
-            <div id="leftnav">
-              <LeftMenu location={location} />
-            </div>
-            <div id="content">
-              {children}
-            </div>
+          <div id="leftnav">
+            <LeftMenu location={location} />
+          </div>
+          <div id="content">
+            {children}
+          </div>
         </div>
         <Keyboard
           hide={!keyboardOpen}
@@ -200,6 +196,7 @@ const mapStateToProps = (state) => {
     bootstrapMessage: getBootstrappingString(state),
     errorMessage: getErrorString(state),
     shouldZoomUi: isNormalCwp(state),
+    /* global __DEMO__ */
     shouldDisableSelect: !(process.env.NODE_ENV === 'development' || __DEMO__ === true),
     uiZoom: 1.20,
   };

@@ -1,6 +1,3 @@
-import p from './prefix';
-import _ from 'lodash';
-
 import {
   isLoading as isCwpLoading,
   isErrored as isCwpErrored,
@@ -15,9 +12,9 @@ import {
 } from './sector';
 
 export const isBootstrapping = (state) => (
-  isCwpLoading(state)
-  || isSectorTreeLoading(state)
-  || isSectorBootstrapping(state)
+  isCwpLoading(state) ||
+  isSectorTreeLoading(state) ||
+  isSectorBootstrapping(state)
 );
 
 export const getBootstrappingString = (state) => {
@@ -36,7 +33,12 @@ import {
   isConnected,
 } from './socket';
 
-export const isErrored = (state) => isCwpErrored(state) || isSectorTreeErrored(state) || isSectorErrored(state) || !isConnected(state);
+export const isErrored = (state) => (
+  isCwpErrored(state) ||
+  isSectorTreeErrored(state) ||
+  isSectorErrored(state) ||
+  !isConnected(state)
+);
 
 
 export const getErrorString = (state) => {

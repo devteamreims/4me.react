@@ -2,7 +2,6 @@ export const RESET_TIMER = 'core/returnToDashboard/RESET_TIMER';
 export const ENABLE = 'core/returnToDashboard/ENABLE';
 export const DISABLE = 'core/returnToDashboard/DISABLE';
 
-
 import {
   isEnabled,
 } from '../selectors/returnToDashboard';
@@ -13,7 +12,7 @@ export function interact() {
       return;
     }
     return dispatch(resetTimerAction());
-  }
+  };
 }
 
 export function enable(targetRoute = '/') {
