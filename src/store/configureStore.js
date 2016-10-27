@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { persistState } from 'redux-devtools';
 
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
+import createLogger from 'redux-logger'; // eslint-disable-line no-unused-vars
 
 import { getReducers } from '../organs';
 
@@ -27,8 +27,8 @@ export function createRootReducer(reducers) {
 
 export default function configureStore(initialState) {
   let enhancer;
-  const logger = createLogger();
-  //const middleware = applyMiddleware(thunk, logger);
+  // const logger = createLogger();
+  // const middleware = applyMiddleware(thunk, logger);
   const middleware = applyMiddleware(thunk);
 
   if (process.env.NODE_ENV !== 'production') {
