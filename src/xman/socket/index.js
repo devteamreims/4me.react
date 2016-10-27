@@ -18,12 +18,12 @@ export function setupSocketIo(dispatch, socketIo) {
 
   mySocket = socketIo;
 
-  socketIo.on('connect', function(socket) {
+  socketIo.on('connect', (socket) => { // eslint-disable-line no-unused-vars
     console.log('Connected to server !');
     dispatch(socketConnected());
   });
 
-  socketIo.on('disconnect', (socket) => dispatch(socketDisconnected()));
+  socketIo.on('disconnect', (socket) => dispatch(socketDisconnected())); // eslint-disable-line no-unused-vars
 
   attachHandlerToSocket(dispatch, socketIo);
 
@@ -36,7 +36,11 @@ export function getSocket() {
 }
 
 export function setSubscriptionFilter(data) {
-  let {sectors = [], verticalFilter = false} = data;
+  const {
+    sectors = [],
+  } = data;
+
+  let { verticalFilter } = data;
 
   const socket = getSocket();
 
@@ -70,7 +74,6 @@ export function sendXmanAction(ifplId, status) {
   console.log(data);
 
   socket.emit('set_action', data);
-
 }
 
 import {
@@ -83,7 +86,6 @@ import {
 } from '../actions/backend-status';
 
 export function attachHandlerToSocket(dispatch, socket) {
-
   socket.on('update_flights', (data) => {
     console.log('XMAN Socket: UPDATE_FLIGHTS');
     console.log(data);
@@ -107,5 +109,4 @@ export function attachHandlerToSocket(dispatch, socket) {
 
     dispatch(setStatus(data));
   });
-
 }

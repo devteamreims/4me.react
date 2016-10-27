@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import TimeAgo from '../../../utils/components/TimeAgo';
 
-
 const style = {
   wrapper: {
     display: 'flex',

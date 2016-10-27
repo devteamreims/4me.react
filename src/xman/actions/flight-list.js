@@ -11,17 +11,7 @@ import api from '../../api';
 import axios from 'axios';
 
 import {
-  setSubscriptionFilter,
-} from '../socket';
-
-import {
-  getVerticalFilter,
-  getGeographicalFilter,
-} from '../selectors/list-filter';
-
-import {
   getQueryParams,
-  getKnownFlightIds,
   getFlightByIfplId,
 } from '../selectors/flight-list';
 
@@ -30,7 +20,7 @@ import {
 export function refreshFullList() {
   return (dispatch, getState) => {
     // Check if loading
-    //let isLoading = getState().flightList.isLoading;
+    // let isLoading = getState().flightList.isLoading;
 
     // Here we should abort current request and restart one
     // This is not currently implemented in axios
@@ -54,15 +44,14 @@ export function refreshFullList() {
     console.log(queryParams);
 
     return axios.get(apiUrl, {
-        params: queryParams
-      })
-      .then((response) => {
-        return dispatch(complete(response.data));
-      })
-      .catch((error) => {
-        return dispatch(fail(error));
-      });
-  }
+      params: queryParams
+    }).then((response) => {
+      return dispatch(complete(response.data));
+    })
+    .catch((error) => {
+      return dispatch(fail(error));
+    });
+  };
 }
 
 
@@ -91,10 +80,9 @@ function preprocessFlight(rawFlight) {
   const position = _.get(rawFlight, 'position');
 
   // Round currentFlightLevel here
-
   if(position.vertical.currentFlightLevel % 10 > 7 || position.vertical.currentFlightLevel % 10 < 3) {
     Object.assign(position.vertical, {
-      currentFlightLevel: Math.round(position.vertical.currentFlightLevel/10)*10,
+      currentFlightLevel: Math.round(position.vertical.currentFlightLevel / 10) * 10,
     });
   }
 

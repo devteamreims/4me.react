@@ -11,13 +11,12 @@ import {
 
 const defaultState = {};
 
-export default function fetchersStatusReducers(state = {}, action) {
+export default function fetchersStatusReducers(state = defaultState, action) {
   switch(action.type) {
     case SET_FETCHER_SERVICES_STATUS:
       return Object.assign({}, action.payload);
     case SET_FORCE_OFF:
-    case SET_FORCE_MCS:
-    {
+    case SET_FORCE_MCS: {
       const fetcher = _.get(action.payload, 'fetcher');
       const fetcherStatus = _.get(state, fetcher);
 

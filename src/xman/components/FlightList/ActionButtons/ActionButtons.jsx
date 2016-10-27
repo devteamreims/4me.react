@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {pure} from 'recompose';
+import { pure } from 'recompose';
+import _ from 'lodash';
 
 import './buttons.scss';
 

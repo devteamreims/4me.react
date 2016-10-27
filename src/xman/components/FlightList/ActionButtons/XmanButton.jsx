@@ -7,23 +7,24 @@ const defaultStyle = {
   width: 60,
 };
 
-import {pure} from 'recompose';
+import { pure } from 'recompose';
 
 class XmanButton extends Component {
   render() {
     const {
       style: propsStyle,
-      dimmed = false,
       ...other,
     } = this.props;
 
     const style = Object.assign({}, defaultStyle, propsStyle);
 
-    return <RaisedButton
-      style={style}
-      labelStyle={{fontWeight: 'inherit'}}
-      {...other}
-    />
+    return (
+      <RaisedButton
+        style={style}
+        labelStyle={{fontWeight: 'inherit'}}
+        {...other}
+      />
+    );
   }
 }
 

@@ -1,7 +1,3 @@
-import {
-  refreshFullList
-} from './flight-list';
-
 export const CONNECTED = 'xman/socket/CONNECTED';
 export const DISCONNECTED = 'xman/socket/DISCONNECTED';
 
@@ -15,7 +11,6 @@ import {
 
 export function socketConnected() {
   return (dispatch, getState) => {
-
     const queryParams = getQueryParams(getState());
 
     // Update socket subscription
@@ -26,7 +21,7 @@ export function socketConnected() {
 }
 
 export function socketDisconnected() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     return dispatch(socketDisconnectAction());
   };
 }

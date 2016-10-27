@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import api from '../../api';
 import axios from 'axios';
 
@@ -28,7 +26,7 @@ export function toggleForceOff(fetcher, value) {
     dispatch(setForceOffAction(fetcher, newStatus));
 
     return axios.put(apiUrl, {...params})
-      .catch(err => dispatch(setForceOffAction(fetcher, !newStatus)));
+      .catch(err => dispatch(setForceOffAction(fetcher, !newStatus))); // eslint-disable-line no-unused-vars
   };
 }
 
@@ -48,7 +46,7 @@ export function toggleForceMcs(fetcher, value) {
     dispatch(setForceMcsAction(fetcher, newStatus));
 
     return axios.put(apiUrl, {...params})
-      .catch(err => dispatch(setForceMcsAction(fetcher, !newStatus)));
+      .catch(err => dispatch(setForceMcsAction(fetcher, !newStatus))); // eslint-disable-line no-unused-vars
   };
 }
 

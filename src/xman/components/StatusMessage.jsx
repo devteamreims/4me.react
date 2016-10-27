@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 import Paper from 'material-ui/Paper';
 
-
 class StatusMessage extends Component {
   render() {
     const {

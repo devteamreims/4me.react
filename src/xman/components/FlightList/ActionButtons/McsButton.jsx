@@ -40,12 +40,14 @@ class McsButton extends Component {
       labelColor = fullWhite;
     }
 
-    return <XmanButton
-      icon={<AirplaneIcon />}
-      backgroundColor={backgroundColor}
-      labelColor={labelColor}
-      {...other}
-    />
+    return (
+      <XmanButton
+        icon={<AirplaneIcon />}
+        backgroundColor={backgroundColor}
+        labelColor={labelColor}
+        {...other}
+      />
+    );
   }
 }
 

@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import {refreshFullList} from './flight-list';
 import { fetchStatus } from './backend-status';
 
 import io from 'socket.io-client';
@@ -51,10 +50,8 @@ export function bootstrap() {
   };
 }
 
-
-
 export function onSectorChange(oldSectors, newSectors) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     console.log('Dispatching xman on sector change');
 
     const sectorToNoSectors = _.isEmpty(oldSectors) !== _.isEmpty(newSectors);

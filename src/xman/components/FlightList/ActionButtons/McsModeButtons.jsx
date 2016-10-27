@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-
 import McsButton from './McsButton';
 import UndoButton from './UndoButton';
 
 class McsModeButtons extends Component {
 
-  handleMcs = (event) => {
+  handleMcs = (event) => { // eslint-disable-line no-unused-vars
     const {
       readOnly,
       setMcs,

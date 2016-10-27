@@ -58,12 +58,14 @@ class SpeedMachButton extends Component {
       fontWeight: 'inherit',
     });
 
-    return <XmanButton
-      {...other}
-      labelColor={labelColor}
-      backgroundColor={backgroundColor}
-      style={style}
-    />
+    return (
+      <XmanButton
+        {...other}
+        labelColor={labelColor}
+        backgroundColor={backgroundColor}
+        style={style}
+      />
+    );
   }
 }
 

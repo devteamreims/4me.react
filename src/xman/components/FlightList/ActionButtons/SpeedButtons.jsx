@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import RaisedButton from 'material-ui/lib/raised-button';
-
 const possibleSpeeds = [280, 270, 260, 250, 240];
-
-function getBackgroundColor() {}
 
 import UndoButton from './UndoButton';
 import SpeedMachButton from './SpeedMachButton';
@@ -15,7 +11,7 @@ import McsButton from './McsButton';
 
 class SpeedButtons extends Component {
 
-  handleUndo = (event) => {
+  handleUndo = (event) => { // eslint-disable-line no-unused-vars
     const {
       undoAction,
       disableActions,
@@ -28,7 +24,7 @@ class SpeedButtons extends Component {
     undoAction();
   };
 
-  handleMcs = (event) => {
+  handleMcs = (event) => { // eslint-disable-line no-unused-vars
     const {
       minimumCleanSpeed,
       setMcs,
@@ -42,7 +38,7 @@ class SpeedButtons extends Component {
     setMcs(!minimumCleanSpeed);
   };
 
-  handleSetSpeed = (speed) => (event) => {
+  handleSetSpeed = (speed) => (event) => { // eslint-disable-line no-unused-vars
     const {
       setSpeed,
       disableActions,
@@ -66,8 +62,6 @@ class SpeedButtons extends Component {
     } = this.props;
 
     function getXmanState(speed) {
-      let xmanState = 'empty';
-
       if(speed === appliedSpeed) {
         return 'selected';
       }
@@ -77,6 +71,8 @@ class SpeedButtons extends Component {
 
         return isSoft ? 'advisedSoft' : 'advised';
       }
+
+      return 'empty';
     }
 
     const buttonStyles = {
@@ -116,11 +112,7 @@ class SpeedButtons extends Component {
 SpeedButtons.propTypes = {
   ifplId: React.PropTypes.string.isRequired,
   disableActions: React.PropTypes.bool,
-}
-
-import {
-  getFlightByIfplId,
-} from '../../../selectors/flight-list';
+};
 
 import {
   getAdvisedSpeed,
@@ -129,12 +121,10 @@ import {
 } from '../../../selectors/flight';
 
 const mapStateToProps = (state, ownProps) => {
-
   const {
     ifplId,
   } = ownProps;
 
-  const flight = getFlightByIfplId(state, ifplId);
   const advisedSpeed = getAdvisedSpeed(state, ifplId);
   const appliedSpeed = getAppliedSpeed(state, ifplId);
   const minimumCleanSpeed = getMinimumCleanSpeed(state, ifplId);
