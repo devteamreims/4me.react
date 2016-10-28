@@ -1,4 +1,6 @@
 # Master
+  * Extract <InteractionCatcher /> component to handle our redirect logic
+  * Refactor <Keyboard />
   * Updated to Material-UI 0.16.1
   * Correct ESLint setup, add a Gitlab-CI lint job
   * Allow cwpId to be overriden via external configuration file at loaded at runtime
