@@ -77,25 +77,22 @@ export class App extends Component {
       className = 'disable-select';
     }
 
-    if(isErrored) {
-      return (
-        <LoadingScreen
-          actions={<FlatButton label="Reload" onTouchTap={this.handleRestart} />}
-          style={styles}
-          className={className}
-        >
-          {errorMessage}
-        </LoadingScreen>
-      );
-    }
+    // If our app is errored or boostrapping, show some place holder
+    if(isErrored || isBootstrapping) {
+      const actions = isErrored ? (
+        <FlatButton label="Reload" onTouchTap={this.handleRestart} />
+      ) : null;
 
-    if(isBootstrapping) {
+      const title = isErrored ? 'Error' : 'Loading ...';
+
       return (
         <LoadingScreen
-          className={className}
+          actions={actions}
+          title={title}
           style={styles}
+          className={className}
         >
-          {bootstrapMessage}
+          {errorMessage || bootstrapMessage}
         </LoadingScreen>
       );
     }
