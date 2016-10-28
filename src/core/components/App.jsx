@@ -21,50 +21,15 @@ export class App extends Component {
     muiTheme: React.PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      keyboardOpen: false,
-      keyboardTarget: null,
-    };
-  }
-
   getChildContext() {
     return {
       muiTheme: getMuiTheme(mainTheme),
     };
   }
 
-  componentWillMount() {
-    this.props.startBootstrap();
-  }
-
   componentDidMount() {
-    window.addEventListener('focus', this.focusHandler, true);
-    window.addEventListener('blur', this.blurHandler, true);
+    this.handleRestart();
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('focus', this.focusHandler, true);
-    window.removeEventListener('blur', this.blurHandler, true);
-  }
-
-  _shouldTriggerKeyboard(target) {
-    return _.get(target, 'nodeName') === 'INPUT' && _.get(target, 'type') === 'text';
-  }
-
-  focusHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState({keyboardOpen: true, keyboardTarget: el.target});
-    }
-  };
-
-  blurHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState({keyboardOpen: false, keyboardTarget: null});
-    }
-  };
 
   handleRestart = (ev) => { // eslint-disable-line no-unused-vars
     const {
@@ -134,11 +99,6 @@ export class App extends Component {
       );
     }
 
-    const {
-      keyboardOpen,
-      keyboardTarget,
-    } = this.state;
-
     return (
       <div
         className={className}
@@ -158,10 +118,7 @@ export class App extends Component {
             {children}
           </div>
         </div>
-        <Keyboard
-          hide={!keyboardOpen}
-          target={keyboardTarget}
-        />
+        <Keyboard />
       </div>
     );
   }

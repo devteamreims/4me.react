@@ -21,6 +21,39 @@ const backgroundColor = lightBlack;
 const keyBackgroundColor = canvasColor;
 
 class Keyboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this._getDefaultState();
+  }
+
+  // When this component mounts, we add event handlers on the window object
+  // This allows us to catch when the user focuses an input element
+  componentDidMount() {
+    // And we add event listeners for the keyboard
+    window.addEventListener('focus', this.focusHandler, true);
+    window.addEventListener('blur', this.blurHandler, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('focus', this.focusHandler, true);
+    window.removeEventListener('blur', this.blurHandler, true);
+  }
+
+  focusHandler = (el) => {
+    if(this._shouldTriggerKeyboard(el.target)) {
+      this.setState({showKeyboard: true, targetElement: el.target});
+    }
+  };
+
+  blurHandler = (el) => {
+    if(this._shouldTriggerKeyboard(el.target)) {
+      this.setState(this._getDefaultState());
+    }
+  };
+
+  _getDefaultState() {
+    return {showKeyboard: false, targetElement: null};
+  }
 
   handleMouseDown = (ev) => this.preventFocus(ev);
 
@@ -29,15 +62,34 @@ class Keyboard extends Component {
     ev.preventDefault();
   };
 
-  onClickHandler = (target, key) => (ev) => {
+  _shouldTriggerKeyboard(target) {
+    return _.get(target, 'nodeName') === 'INPUT' &&
+      _.get(target, 'type') === 'text';
+  }
+
+  focusHandler = (el) => {
+    if(this._shouldTriggerKeyboard(el.target)) {
+      this.setState({showKeyboard: true, targetElement: el.target});
+    }
+  };
+
+  blurHandler = (el) => {
+    if(this._shouldTriggerKeyboard(el.target)) {
+      this.setState(this._getDefaultState());
+    }
+  };
+
+  onClickHandler = (key) => (ev) => {
     // Prevent focus change
     this.preventFocus(ev);
 
+    const {
+      targetElement,
+    } = this.state;
 
-    if(!target) {
+    if(!targetElement) {
       return;
     }
-
 
     const KeyboardEventInit = {
       bubbles: true,
@@ -48,19 +100,20 @@ class Keyboard extends Component {
 
     // Send key down event
     const keyDownEvent = new KeyboardEvent('keydown', KeyboardEventInit);
-    target.dispatchEvent(keyDownEvent);
-
+    targetElement.dispatchEvent(keyDownEvent);
 
     // Send key up event
     const keyUpEvent = new KeyboardEvent('keyup', KeyboardEventInit);
-    target.dispatchEvent(keyUpEvent);
+    targetElement.dispatchEvent(keyUpEvent);
 
-    const valueBefore = target.value;
+    // Sending those events will trigger any listeners attached but won't change
+    // the value inside the text field
+    const valueBefore = targetElement.value;
 
     let {
       selectionStart,
       selectionEnd, // eslint-disable-line prefer-const
-    } = target;
+    } = targetElement;
 
     // Change target's value
     if(key === '{BACKSPACE}') {
@@ -72,47 +125,51 @@ class Keyboard extends Component {
 
         // Remove selected character
         // eslint-disable-next-line max-len
-        target.value = valueBefore.slice(0, target.selectionStart - 1 > 0 ? target.selectionStart - 1 : 0) + valueBefore.slice(target.selectionEnd, valueBefore.length);
+        targetElement.value = valueBefore.slice(0, targetElement.selectionStart - 1 > 0 ? targetElement.selectionStart - 1 : 0) + valueBefore.slice(targetElement.selectionEnd, valueBefore.length);
       } else {
         // Here, we have a substring selected, remove it
         // No need to move the caret here, selectionStart is fine
         // eslint-disable-next-line max-len
-        target.value = valueBefore.slice(0, target.selectionStart) + valueBefore.slice(target.selectionEnd, valueBefore.length);
+        targetElement.value = valueBefore.slice(0, targetElement.selectionStart) + valueBefore.slice(targetElement.selectionEnd, valueBefore.length);
       }
     } else {
       // Add key
-      target.value = valueBefore.slice(0, selectionStart) + key + valueBefore.slice(selectionEnd, valueBefore.length);
+      // eslint-disable-next-line max-len
+      targetElement.value = valueBefore.slice(0, selectionStart) + key + valueBefore.slice(selectionEnd, valueBefore.length);
       // Move caret forward
       selectionStart++;
     }
 
-    if(valueBefore !== target.value) {
+    if(valueBefore !== targetElement.value) {
       // Send input event which will trigger changes in React
       const changeEvent = new Event('input', {bubbles: true});
-      target.dispatchEvent(changeEvent);
+      targetElement.dispatchEvent(changeEvent);
     }
 
-    target.setSelectionRange(selectionStart, selectionStart);
+    targetElement.setSelectionRange(selectionStart, selectionStart);
   };
 
   render() {
     const {
-      target,
-      hide,
-    } = this.props;
+      showKeyboard,
+    } = this.state;
 
     const styles = {
       zIndex: 99999,
       backgroundColor,
       margin: 0,
+      maxHeight: 0,
+      flex: '0 0 auto',
     };
 
     const buttonStyles = {
       margin: '5px 5px',
     };
 
-    if(hide) {
-      Object.assign(styles, {maxHeight: 0, display: 'none'});
+    if(showKeyboard) {
+      Object.assign(styles, {
+        maxHeight: 500,
+      });
     }
 
     return (
@@ -120,7 +177,7 @@ class Keyboard extends Component {
         style={styles}
         onMouseDown={this.handleMouseDown}
       >
-        {_.map(keys, (row, index) =>
+        {showKeyboard && _.map(keys, (row, index) =>
           <div
             key={index}
             style={{margin: '5px 30px'}}
@@ -128,7 +185,7 @@ class Keyboard extends Component {
             {_.map(row, (key, index) =>
               <KeyboardButton
                 key={index}
-                onClick={this.onClickHandler(target, key)}
+                onClick={this.onClickHandler(key)}
                 style={buttonStyles}
                 backgroundColor={keyBackgroundColor}
               >
