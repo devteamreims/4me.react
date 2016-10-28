@@ -10,6 +10,7 @@ import TopBar from './TopBar';
 import LeftMenu from './LeftMenu';
 import Keyboard from './Keyboard';
 import ReturnToDashboard from './ReturnToDashboard';
+import InteractionCatcher from './InteractionCatcher';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import mainTheme from '../../theme';
@@ -100,13 +101,9 @@ export class App extends Component {
     }
 
     return (
-      <div
+      <InteractionCatcher
         className={className}
         style={styles}
-        onClick={this.handleUserInteraction}
-        onMouseDown={this.handleUserInteraction}
-        onKeyDown={this.handleUserInteraction}
-        onWheel={this.handleUserInteraction}
       >
         <TopBar id="topbar" />
         <ReturnToDashboard />
@@ -119,7 +116,7 @@ export class App extends Component {
           </div>
         </div>
         <Keyboard />
-      </div>
+      </InteractionCatcher>
     );
   }
 }
