@@ -31,7 +31,7 @@ export const NotificationIcon = ({count, priority = 'info', style, ...rest}) => 
   // Second one is to use secondaryText prop which works fine for text but breaks for icons
   // since it relies on line-height to vertically align stuff
   // This hack will push the rendered icon a little bit down to realign
-  const materialUiHack = {position: 'relative', top: 6};
+  // const materialUiHack = {position: 'relative', top: 6};
 
   const newStyles = Object.assign(
     {},

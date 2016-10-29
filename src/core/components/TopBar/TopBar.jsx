@@ -33,7 +33,6 @@ export class TopBar extends Component {
   render() {
     const {
       cwpName,
-      statusGetters,
     } = this.props;
 
     const styles = {

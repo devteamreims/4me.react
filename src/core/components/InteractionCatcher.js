@@ -14,7 +14,7 @@ class InteractionCatcher extends Component {
   render() {
     const {
       children = null,
-      interact,
+      interact, // eslint-disable-line no-unused-vars
       ...rest
     } = this.props;
 

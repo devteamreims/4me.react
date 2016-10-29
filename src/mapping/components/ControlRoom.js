@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-
 import CwpButton from './CwpButton';
-import CwpDialog from './CwpDialog';
 import RoomStatus from './RoomStatus';
-
-import ErrorModal from '../../core/components/ErrorModal';
 
 import _ from 'lodash';
 

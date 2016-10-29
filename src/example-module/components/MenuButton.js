@@ -21,7 +21,7 @@ export class MenuButton extends Component {
       isActive,
       transition,
       client, // eslint-disable-line no-unused-vars
-      sectors = [],
+      sectors = [], // eslint-disable-line no-unused-vars
       counter,
     } = this.props;
 

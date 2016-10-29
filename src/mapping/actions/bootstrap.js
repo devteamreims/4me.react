@@ -35,7 +35,7 @@ export function bootstrap() {
 }
 
 export function cleanUp() {
-  return (dispatch) => {
+  return () => {
     console.log('Cleaning up MAPPING');
 
     disconnect();

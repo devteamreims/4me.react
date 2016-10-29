@@ -25,7 +25,7 @@ export function startBootstrap() {
 export function cleanUp() {
   return (dispatch) => { // eslint-disable-line no-unused-vars
     // TODO: Implement a proper clean up sequence here
-    console.log(`core/actions/bootstrap: Clean up sequence triggered !`);
+    console.log('core/actions/bootstrap: Clean up sequence triggered !');
     return Promise.resolve();
   };
 }

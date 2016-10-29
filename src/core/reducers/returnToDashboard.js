@@ -8,7 +8,7 @@ const defaultState = {
   lastUserInteraction: Date.now(),
   enabled: false,
   targetRoute: null,
-  interval: 10 * 1000, // 90 seconds
+  interval: 90 * 1000, // 90 seconds
 };
 
 export default function lastUserInteraction(state = defaultState, action) {

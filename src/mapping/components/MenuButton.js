@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import R from 'ramda';
 
 import {
   OrganButton,
@@ -17,15 +16,17 @@ export class MenuButton extends Component {
   }
 
   componentWillUnmount() {
-    console.log('Cleanup');
+    const {
+      cleanUp,
+    } = this.props;
+
+    cleanUp();
   }
 
   render() {
     const {
       isActive,
       transition,
-      client, // eslint-disable-line no-unused-vars
-      sectors = [],
       totalSectors,
     } = this.props;
 
@@ -44,7 +45,10 @@ export class MenuButton extends Component {
   }
 }
 
-import { bootstrap } from '../actions/bootstrap';
+import {
+  bootstrap,
+  cleanUp,
+} from '../actions/bootstrap';
 
 import { getOpenedCwpCount } from '../selectors/map';
 
@@ -54,6 +58,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   bootstrap,
+  cleanUp,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuButton);

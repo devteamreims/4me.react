@@ -8,8 +8,6 @@ import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
 import LinearProgress from 'material-ui/LinearProgress';
 
-import { Redirect } from 'react-router';
-
 const refreshInterval = 100;
 const percentageThreshold = 0.80; // Progress bar will not be visible before 80% of the timer has passed
 
@@ -25,7 +23,7 @@ class ReturnToDashboard extends Component {
     this.refreshInterval = null;
   }
 
-  _getInitialState = () => ({
+  _getInitialState = () => ({ // eslint-disable-line react/sort-comp
     showProgress: false,
     triggerRedirect: false,
     progressPercentage: 0,
@@ -75,7 +73,7 @@ class ReturnToDashboard extends Component {
     }
 
     if(moment().isAfter(returnToDashboardTime)) {
-      router.transitionTo('/');
+      router.transitionTo(targetRoute);
       this.setState({showProgress: false});
       disableRedirect();
       return;
@@ -153,7 +151,4 @@ const mapDispatchToProps = {
   disableRedirect,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReturnToDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(ReturnToDashboard);

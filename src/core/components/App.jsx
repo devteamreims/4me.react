@@ -14,15 +14,13 @@ import InteractionCatcher from './InteractionCatcher';
 
 import { HashRouter as Router, Match, Miss } from 'react-router';
 
-import { injectOrganProps, injectExtendedOrganProps } from '../wrappers/injectOrganProps';
+import { injectOrganProps } from '../wrappers/injectOrganProps';
 
 import Dashboard from './Dashboard';
 import StatusPage from './Status';
 import Error404 from './Error404';
 
 import '../../styles/disable-select.scss';
-
-const TestComponent = () => <div>Blabla</div>;
 
 export class App extends Component {
   componentDidMount() {
@@ -137,7 +135,6 @@ export class App extends Component {
       errorMessage,
       isBootstrapping,
       bootstrapMessage,
-      children,
       shouldZoomUi,
       uiZoom,
       shouldDisableSelect,
@@ -188,6 +185,7 @@ export class App extends Component {
     const organStatusComponents = this._prepareStatusItem();
 
     console.log('CACABOUDIN');
+    console.log('organs', this.props.organs);
     console.log('mainRouter', mainRouterItems);
     console.log('statusItems', organStatusComponents);
     console.log('leftMenu', leftMenuRows);

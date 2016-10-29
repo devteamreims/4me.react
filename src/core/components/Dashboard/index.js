@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Dashboard = ({widgets}) => (
-  <div>Dashboard caca !</div>
+
+// TODO: Implement hard redirects since we don't have any dashboard for now
+const Dashboard = ({widgets}) => ( // eslint-disable-line no-unused-vars
+  <div>Dashboard !</div>
 );
 
 export default Dashboard;
