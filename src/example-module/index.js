@@ -1,17 +1,15 @@
 import React from 'react';
-import MenuButton from './components/MenuButton';
-import Main from './components/Main';
+
+import MenuButtonComponent from './components/MenuButton';
+import MainComponent from './components/Main';
+import StatusComponent from './components/Status';
+
+const WidgetComponent = () => <span>Stub Widget !</span>;
 
 import exampleReducer from './reducer';
 
 import { setSlice, p } from './selectors';
 
-
-export const Widget = () => <span>Stub Widget !</span>;
-
-
-export Main from './components/Main';
-export MenuButton from './components/MenuButton';
 
 // This function will be called when the app starts,
 export function getReducer(slug) {
@@ -60,10 +58,10 @@ export function getStatus(state) {
  */
 
 export default {
-  MenuButtonComponent: MenuButton,
-  WidgetComponent: Widget,
-  MainComponent: Main,
-  StatusComponent: () => <div>Test !</div>,
+  MenuButtonComponent,
+  WidgetComponent,
+  MainComponent,
+  StatusComponent,
   getReducer,
   getStatus,
 };
