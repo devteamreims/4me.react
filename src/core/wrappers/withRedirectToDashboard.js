@@ -6,8 +6,6 @@ import {
   disable as disableRedirect,
 } from '../actions/returnToDashboard';
 
-import { withRouter } from 'react-router';
-
 export default function withRedirectToDashboard(getShouldEnableRedirection, getTargetRoute) {
   return (DecoratedComponent) => {
     if(typeof getShouldEnableRedirection !== 'function') {
@@ -94,6 +92,6 @@ export default function withRedirectToDashboard(getShouldEnableRedirection, getT
       disableRedirect,
     };
 
-    return connect(mapStateToProps, mapDispatchToProps)(withRouter(wrapped));
+    return connect(mapStateToProps, mapDispatchToProps)(wrapped);
   };
 }

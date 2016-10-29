@@ -8,7 +8,6 @@ class InteractionCatcher extends Component {
       interact,
     } = this.props;
 
-    console.log('Interaction caught !');
     interact();
   }, 100);
 
@@ -22,7 +21,6 @@ class InteractionCatcher extends Component {
     return (
       <div
         onClick={this.handleUserInteraction}
-        onMouseDown={this.handleUserInteraction}
         onKeyDown={this.handleUserInteraction}
         onWheel={this.handleUserInteraction}
         {...rest}

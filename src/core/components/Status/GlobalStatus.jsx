@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
+import R from 'ramda';
 
 import SingleStatus from './SingleStatus';
 
@@ -14,8 +14,8 @@ export class GlobalStatus extends Component {
   render() {
     const {
       coreStatus,
-      organStatuses,
       displayLevel,
+      organComponents,
     } = this.props;
 
     return (
@@ -28,22 +28,12 @@ export class GlobalStatus extends Component {
           items={coreStatus.items}
           displayLevel={displayLevel}
         />
-        {_.map(organStatuses, (organStatus, index) =>
-          <SingleStatus
-            key={index}
-            title={organStatus.name}
-            level={organStatus.status}
-            items={organStatus.items}
-            displayLevel={displayLevel}
-          />
-        )}
+        {R.addIndex(R.map)((Component, key) => <Component key={key} displayLevel={displayLevel} />, organComponents)}
       </div>
     );
   }
 }
 
-
-import organs from '../../../organs';
 
 import {
   getCoreStatus,
@@ -53,20 +43,9 @@ import {
 const mapStateToProps = (state) => {
   const coreStatus = getCoreStatus(state);
 
-  const organStatuses = _.map(organs, organ => {
-    const status = organ.getStatus(state);
-    const name = organ.displayName;
-
-    return {
-      name,
-      ...status,
-    };
-  });
-
   return {
     coreStatus,
-    organStatuses,
-    displayLevel: getDisplayLevel(state),
+    displayLevel: 'extended' || getDisplayLevel(state),
   };
 };
 

@@ -1,53 +1,44 @@
-import _ from 'lodash';
+// import xman from './xman';
+// import arcid from './arcid';
+// import mapping from './mapping';
 
-import xman from './xman';
-import arcid from './arcid';
-import mapping from './mapping';
+import { injectAsyncReducers } from './store/configureStore';
+import R from 'ramda';
+/*
+  This is our organ loading process. This happens at compile time
+  First, we define all possible organs here
+*/
+const organs = () => ({
+  exampleModule: {
+    displayName: 'Example module',
+    pathName: '/example-module',
+    ...require('./example-module').default,
+  },
+});
 
-const stubNotifications = {};
+export function getOrgans(store) {
+  const asyncReducers = R.pipe(
+    R.map(R.prop('getReducer')),
+    R.filter(R.identity),
+    R.mapObjIndexed((getReducer, name) => getReducer(name)),
+  )(organs());
 
-const getNotifications = () => {
-  return stubNotifications;
-};
+  // This is not pretty, but it works just fine
+  // TODO: Refactor
+  if(module.hot) {
+    module.hot.accept(['./example-module'], () => {
+      const asyncReducers = R.pipe(
+        R.map(R.prop('getReducer')),
+        R.filter(R.identity),
+        R.mapObjIndexed((getReducer, name) => getReducer(name)),
+      )(organs());
 
-const stubStatus = {
-  status: 'normal',
-  items: [],
-};
+      injectAsyncReducers(store, asyncReducers);
+    });
+  }
 
-const getStatus = () => {
-  return stubStatus;
-};
 
-const defaults = {
-  bootstrap: () => () => {},
-  getNotifications,
-  onSectorChange: () => () => {},
-  getStatus,
-};
+  injectAsyncReducers(store, asyncReducers);
 
-const organs = _(
-  [
-    xman,
-    arcid,
-    mapping,
-  ]
-)
-  .map(organ => _.defaults(organ, defaults))
-  .map(organ => Object.assign({}, {
-    linkTo: _.kebabCase(organ.name),
-    displayName: _.capitalize(organ.name),
-  }, organ))
-  .value();
-
-export function getReducers() {
-  return _.reduce(organs, (prev, organ) => {
-    if(!organ.rootReducer) {
-      return prev;
-    }
-    return _.merge(prev, {[organ.name]: organ.rootReducer});
-  }, {});
+  return organs();
 }
-
-
-export default organs;

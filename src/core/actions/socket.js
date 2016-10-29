@@ -10,12 +10,7 @@ import {
 } from '../selectors/cwp';
 
 import {
-  getSectors,
-} from '../selectors/sector';
-
-import {
   fetchSectors,
-  bindNewSectors,
 } from './sector';
 
 let mySocket;
@@ -57,20 +52,11 @@ export function connectSocket() {
       return dispatch(socketDisconnected());
     });
 
-    mySocket.on('mapping:refresh', (data) => {
-      console.log('core/socket: Got refresh signal from mapping backend');
-      console.log(data);
-
-      const oldSectors = getSectors(getState());
-
-      return dispatch(fetchSectors())
-        .then((data) => {
-          const { sectors } = data;
-          return dispatch(bindNewSectors(oldSectors, sectors));
-        });
+    mySocket.on('mapping:refresh', () => {
+      return dispatch(fetchSectors());
     });
 
-    mySocket.on('force_reload', () => { // eslint-disable-line no-unused-vars
+    mySocket.on('force_reload', () => {
       console.log('core/socket: Reloading app');
       window.location.reload(true);
     });
@@ -79,7 +65,6 @@ export function connectSocket() {
     return mySocket;
   };
 }
-
 
 function socketConnecting() {
   return {

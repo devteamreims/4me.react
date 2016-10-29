@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
+import R from 'ramda';
 
 import FlatButton from 'material-ui/FlatButton';
 
@@ -12,41 +12,124 @@ import Keyboard from './Keyboard';
 import ReturnToDashboard from './ReturnToDashboard';
 import InteractionCatcher from './InteractionCatcher';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import mainTheme from '../../theme';
+import { HashRouter as Router, Match, Miss } from 'react-router';
+
+import { injectOrganProps, injectExtendedOrganProps } from '../wrappers/injectOrganProps';
+
+import Dashboard from './Dashboard';
+import StatusPage from './Status';
+import Error404 from './Error404';
 
 import '../../styles/disable-select.scss';
 
+const TestComponent = () => <div>Blabla</div>;
+
 export class App extends Component {
-  static childContextTypes = {
-    muiTheme: React.PropTypes.object,
-  };
-
-  getChildContext() {
-    return {
-      muiTheme: getMuiTheme(mainTheme),
-    };
-  }
-
   componentDidMount() {
     this.handleRestart();
   }
 
+  componentWillUnmount() {
+    const {
+      cleanUp,
+    } = this.props;
+
+    cleanUp();
+  }
+
+  _prepareOrganStatusGetters = () => {
+    const { organs } = this.props;
+    const organToStatusGetter = R.prop('getStatus');
+
+    return R.pipe(
+      R.map(organToStatusGetter),
+      R.values,
+      R.reject(R.isNil),
+    )(organs);
+  }
+
+  _prepareMenuItems = () => {
+    const { organs } = this.props;
+
+    const organToMenuItem = (organ, name) => {
+      const { pathName } = organ;
+      const rawComponent = R.prop('MenuButtonComponent', organ);
+      if(!rawComponent) {
+        return;
+      }
+
+      const component = injectOrganProps(name)(rawComponent);
+
+      return {
+        pathName,
+        component,
+      };
+    };
+
+    return R.pipe(
+      R.mapObjIndexed(organToMenuItem),
+      R.values,
+      R.reject(R.isNil),
+    )(organs);
+  };
+
+  _prepareMainItems = () => {
+    const { organs } = this.props;
+
+    const organToMainItem = (organ, name) => {
+      const { pathName } = organ;
+
+      const rawComponent = R.prop('MainComponent', organ);
+      if(!rawComponent) {
+        return;
+      }
+      const component = injectOrganProps(name)(rawComponent);
+
+      return (
+        <Match key={pathName} pattern={pathName} component={component} />
+      );
+    };
+
+    return R.pipe(
+      R.mapObjIndexed(organToMainItem),
+      R.values,
+      R.reject(R.isNil)
+    )(organs);
+  };
+
+  _prepareDashboardItems = () => {
+    // unimplemented
+
+  };
+
+  _prepareStatusItem = () => {
+    const { organs } = this.props;
+
+    const organToStatusItem = (organ, name) => {
+      const rawComponent = R.prop('StatusComponent', organ);
+      if(!rawComponent) {
+        return;
+      }
+
+      const component = injectOrganProps(name)(rawComponent);
+
+      return component;
+    };
+
+    return R.pipe(
+      R.mapObjIndexed(organToStatusItem),
+      R.values,
+      R.reject(R.isNil),
+    )(organs);
+  };
+
   handleRestart = (ev) => { // eslint-disable-line no-unused-vars
     const {
       startBootstrap,
+      cleanUp,
     } = this.props;
-
-    startBootstrap();
+    cleanUp().then(() => startBootstrap());
   };
-
-  handleUserInteraction = _.debounce((ev) => { // eslint-disable-line no-unused-vars
-    const {
-      interact,
-    } = this.props;
-
-    interact();
-  }, 100);
 
   render() {
     const {
@@ -54,7 +137,6 @@ export class App extends Component {
       errorMessage,
       isBootstrapping,
       bootstrapMessage,
-      location,
       children,
       shouldZoomUi,
       uiZoom,
@@ -97,32 +179,78 @@ export class App extends Component {
       );
     }
 
+    // At this point, the app is ready, render our layout
+
+    // Prepare organ data here
+    const organStatusGetters = this._prepareOrganStatusGetters();
+    const leftMenuRows = this._prepareMenuItems();
+    const mainRouterItems = this._prepareMainItems();
+    const organStatusComponents = this._prepareStatusItem();
+
+    console.log('CACABOUDIN');
+    console.log('mainRouter', mainRouterItems);
+    console.log('statusItems', organStatusComponents);
+    console.log('leftMenu', leftMenuRows);
+
     return (
-      <InteractionCatcher
-        className={className}
-        style={styles}
-      >
-        <TopBar id="topbar" />
-        <ReturnToDashboard />
-        <div id="main-wrap">
-          <div id="leftnav">
-            <LeftMenu location={location} />
+      <Router>
+        <InteractionCatcher
+          className={className}
+          style={styles}
+        >
+          <TopBar
+            id="topbar"
+            statusGetters={organStatusGetters}
+          />
+          <ReturnToDashboard />
+          <div id="main-wrap">
+            <div id="leftnav">
+              <LeftMenu rows={leftMenuRows} />
+            </div>
+            <div id="content">
+              <Match
+                pattern="/"
+                render={() => (
+                  <div>
+                    <Match
+                      key="dashboard"
+                      pattern="/"
+                      exactly={true}
+                      render={
+                        () => (
+                          <Dashboard
+                            widgets={[]}
+                          />
+                        )
+                      }
+                    />
+                    <Match
+                      key="status"
+                      pattern="/status"
+                      render={
+                        () => (
+                          <StatusPage organComponents={organStatusComponents} />
+                        )
+                      }
+                    />
+                    {mainRouterItems}
+                    <Miss key="error404" component={Error404} />
+                  </div>
+                )}
+              />
+            </div>
           </div>
-          <div id="content">
-            {children}
-          </div>
-        </div>
-        <Keyboard />
-      </InteractionCatcher>
+          <Keyboard />
+        </InteractionCatcher>
+      </Router>
     );
   }
 }
 
-import { startBootstrap } from '../actions/bootstrap';
-
 import {
-  interact,
-} from '../actions/returnToDashboard';
+  startBootstrap,
+  cleanUp,
+} from '../actions/bootstrap';
 
 import {
   isBootstrapping,
@@ -137,7 +265,7 @@ import {
 
 const mapDispatchToProps = {
   startBootstrap,
-  interact,
+  cleanUp,
 };
 
 const mapStateToProps = (state) => {
@@ -153,4 +281,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+import withMuiTheme from '../wrappers/withMuiTheme';
+
+export default R.compose(
+  withMuiTheme,
+  connect(mapStateToProps, mapDispatchToProps),
+)(App);

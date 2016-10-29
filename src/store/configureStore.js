@@ -2,27 +2,21 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { persistState } from 'redux-devtools';
 
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger'; // eslint-disable-line no-unused-vars
+// import createLogger from 'redux-logger';
 
-import { getReducers } from '../organs';
-
-export function createRootReducer(reducers) {
+export function createRootReducer(asyncReducers) {
   // eslint-disable-next-line global-require
-  const coreReducer = require('../core/reducers').default;
-  const stubReducer = (state = {}) => state;
+  const core = require('../core/reducers').default;
 
-  const organReducers = getReducers();
+  return combineReducers({
+    core,
+    ...asyncReducers,
+  });
+}
 
-  return combineReducers(
-    Object.assign(
-      {
-        core: coreReducer,
-        stub: stubReducer,
-      },
-      organReducers,
-      reducers
-    )
-  );
+export function injectAsyncReducers(store, reducers) {
+  store.asyncReducers = Object.assign({}, store.asyncReducers, reducers);
+  store.replaceReducer(createRootReducer(store.asyncReducers));
 }
 
 export default function configureStore(initialState) {
@@ -39,7 +33,6 @@ export default function configureStore(initialState) {
     };
 
     enhancer = compose(
-
       // Middleware we want to use in development
       middleware,
       window.devToolsExtension ?
@@ -54,13 +47,20 @@ export default function configureStore(initialState) {
     enhancer = compose(middleware);
   }
 
-  const store = createStore(createRootReducer({}), initialState, enhancer);
+  const store = createStore(
+    createRootReducer({}),
+    initialState,
+    enhancer
+  );
+
+  store.asyncReducers = {};
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {
-    module.hot.accept('../core/reducers', () =>
-      store.replaceReducer(createRootReducer({}))
-    );
+    module.hot.accept('../core/reducers', () => {
+      const asyncReducers = store.asyncReducers;
+      store.replaceReducer(createRootReducer(asyncReducers));
+    });
   }
 
   return store;
