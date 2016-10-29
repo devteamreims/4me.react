@@ -28,6 +28,15 @@ export function getSocket() {
   return mySocket;
 }
 
+export function disconnect() {
+  if(!mySocket) {
+    return;
+  }
+
+  mySocket.disconnect();
+  mySocket = undefined;
+}
+
 
 import {
   complete as setMap,

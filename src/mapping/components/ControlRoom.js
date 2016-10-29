@@ -90,12 +90,7 @@ const styles = {
 };
 
 
-class MappingButtons extends Component {
-
-  shouldComponentUpdate() {
-    return false;
-  }
-
+class ControlRoom extends Component {
   render() {
     const posToElement = pos => (
       <div
@@ -123,74 +118,4 @@ class MappingButtons extends Component {
   }
 }
 
-class MappingRoot extends Component {
-
-  handleRequestClose = (event) => { // eslint-disable-line no-unused-vars
-    const {
-      closeDialog,
-    } = this.props;
-
-    closeDialog();
-  };
-
-  render() {
-    const {
-      isErrored,
-      isDialogOpen,
-      dialogCwpId,
-    } = this.props;
-
-    if(isErrored) {
-      return (
-        <ErrorModal
-          title="MAPPING unavailable"
-        >
-          Could not connect to mapping backend
-        </ErrorModal>
-      );
-    }
-
-    return (
-      <div>
-        <CwpDialog
-          open={isDialogOpen}
-          modal={false}
-          cwpId={dialogCwpId}
-          onRequestClose={this.handleRequestClose}
-        />
-        <MappingButtons />
-      </div>
-    );
-  }
-}
-
-import {
-  isOpen,
-  getCwpId as getDialogCwpId,
-} from '../selectors/dialog';
-
-import {
-  isErrored,
-} from '../selectors/status';
-
-const mapStateToProps = (state) => {
-  const isDialogOpen = isOpen(state);
-  const dialogCwpId = getDialogCwpId(state);
-
-  return {
-    isDialogOpen,
-    dialogCwpId,
-    isErrored: isErrored(state),
-  };
-};
-
-import {
-  close as closeDialog
-} from '../actions/dialog';
-
-const mapDispatchToProps = {
-  closeDialog,
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(MappingRoot);
+export default ControlRoom;

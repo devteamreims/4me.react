@@ -1,31 +1,24 @@
-import React from 'react';
+import MenuButtonComponent from './components/MenuButton';
+import MainComponent from './components/Main';
+import StatusComponent from './components/Status';
 
-import { Route } from 'react-router';
-
-import rootComponent from './components/Root';
 import rootReducer from './reducers';
 
-import { bootstrap } from './actions/bootstrap';
+import { setSlice } from './selectors/prefix';
 
-import { getStatus } from './selectors/status';
+const getReducer = slug => {
+  setSlice(slug);
+  return rootReducer;
+};
 
-import { shouldRedirectToDashboard } from './selectors/returnToDashboard';
-import withRedirectToDashboard from '../core/wrappers/withRedirectToDashboard';
-import { getIndexRoute } from '../core/selectors/routes';
-const getTargetRoute = getIndexRoute;
-
-const enhancedComponent = withRedirectToDashboard(
-  shouldRedirectToDashboard,
-  getTargetRoute
-)(rootComponent);
+import {
+  getStatusString,
+} from './selectors/status';
 
 export default {
-  name: 'mapping',
-  displayName: 'control room',
-  linkTo: 'mapping',
-  bootstrap,
-  rootComponent: enhancedComponent,
-  routes: <Route key="mapping" path="/mapping" component={enhancedComponent} />,
-  rootReducer,
-  getStatus,
+  MenuButtonComponent,
+  MainComponent,
+  StatusComponent,
+  getReducer,
+  getStatus: getStatusString,
 };

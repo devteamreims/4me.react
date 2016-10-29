@@ -1,7 +1,3 @@
-// import xman from './xman';
-// import arcid from './arcid';
-// import mapping from './mapping';
-
 import { injectAsyncReducers } from './store/configureStore';
 import R from 'ramda';
 /*
@@ -14,6 +10,11 @@ const organs = () => ({
     pathName: '/example-module',
     ...require('./example-module').default,
   },
+  mapping: {
+    displayName: 'Control room',
+    pathName: '/mapping',
+    ...require('./mapping').default,
+  }
 });
 
 export function getOrgans(store) {
@@ -26,7 +27,7 @@ export function getOrgans(store) {
   // This is not pretty, but it works just fine
   // TODO: Refactor
   if(module.hot) {
-    module.hot.accept(['./example-module'], () => {
+    module.hot.accept(['./example-module', './mapping'], () => {
       const asyncReducers = R.pipe(
         R.map(R.prop('getReducer')),
         R.filter(R.identity),

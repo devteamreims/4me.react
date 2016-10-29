@@ -1,5 +1,9 @@
-import _ from 'lodash';
+let prefix;
 
-export default function prefix(state) {
-  return _.get(state, 'mapping');
-}
+export const setSlice = (slug) => {
+  prefix = slug;
+};
+
+export const getPrefixed = state => state[prefix];
+export const p = getPrefixed;
+export default p;
