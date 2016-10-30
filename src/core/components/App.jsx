@@ -235,7 +235,7 @@ export class App extends Component {
                 </div>
               )}
             />
-            </div>
+          </div>
           <Keyboard />
         </InteractionCatcher>
       </Router>
