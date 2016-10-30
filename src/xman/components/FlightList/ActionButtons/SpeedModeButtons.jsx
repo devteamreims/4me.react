@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
+import R from 'ramda';
 
 import McsButton from './McsButton';
 import UndoButton from './UndoButton';
@@ -128,14 +129,31 @@ import {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     ifplId,
+    client,
+    sectors,
   } = ownProps;
 
+  const author = {
+    sectors,
+    cwp: {
+      id: client.id || null,
+      name: client.name || 'P__',
+    },
+  };
+
+
   return {
-    clearAction: () => dispatch(clearAction(ifplId, {})),
-    setMcs: (mcs) => dispatch(setMcs(ifplId, mcs)),
+    clearAction: () => dispatch(clearAction(ifplId, author)),
+    setMcs: (mcs) => dispatch(setMcs(ifplId, mcs, author)),
     setSpeed: (speed) => dispatch(setSpeed(ifplId, speed)),
   };
 };
 
+import withClient from '../../../../core/wrappers/withClient';
+import withSectors from '../../../../core/wrappers/withSectors';
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpeedModeButtons);
+export default R.compose(
+  withClient,
+  withSectors,
+  connect(mapStateToProps, mapDispatchToProps)
+)(SpeedModeButtons);

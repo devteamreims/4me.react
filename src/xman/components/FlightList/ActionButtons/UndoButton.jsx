@@ -13,22 +13,6 @@ import XmanButton from './XmanButton';
 
 
 class UndoButton extends Component {
-  handleUndo = (event) => { // eslint-disable-line no-unused-vars
-    const {
-      disabled,
-      readOnly,
-      clearAction,
-    } = this.props;
-
-    console.log('Called !');
-
-    if(disabled || readOnly) {
-      return;
-    }
-
-    clearAction();
-  };
-
   render() {
     const {
       disabled,
@@ -54,7 +38,6 @@ class UndoButton extends Component {
         labelColor={fullBlack}
         backgroundColor={overridenBackgroundColor}
         style={style}
-        onClick={this.handleUndo}
         {...other}
       />
     );
