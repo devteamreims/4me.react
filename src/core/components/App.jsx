@@ -205,39 +205,37 @@ export class App extends Component {
             <div id="leftnav">
               <LeftMenu rows={leftMenuRows} />
             </div>
-            <div id="content">
-              <Match
-                pattern="/"
-                render={() => (
-                  <div>
-                    <Match
-                      key="dashboard"
-                      pattern="/"
-                      exactly={true}
-                      render={
-                        () => (
-                          <Dashboard
-                            widgets={[]}
-                          />
-                        )
-                      }
-                    />
-                    <Match
-                      key="status"
-                      pattern="/status"
-                      render={
-                        () => (
-                          <StatusPage organComponents={organStatusComponents} />
-                        )
-                      }
-                    />
-                    {mainRouterItems}
-                    <Miss key="error404" component={Error404} />
-                  </div>
-                )}
-              />
+            <Match
+              pattern="/"
+              render={() => (
+                <div id="content">
+                  <Match
+                    key="dashboard"
+                    pattern="/"
+                    exactly={true}
+                    render={
+                      () => (
+                        <Dashboard
+                          widgets={[]}
+                        />
+                      )
+                    }
+                  />
+                  <Match
+                    key="status"
+                    pattern="/status"
+                    render={
+                      () => (
+                        <StatusPage organComponents={organStatusComponents} />
+                      )
+                    }
+                  />
+                  {mainRouterItems}
+                  <Miss key="error404" component={Error404} />
+                </div>
+              )}
+            />
             </div>
-          </div>
           <Keyboard />
         </InteractionCatcher>
       </Router>
