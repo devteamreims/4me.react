@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import moment from 'moment';
+import R from 'ramda';
 
 import TimeAgo from '../../../utils/components/TimeAgo';
 
@@ -14,24 +14,24 @@ const style = {
   sectors: {},
 };
 
-const AppliedBy = ({cwpName, prettySectors, when}) => (
-  <div style={style.wrapper}>
-    <span
-      style={style.sectors}
-    >
-      {prettySectors || cwpName}
-    </span>
-    {when !== 0 && <TimeAgo when={when} style={style.when} />}
-  </div>
-);
+const AppliedBy = ({cwpName, prettifySectors, sectors, when}) => {
+  const prettySectors = prettifySectors(sectors);
+
+  return (
+    <div style={style.wrapper}>
+      <span
+        style={style.sectors}
+      >
+        {prettySectors || cwpName}
+      </span>
+      {when !== 0 && <TimeAgo when={when} style={style.when} />}
+    </div>
+  );
+};
 
 AppliedBy.propTypes = {
   ifplId: React.PropTypes.string.isRequired,
 };
-
-import {
-  getPrettifySectors,
-} from '../../../core/selectors/sectorTree';
 
 import {
   getAppliedBySectors,
@@ -49,13 +49,11 @@ const mapStateToProps = (state, ownProps) => {
   const flight = getFlightByIfplId(state, ifplId);
 
   const sectors = getAppliedBySectors(state, ifplId);
-  const prettySectors = getPrettifySectors(state)(sectors);
 
   const cwpName = getAppliedByCwpName(state, ifplId);
   const when = getAppliedByWhen(state, ifplId);
 
   return {
-    prettySectors,
     sectors,
     cwpName,
     when,
@@ -63,4 +61,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(AppliedBy);
+import withPrettifySectors from '../../../core/wrappers/withPrettifySectors';
+
+export default R.pipe(
+  withPrettifySectors,
+  connect(mapStateToProps),
+)(AppliedBy);
