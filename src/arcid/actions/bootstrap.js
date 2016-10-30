@@ -5,6 +5,7 @@ import api from '../../api';
 import {
   setupSocketIo,
   getSocket,
+  disconnect,
 } from '../socket';
 
 import {
@@ -37,7 +38,8 @@ export function bootstrap() {
   };
 }
 
-export function onSectorChange() {
-  console.log('Dispatching arcid on sector change');
-  return;
+export function cleanUp() {
+  return () => {
+    disconnect();
+  };
 }

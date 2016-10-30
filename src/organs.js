@@ -14,7 +14,12 @@ const organs = () => ({
     displayName: 'Control room',
     pathName: '/mapping',
     ...require('./mapping').default,
-  }
+  },
+  etfmsProfile: {
+    displayName: 'Etfms profile',
+    pathName: '/etfms_profile',
+    ...require('./arcid').default,
+  },
 });
 
 export function getOrgans(store) {
@@ -27,7 +32,7 @@ export function getOrgans(store) {
   // This is not pretty, but it works just fine
   // TODO: Refactor
   if(module.hot) {
-    module.hot.accept(['./example-module', './mapping'], () => {
+    module.hot.accept(['./example-module', './mapping', './arcid'], () => {
       const asyncReducers = R.pipe(
         R.map(R.prop('getReducer')),
         R.filter(R.identity),

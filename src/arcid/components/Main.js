@@ -24,7 +24,7 @@ const style = {
   },
   leftPanel: {
     overflowX: 'hidden',
-    width: '282px',
+    maxWidth: 282,
     // paddingLeft: 10,
     display: 'flex',
     flexDirection: 'column',
@@ -60,7 +60,7 @@ class ArcidRoot extends Component {
     if(isErrored) {
       return (
         <ErrorModal
-          title="ARCID unavailable"
+          title="ETFMS PROFILE unavailable"
         >
           Could not connect to arcid backend
         </ErrorModal>
