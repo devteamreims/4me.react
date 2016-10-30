@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { getSectors } from '../selectors/sectors';
+import { getSectors } from '../selectors/sector';
 
 const mapStateToProps = (state) => ({
   sectors: getSectors(state),
