@@ -57,6 +57,8 @@ export const getStatus = (state) => {
   };
 };
 
+export const getStatusString = state => _.get(getStatus(state), 'status', 'normal');
+
 export const isForcedOff = (state, fetcher) => {
   return _.get(getSingleFetcherStatus(state, fetcher), 'forceOff', false);
 };

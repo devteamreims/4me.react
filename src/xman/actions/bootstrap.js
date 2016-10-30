@@ -14,12 +14,8 @@ import {
   setFilter,
 } from './list-filter';
 
-import {
-  getSectors,
-} from '../../core/selectors/sector';
-
-export function bootstrap() {
-  return (dispatch, getState) => {
+export function bootstrap(sectors = []) {
+  return (dispatch) => {
     console.log('Bootstrapping XMAN !!');
 
     // Only setup a new socket if we don't have one
@@ -37,17 +33,20 @@ export function bootstrap() {
     // Refresh flight list,
     // Connect to socket, set handlers
 
-    const newSectors = getSectors(getState());
-
     // Here we dispatch onSectorChange with [] as old sectors and getSectors as newSectors
     // onSectorChange will handle setting the right filter
 
     return Promise.all([
       dispatch(fetchStatus()),
-      dispatch(onSectorChange([], newSectors)),
+      dispatch(onSectorChange([], sectors)),
       setupSocket(),
     ]);
   };
+}
+
+// TODO: Implement cleanUp
+export function cleanUp() {
+  return () => {};
 }
 
 export function onSectorChange(oldSectors, newSectors) {

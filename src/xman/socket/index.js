@@ -87,26 +87,15 @@ import {
 
 export function attachHandlerToSocket(dispatch, socket) {
   socket.on('update_flights', (data) => {
-    console.log('XMAN Socket: UPDATE_FLIGHTS');
-    console.log(data);
-
     dispatch(complete(data));
   });
 
   socket.on('update_flight', (data) => {
-    console.log('XMAN Socket: UPDATE_FLIGHT');
-    console.log(data);
     const flight = _.cloneDeep(data);
-
-    console.log(flight);
-
     dispatch(updateFlight(flight));
   });
 
   socket.on('update_status', data => {
-    console.log('XMAN Socket : UPDATE_STATUS');
-    console.log(data);
-
     dispatch(setStatus(data));
   });
 }

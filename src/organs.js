@@ -20,6 +20,11 @@ const organs = () => ({
     pathName: '/etfms_profile',
     ...require('./arcid').default,
   },
+  xman: {
+    displayName: 'XMAN',
+    pathName: '/xman',
+    ...require('./xman').default,
+  },
 });
 
 export function getOrgans(store) {
@@ -32,7 +37,7 @@ export function getOrgans(store) {
   // This is not pretty, but it works just fine
   // TODO: Refactor
   if(module.hot) {
-    module.hot.accept(['./example-module', './mapping', './arcid'], () => {
+    module.hot.accept(['./example-module', './mapping', './arcid', './xman'], () => {
       const asyncReducers = R.pipe(
         R.map(R.prop('getReducer')),
         R.filter(R.identity),
