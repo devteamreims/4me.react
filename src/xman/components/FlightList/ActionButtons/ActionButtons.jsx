@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { pure } from 'recompose';
-import _ from 'lodash';
+import R from 'ramda';
 
 import './buttons.scss';
 
@@ -16,12 +15,14 @@ class ActionButtons extends Component {
       isSpeedMode,
       isMachMode,
       isMcsMode,
-      readOnly,
+      sectors,
       isHighlighted,
       isTonedDown,
     } = this.props;
 
     const dimmed = !isHighlighted || isTonedDown;
+
+    const readOnly = R.isEmpty(sectors);
 
     if(isMcsMode) {
       return (
@@ -64,10 +65,6 @@ import {
   hasSetAction,
 } from '../../../selectors/flight';
 
-import {
-  getSectors,
-} from '../../../../core/selectors/sector';
-
 const mapStateToProps = (state, ownProps) => {
   const {
     ifplId,
@@ -78,10 +75,13 @@ const mapStateToProps = (state, ownProps) => {
     isMachMode: isFlightInMachMode(state, ifplId),
     isMcsMode: isFlightInMcsMode(state, ifplId),
     minimumCleanSpeed: getMinimumCleanSpeed(state, ifplId),
-    readOnly: _.isEmpty(getSectors(state)),
     isUndoButtonDisabled: !hasSetAction(state, ifplId),
   };
 };
 
+import withSectors from '../../../../core/wrappers/withSectors';
 
-export default connect(mapStateToProps)(pure(ActionButtons));
+export default R.pipe(
+  withSectors,
+  connect(mapStateToProps),
+)(ActionButtons);
