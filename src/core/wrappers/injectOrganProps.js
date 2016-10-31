@@ -1,10 +1,7 @@
 import { connect } from 'react-redux';
 
 import {
-  getCwpId,
-  getCwpType,
-  isCwpDisabled,
-  getCwpName,
+  getClient,
 } from '../selectors/cwp';
 
 import {
@@ -14,12 +11,7 @@ import {
 const getMapStateToProps = slug => {
   return state => {
     const sectors = getSectors(state);
-    const client = {
-      id: getCwpId(state),
-      type: getCwpType(state),
-      disabled: isCwpDisabled(state),
-      name: getCwpName(state),
-    };
+    const client = getClient(state);
 
 
     const props = {
