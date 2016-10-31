@@ -3,6 +3,8 @@
 window.FOURME_CONFIG = {
 // Override cwpId (demo website)
   overrideCwpId: 32,
+// This will disable specific organs defined in organs.js at runtime
+  disabledOrgans: ['exampleModule'],
   core_mapping_url:'http://mapping.4me',
   mapping_url: 'http://mapping.4me',
   xman_url: 'http://xman.4me',

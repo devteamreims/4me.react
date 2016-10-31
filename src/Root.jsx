@@ -8,6 +8,7 @@ class Root extends Component {
   constructor(props) {
     super(props);
     const { store } = props;
+
     this._organs = getOrgans(store);
   }
 
