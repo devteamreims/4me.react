@@ -17,7 +17,7 @@ export const Main = ({
 }) => (
   <div>
     <RedirectToDashboard />
-    <span>Stub caca !</span>
+    <span>This is an example module !</span>
     <br />
     <input type="text" />
     <br />
