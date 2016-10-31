@@ -5,7 +5,6 @@ import Paper from 'material-ui/Paper';
 
 const styles = {
   gridTile: {
-    margin: 10,
     display: 'flex',
     flexDirection: 'column',
   },

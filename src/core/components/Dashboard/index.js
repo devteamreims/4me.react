@@ -38,6 +38,7 @@ class Dashboard extends Component {
       <GridList
         style={styles.gridList}
         cols={3}
+        padding={10}
         cellHeight={300}
       >
         {widgets}
