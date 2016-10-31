@@ -2,23 +2,12 @@ import React, {Component} from 'react';
 
 import R from 'ramda';
 
-import {GridList, GridTile} from 'material-ui/GridList';
-import { Link } from 'react-router';
+import {GridList} from 'material-ui/GridList';
 
 const styles = {
   gridList: {
     margin: 0,
-    border: '1px solid red',
     alignContent: 'flex-start',
-  },
-  gridTile: {
-    border: '1px solid blue',
-    flexGrow: 1,
-  },
-  gridTileChildren: {
-    border: '1px solid green',
-    maxHeight: '100%',
-    overflowY: 'auto',
   },
 };
 

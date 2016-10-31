@@ -5,11 +5,9 @@ import { Link } from 'react-router';
 
 const styles = {
   gridTile: {
-    border: '1px solid blue',
     flexGrow: 1,
   },
   gridTileChildren: {
-    border: '1px solid green',
     maxHeight: '100%',
     overflowY: 'auto',
   },

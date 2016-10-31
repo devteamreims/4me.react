@@ -2,9 +2,7 @@ import React from 'react';
 
 import Widget from '../../core/components/Dashboard/Widget';
 
-const WidgetComponent = ({cols, ...rest}) => {
-  console.log(rest);
-
+const WidgetComponent = ({cols}) => {
   return (
     <Widget
       cols={cols}
