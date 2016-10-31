@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import R from 'ramda';
 
@@ -9,7 +10,17 @@ import CompactFlightList from './CompactFlightList';
 const WidgetComponent = ({
   cols,
   sectors,
+  isErrored,
 }) => {
+  if(isErrored) {
+    return (
+      <Widget
+        cols={cols}
+        title="XMAN : Error !"
+      />
+    );
+  }
+
   // If we have no sectors bound, do not display filter controls
   const showFilterControl = !R.isEmpty(sectors);
   const title = showFilterControl ?
@@ -26,4 +37,12 @@ const WidgetComponent = ({
   );
 };
 
-export default WidgetComponent;
+import {
+  isErrored,
+} from '../../selectors/status';
+
+const mapStateToProps = state => ({
+  isErrored: isErrored(state),
+});
+
+export default connect(mapStateToProps)(WidgetComponent);
