@@ -1,10 +1,7 @@
-import React from 'react';
-
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
 import StatusComponent from './components/Status';
-
-const WidgetComponent = () => <span>Stub Widget !</span>;
+import WidgetComponent from './components/Widget';
 
 import exampleReducer from './reducer';
 

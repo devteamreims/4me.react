@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import R from 'ramda';
 
 import {GridList, GridTile} from 'material-ui/GridList';
+import { Link } from 'react-router';
 
 const styles = {
   gridList: {
@@ -13,7 +14,12 @@ const styles = {
   gridTile: {
     border: '1px solid blue',
     flexGrow: 1,
-  }
+  },
+  gridTileChildren: {
+    border: '1px solid green',
+    maxHeight: '100%',
+    overflowY: 'auto',
+  },
 };
 
 class Dashboard extends Component {
@@ -27,13 +33,10 @@ class Dashboard extends Component {
       widgetColumns = 1,
       pathName,
     }) => (
-      <GridTile
-        style={styles.gridTile}
+      <Component
+        pathName={pathName}
         cols={widgetColumns}
-        key={pathName}
-      >
-        <Component pathName={pathName} />
-      </GridTile>
+      />
     );
 
     return R.map(widgetToGridTile, widgets);
