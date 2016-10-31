@@ -95,9 +95,33 @@ export class App extends Component {
     )(organs);
   };
 
-  _prepareDashboardItems = () => {
-    // unimplemented
+  _prepareWidgets = () => {
+    const { organs } = this.props;
 
+    const organToWidget = (organ, name) => {
+      const {
+        pathName,
+        widgetColumns = 1,
+      } = organ;
+      const rawComponent = R.prop('WidgetComponent', organ);
+      if(!rawComponent) {
+        return;
+      }
+
+      const component = injectOrganProps(name)(rawComponent);
+
+      return {
+        pathName,
+        widgetColumns,
+        component,
+      };
+    };
+
+    return R.pipe(
+      R.mapObjIndexed(organToWidget),
+      R.values,
+      R.reject(R.isNil),
+    )(organs);
   };
 
   _prepareStatusItem = () => {
@@ -183,12 +207,14 @@ export class App extends Component {
     const leftMenuRows = this._prepareMenuItems();
     const mainRouterItems = this._prepareMainItems();
     const organStatusComponents = this._prepareStatusItem();
+    const organWidgets = this._prepareWidgets();
 
     console.log('CACABOUDIN');
     console.log('organs', this.props.organs);
     console.log('mainRouter', mainRouterItems);
     console.log('statusItems', organStatusComponents);
     console.log('leftMenu', leftMenuRows);
+    console.log('widgets', organWidgets);
 
     return (
       <Router>
@@ -216,7 +242,7 @@ export class App extends Component {
                     render={
                       () => (
                         <Dashboard
-                          widgets={[]}
+                          widgets={organWidgets}
                         />
                       )
                     }

@@ -8,21 +8,25 @@ const organs = () => ({
   exampleModule: {
     displayName: 'Example module',
     pathName: '/example-module',
+    widgetColumns: 1,
     ...require('./example-module').default,
   },
   mapping: {
     displayName: 'Control room',
     pathName: '/mapping',
+    widgetColumns: 2,
     ...require('./mapping').default,
   },
   etfmsProfile: {
     displayName: 'Etfms profile',
     pathName: '/etfms_profile',
+    widgetColumns: 1,
     ...require('./arcid').default,
   },
   xman: {
     displayName: 'XMAN',
     pathName: '/xman',
+    widgetColumns: 2,
     ...require('./xman').default,
   },
 });
