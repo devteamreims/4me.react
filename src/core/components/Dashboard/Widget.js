@@ -6,8 +6,13 @@ import Paper from 'material-ui/Paper';
 const styles = {
   gridTile: {
     margin: 10,
+    display: 'flex',
+    flexDirection: 'column',
   },
   gridTileChildren: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
     maxHeight: '100%',
     overflowY: 'auto',
     padding: 10,
