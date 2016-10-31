@@ -15,7 +15,7 @@ const styles = {
     flexGrow: 1,
     maxHeight: '100%',
     overflowY: 'auto',
-    padding: 10,
+    padding: 0,
   },
 };
 
