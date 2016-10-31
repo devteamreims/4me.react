@@ -209,7 +209,6 @@ export class App extends Component {
     const organStatusComponents = this._prepareStatusItem();
     const organWidgets = this._prepareWidgets();
 
-    console.log('CACABOUDIN');
     console.log('organs', this.props.organs);
     console.log('mainRouter', mainRouterItems);
     console.log('statusItems', organStatusComponents);
