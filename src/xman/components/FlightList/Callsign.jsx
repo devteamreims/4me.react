@@ -16,20 +16,22 @@ const Callsign = ({callsign, destination}) => {
   return (
     <div>
       <span style={style.callsign}>{callsign}</span>
-      <ToneDowner
-        path="destination"
-        value={destination}
-        style={style.destination}
-      >
-        <span>{destination}</span>
-      </ToneDowner>
+      {destination &&
+        <ToneDowner
+          path="destination"
+          value={destination}
+          style={style.destination}
+        >
+          <span>{destination}</span>
+        </ToneDowner>
+      }
     </div>
   );
 };
 
 Callsign.propTypes = {
   callsign: React.PropTypes.string.isRequired,
-  destination: React.PropTypes.string.isRequired,
+  destination: React.PropTypes.string,
 };
 
 export default Callsign;

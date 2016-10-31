@@ -13,7 +13,7 @@ const organs = () => {
       exampleModule: {
         displayName: 'Example module',
         pathName: '/example-module',
-        widgetColumns: 2,
+        widgetColumns: 1,
         ...require('./example-module').default,
       },
       mapping: {

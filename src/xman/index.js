@@ -1,6 +1,7 @@
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
 import StatusComponent from './components/Status';
+import WidgetComponent from './components/Widget';
 
 import rootReducer from './reducers';
 
@@ -19,6 +20,7 @@ export default {
   MenuButtonComponent,
   MainComponent,
   StatusComponent,
+  WidgetComponent,
   getReducer,
   getStatus: getStatusString,
 };

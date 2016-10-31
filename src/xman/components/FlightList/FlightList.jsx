@@ -133,35 +133,12 @@ class FlightList extends Component {
 }
 
 import {
-  getFlights,
+  getRichFlights,
   isLoading,
 } from '../../selectors/flight-list';
 
-import {
-  isFlightHighlighted,
-  isFlightTonedDown,
-} from '../../selectors/flight';
-
-import {
-  isForcedOff,
-  isForcedMcs,
-} from '../../selectors/status';
-
 const mapStateToProps = (state) => {
-  const flights = _.map(getFlights(state), flight => {
-    const {
-      ifplId,
-      destination,
-    } = flight;
-
-    return {
-      isHighlighted: isFlightHighlighted(state, ifplId),
-      isTonedDown: isFlightTonedDown(state, ifplId),
-      isForcedOff: isForcedOff(state, destination),
-      isForcedMcs: isForcedMcs(state, destination),
-      ...flight,
-    };
-  });
+  const flights = getRichFlights(state);
 
   return {
     flights,
