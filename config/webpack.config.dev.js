@@ -25,9 +25,6 @@ const plugins = [
     '__DEV__': JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     '__DEMO__': JSON.stringify(false),
   }),
-  new webpack.ProvidePlugin({
-    Promise: "bluebird",
-  }),
   new webpack.NamedModulesPlugin(),
   new CopyWebpackPlugin([
     {
