@@ -43,9 +43,9 @@ export function refreshFullList() {
     console.log('Loading XMAN flights with these params :');
     console.log(queryParams);
 
-    return Promise.delay(3000).then(() => axios.get(apiUrl, {
+    return axios.get(apiUrl, {
       params: queryParams
-    })).then((response) => {
+    }).then((response) => {
       return dispatch(complete(response.data));
     })
     .catch((error) => {
