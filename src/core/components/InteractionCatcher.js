@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 class InteractionCatcher extends Component {
-  handleUserInteraction = _.debounce(ev => { // eslint-disable-line no-unused-vars
+  handleUserInteraction = _.throttle(ev => { // eslint-disable-line no-unused-vars
     const {
       interact,
     } = this.props;
 
     interact();
-  }, 100);
+  }, 1000);
 
   render() {
     const {
