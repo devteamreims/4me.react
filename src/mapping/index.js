@@ -4,21 +4,22 @@ import StatusComponent from './components/Status';
 
 import rootReducer from './reducers';
 
-import { setSlice } from './selectors/prefix';
+export const name = 'mapping';
+export const uri = '/mapping';
 
-const getReducer = slug => {
-  setSlice(slug);
+export const MenuButton = MenuButtonComponent;
+export const Main = MainComponent;
+export const Status = StatusComponent;
+
+export const getReducer = () => {
   return rootReducer;
 };
 
-import {
-  getStatusString,
-} from './selectors/status';
+export { getStatusString } from './selectors/status';
 
 export default {
   MenuButtonComponent,
   MainComponent,
   StatusComponent,
   getReducer,
-  getStatus: getStatusString,
 };

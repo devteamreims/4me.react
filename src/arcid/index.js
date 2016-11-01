@@ -23,39 +23,20 @@
 // )(rootComponent);
 
 
+export const name = 'etfmsProfile';
+export const uri = '/etfms-profile';
+
+import rootReducer from './reducers';
+export const getReducer = () => rootReducer;
+
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
 import StatusComponent from './components/Status';
+import WidgetComponent from './components/Widget';
 
-import rootReducer from './reducers';
+export const Main = MainComponent;
+export const Status = StatusComponent;
+export const MenuButton = MenuButtonComponent;
+export const Widget = WidgetComponent;
 
-import { setSlice } from './selectors/prefix';
-
-const getReducer = slug => {
-  setSlice(slug);
-  return rootReducer;
-};
-
-import {
-  getStatusString,
-} from './selectors/status';
-
-export default {
-  MenuButtonComponent,
-  MainComponent,
-  StatusComponent,
-  getReducer,
-  getStatus: getStatusString,
-};
-
-
-// export default {
-//   name: 'arcid',
-//   displayName: 'ETFMS PROFILE',
-//   bootstrap,
-//   rootComponent,
-//   routes: <Route key="arcid" path="/arcid" component={enhancedComponent} />,
-//   rootReducer,
-//   onSectorChange,
-//   getStatus,
-// };
+export { getStatusString } from './selectors/status';

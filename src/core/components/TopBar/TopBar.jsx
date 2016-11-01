@@ -109,13 +109,36 @@ import {
   getIndexRoute,
 } from '../../selectors/routes';
 
-const mapStateToProps = (state, ownProps) => {
+import * as ExampleModule from '../../../example-module';
+import * as MappingModule from '../../../mapping';
+import * as EtfmsProfileModule from '../../../arcid';
+import * as XmanModule from '../../../xman';
+
+import { isModuleDisabled } from '../../../fmeModules';
+
+const getStatusStringSelector = ({name, getStatusString}) => {
+  if(isModuleDisabled(name) || !getStatusString) {
+    return () => 'normal';
+  }
+
+  return getStatusString;
+};
+
+
+const mapStateToProps = (state) => {
   const sectors = getSectors(state);
-  const { statusGetters } = ownProps;
 
-  const organStatuses = R.map(getter => getter(state), statusGetters);
+  const moduleStatuses = [
+    getStatusStringSelector(ExampleModule)(state),
+    getStatusStringSelector(MappingModule)(state),
+    getStatusStringSelector(EtfmsProfileModule)(state),
+    getStatusStringSelector(XmanModule)(state),
+  ];
 
-  const status = maxStatus([R.prop('status', getCoreStatus(state)), ...organStatuses]);
+  const status = maxStatus([
+    R.prop('status', getCoreStatus(state)),
+    ...moduleStatuses
+  ]);
 
   return {
     cwpName: getCwpName(state),

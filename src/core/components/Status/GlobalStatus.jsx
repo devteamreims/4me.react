@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import R from 'ramda';
-
 import SingleStatus from './SingleStatus';
 
 const style = {
@@ -10,13 +8,31 @@ const style = {
   color: '#FFF',
 };
 
+import { isModuleDisabled } from '../../../fmeModules';
+
+import * as ExampleModule from '../../../example-module';
+import * as MappingModule from '../../../mapping';
+import * as XmanModule from '../../../xman';
+import * as EtfmsProfileModule from '../../../arcid';
+
+const getStatusComponent = ({Status, name}) => {
+  if(!Status || isModuleDisabled(name)) {
+    return () => null;
+  }
+  return Status;
+};
+
 export class GlobalStatus extends Component {
   render() {
     const {
       coreStatus,
       displayLevel,
-      organComponents,
     } = this.props;
+
+    const MappingStatus = getStatusComponent(MappingModule);
+    const ExampleModuleStatus = getStatusComponent(ExampleModule);
+    const XmanModuleStatus = getStatusComponent(XmanModule);
+    const EtfmsProfileModuleStatus = getStatusComponent(EtfmsProfileModule);
 
     return (
       <div style={style}>
@@ -28,7 +44,10 @@ export class GlobalStatus extends Component {
           items={coreStatus.items}
           displayLevel={displayLevel}
         />
-        {R.addIndex(R.map)((Component, key) => <Component key={key} displayLevel={displayLevel} />, organComponents)}
+        <MappingStatus />
+        <ExampleModuleStatus />
+        <XmanModuleStatus />
+        <EtfmsProfileModuleStatus />
       </div>
     );
   }

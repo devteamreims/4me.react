@@ -5,18 +5,22 @@ import WidgetComponent from './components/Widget';
 
 import exampleReducer from './reducer';
 
-import { setSlice, p } from './selectors';
+import { p } from './selectors';
 
+export const name = 'exampleModule';
+export const uri = '/example-module';
+
+export const MenuButton = MenuButtonComponent;
+export const Main = MainComponent;
+export const Status = StatusComponent;
+export const Widget = WidgetComponent;
 
 // This function will be called when the app starts,
-export function getReducer(slug) {
-  // Register slug to our prefixer
-  setSlice(slug);
-
+export function getReducer() {
   return exampleReducer;
 }
 
-export function getStatus(state) {
+export function getStatusString(state) {
   return p(state).counter >= 10 ?
     'warning' :
     'normal';
@@ -60,5 +64,4 @@ export default {
   MainComponent,
   StatusComponent,
   getReducer,
-  getStatus,
 };

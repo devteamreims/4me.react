@@ -10,9 +10,9 @@ import CompactFlightList from './CompactFlightList';
 const WidgetComponent = ({
   cols,
   sectors,
-  isErrored,
+  shouldDisplayList,
 }) => {
-  if(isErrored) {
+  if(!shouldDisplayList) {
     return (
       <Widget
         cols={cols}
@@ -38,11 +38,11 @@ const WidgetComponent = ({
 };
 
 import {
-  isErrored,
+  shouldDisplayList,
 } from '../../selectors/status';
 
 const mapStateToProps = state => ({
-  isErrored: isErrored(state),
+  shouldDisplayList: shouldDisplayList(state),
 });
 
 export default connect(mapStateToProps)(WidgetComponent);

@@ -4,19 +4,23 @@ import { persistState } from 'redux-devtools';
 import thunk from 'redux-thunk';
 // import createLogger from 'redux-logger';
 
-export function createRootReducer(asyncReducers) {
+import * as MappingModule from '../mapping';
+import * as ExampleModule from '../example-module';
+import * as XmanModule from '../xman';
+import * as EtfmsProfileModule from '../arcid';
+
+
+export function createRootReducer() {
   // eslint-disable-next-line global-require
   const core = require('../core/reducers').default;
 
   return combineReducers({
     core,
-    ...asyncReducers,
+    [ExampleModule.name]: ExampleModule.getReducer(),
+    [MappingModule.name]: MappingModule.getReducer(),
+    [XmanModule.name]: XmanModule.getReducer(),
+    [EtfmsProfileModule.name]: EtfmsProfileModule.getReducer(),
   });
-}
-
-export function injectAsyncReducers(store, reducers) {
-  store.asyncReducers = Object.assign({}, store.asyncReducers, reducers);
-  store.replaceReducer(createRootReducer(store.asyncReducers));
 }
 
 export default function configureStore(initialState) {
@@ -48,19 +52,25 @@ export default function configureStore(initialState) {
   }
 
   const store = createStore(
-    createRootReducer({}),
+    createRootReducer(),
     initialState,
     enhancer
   );
 
-  store.asyncReducers = {};
-
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {
-    module.hot.accept('../core/reducers', () => {
-      const asyncReducers = store.asyncReducers;
-      store.replaceReducer(createRootReducer(asyncReducers));
-    });
+    module.hot.accept(
+      [
+        '../core/reducers',
+        '../arcid',
+        '../example-module',
+        '../mapping',
+        '../xman',
+      ],
+      () => {
+        store.replaceReducer(createRootReducer());
+      }
+    );
   }
 
   return store;

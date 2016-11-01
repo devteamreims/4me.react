@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 
-import R from 'ramda';
-
-import {GridList} from 'material-ui/GridList';
+import { GridList } from 'material-ui/GridList';
+import { injectOrganProps } from '../../wrappers/injectOrganProps';
 
 const styles = {
   gridList: {
@@ -11,28 +10,26 @@ const styles = {
   },
 };
 
-class Dashboard extends Component {
-  _prepareWidgets() {
-    const {
-      widgets,
-    } = this.props;
+import * as MappingModule from '../../../mapping';
+import * as ExampleModule from '../../../example-module';
+import * as XmanModule from '../../../xman';
+import * as EtfmsProfileModule from '../../../arcid';
 
-    const widgetToGridTile = ({
-      component: Component,
-      widgetColumns = 1,
-      pathName,
-    }) => (
-      <Component
-        pathName={pathName}
-        cols={widgetColumns}
-      />
-    );
+import { isModuleDisabled } from '../../../fmeModules';
 
-    return R.map(widgetToGridTile, widgets);
+const getWidgetComponent = ({Widget, name}) => {
+  if(!Widget || isModuleDisabled(name)) {
+    return () => null;
   }
+  return injectOrganProps(Widget);
+};
 
+
+class Dashboard extends Component {
   render() {
-    const widgets = this._prepareWidgets();
+    const EtfmsProfileWidget = getWidgetComponent(EtfmsProfileModule);
+    // const MappingModuleWidget = getWidgetComponent(MappingModule);
+    const XmanModuleWidget = getWidgetComponent(XmanModule);
 
     return (
       <GridList
@@ -41,7 +38,8 @@ class Dashboard extends Component {
         padding={10}
         cellHeight={300}
       >
-        {widgets}
+        <EtfmsProfileWidget cols={1} />
+        <XmanModuleWidget cols={2} />
       </GridList>
     );
   }

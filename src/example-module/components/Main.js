@@ -14,10 +14,18 @@ export const Main = ({
   counter = 0,
   increment,
   decrement,
+  client,
+  sectors,
 }) => (
   <div>
     <RedirectToDashboard />
     <span>This is an example module !</span>
+    <div>
+      <p>
+        We are {client.name}<br />
+        This is our sectors : {sectors.join(',')}
+      </p>
+    </div>
     <br />
     <input type="text" />
     <br />

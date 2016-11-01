@@ -1,26 +1,17 @@
+export const name = 'xman';
+export const uri = '/xman';
+
+import rootReducer from './reducers';
+export const getReducer = () => rootReducer;
+
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
 import StatusComponent from './components/Status';
 import WidgetComponent from './components/Widget';
 
-import rootReducer from './reducers';
+export const Main = MainComponent;
+export const Status = StatusComponent;
+export const MenuButton = MenuButtonComponent;
+export const Widget = WidgetComponent;
 
-import { setSlice } from './selectors/prefix';
-
-const getReducer = slug => {
-  setSlice(slug);
-  return rootReducer;
-};
-
-import {
-  getStatusString,
-} from './selectors/status';
-
-export default {
-  MenuButtonComponent,
-  MainComponent,
-  StatusComponent,
-  WidgetComponent,
-  getReducer,
-  getStatus: getStatusString,
-};
+export { getStatusString } from './selectors/status';

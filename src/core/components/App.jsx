@@ -15,6 +15,36 @@ import InteractionCatcher from './InteractionCatcher';
 import { HashRouter as Router, Match, Miss } from 'react-router';
 
 import { injectOrganProps } from '../wrappers/injectOrganProps';
+import { isModuleDisabled } from '../../fmeModules';
+
+import * as ExampleModule from '../../example-module';
+import * as MappingModule from '../../mapping';
+import * as XmanModule from '../../xman';
+import * as EtfmsProfileModule from '../../arcid';
+
+const injectMatch = (pathName) => DecoratedComponent => {
+  const wrappedComponent = () => (
+    <Match
+      pattern={pathName}
+      key={pathName}
+      component={DecoratedComponent}
+    />
+  );
+  wrappedComponent.displayName = `match(${pathName})`;
+
+  return wrappedComponent;
+};
+
+const getMainComponent = ({uri, Main, name}) => {
+  if(!Main || isModuleDisabled(name)) {
+    return () => null;
+  }
+
+  return R.compose(
+    injectMatch(uri),
+    injectOrganProps,
+  )(Main);
+};
 
 import Dashboard from './Dashboard';
 import StatusPage from './Status';
@@ -35,121 +65,12 @@ export class App extends Component {
     cleanUp();
   }
 
-  _prepareOrganStatusGetters = () => {
-    const { organs } = this.props;
-    const organToStatusGetter = R.prop('getStatus');
-
-    return R.pipe(
-      R.map(organToStatusGetter),
-      R.values,
-      R.reject(R.isNil),
-    )(organs);
-  }
-
-  _prepareMenuItems = () => {
-    const { organs } = this.props;
-
-    const organToMenuItem = (organ, name) => {
-      const { pathName } = organ;
-      const rawComponent = R.prop('MenuButtonComponent', organ);
-      if(!rawComponent) {
-        return;
-      }
-
-      const component = injectOrganProps(name)(rawComponent);
-
-      return {
-        pathName,
-        component,
-      };
-    };
-
-    return R.pipe(
-      R.mapObjIndexed(organToMenuItem),
-      R.values,
-      R.reject(R.isNil),
-    )(organs);
-  };
-
-  _prepareMainItems = () => {
-    const { organs } = this.props;
-
-    const organToMainItem = (organ, name) => {
-      const { pathName } = organ;
-
-      const rawComponent = R.prop('MainComponent', organ);
-      if(!rawComponent) {
-        return;
-      }
-      const component = injectOrganProps(name)(rawComponent);
-
-      return (
-        <Match key={pathName} pattern={pathName} component={component} />
-      );
-    };
-
-    return R.pipe(
-      R.mapObjIndexed(organToMainItem),
-      R.values,
-      R.reject(R.isNil)
-    )(organs);
-  };
-
-  _prepareWidgets = () => {
-    const { organs } = this.props;
-
-    const organToWidget = (organ, name) => {
-      const {
-        pathName,
-        widgetColumns = 1,
-      } = organ;
-      const rawComponent = R.prop('WidgetComponent', organ);
-      if(!rawComponent) {
-        return;
-      }
-
-      const component = injectOrganProps(name)(rawComponent);
-
-      return {
-        pathName,
-        widgetColumns,
-        component,
-      };
-    };
-
-    return R.pipe(
-      R.mapObjIndexed(organToWidget),
-      R.values,
-      R.reject(R.isNil),
-    )(organs);
-  };
-
-  _prepareStatusItem = () => {
-    const { organs } = this.props;
-
-    const organToStatusItem = (organ, name) => {
-      const rawComponent = R.prop('StatusComponent', organ);
-      if(!rawComponent) {
-        return;
-      }
-
-      const component = injectOrganProps(name)(rawComponent);
-
-      return component;
-    };
-
-    return R.pipe(
-      R.mapObjIndexed(organToStatusItem),
-      R.values,
-      R.reject(R.isNil),
-    )(organs);
-  };
-
   handleRestart = (ev) => { // eslint-disable-line no-unused-vars
     const {
       startBootstrap,
       cleanUp,
     } = this.props;
+
     cleanUp().then(() => startBootstrap());
   };
 
@@ -200,20 +121,12 @@ export class App extends Component {
       );
     }
 
-    // At this point, the app is ready, render our layout
 
-    // Prepare organ data here
-    const organStatusGetters = this._prepareOrganStatusGetters();
-    const leftMenuRows = this._prepareMenuItems();
-    const mainRouterItems = this._prepareMainItems();
-    const organStatusComponents = this._prepareStatusItem();
-    const organWidgets = this._prepareWidgets();
-
-    console.log('organs', this.props.organs);
-    console.log('mainRouter', mainRouterItems);
-    console.log('statusItems', organStatusComponents);
-    console.log('leftMenu', leftMenuRows);
-    console.log('widgets', organWidgets);
+    // We we decorate organs main modules with our wrapper
+    const MatchExampleModule = getMainComponent(ExampleModule);
+    const MatchMapping = getMainComponent(MappingModule);
+    const MatchXman = getMainComponent(XmanModule);
+    const MatchEtfmsProfile = getMainComponent(EtfmsProfileModule);
 
     return (
       <Router>
@@ -223,12 +136,11 @@ export class App extends Component {
         >
           <TopBar
             id="topbar"
-            statusGetters={organStatusGetters}
           />
           <ReturnToDashboard />
           <div id="main-wrap">
             <div id="leftnav">
-              <LeftMenu rows={leftMenuRows} />
+              <LeftMenu />
             </div>
             <Match
               pattern="/"
@@ -241,7 +153,7 @@ export class App extends Component {
                     render={
                       () => (
                         <Dashboard
-                          widgets={organWidgets}
+                          widgets={[]}
                         />
                       )
                     }
@@ -249,13 +161,12 @@ export class App extends Component {
                   <Match
                     key="status"
                     pattern="/status"
-                    render={
-                      () => (
-                        <StatusPage organComponents={organStatusComponents} />
-                      )
-                    }
+                    component={StatusPage}
                   />
-                  {mainRouterItems}
+                  <MatchExampleModule />
+                  <MatchMapping />
+                  <MatchXman />
+                  <MatchEtfmsProfile />
                   <Miss key="error404" component={Error404} />
                 </div>
               )}
