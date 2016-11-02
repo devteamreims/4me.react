@@ -8,14 +8,11 @@ import * as MappingModule from '../mapping';
 import * as ExampleModule from '../example-module';
 import * as XmanModule from '../xman';
 import * as EtfmsProfileModule from '../arcid';
-
+import coreReducer from '../core/reducers';
 
 export function createRootReducer() {
-  // eslint-disable-next-line global-require
-  const core = require('../core/reducers').default;
-
   return combineReducers({
-    core,
+    core: coreReducer,
     [ExampleModule.name]: ExampleModule.getReducer(),
     [MappingModule.name]: MappingModule.getReducer(),
     [XmanModule.name]: XmanModule.getReducer(),
@@ -68,6 +65,7 @@ export default function configureStore(initialState) {
         '../xman',
       ],
       () => {
+        console.debug('HMR: replace reducers !');
         store.replaceReducer(createRootReducer());
       }
     );

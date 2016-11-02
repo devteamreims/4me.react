@@ -10,10 +10,10 @@ const styles = {
   },
 };
 
-import * as MappingModule from '../../../mapping';
+// import * as MappingModule from '../../../mapping';
 import * as ExampleModule from '../../../example-module';
 import * as XmanModule from '../../../xman';
-import * as EtfmsProfileModule from '../../../arcid';
+// import * as EtfmsProfileModule from '../../../arcid';
 
 import { isModuleDisabled } from '../../../fmeModules';
 
@@ -24,12 +24,19 @@ const getWidgetComponent = ({Widget, name}) => {
   return injectOrganProps(Widget);
 };
 
-
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this._organs = {
+      Xman: getWidgetComponent(XmanModule),
+      ExampleModule: getWidgetComponent(ExampleModule),
+    };
+  }
   render() {
-    const EtfmsProfileWidget = getWidgetComponent(EtfmsProfileModule);
-    // const MappingModuleWidget = getWidgetComponent(MappingModule);
-    const XmanModuleWidget = getWidgetComponent(XmanModule);
+    const {
+      Xman,
+      ExampleModule,
+    } = this._organs;
 
     return (
       <GridList
@@ -38,8 +45,8 @@ class Dashboard extends Component {
         padding={10}
         cellHeight={300}
       >
-        <EtfmsProfileWidget cols={1} />
-        <XmanModuleWidget cols={2} />
+        <Xman cols={2} />
+        <ExampleModule cols={1} />
       </GridList>
     );
   }

@@ -7,8 +7,6 @@ import { render } from 'react-dom';
 
 import { AppContainer } from 'react-hot-loader';
 
-import configureStore from './store/configureStore';
-
 import Perf from 'react-addons-perf';
 
 window.Perf = Perf;
@@ -19,23 +17,21 @@ injectTapEventPlugin();
 
 import Root from './Root';
 
-const store = configureStore();
 const rootElement = document.getElementById('app');
 
 render(
   <AppContainer>
-    <Root store={store} />
+    <Root />
   </AppContainer>,
   rootElement
 );
 
 if(module.hot) {
   module.hot.accept('./Root', () => {
-    const Root = require('./Root').default;
-
+    console.debug('HMR : Reloading ROOT !');
     render(
       <AppContainer>
-        <Root store={store} />
+        <Root />
       </AppContainer>,
       rootElement
     );

@@ -23,16 +23,28 @@ const getStatusComponent = ({Status, name}) => {
 };
 
 export class GlobalStatus extends Component {
+  constructor(props) {
+    super(props);
+
+    this._organs = {
+      XmanModuleComponent: getStatusComponent(XmanModule),
+      ExampleModuleComponent: getStatusComponent(ExampleModule),
+      EtfmsProfileModuleComponent: getStatusComponent(EtfmsProfileModule),
+      MappingModuleComponent: getStatusComponent(MappingModule),
+    };
+  }
   render() {
     const {
       coreStatus,
       displayLevel,
     } = this.props;
 
-    const MappingStatus = getStatusComponent(MappingModule);
-    const ExampleModuleStatus = getStatusComponent(ExampleModule);
-    const XmanModuleStatus = getStatusComponent(XmanModule);
-    const EtfmsProfileModuleStatus = getStatusComponent(EtfmsProfileModule);
+    const {
+      XmanModuleComponent,
+      ExampleModuleComponent,
+      EtfmsProfileModuleComponent,
+      MappingModuleComponent,
+    } = this._organs;
 
     return (
       <div style={style}>
@@ -44,10 +56,10 @@ export class GlobalStatus extends Component {
           items={coreStatus.items}
           displayLevel={displayLevel}
         />
-        <MappingStatus />
-        <ExampleModuleStatus />
-        <XmanModuleStatus />
-        <EtfmsProfileModuleStatus />
+        <XmanModuleComponent />
+        <ExampleModuleComponent />
+        <MappingModuleComponent />
+        <EtfmsProfileModuleComponent />
       </div>
     );
   }

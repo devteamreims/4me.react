@@ -15,7 +15,7 @@ export class MenuButton extends Component {
     const {
       sectors = [],
     } = this.props;
-
+    console.debug('XMAN MENUBUTTON MOUNTED', sectors);
     bootstrap(sectors);
   }
 
@@ -41,7 +41,7 @@ export class MenuButton extends Component {
     const {
       cleanUp,
     } = this.props;
-
+    console.debug('XMAN MENUBUTTON UNMOUNT');
     cleanUp();
   }
 

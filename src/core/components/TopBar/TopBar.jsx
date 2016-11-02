@@ -124,20 +124,21 @@ const getStatusStringSelector = ({name, getStatusString}) => {
   return getStatusString;
 };
 
+const getModulesStatus = state => [
+  getStatusStringSelector(ExampleModule)(state),
+  getStatusStringSelector(MappingModule)(state),
+  getStatusStringSelector(EtfmsProfileModule)(state),
+  getStatusStringSelector(XmanModule)(state),
+];
+
 
 const mapStateToProps = (state) => {
   const sectors = getSectors(state);
 
-  const moduleStatuses = [
-    getStatusStringSelector(ExampleModule)(state),
-    getStatusStringSelector(MappingModule)(state),
-    getStatusStringSelector(EtfmsProfileModule)(state),
-    getStatusStringSelector(XmanModule)(state),
-  ];
 
   const status = maxStatus([
     R.prop('status', getCoreStatus(state)),
-    ...moduleStatuses
+    ...getModulesStatus(state),
   ]);
 
   return {

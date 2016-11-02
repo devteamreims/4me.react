@@ -22,37 +22,34 @@ import * as MappingModule from '../../mapping';
 import * as XmanModule from '../../xman';
 import * as EtfmsProfileModule from '../../arcid';
 
-const injectMatch = (pathName) => DecoratedComponent => {
-  const wrappedComponent = () => (
-    <Match
-      pattern={pathName}
-      key={pathName}
-      component={DecoratedComponent}
-    />
-  );
-  wrappedComponent.displayName = `match(${pathName})`;
-
-  return wrappedComponent;
-};
-
-const getMainComponent = ({uri, Main, name}) => {
-  if(!Main || isModuleDisabled(name)) {
-    return () => null;
-  }
-
-  return R.compose(
-    injectMatch(uri),
-    injectOrganProps,
-  )(Main);
-};
-
 import Dashboard from './Dashboard';
 import StatusPage from './Status';
 import Error404 from './Error404';
 
 import '../../styles/disable-select.scss';
 
+const getMainComponent = ({Main, name}) => {
+  if(!Main || isModuleDisabled(name)) {
+    return () => null;
+  }
+  return injectOrganProps(Main);
+};
+
 export class App extends Component {
+  constructor(props) {
+    super(props);
+    /**
+     * Here, we preload our components in constructor
+     * We do this here, because otherwise, for some reason, hot module reloading breaks
+     */
+    this._organs = {
+      XmanModuleComponent: getMainComponent(XmanModule),
+      ExampleModuleComponent: getMainComponent(ExampleModule),
+      MappingModuleComponent: getMainComponent(MappingModule),
+      EtfmsProfileModuleComponent: getMainComponent(EtfmsProfileModule),
+    };
+  }
+
   componentDidMount() {
     this.handleRestart();
   }
@@ -121,12 +118,13 @@ export class App extends Component {
       );
     }
 
+    const {
+      XmanModuleComponent,
+      ExampleModuleComponent,
+      MappingModuleComponent,
+      EtfmsProfileModuleComponent,
+    } = this._organs;
 
-    // We we decorate organs main modules with our wrapper
-    const MatchExampleModule = getMainComponent(ExampleModule);
-    const MatchMapping = getMainComponent(MappingModule);
-    const MatchXman = getMainComponent(XmanModule);
-    const MatchEtfmsProfile = getMainComponent(EtfmsProfileModule);
 
     return (
       <Router>
@@ -150,23 +148,33 @@ export class App extends Component {
                     key="dashboard"
                     pattern="/"
                     exactly={true}
-                    render={
-                      () => (
-                        <Dashboard
-                          widgets={[]}
-                        />
-                      )
-                    }
+                    component={Dashboard}
                   />
                   <Match
                     key="status"
                     pattern="/status"
                     component={StatusPage}
                   />
-                  <MatchExampleModule />
-                  <MatchMapping />
-                  <MatchXman />
-                  <MatchEtfmsProfile />
+                  <Match
+                    key="xman"
+                    pattern={XmanModule.uri}
+                    component={XmanModuleComponent}
+                  />
+                  <Match
+                    key="example"
+                    pattern={ExampleModule.uri}
+                    component={ExampleModuleComponent}
+                  />
+                  <Match
+                    key="etfmsProfile"
+                    pattern={EtfmsProfileModule.uri}
+                    component={EtfmsProfileModuleComponent}
+                  />
+                  <Match
+                    key="mapping"
+                    pattern={MappingModule.uri}
+                    component={MappingModuleComponent}
+                  />
                   <Miss key="error404" component={Error404} />
                 </div>
               )}
@@ -213,9 +221,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-import withMuiTheme from '../wrappers/withMuiTheme';
-
-export default R.compose(
-  withMuiTheme,
-  connect(mapStateToProps, mapDispatchToProps),
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

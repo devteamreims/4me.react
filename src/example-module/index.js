@@ -1,34 +1,3 @@
-
-
-import exampleReducer from './reducer';
-
-import { p } from './selectors';
-
-export const name = 'exampleModule';
-export const uri = '/example-module';
-
-import MenuButtonComponent from './components/MenuButton';
-import MainComponent from './components/Main';
-import StatusComponent from './components/Status';
-import WidgetComponent from './components/Widget';
-
-export const MenuButton = MenuButtonComponent;
-export const Main = MainComponent;
-export const Status = StatusComponent;
-export const Widget = WidgetComponent;
-
-// This function will be called when the app starts,
-export function getReducer() {
-  return exampleReducer;
-}
-
-export function getStatusString(state) {
-  return p(state).counter >= 10 ?
-    'warning' :
-    'normal';
-}
-
-
 /**
  * This is the main interface for 4ME UI modules
  * A 4ME Module must export a set of things to integrate with 4ME UI framework
@@ -64,3 +33,28 @@ export function getStatusString(state) {
  * must return one of these values : `error`, `warning`, `normal`.
  *
  */
+
+export const name = 'exampleModule';
+export const uri = '/example-module';
+
+import MenuButtonComponent from './components/MenuButton';
+import MainComponent from './components/Main';
+import StatusComponent from './components/Status';
+import WidgetComponent from './components/Widget';
+
+export const MenuButton = MenuButtonComponent;
+export const Main = MainComponent;
+export const Status = StatusComponent;
+export const Widget = WidgetComponent;
+
+// This function will be called when the app starts
+import exampleReducer from './reducer';
+export function getReducer() {
+  return exampleReducer;
+}
+
+export function getStatusString(state) {
+  return state[name].counter >= 10 ?
+    'warning' :
+    'normal';
+}

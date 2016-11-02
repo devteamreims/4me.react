@@ -2,22 +2,34 @@ import React, {Component} from 'react';
 import { Provider } from 'react-redux';
 
 import App from './core/components/App';
+import configureStore from './store/configureStore';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import mainTheme from './theme';
+
+const theme = getMuiTheme(mainTheme);
+
+import DevTools from './dev/DevTools';
 
 class Root extends Component {
-  render() {
-    const {
-      store,
-    } = this.props;
+  constructor(props) {
+    super(props);
+    this.store = configureStore();
+  }
 
-    const DevTools = process.env.NODE_ENV === 'development' && require('./dev/DevTools').default;
+  render() {
+    const showDevTools = process.env.NODE_ENV === 'development';
 
     return (
-      <Provider store={store}>
-        <div id="main-container">
-          <App />
-          {DevTools && <DevTools />}
-        </div>
-      </Provider>
+      <MuiThemeProvider muiTheme={theme} >
+        <Provider store={this.store}>
+          <div id="main-container">
+            <App />
+            {showDevTools && <DevTools />}
+          </div>
+        </Provider>
+      </MuiThemeProvider>
     );
   }
 }
