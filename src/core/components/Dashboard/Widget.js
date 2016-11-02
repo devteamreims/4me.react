@@ -36,6 +36,7 @@ const Widget = ({
       cols={cols}
       title={title}
       containerElement={Paper}
+      titleBackground="rgba(0, 0, 0, 0.8)"
     >
       <div style={innerStyle}>
         {children}
