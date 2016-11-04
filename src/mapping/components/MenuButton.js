@@ -31,15 +31,12 @@ export class MenuButton extends Component {
     } = this.props;
 
 
-    const secondary = `${totalSectors}`;
-
-
     return (
       <OrganButton
         isActive={isActive}
         transition={transition}
         title="CONTROL ROOM"
-        secondary={secondary}
+        notifications={{count: totalSectors, priority: 'low'}}
       />
     );
   }
