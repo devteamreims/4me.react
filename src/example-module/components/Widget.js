@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Widget from '../../core/components/Dashboard/Widget';
-import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import {ContentAddCircle, ContentRemoveCircle} from 'material-ui/svg-icons';
-
+import { Increment, Decrement } from './CounterActions';
+import Counter from './Counter';
 
 class WidgetComponent extends Component {
 
@@ -54,21 +52,18 @@ class WidgetComponent extends Component {
         title="Example module"
       >
         <div style={containerStyle}>
+          <Counter
+            style={subContainerStyle}
+            count={counter}
+          />
           <div style={subContainerStyle}>
-            <h1>{counter}</h1>
-          </div>
-          <div style={subContainerStyle}>
-            <IconButton
+            <Decrement
               onTouchTap={this.handleDecrement}
               disabled={counter === 0}
-            >
-              <ContentRemoveCircle color="red" />
-            </IconButton>
-            <IconButton
+            />
+            <Increment
               onTouchTap={this.handleIncrement}
-            >
-              <ContentAddCircle color="green" />
-            </IconButton>
+            />
           </div>
         </div>
       </Widget>

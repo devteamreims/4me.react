@@ -4,7 +4,7 @@ import {
 } from './actions';
 
 const defaultState = {
-  counter: 5,
+  counter: 0,
 };
 
 export default function exampleReducer(state = defaultState, action) {
