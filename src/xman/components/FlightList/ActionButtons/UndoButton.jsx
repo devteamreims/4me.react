@@ -19,8 +19,10 @@ class UndoButton extends Component {
       backgroundColor = fullWhite,
       style,
       dimmed = false,
-      ...other,
+      onClick,
     } = this.props;
+
+    console.debug(this.props);
 
     let overridenBackgroundColor = backgroundColor;
 
@@ -38,7 +40,7 @@ class UndoButton extends Component {
         labelColor={fullBlack}
         backgroundColor={overridenBackgroundColor}
         style={style}
-        {...other}
+        onClick={onClick}
       />
     );
   }
@@ -63,19 +65,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-import {
-  clearAction,
-} from '../../../actions/flight';
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const {
-    ifplId,
-  } = ownProps;
-
-  return {
-    clearAction: () => dispatch(clearAction(ifplId, {})),
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(UndoButton);
+export default connect(mapStateToProps)(UndoButton);

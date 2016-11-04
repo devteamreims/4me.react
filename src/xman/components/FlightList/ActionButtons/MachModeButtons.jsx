@@ -40,12 +40,11 @@ class MachModeButtons extends Component {
 
   handleUndo = (event) => { // eslint-disable-line no-unused-vars
     const {
-      disabled,
       readOnly,
       clearAction,
     } = this.props;
 
-    if(disabled || readOnly) {
+    if(readOnly) {
       return;
     }
 
@@ -61,7 +60,6 @@ class MachModeButtons extends Component {
       ifplId,
       appliedMach,
       advisedMach,
-      ...other
     } = this.props;
 
     function getXmanState(mach) {
@@ -88,7 +86,6 @@ class MachModeButtons extends Component {
             disabled={disabled && mach !== appliedMach}
             onClick={this.handleMach(mach)}
             dimmed={dimmed}
-            {...other}
           />
         )}
         <McsButton
@@ -96,7 +93,6 @@ class MachModeButtons extends Component {
           selected={minimumCleanSpeed}
           onClick={this.handleMcs}
           dimmed={dimmed}
-          {...other}
         />
         {!readOnly &&
           <UndoButton
@@ -104,7 +100,6 @@ class MachModeButtons extends Component {
             dimmed={dimmed}
             readOnly={readOnly}
             onClick={this.handleUndo}
-            {...other}
           />
         }
       </div>
@@ -143,18 +138,8 @@ import {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     ifplId,
-    client,
-    sectors,
+    author,
   } = ownProps;
-
-  const author = {
-    sectors,
-    cwp: {
-      id: client.id || null,
-      name: client.name || 'P__',
-    },
-  };
-
 
   return {
     clearAction: () => dispatch(clearAction(ifplId, author)),

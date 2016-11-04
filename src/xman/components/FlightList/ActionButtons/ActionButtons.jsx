@@ -15,6 +15,7 @@ class ActionButtons extends Component {
       isSpeedMode,
       isMachMode,
       isMcsMode,
+      client,
       sectors,
       isHighlighted,
       isTonedDown,
@@ -24,12 +25,21 @@ class ActionButtons extends Component {
 
     const readOnly = R.isEmpty(sectors);
 
+    const author = {
+      sectors,
+      cwp: {
+        id: client.id || null,
+        name: client.name || 'P__',
+      },
+    };
+
     if(isMcsMode) {
       return (
         <McsModeButtons
           ifplId={ifplId}
           dimmed={dimmed}
           readOnly={readOnly}
+          author={author}
         />
       );
     } else if(isMachMode) {
@@ -38,6 +48,7 @@ class ActionButtons extends Component {
           ifplId={ifplId}
           dimmed={dimmed}
           readOnly={readOnly}
+          author={author}
         />
       );
     } else if(isSpeedMode) {
@@ -79,9 +90,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-import withSectors from '../../../../core/wrappers/withSectors';
+import { injectOrganProps } from '../../../../core/wrappers/injectOrganProps';
 
 export default R.pipe(
-  withSectors,
+  injectOrganProps,
   connect(mapStateToProps),
 )(ActionButtons);
