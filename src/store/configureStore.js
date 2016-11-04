@@ -2,27 +2,22 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { persistState } from 'redux-devtools';
 
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger'; // eslint-disable-line no-unused-vars
+// import createLogger from 'redux-logger';
 
-import { getReducers } from '../organs';
+import * as MappingModule from '../mapping';
+import * as ExampleModule from '../example-module';
+import * as XmanModule from '../xman';
+import * as EtfmsProfileModule from '../arcid';
+import coreReducer from '../core/reducers';
 
-export function createRootReducer(reducers) {
-  // eslint-disable-next-line global-require
-  const coreReducer = require('../core/reducers').default;
-  const stubReducer = (state = {}) => state;
-
-  const organReducers = getReducers();
-
-  return combineReducers(
-    Object.assign(
-      {
-        core: coreReducer,
-        stub: stubReducer,
-      },
-      organReducers,
-      reducers
-    )
-  );
+export function createRootReducer() {
+  return combineReducers({
+    core: coreReducer,
+    [ExampleModule.name]: ExampleModule.getReducer(),
+    [MappingModule.name]: MappingModule.getReducer(),
+    [XmanModule.name]: XmanModule.getReducer(),
+    [EtfmsProfileModule.name]: EtfmsProfileModule.getReducer(),
+  });
 }
 
 export default function configureStore(initialState) {
@@ -39,7 +34,6 @@ export default function configureStore(initialState) {
     };
 
     enhancer = compose(
-
       // Middleware we want to use in development
       middleware,
       window.devToolsExtension ?
@@ -54,12 +48,26 @@ export default function configureStore(initialState) {
     enhancer = compose(middleware);
   }
 
-  const store = createStore(createRootReducer({}), initialState, enhancer);
+  const store = createStore(
+    createRootReducer(),
+    initialState,
+    enhancer
+  );
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {
-    module.hot.accept('../core/reducers', () =>
-      store.replaceReducer(createRootReducer({}))
+    module.hot.accept(
+      [
+        '../core/reducers',
+        '../arcid',
+        '../example-module',
+        '../mapping',
+        '../xman',
+      ],
+      () => {
+        console.debug('HMR: replace reducers !');
+        store.replaceReducer(createRootReducer());
+      }
     );
   }
 

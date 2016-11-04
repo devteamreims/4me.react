@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { pure } from 'recompose';
-import _ from 'lodash';
+import R from 'ramda';
 
 import './buttons.scss';
 
@@ -16,12 +15,23 @@ class ActionButtons extends Component {
       isSpeedMode,
       isMachMode,
       isMcsMode,
-      readOnly,
+      client,
+      sectors,
       isHighlighted,
       isTonedDown,
     } = this.props;
 
     const dimmed = !isHighlighted || isTonedDown;
+
+    const readOnly = R.isEmpty(sectors);
+
+    const author = {
+      sectors,
+      cwp: {
+        id: client.id || null,
+        name: client.name || 'P__',
+      },
+    };
 
     if(isMcsMode) {
       return (
@@ -29,6 +39,7 @@ class ActionButtons extends Component {
           ifplId={ifplId}
           dimmed={dimmed}
           readOnly={readOnly}
+          author={author}
         />
       );
     } else if(isMachMode) {
@@ -37,6 +48,7 @@ class ActionButtons extends Component {
           ifplId={ifplId}
           dimmed={dimmed}
           readOnly={readOnly}
+          author={author}
         />
       );
     } else if(isSpeedMode) {
@@ -64,10 +76,6 @@ import {
   hasSetAction,
 } from '../../../selectors/flight';
 
-import {
-  getSectors,
-} from '../../../../core/selectors/sector';
-
 const mapStateToProps = (state, ownProps) => {
   const {
     ifplId,
@@ -78,10 +86,13 @@ const mapStateToProps = (state, ownProps) => {
     isMachMode: isFlightInMachMode(state, ifplId),
     isMcsMode: isFlightInMcsMode(state, ifplId),
     minimumCleanSpeed: getMinimumCleanSpeed(state, ifplId),
-    readOnly: _.isEmpty(getSectors(state)),
     isUndoButtonDisabled: !hasSetAction(state, ifplId),
   };
 };
 
+import { injectOrganProps } from '../../../../core/wrappers/injectOrganProps';
 
-export default connect(mapStateToProps)(pure(ActionButtons));
+export default R.pipe(
+  injectOrganProps,
+  connect(mapStateToProps),
+)(ActionButtons);

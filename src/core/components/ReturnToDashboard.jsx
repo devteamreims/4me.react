@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
@@ -8,21 +8,26 @@ import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
 import LinearProgress from 'material-ui/LinearProgress';
 
-const initialState = {
-  showProgress: false,
-  progressPercentage: 0,
-};
-
-const refreshInterval = 16;
+const refreshInterval = 100;
 const percentageThreshold = 0.80; // Progress bar will not be visible before 80% of the timer has passed
 
 class ReturnToDashboard extends Component {
+  static contextTypes = {
+    router: React.PropTypes.any.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = initialState;
+    this.state = this._getInitialState();
     this.refreshInterval = null;
   }
+
+  _getInitialState = () => ({ // eslint-disable-line react/sort-comp
+    showProgress: false,
+    triggerRedirect: false,
+    progressPercentage: 0,
+  });
 
   componentDidMount() {
     this.updateProgress();
@@ -30,8 +35,6 @@ class ReturnToDashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // eslint-disable-next-line no-unused-vars
-    const usedProps = ['returnToDashboardTime', 'redirectEnabled', 'targetRoute'];
     const prepareForComparison = (props) => {
       return {
         ..._.pick(props, ['redirectEnabled', 'targetRoute']),
@@ -56,32 +59,25 @@ class ReturnToDashboard extends Component {
     const {
       returnToDashboardTime,
       lastUserInteraction,
-      router,
       targetRoute,
       redirectEnabled,
       disableRedirect,
     } = this.props;
 
+    const {
+      router,
+    } = this.context;
+
     if(!returnToDashboardTime || !redirectEnabled) {
       return;
     }
 
-
-    // Present time is after return to dashboard timeout, redirect user
     if(moment().isAfter(returnToDashboardTime)) {
-      // Redirect
-      router.push(targetRoute || '/');
-
-      this.setState(initialState);
-
-      // Disable future redirect
-      if(redirectEnabled) {
-        disableRedirect();
-      }
-
+      router.transitionTo(targetRoute);
+      this.setState({showProgress: false});
+      disableRedirect();
       return;
     }
-
 
     // Calculate progress to display or not the progress bar
     const interval = moment(returnToDashboardTime).diff(lastUserInteraction);
@@ -92,9 +88,7 @@ class ReturnToDashboard extends Component {
 
     if(moment().isBefore(cutOff)) {
       // Do not display the bar before threshold is passed
-      if(this.state.showProgress) {
-        this.setState({showProgress: false});
-      }
+      this.setState({showProgress: false});
       return;
     }
 
@@ -148,7 +142,7 @@ const mapStateToProps = (state) => {
   return {
     returnToDashboardTime: getReturnToDashboardTime(state),
     lastUserInteraction: getLastInteraction(state),
-    targetRoute: getTargetRoute(state),
+    targetRoute: '/' || getTargetRoute(state),
     redirectEnabled: isEnabled(state),
   };
 };
@@ -157,7 +151,4 @@ const mapDispatchToProps = {
   disableRedirect,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(ReturnToDashboard));
+export default connect(mapStateToProps, mapDispatchToProps)(ReturnToDashboard);

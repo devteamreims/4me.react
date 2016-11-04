@@ -5,14 +5,9 @@ import IconButton from 'material-ui/IconButton';
 
 import StatusIcon from '../Status/StatusIcon';
 
-const StatusButton = (props) => {
-  const {
-    status = 'normal',
-    ...other,
-  } = props;
-
+const StatusButton = ({status = 'normal'}) => {
   return (
-    <IconButton {...other}>
+    <IconButton>
       <StatusIcon
         level={status}
         colored={status !== 'normal'}

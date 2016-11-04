@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-
 import SingleStatus from './SingleStatus';
 
 const style = {
@@ -10,13 +8,43 @@ const style = {
   color: '#FFF',
 };
 
+import { isModuleDisabled } from '../../../fmeModules';
+
+import * as ExampleModule from '../../../example-module';
+import * as MappingModule from '../../../mapping';
+import * as XmanModule from '../../../xman';
+import * as EtfmsProfileModule from '../../../arcid';
+
+const getStatusComponent = ({Status, name}) => {
+  if(!Status || isModuleDisabled(name)) {
+    return () => null;
+  }
+  return Status;
+};
+
 export class GlobalStatus extends Component {
+  constructor(props) {
+    super(props);
+
+    this._organs = {
+      XmanModuleComponent: getStatusComponent(XmanModule),
+      ExampleModuleComponent: getStatusComponent(ExampleModule),
+      EtfmsProfileModuleComponent: getStatusComponent(EtfmsProfileModule),
+      MappingModuleComponent: getStatusComponent(MappingModule),
+    };
+  }
   render() {
     const {
       coreStatus,
-      organStatuses,
       displayLevel,
     } = this.props;
+
+    const {
+      XmanModuleComponent,
+      ExampleModuleComponent,
+      EtfmsProfileModuleComponent,
+      MappingModuleComponent,
+    } = this._organs;
 
     return (
       <div style={style}>
@@ -28,22 +56,15 @@ export class GlobalStatus extends Component {
           items={coreStatus.items}
           displayLevel={displayLevel}
         />
-        {_.map(organStatuses, (organStatus, index) =>
-          <SingleStatus
-            key={index}
-            title={organStatus.name}
-            level={organStatus.status}
-            items={organStatus.items}
-            displayLevel={displayLevel}
-          />
-        )}
+        <XmanModuleComponent />
+        <ExampleModuleComponent />
+        <MappingModuleComponent />
+        <EtfmsProfileModuleComponent />
       </div>
     );
   }
 }
 
-
-import organs from '../../../organs';
 
 import {
   getCoreStatus,
@@ -53,20 +74,9 @@ import {
 const mapStateToProps = (state) => {
   const coreStatus = getCoreStatus(state);
 
-  const organStatuses = _.map(organs, organ => {
-    const status = organ.getStatus(state);
-    const name = organ.displayName;
-
-    return {
-      name,
-      ...status,
-    };
-  });
-
   return {
     coreStatus,
-    organStatuses,
-    displayLevel: getDisplayLevel(state),
+    displayLevel: 'extended' || getDisplayLevel(state),
   };
 };
 

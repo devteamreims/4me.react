@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import R from 'ramda';
 
 import {
   isConnected,
@@ -47,12 +48,18 @@ export const getCoreStatus = (state) => {
   };
 };
 
-import organs from '../../organs';
+
+const getOrganStatuses = R.pathOr({}, ['core', 'organStatus']);
 
 export const getGlobalStatusString = (state) => {
+  const organStatuses = R.pipe(
+    getOrganStatuses,
+    R.values,
+  )(state);
+
   return maxStatus([
     getCoreStatus(state).status,
-    ..._.map(organs, organ => organ.getStatus(state).status || 'normal'),
+    ...organStatuses
   ]);
 };
 

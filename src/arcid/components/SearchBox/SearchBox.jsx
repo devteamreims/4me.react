@@ -69,12 +69,17 @@ class SearchBox extends Component {
       clearQuery,
       showHistory,
       getProfile,
+      onNewRequest,
     } = this.props;
 
     if(index === -1) {
       console.log('Enter key pressed !');
       this.handlePerformQuery();
       return;
+    }
+
+    if(onNewRequest) {
+      onNewRequest();
     }
 
     console.log('IfplId selected !');

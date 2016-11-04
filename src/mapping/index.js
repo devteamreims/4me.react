@@ -1,31 +1,27 @@
-import React from 'react';
+import MenuButtonComponent from './components/MenuButton';
+import MainComponent from './components/Main';
+import StatusComponent from './components/Status';
+import WidgetComponent from './components/Widget';
 
-import { Route } from 'react-router';
-
-import rootComponent from './components/Root';
 import rootReducer from './reducers';
 
-import { bootstrap } from './actions/bootstrap';
+export const name = 'mapping';
+export const uri = '/mapping';
 
-import { getStatus } from './selectors/status';
+export const MenuButton = MenuButtonComponent;
+export const Main = MainComponent;
+export const Status = StatusComponent;
+export const Widget = WidgetComponent;
 
-import { shouldRedirectToDashboard } from './selectors/returnToDashboard';
-import withRedirectToDashboard from '../core/wrappers/withRedirectToDashboard';
-import { getIndexRoute } from '../core/selectors/routes';
-const getTargetRoute = getIndexRoute;
+export const getReducer = () => {
+  return rootReducer;
+};
 
-const enhancedComponent = withRedirectToDashboard(
-  shouldRedirectToDashboard,
-  getTargetRoute
-)(rootComponent);
+export { getStatusString } from './selectors/status';
 
 export default {
-  name: 'mapping',
-  displayName: 'control room',
-  linkTo: 'mapping',
-  bootstrap,
-  rootComponent: enhancedComponent,
-  routes: <Route key="mapping" path="/mapping" component={enhancedComponent} />,
-  rootReducer,
-  getStatus,
+  MenuButtonComponent,
+  MainComponent,
+  StatusComponent,
+  getReducer,
 };

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-
 import FlatButton from 'material-ui/FlatButton';
 
 import LoadingScreen from './LoadingScreen';
@@ -10,77 +8,66 @@ import TopBar from './TopBar';
 import LeftMenu from './LeftMenu';
 import Keyboard from './Keyboard';
 import ReturnToDashboard from './ReturnToDashboard';
+import InteractionCatcher from './InteractionCatcher';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import mainTheme from '../../theme';
+import { HashRouter as Router, Match, Miss } from 'react-router';
+
+import { injectOrganProps } from '../wrappers/injectOrganProps';
+import { isModuleDisabled } from '../../fmeModules';
+
+import * as ExampleModule from '../../example-module';
+import * as MappingModule from '../../mapping';
+import * as XmanModule from '../../xman';
+import * as EtfmsProfileModule from '../../arcid';
+
+import Dashboard from './Dashboard';
+import StatusPage from './Status';
+import Error404 from './Error404';
 
 import '../../styles/disable-select.scss';
 
-export class App extends Component {
-  static childContextTypes = {
-    muiTheme: React.PropTypes.object,
-  };
+const getMainComponent = ({Main, name}) => {
+  if(!Main || isModuleDisabled(name)) {
+    return () => null;
+  }
+  return injectOrganProps(Main);
+};
 
+export class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      keyboardOpen: false,
-      keyboardTarget: null,
+    /**
+     * Here, we preload our components in constructor
+     * We do this here, because otherwise, for some reason, hot module reloading breaks
+     */
+    this._organs = {
+      XmanModuleComponent: getMainComponent(XmanModule),
+      ExampleModuleComponent: getMainComponent(ExampleModule),
+      MappingModuleComponent: getMainComponent(MappingModule),
+      EtfmsProfileModuleComponent: getMainComponent(EtfmsProfileModule),
     };
-  }
-
-  getChildContext() {
-    return {
-      muiTheme: getMuiTheme(mainTheme),
-    };
-  }
-
-  componentWillMount() {
-    this.props.startBootstrap();
   }
 
   componentDidMount() {
-    window.addEventListener('focus', this.focusHandler, true);
-    window.addEventListener('blur', this.blurHandler, true);
+    this.handleRestart();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('focus', this.focusHandler, true);
-    window.removeEventListener('blur', this.blurHandler, true);
+    const {
+      cleanUp,
+    } = this.props;
+
+    cleanUp();
   }
-
-  _shouldTriggerKeyboard(target) {
-    return _.get(target, 'nodeName') === 'INPUT' && _.get(target, 'type') === 'text';
-  }
-
-  focusHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState({keyboardOpen: true, keyboardTarget: el.target});
-    }
-  };
-
-  blurHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState({keyboardOpen: false, keyboardTarget: null});
-    }
-  };
 
   handleRestart = (ev) => { // eslint-disable-line no-unused-vars
     const {
       startBootstrap,
+      cleanUp,
     } = this.props;
 
-    startBootstrap();
+    cleanUp().then(() => startBootstrap());
   };
-
-  handleUserInteraction = _.debounce((ev) => { // eslint-disable-line no-unused-vars
-    const {
-      interact,
-    } = this.props;
-
-    interact();
-  }, 100);
 
   render() {
     const {
@@ -88,8 +75,6 @@ export class App extends Component {
       errorMessage,
       isBootstrapping,
       bootstrapMessage,
-      location,
-      children,
       shouldZoomUi,
       uiZoom,
       shouldDisableSelect,
@@ -111,67 +96,99 @@ export class App extends Component {
       className = 'disable-select';
     }
 
-    if(isErrored) {
-      return (
-        <LoadingScreen
-          actions={<FlatButton label="Reload" onTouchTap={this.handleRestart} />}
-          style={styles}
-          className={className}
-        >
-          {errorMessage}
-        </LoadingScreen>
-      );
-    }
+    // If our app is errored or boostrapping, show some place holder
+    if(isErrored || isBootstrapping) {
+      const actions = isErrored ? (
+        <FlatButton label="Reload" onTouchTap={this.handleRestart} />
+      ) : null;
 
-    if(isBootstrapping) {
+      const title = isErrored ? 'Error' : 'Loading ...';
+
       return (
         <LoadingScreen
-          className={className}
+          actions={actions}
+          title={title}
           style={styles}
+          className={className}
         >
-          {bootstrapMessage}
+          {errorMessage || bootstrapMessage}
         </LoadingScreen>
       );
     }
 
     const {
-      keyboardOpen,
-      keyboardTarget,
-    } = this.state;
+      XmanModuleComponent,
+      ExampleModuleComponent,
+      MappingModuleComponent,
+      EtfmsProfileModuleComponent,
+    } = this._organs;
+
 
     return (
-      <div
-        className={className}
-        style={styles}
-        onClick={this.handleUserInteraction}
-        onMouseDown={this.handleUserInteraction}
-        onKeyDown={this.handleUserInteraction}
-        onWheel={this.handleUserInteraction}
-      >
-        <TopBar id="topbar" />
-        <ReturnToDashboard />
-        <div id="main-wrap">
-          <div id="leftnav">
-            <LeftMenu location={location} />
+      <Router>
+        <InteractionCatcher
+          className={className}
+          style={styles}
+        >
+          <TopBar
+            id="topbar"
+          />
+          <ReturnToDashboard />
+          <div id="main-wrap">
+            <div id="leftnav">
+              <LeftMenu />
+            </div>
+            <Match
+              pattern="/"
+              render={() => (
+                <div id="content">
+                  <Match
+                    key="dashboard"
+                    pattern="/"
+                    exactly={true}
+                    component={Dashboard}
+                  />
+                  <Match
+                    key="status"
+                    pattern="/status"
+                    component={StatusPage}
+                  />
+                  <Match
+                    key="xman"
+                    pattern={XmanModule.uri}
+                    component={XmanModuleComponent}
+                  />
+                  <Match
+                    key="example"
+                    pattern={ExampleModule.uri}
+                    component={ExampleModuleComponent}
+                  />
+                  <Match
+                    key="etfmsProfile"
+                    pattern={EtfmsProfileModule.uri}
+                    component={EtfmsProfileModuleComponent}
+                  />
+                  <Match
+                    key="mapping"
+                    pattern={MappingModule.uri}
+                    component={MappingModuleComponent}
+                  />
+                  <Miss key="error404" component={Error404} />
+                </div>
+              )}
+            />
           </div>
-          <div id="content">
-            {children}
-          </div>
-        </div>
-        <Keyboard
-          hide={!keyboardOpen}
-          target={keyboardTarget}
-        />
-      </div>
+          <Keyboard />
+        </InteractionCatcher>
+      </Router>
     );
   }
 }
 
-import { startBootstrap } from '../actions/bootstrap';
-
 import {
-  interact,
-} from '../actions/returnToDashboard';
+  startBootstrap,
+  cleanUp,
+} from '../actions/bootstrap';
 
 import {
   isBootstrapping,
@@ -186,7 +203,7 @@ import {
 
 const mapDispatchToProps = {
   startBootstrap,
-  interact,
+  cleanUp,
 };
 
 const mapStateToProps = (state) => {

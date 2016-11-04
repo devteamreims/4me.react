@@ -55,17 +55,21 @@ class FlightListControls extends Component {
 
   render() {
     const {
-      hasSudoPower,
-      showExtendedControls,
+      showSupervisorControl,
+      showFilterControl,
       selectedFilter,
       isLoading,
       fetchers,
     } = this.props;
 
+    if(!showFilterControl && !showSupervisorControl) {
+      return null;
+    }
+
 
     return (
       <div style={style.container}>
-        {showExtendedControls &&
+        {showFilterControl &&
           <FilterControl
             style={style.element}
             onChange={this.handleFilterChange}
@@ -73,7 +77,7 @@ class FlightListControls extends Component {
             disabled={isLoading}
           />
         }
-        {hasSudoPower &&
+        {showSupervisorControl &&
           <SupervisorControl
             style={style.element}
             fetchers={fetchers}
@@ -87,17 +91,12 @@ class FlightListControls extends Component {
 }
 
 import {
-  shouldShowFilters,
   getFilter,
 } from '../../selectors/list-filter';
 
 import {
   isLoading,
 } from '../../selectors/flight-list';
-
-import {
-  isSupervisor,
-} from '../../../core/selectors/cwp';
 
 import {
   setFilter,
@@ -117,8 +116,6 @@ const mapStateToProps = (state) => {
   const fetchers = _.mapValues(getFetchersStatuses(state), f => _.pick(f, ['forceMcs', 'forceOff']));
 
   return {
-    showExtendedControls: shouldShowFilters(state),
-    hasSudoPower: isSupervisor(state) || process.env.NODE_ENV === 'development',
     selectedFilter: getFilter(state),
     isLoading: isLoading(state),
     fetchers,

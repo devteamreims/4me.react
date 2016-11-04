@@ -7,6 +7,7 @@ import api from '../../api';
 import {
   setupSocketIo,
   getSocket,
+  disconnect,
 } from '../socket';
 
 export function bootstrap() {
@@ -30,5 +31,13 @@ export function bootstrap() {
       dispatch(refreshCwps()),
       setupSocket(),
     ]);
+  };
+}
+
+export function cleanUp() {
+  return () => {
+    console.log('Cleaning up MAPPING');
+
+    disconnect();
   };
 }

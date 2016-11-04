@@ -29,6 +29,15 @@ export function getSocket() {
 }
 
 
+export function disconnect() {
+  if(!mySocket) {
+    return;
+  }
+
+  mySocket.disconnect();
+  mySocket = undefined;
+}
+
 import {
   setHistory,
 } from '../actions/history';

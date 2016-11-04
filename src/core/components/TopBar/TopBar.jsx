@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
+import R from 'ramda';
 
 import AppBar from 'material-ui/AppBar';
 
@@ -10,22 +11,12 @@ import HelpButton from './HelpButton';
 import StatusButton from './StatusButton';
 import Clock from './Clock';
 
+import { Link } from 'react-router';
+
 import * as Colors from '../../../theme/colors';
 
 
 export class TopBar extends Component {
-  _goToDashboard() {
-    const {
-      indexRoute,
-    } = this.props;
-
-    this.context.router.push(indexRoute || '/');
-  }
-
-  _goToStatus() {
-    this.context.router.push('/status');
-  }
-
   getColor = () => {
     const {
       sectors,
@@ -40,6 +31,10 @@ export class TopBar extends Component {
   }
 
   render() {
+    const {
+      cwpName,
+    } = this.props;
+
     const styles = {
       title: {
         cursor: 'pointer',
@@ -51,24 +46,30 @@ export class TopBar extends Component {
       '' :
       ` - ${this.props.prettifiedSectors}`;
 
+    const titleString = `4ME (${cwpName})${sectors} - `;
+
+    // Note : We render an empty <span /> in iconElementLeft
+    // MUI will render an icon if we don't provide this prop
     return (
       <AppBar
         title={
-          <span
-            onClick={() => this._goToDashboard()}
-            style={styles.title}
+          <Link
+            to="/"
+            style={{textDecoration: 'none'}}
           >
-            4ME ({this.props.cwpName}){sectors}
-            {' - '}
-            <Clock style={Object.assign({}, styles.title, {cursor: undefined})} />
-          </span>
+            <span style={styles.title}>
+              {titleString}
+              <Clock style={Object.assign({}, styles.title, {cursor: undefined})} />
+            </span>
+          </Link>
         }
         iconElementRight={
           <div>
-            <StatusButton
-              status={this.props.status}
-              onClick={() => this._goToStatus()}
-            />
+            <Link to="/status">
+              <StatusButton
+                status={this.props.status}
+              />
+            </Link>
             {false && <HelpButton />}
             <RefreshButton />
           </div>
@@ -100,21 +101,52 @@ import {
 } from '../../selectors/sectorTree';
 
 import {
-  getGlobalStatusString,
+  getCoreStatus,
+  maxStatus,
 } from '../../selectors/status';
 
 import {
   getIndexRoute,
 } from '../../selectors/routes';
 
+import * as ExampleModule from '../../../example-module';
+import * as MappingModule from '../../../mapping';
+import * as EtfmsProfileModule from '../../../arcid';
+import * as XmanModule from '../../../xman';
+
+import { isModuleDisabled } from '../../../fmeModules';
+
+const getStatusStringSelector = ({name, getStatusString}) => {
+  if(isModuleDisabled(name) || !getStatusString) {
+    return () => 'normal';
+  }
+
+  return getStatusString;
+};
+
+const getModulesStatus = state => [
+  getStatusStringSelector(ExampleModule)(state),
+  getStatusStringSelector(MappingModule)(state),
+  getStatusStringSelector(EtfmsProfileModule)(state),
+  getStatusStringSelector(XmanModule)(state),
+];
+
+
 const mapStateToProps = (state) => {
   const sectors = getSectors(state);
+
+
+  const status = maxStatus([
+    R.prop('status', getCoreStatus(state)),
+    ...getModulesStatus(state),
+  ]);
+
   return {
     cwpName: getCwpName(state),
     sectors,
     isNormalCwp: isNormalCwp(state),
     prettifiedSectors: getPrettifySectors(state)(sectors),
-    status: getGlobalStatusString(state),
+    status,
     indexRoute: getIndexRoute(state),
   };
 };

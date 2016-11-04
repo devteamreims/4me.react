@@ -13,29 +13,13 @@ import XmanButton from './XmanButton';
 
 
 class UndoButton extends Component {
-  handleUndo = (event) => { // eslint-disable-line no-unused-vars
-    const {
-      disabled,
-      readOnly,
-      clearAction,
-    } = this.props;
-
-    console.log('Called !');
-
-    if(disabled || readOnly) {
-      return;
-    }
-
-    clearAction();
-  };
-
   render() {
     const {
       disabled,
       backgroundColor = fullWhite,
       style,
       dimmed = false,
-      ...other,
+      onClick,
     } = this.props;
 
     let overridenBackgroundColor = backgroundColor;
@@ -54,8 +38,7 @@ class UndoButton extends Component {
         labelColor={fullBlack}
         backgroundColor={overridenBackgroundColor}
         style={style}
-        onClick={this.handleUndo}
-        {...other}
+        onClick={onClick}
       />
     );
   }
@@ -80,19 +63,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-import {
-  clearAction,
-} from '../../../actions/flight';
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const {
-    ifplId,
-  } = ownProps;
-
-  return {
-    clearAction: () => dispatch(clearAction(ifplId, {})),
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(UndoButton);
+export default connect(mapStateToProps)(UndoButton);

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import p from './prefix';
+import R from 'ramda';
 
 export const getRaw = (state) => _.get(p(state), 'flightList', {});
 
@@ -11,6 +12,35 @@ export const getFlights = (state) => _.get(getRaw(state), 'flights', emptyFlight
 export const getKnownFlightIds = (state) => _.map(getFlights(state), f => f.ifplId);
 
 export const getFlightByIfplId = (state, ifplId) => _.find(getFlights(state), f => f.ifplId === ifplId);
+
+import {
+  isFlightHighlighted,
+  isFlightTonedDown,
+} from './flight';
+
+import {
+  isForcedOff,
+  isForcedMcs,
+} from './status';
+
+export const getRichFlights = state => {
+  const flights = R.map(flight => {
+    const {
+      ifplId,
+      destination,
+    } = flight;
+
+    return {
+      isHighlighted: isFlightHighlighted(state, ifplId),
+      isTonedDown: isFlightTonedDown(state, ifplId),
+      isForcedOff: isForcedOff(state, destination),
+      isForcedMcs: isForcedMcs(state, destination),
+      ...flight,
+    };
+  }, getFlights(state));
+
+  return flights;
+};
 
 import {
   getFilter,

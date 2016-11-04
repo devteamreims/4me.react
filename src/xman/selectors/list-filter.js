@@ -12,9 +12,3 @@ export function getFilter(state) {
 export const isAllFilterEnabled = (state) => getFilter(state) === 'all';
 export const isVerticalFilterEnabled = (state) => getFilter(state) === 'vertical';
 export const isGeographicalFilterEnabled = (state) => getFilter(state) === 'geographical';
-
-import {
-  getSectors,
-} from '../../core/selectors/sector';
-
-export const shouldShowFilters = (state) => !_.isEmpty(getSectors(state));

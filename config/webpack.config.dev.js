@@ -17,16 +17,11 @@ const PATHS = {
 const plugins = [
 // Shared code
   new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'js/vendor.bundle.js'}),
-  // Avoid publishing files when compilation fails
-  new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development'),
     'process.env.VERSION': JSON.stringify(require('../package.json').version),
     '__DEV__': JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     '__DEMO__': JSON.stringify(false),
-  }),
-  new webpack.ProvidePlugin({
-    Promise: "bluebird",
   }),
   new webpack.NamedModulesPlugin(),
   new CopyWebpackPlugin([

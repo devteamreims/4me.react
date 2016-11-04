@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
+import R from 'ramda';
 
 import McsButton from './McsButton';
 import UndoButton from './UndoButton';
@@ -10,7 +11,6 @@ import SpeedMachButton from './SpeedMachButton';
 const possibleMachs = [0, 1, 2, 3, 4];
 
 class MachModeButtons extends Component {
-
   handleMcs = (event) => { // eslint-disable-line no-unused-vars
     const {
       readOnly,
@@ -38,6 +38,19 @@ class MachModeButtons extends Component {
     setMach(mach);
   };
 
+  handleUndo = (event) => { // eslint-disable-line no-unused-vars
+    const {
+      readOnly,
+      clearAction,
+    } = this.props;
+
+    if(readOnly) {
+      return;
+    }
+
+    clearAction();
+  };
+
   render() {
     const {
       disabled,
@@ -47,7 +60,6 @@ class MachModeButtons extends Component {
       ifplId,
       appliedMach,
       advisedMach,
-      ...other
     } = this.props;
 
     function getXmanState(mach) {
@@ -74,7 +86,6 @@ class MachModeButtons extends Component {
             disabled={disabled && mach !== appliedMach}
             onClick={this.handleMach(mach)}
             dimmed={dimmed}
-            {...other}
           />
         )}
         <McsButton
@@ -82,14 +93,13 @@ class MachModeButtons extends Component {
           selected={minimumCleanSpeed}
           onClick={this.handleMcs}
           dimmed={dimmed}
-          {...other}
         />
         {!readOnly &&
           <UndoButton
             ifplId={ifplId}
             dimmed={dimmed}
             readOnly={readOnly}
-            {...other}
+            onClick={this.handleUndo}
           />
         }
       </div>
@@ -128,14 +138,21 @@ import {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     ifplId,
+    author,
   } = ownProps;
 
   return {
-    clearAction: () => dispatch(clearAction(ifplId, {})),
-    setMcs: (mcs) => dispatch(setMcs(ifplId, mcs)),
-    setMach: (mach) => dispatch(setMach(ifplId, mach)),
+    clearAction: () => dispatch(clearAction(ifplId, author)),
+    setMcs: (mcs) => dispatch(setMcs(ifplId, mcs, author)),
+    setMach: (mach) => dispatch(setMach(ifplId, mach, author)),
   };
 };
 
+import withClient from '../../../../core/wrappers/withClient';
+import withSectors from '../../../../core/wrappers/withSectors';
 
-export default connect(mapStateToProps, mapDispatchToProps)(MachModeButtons);
+export default R.compose(
+  withClient,
+  withSectors,
+  connect(mapStateToProps, mapDispatchToProps)
+)(MachModeButtons);

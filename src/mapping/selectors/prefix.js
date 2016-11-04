@@ -1,5 +1,6 @@
-import _ from 'lodash';
+import { name } from '../index';
 
-export default function prefix(state) {
-  return _.get(state, 'mapping');
-}
+
+export const getPrefixed = state => state[name];
+export const p = getPrefixed;
+export default p;

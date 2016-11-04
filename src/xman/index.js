@@ -1,37 +1,17 @@
-import React from 'react';
+export const name = 'xman';
+export const uri = '/xman';
 
-import { Route } from 'react-router';
-
-import rootComponent from './components/Root';
 import rootReducer from './reducers';
+export const getReducer = () => rootReducer;
 
-import {
-  bootstrap,
-  onSectorChange,
-} from './actions/bootstrap';
+import MenuButtonComponent from './components/MenuButton';
+import MainComponent from './components/Main';
+import StatusComponent from './components/Status';
+import WidgetComponent from './components/Widget';
 
-import { getNotifications } from './selectors/notifications';
+export const Main = MainComponent;
+export const Status = StatusComponent;
+export const MenuButton = MenuButtonComponent;
+export const Widget = WidgetComponent;
 
-import { getStatus } from './selectors/status';
-
-import { shouldRedirectToDashboard } from './selectors/returnToDashboard';
-import withRedirectToDashboard from '../core/wrappers/withRedirectToDashboard';
-import { getIndexRoute } from '../core/selectors/routes';
-
-const getTargetRoute = getIndexRoute;
-
-const enhancedComponent = withRedirectToDashboard(
-  shouldRedirectToDashboard,
-  getTargetRoute
-)(rootComponent);
-
-export default {
-  name: 'xman',
-  bootstrap,
-  rootComponent: enhancedComponent,
-  routes: <Route key="xman" path="/xman" component={rootComponent} />,
-  rootReducer,
-  onSectorChange,
-  getNotifications,
-  getStatus,
-};
+export { getStatusString } from './selectors/status';

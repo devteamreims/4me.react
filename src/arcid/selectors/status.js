@@ -36,6 +36,8 @@ export const getStatus = (state) => {
   };
 };
 
+export const getStatusString = state => _.get(getStatus(state), 'status', 'normal');
+
 export const isErrored = (state) => {
   return _.get(getStatus(state), 'status') === 'critical';
 };

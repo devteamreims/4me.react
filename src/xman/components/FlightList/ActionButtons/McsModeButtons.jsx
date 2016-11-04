@@ -20,6 +20,19 @@ class McsModeButtons extends Component {
     setMcs(!minimumCleanSpeed);
   };
 
+  handleUndo = event => { // eslint-disable-line no-unused-vars
+    const {
+      readOnly,
+      clearAction,
+    } = this.props;
+
+    if(readOnly) {
+      return;
+    }
+
+    clearAction();
+  };
+
   render() {
     const {
       disabled,
@@ -27,7 +40,6 @@ class McsModeButtons extends Component {
       readOnly,
       dimmed,
       ifplId,
-      ...other
     } = this.props;
 
     return (
@@ -40,14 +52,13 @@ class McsModeButtons extends Component {
           advised={true}
           icon={false}
           label="MCS"
-          {...other}
         />
         {!readOnly &&
           <UndoButton
             ifplId={ifplId}
             dimmed={dimmed}
             readOnly={readOnly}
-            {...other}
+            onClick={this.handleUndo}
           />
         }
       </div>
@@ -77,11 +88,12 @@ import {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     ifplId,
+    author,
   } = ownProps;
 
   return {
-    clearAction: () => dispatch(clearAction(ifplId, {})),
-    setMcs: (mcs) => dispatch(setMcs(ifplId, mcs)),
+    clearAction: () => dispatch(clearAction(ifplId, author)),
+    setMcs: (mcs) => dispatch(setMcs(ifplId, mcs, author)),
   };
 };
 

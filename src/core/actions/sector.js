@@ -26,19 +26,6 @@ export function fetchSectors(isBootstrapping = false) {
   };
 }
 
-import organs from '../../organs';
-
-const newSectorsActions = _.map(organs, organ => organ.onSectorChange);
-
-export function bindNewSectors(oldSectors, sectors = []) {
-  return (dispatch) => {
-    return Promise.all(
-      _.map(newSectorsActions, func => dispatch(func(oldSectors, sectors)))
-    );
-  };
-}
-
-
 function completeAction(sectors) {
   return {
     type: COMPLETE,
