@@ -1,7 +1,7 @@
 import { fetchCwp } from './cwp';
 import { fetchSectorTree } from './sectorTree';
 import { fetchSectors } from './sector';
-import { connectSocket } from './socket';
+import { connectSocket, disconnectSocket } from './socket';
 
 export function startBootstrap() {
   return (dispatch) => {
@@ -26,6 +26,6 @@ export function cleanUp() {
   return (dispatch) => { // eslint-disable-line no-unused-vars
     // TODO: Implement a proper clean up sequence here
     console.log('core/actions/bootstrap: Clean up sequence triggered !');
-    return Promise.resolve();
+    return Promise.resolve(dispatch(disconnectSocket()));
   };
 }

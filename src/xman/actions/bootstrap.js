@@ -8,6 +8,7 @@ import api from '../../api';
 import {
   setupSocketIo,
   getSocket,
+  disconnect,
 } from '../socket';
 
 import {
@@ -46,7 +47,9 @@ export function bootstrap(sectors = []) {
 
 // TODO: Implement cleanUp
 export function cleanUp() {
-  return () => {};
+  return () => {
+    disconnect();
+  };
 }
 
 export function onSectorChange(oldSectors, newSectors) {

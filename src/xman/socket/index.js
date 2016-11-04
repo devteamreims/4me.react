@@ -30,6 +30,16 @@ export function setupSocketIo(dispatch, socketIo) {
   return mySocket;
 }
 
+export function disconnect() {
+  if(!mySocket) {
+    return;
+  }
+
+  mySocket.disconnect();
+
+  mySocket = undefined;
+}
+
 
 export function getSocket() {
   return mySocket;

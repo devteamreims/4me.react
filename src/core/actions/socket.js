@@ -66,6 +66,18 @@ export function connectSocket() {
   };
 }
 
+export function disconnectSocket() {
+  return () => {
+    if(!mySocket) {
+      return;
+    }
+
+    mySocket.disconnect();
+
+    mySocket = undefined;
+  };
+}
+
 function socketConnecting() {
   return {
     type: CONNECTING,
