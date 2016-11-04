@@ -8,14 +8,6 @@ import {
 } from '../../core/components/LeftMenu';
 
 export class MenuButton extends Component {
-  componentDidMount() {
-    console.log('Mounted !');
-  }
-
-  componentWillUnmount() {
-    console.log('Cleanup');
-  }
-
   render() {
     const {
       isActive,
@@ -28,7 +20,7 @@ export class MenuButton extends Component {
     const buttonProps = {
       isActive,
       transition,
-      title: `MODULE ${counter}`,
+      title: 'EXAMPLE MODULE',
       notifications: {count: counter},
     };
 

@@ -53,7 +53,10 @@ export function getReducer() {
   return exampleReducer;
 }
 
+
+// CORE will allocate a state slice keyed by our exported `name`
 export function getStatusString(state) {
+  // We get our state slice here
   return state[name].counter >= 10 ?
     'warning' :
     'normal';
