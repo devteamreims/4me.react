@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
 
 import Redirect from 'react-router/Redirect';
 import Widget from '../../../core/components/Dashboard/Widget';
@@ -24,6 +25,7 @@ class WidgetComponent extends Component {
     const {
       cols,
       pathName,
+      isErrored,
     } = this.props;
 
     const {
@@ -51,12 +53,26 @@ class WidgetComponent extends Component {
         <div
           style={containerStyle}
         >
-          <WidgetSearchBar onClickOnFlight={this.handleClickOnFlight} />
-          <WidgetSearchResults onClickOnFlight={this.handleClickOnFlight} />
+          {isErrored ? (
+            <h3>ETFMS PROFILE is unavailable !</h3>
+          ) : ([
+            <WidgetSearchBar onClickOnFlight={this.handleClickOnFlight} />,
+            <WidgetSearchResults onClickOnFlight={this.handleClickOnFlight} />
+          ])}
         </div>
       </Widget>
     );
   }
 }
 
-export default WidgetComponent;
+import {
+  isErrored,
+} from '../../selectors/status';
+
+const mapStateToProps = (state) => {
+  return {
+    isErrored: isErrored(state),
+  };
+};
+
+export default connect(mapStateToProps)(WidgetComponent);
