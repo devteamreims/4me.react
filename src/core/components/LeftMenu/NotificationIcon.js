@@ -8,6 +8,25 @@ import {
   critical,
 } from '../../../theme/colors';
 
+const badgeStyles = {
+  info: {
+    backgroundColor: info,
+    fontWeight: 'bold',
+  },
+  warning: {
+    backgroundColor: warning,
+    fontWeight: 'bolder',
+  },
+  critical: {
+    backgroundColor: critical,
+    fontWeight: 'bolder',
+  },
+  low: {
+    backgroundColor: 'grey',
+    fontWeight: 'normal',
+  },
+};
+
 export const NotificationIcon = ({
   count,
   priority = 'info',
@@ -17,21 +36,7 @@ export const NotificationIcon = ({
     return null;
   }
 
-  let color = info;
-
-  if(priority === 'critical') {
-    color = critical;
-  }
-
-  if(priority === 'warning') {
-    color = warning;
-  }
-
-  const badgeStyle = {
-    backgroundColor: color,
-    fontWeight: 'bolder',
-  };
-
+  const badgeStyle = badgeStyles[priority];
 
   return (
     <Badge
