@@ -1,4 +1,10 @@
 # Master
+  * Display material-ui <Badge /> in left menu instead of svg icons (devteamreims/#96)
+  * Correct react-hot-loader behaviour
+  * Implement an example module (see src/example-module) for future developpers
+  * Implement a basic Dashboard
+  * Refactor the whole 4ME module API (devteamreims/4ME#126)
+  * Updated to react-router v4
   * Extract <InteractionCatcher /> component to handle our redirect logic
   * Refactor <Keyboard />
   * Updated to Material-UI 0.16.1
