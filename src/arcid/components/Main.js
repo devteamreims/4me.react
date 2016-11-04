@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import R from 'ramda';
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -10,6 +11,7 @@ import HistoryOrResults from './HistoryOrResults';
 import FlightProfile from './FlightProfile';
 
 import ErrorModal from '../../core/components/ErrorModal';
+import RedirectToDashboard from '../../core/components/RedirectToDashboard';
 
 import theme from '../../theme';
 
@@ -55,13 +57,17 @@ class ArcidRoot extends Component {
   render() {
     const {
       isErrored,
+      sectors,
     } = this.props;
+
+    const shouldRedirectToDashboard = !R.isEmpty(sectors);
 
     if(isErrored) {
       return (
         <ErrorModal
           title="ETFMS PROFILE unavailable"
         >
+          {shouldRedirectToDashboard && <RedirectToDashboard />}
           Could not connect to arcid backend
         </ErrorModal>
       );
@@ -69,6 +75,7 @@ class ArcidRoot extends Component {
 
     return (
       <div style={style.outer}>
+        {shouldRedirectToDashboard && <RedirectToDashboard />}
         <Paper
           zDepth={3}
           style={style.leftPanel}

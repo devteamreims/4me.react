@@ -9,6 +9,8 @@ import FlightList from './FlightList';
 import FlightListControls from './FlightListControls';
 import StatusMessage from './StatusMessage';
 
+import RedirectToDashboard from '../../core/components/RedirectToDashboard';
+
 
 class XmanRoot extends Component {
   render() {
@@ -27,10 +29,14 @@ class XmanRoot extends Component {
       R.equals('supervisor'),
     )(client) || process.env.NODE_ENV === 'development';
 
+    // We have sectors bound, we must redirect to dashboard after a while
+    const shouldRedirectToDashboard = !R.isEmpty(sectors);
+
     const showFlightListControl = showFilterControl || showSupervisorControl;
 
     return (
       <div>
+        {shouldRedirectToDashboard && <RedirectToDashboard />}
         {showFlightListControl && [
           <FlightListControls
             key="flight-list-controls-0"

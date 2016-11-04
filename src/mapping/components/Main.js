@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import R from 'ramda';
+
 import ErrorModal from '../../core/components/ErrorModal';
 import CwpDialog from './CwpDialog';
 import ControlRoom from './ControlRoom';
+import RedirectToDashboard from '../../core/components/RedirectToDashboard';
 
 class MappingRoot extends Component {
   handleRequestClose = (event) => { // eslint-disable-line no-unused-vars
@@ -19,13 +22,17 @@ class MappingRoot extends Component {
       isErrored,
       isDialogOpen,
       dialogCwpId,
+      sectors,
     } = this.props;
+
+    const shouldRedirectToDashboard = !R.isEmpty(sectors);
 
     if(isErrored) {
       return (
         <ErrorModal
           title="MAPPING unavailable"
         >
+          {shouldRedirectToDashboard && <RedirectToDashboard />}
           Could not connect to mapping backend
         </ErrorModal>
       );
@@ -33,6 +40,7 @@ class MappingRoot extends Component {
 
     return (
       <div>
+        {shouldRedirectToDashboard && <RedirectToDashboard />}
         <CwpDialog
           open={isDialogOpen}
           modal={false}

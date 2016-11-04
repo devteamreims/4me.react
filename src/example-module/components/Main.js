@@ -96,9 +96,11 @@ class Main extends Component {
       width: 400,
     };
 
+    const shouldRedirectToDashboard = !R.isEmpty(sectors);
+
     return (
       <div style={containerStyle}>
-        <RedirectToDashboard />
+        {shouldRedirectToDashboard && <RedirectToDashboard />}
         <Paper
           zDepth={3}
           style={boxStyle}
