@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import R from 'ramda';
-
 import FlatButton from 'material-ui/FlatButton';
 
 import LoadingScreen from './LoadingScreen';

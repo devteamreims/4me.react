@@ -8,14 +8,6 @@ import {
   getSectors,
 } from '../selectors/sector';
 
-const sectors = [];
-const client = {
-  id: 2,
-  type: 'cwp',
-  disabled: false,
-  name: 'P02',
-};
-
 const mapStateToProps = state => {
   const sectors = getSectors(state);
   const client = getClient(state);

@@ -27,7 +27,7 @@ export const getPrettifySectors = createSelector(
   })
 );
 
-
+/* eslint-disable */
 // export const getPrettifySectors = (state) => (sectors = []) => {
 //   const sectorComparator = (group1) => (group2) => {
 //     const comp1 = _.map(group1, _.toUpper);
@@ -41,3 +41,4 @@ export const getPrettifySectors = createSelector(
 //   const item = _.find(getTree(state), (treeSector) => equalsToGivenSectors(_.get(treeSector, 'elementarySectors', [])));
 //   return _.get(item, 'name', sectors.join(','));
 // };
+/* eslint-enable */
