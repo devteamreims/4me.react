@@ -9,7 +9,12 @@ class Results extends Component {
   handleTouchTap = (event, flight) => {
     const {
       getProfile,
+      onClickOnFlight,
     } = this.props;
+
+    if(onClickOnFlight) {
+      onClickOnFlight();
+    }
 
     console.log(`Clicked on results flight with ifplId : ${flight.ifplId}`);
 
