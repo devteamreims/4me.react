@@ -17,11 +17,23 @@ export class MenuButton extends Component {
       counter,
     } = this.props;
 
+    const getPriority = count => {
+      if(count < 3) {
+        return 'low';
+      } else if(count < 5) {
+        return 'info';
+      } else if(count < 8) {
+        return 'warning';
+      }
+
+      return 'critical';
+    };
+
     const buttonProps = {
       isActive,
       transition,
       title: 'EXAMPLE MODULE',
-      notifications: {count: counter},
+      notifications: {count: counter, priority: getPriority(counter)},
     };
 
 
