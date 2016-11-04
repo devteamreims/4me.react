@@ -22,8 +22,6 @@ class UndoButton extends Component {
       onClick,
     } = this.props;
 
-    console.debug(this.props);
-
     let overridenBackgroundColor = backgroundColor;
 
 
