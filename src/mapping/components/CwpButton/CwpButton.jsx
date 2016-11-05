@@ -49,14 +49,15 @@ class CwpButton extends Component {
       isDisabled,
       name,
       prettySectors,
+      style,
     } = this.props;
 
     const size = '100px';
-    const buttonStyle = {
+    const buttonStyle = Object.assign({
       height: size,
       width: size,
       borderRadius: '50%',
-    };
+    }, style);
 
     const containerStyle = {
       minHeight: size,

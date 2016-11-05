@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import R from 'ramda';
 
 import SingleGroupPicker from './SingleGroupPicker';
 
-const sectorGroups = [
+const defaultSectorGroups = [
   [
     {
       name: '4N',
@@ -29,6 +30,9 @@ const sectorGroups = [
   ],
 ];
 
+const getSectorGroups = () =>
+  R.pathOr(defaultSectorGroups, ['FOURME_CONFIG', 'CONTROL_ROOM', 'sectorGroups'], window);
+
 class SectorPicker extends Component {
   render() {
     const {
@@ -52,6 +56,8 @@ class SectorPicker extends Component {
         flexGrow: 1,
       },
     };
+
+    const sectorGroups = getSectorGroups();
 
     return (
       <div style={styles.outerDiv}>
