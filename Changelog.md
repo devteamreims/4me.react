@@ -1,4 +1,6 @@
 # Master
+  * Extract Control Room layout in a separate reusable component (devteamreims/4ME#125)
+  * Extract CwpDialog SectorPicker configuration in our window.FOURME_CONFIG object (devteamreims/4ME#125)
   * Fix status page icons and fix control room status component description
   * Only redirect from XMAN to Dashboard when no actions needed (devteamreims/4ME#130)
   * Fixes CWP disabled status reverting back to enabled (devteamreims/4ME#131)
