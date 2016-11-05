@@ -11,19 +11,6 @@ const Column = ({children, ...rest}) =>
   React.createElement(Flexbox, {...rest, flexDirection: 'column'}, children);
 
 
-// This component will take a component and a cwpId as props
-// Its job is to render supplied component with cwpId injected
-// We also add a 5px margin
-const RenderCwpButton = ({
-  component: Component,
-  cwpId,
-  ...rest
-}) => (
-  <div style={{margin: 5}}>
-    <Component cwpId={cwpId} {...rest} />
-  </div>
-);
-
 class ControlRoomLayout extends Component {
   static propTypes = {
     cwpButtonComponent: React.PropTypes.element.isRequired,
@@ -37,8 +24,13 @@ class ControlRoomLayout extends Component {
   render() {
     const {
       cwpButtonComponent,
-      roomStatusComponent: RoomStatus,
+      roomStatusComponent,
     } = this.props;
+
+
+    // The point here is to inject cwpId as a prop to our supplied component
+    const renderCwpButton = (cwpId) => React.cloneElement(cwpButtonComponent, {cwpId});
+
 
     return (
       <Column>
@@ -46,16 +38,16 @@ class ControlRoomLayout extends Component {
           justifyContent="center"
         >
           <Column>
-            <RenderCwpButton component={cwpButtonComponent} cwpId={23} />
-            <RenderCwpButton component={cwpButtonComponent} cwpId={22} />
-            <RenderCwpButton component={cwpButtonComponent} cwpId={21} />
-            <RenderCwpButton component={cwpButtonComponent} cwpId={20} />
+            {renderCwpButton(23)}
+            {renderCwpButton(22)}
+            {renderCwpButton(21)}
+            {renderCwpButton(20)}
           </Column>
           <Column>
-            <RenderCwpButton component={cwpButtonComponent} cwpId={24} />
-            <RenderCwpButton component={cwpButtonComponent} cwpId={25} />
-            <RenderCwpButton component={cwpButtonComponent} cwpId={26} />
-            <RenderCwpButton component={cwpButtonComponent} cwpId={27} />
+            {renderCwpButton(24)}
+            {renderCwpButton(25)}
+            {renderCwpButton(26)}
+            {renderCwpButton(27)}
           </Column>
         </Row>
         <Row justifyContent="center">
@@ -65,37 +57,37 @@ class ControlRoomLayout extends Component {
             alignItems="flex-end"
           >
             <Row>
-              <RenderCwpButton component={cwpButtonComponent} cwpId={14} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={15} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={16} />
+              {renderCwpButton(14)}
+              {renderCwpButton(15)}
+              {renderCwpButton(16)}
             </Row>
             <Row>
-              <RenderCwpButton component={cwpButtonComponent} cwpId={13} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={12} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={11} />
+              {renderCwpButton(13)}
+              {renderCwpButton(12)}
+              {renderCwpButton(11)}
             </Row>
           </Column>
           <Row
             justifyContent="center"
             alignItems="center"
           >
-            <RoomStatus style={{margin: '0 100px'}} />
+            {roomStatusComponent}
           </Row>
           <Column
             flexBasis={0}
             flexGrow={1}
           >
             <Row>
-              <RenderCwpButton component={cwpButtonComponent} cwpId={30} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={31} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={32} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={33} />
+              {renderCwpButton(30)}
+              {renderCwpButton(31)}
+              {renderCwpButton(32)}
+              {renderCwpButton(33)}
             </Row>
             <Row>
-              <RenderCwpButton component={cwpButtonComponent} cwpId={37} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={36} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={35} />
-              <RenderCwpButton component={cwpButtonComponent} cwpId={34} />
+              {renderCwpButton(37)}
+              {renderCwpButton(36)}
+              {renderCwpButton(35)}
+              {renderCwpButton(34)}
             </Row>
           </Column>
         </Row>

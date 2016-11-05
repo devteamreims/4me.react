@@ -9,8 +9,8 @@ class ControlRoom extends Component {
   render() {
     return (
       <ControlRoomLayout
-        cwpButtonComponent={CwpButton}
-        roomStatusComponent={RoomStatus}
+        cwpButtonComponent={<CwpButton style={{margin: 5}} />}
+        roomStatusComponent={<RoomStatus style={{margin: '0 100px'}} />}
       />
     );
   }
