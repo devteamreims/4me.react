@@ -25,7 +25,7 @@ class MappingRoot extends Component {
       sectors,
     } = this.props;
 
-    const shouldRedirectToDashboard = false && !R.isEmpty(sectors);
+    const shouldRedirectToDashboard = !R.isEmpty(sectors);
 
     if(isErrored) {
       return (
