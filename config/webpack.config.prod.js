@@ -40,18 +40,6 @@ const plugins = [
     '__DEV__': JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     '__DEMO__': JSON.stringify(false),
   }),
-  new webpack.ProvidePlugin({
-    Promise: "bluebird",
-  }),
-  /*new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    },
-    exclude: ['src/api.endpoints.js'],
-  }),
-  */
-
-  // This plugin moves all the CSS into a separate stylesheet
 ];
 
 module.exports = {
