@@ -9,8 +9,8 @@ import {
 
 const defaultSocketStatus = {
   status: 'normal',
-  name: 'ARCID Socket',
-  description: 'Realtime socket connection to ARCID backend',
+  name: 'CONTROL ROOM Socket',
+  description: 'Realtime socket connection to MAPPING backend',
 };
 
 const isSocketConnected = (state) => !!_.get(getRaw(state), 'socket.connected', false);
