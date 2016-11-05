@@ -17,6 +17,7 @@ class XmanRoot extends Component {
     const {
       shouldDisplayMessage,
       shouldDisplayList,
+      hasPendingAction,
       client,
       sectors,
     } = this.props;
@@ -30,7 +31,8 @@ class XmanRoot extends Component {
     )(client) || process.env.NODE_ENV === 'development';
 
     // We have sectors bound, we must redirect to dashboard after a while
-    const shouldRedirectToDashboard = !R.isEmpty(sectors);
+    // But only if we don't have notifications
+    const shouldRedirectToDashboard = !R.isEmpty(sectors) && !hasPendingAction;
 
     const showFlightListControl = showFilterControl || showSupervisorControl;
 
@@ -66,9 +68,14 @@ import {
   shouldDisplayList,
 } from '../selectors/status';
 
+import {
+  getNotifications,
+} from '../selectors/notifications';
+
 const mapStateToProps = (state) => ({
   shouldDisplayMessage: shouldDisplayMessage(state),
   shouldDisplayList: shouldDisplayList(state),
+  hasPendingAction: R.propOr(0, 'count', getNotifications(state)),
 });
 
 export default connect(mapStateToProps)(XmanRoot);
