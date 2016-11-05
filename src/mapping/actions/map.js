@@ -105,7 +105,7 @@ export function bindSectorsToCwp(cwpId, sectors) {
     const newMap = _(getMap(getState()))
       .reject(cwp => cwp.cwpId === cwpId)
       .map(removeSectorsFromOtherCwps)
-      .reject(cwp => _.isEmpty(cwp.sectors))
+      .reject(cwp => _.isEmpty(cwp.sectors) && !cwp.disabled)
       .concat(addSectorsToGivenCwp())
       .value();
 
