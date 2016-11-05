@@ -1,128 +1,87 @@
 import React, { Component } from 'react';
 
+import Flexbox from 'flexbox-react';
+
 import CwpButton from './CwpButton';
 import RoomStatus from './RoomStatus';
 
-
-// We flexbox layout here
-// The main idea is to use 'wrap' with maxHeight/maxWidth breakpoints to
-// display multiple rows / columns
-const styles = {
-  outerDiv: {
-    display: 'flex',
-    flexGrow: '0',
-    width: '100%',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    alignContent: 'flex-start',
-    marginTop: '30px',
-  },
-  north: {
-    container: {
-      flexBasis: '100%',
-      flexGrow: '1',
-      display: 'flex',
-      flexDirection: 'column',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      alignContent: 'center',
-      maxHeight: '500px',
-    },
-    element: {
-      flex: '1',
-      flexBasis: '25%',
-      flexGrow: '1',
-      flexShrink: '0',
-      textAlign: 'center',
-      display: 'inline',
-      padding: '5px',
-    }
-  },
-  west: {
-    container: {
-      display: 'flex',
-      flexGrow: '1',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'flex-end',
-      maxWidth: '500px',
-      paddingLeft: '100px',
-    },
-    element: {
-      display: 'inline',
-      padding: '5px',
-      margin: '0',
-    },
-  },
-  east: {
-    container: {
-      display: 'flex',
-      flexGrow: '1',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      maxWidth: '500px',
-    },
-    element: {
-      display: 'inline',
-      padding: '5px',
-    },
-  },
-  roomStatus: {
-    container: {
-      display: 'flex',
-      flexGrow: '0',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      // maxWidth: '100px',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  },
-};
-
-// This is just a helper component which increases readability of <ControlRoom />
-const StyledCwpButton = ({cwpId, style}) => (
-  <div style={style}>
+// This is just a helper component which adds margins around buttons
+const StyledCwpButton = ({cwpId}) => (
+  <div style={{margin: 5}}>
     <CwpButton cwpId={cwpId} />
   </div>
 );
 
+// Helper components around flexbox-react
+const Row = ({children, ...rest}) =>
+  React.createElement(Flexbox, {...rest, flexDirection: 'row'}, children);
+
+const Column = ({children, ...rest}) =>
+  React.createElement(Flexbox, {...rest, flexDirection: 'column'}, children);
+
+
 class ControlRoom extends Component {
   render() {
     return (
-      <div style={styles.outerDiv}>
-        <div key="north" style={styles.north.container}>
-          <StyledCwpButton style={styles.north.element} cwpId={23} />
-          <StyledCwpButton style={styles.north.element} cwpId={22} />
-          <StyledCwpButton style={styles.north.element} cwpId={21} />
-          <StyledCwpButton style={styles.north.element} cwpId={20} />
-          <StyledCwpButton style={styles.north.element} cwpId={24} />
-          <StyledCwpButton style={styles.north.element} cwpId={25} />
-          <StyledCwpButton style={styles.north.element} cwpId={26} />
-          <StyledCwpButton style={styles.north.element} cwpId={27} />
-        </div>
-        <div key="west" style={styles.west.container}>
-          <StyledCwpButton style={styles.west.element} cwpId={14} />
-          <StyledCwpButton style={styles.west.element} cwpId={15} />
-          <StyledCwpButton style={styles.west.element} cwpId={16} />
-          <StyledCwpButton style={styles.west.element} cwpId={13} />
-          <StyledCwpButton style={styles.west.element} cwpId={12} />
-          <StyledCwpButton style={styles.west.element} cwpId={11} />
-        </div>
-        <div style={styles.roomStatus.container}>
-          <RoomStatus />
-        </div>
-        <div key="east" style={styles.east.container}>
-          <StyledCwpButton style={styles.east.element} cwpId={30} />
-          <StyledCwpButton style={styles.east.element} cwpId={31} />
-          <StyledCwpButton style={styles.east.element} cwpId={32} />
-          <StyledCwpButton style={styles.east.element} cwpId={33} />
-          <StyledCwpButton style={styles.east.element} cwpId={37} />
-          <StyledCwpButton style={styles.east.element} cwpId={36} />
-          <StyledCwpButton style={styles.east.element} cwpId={35} />
-          <StyledCwpButton style={styles.east.element} cwpId={34} />
-        </div>
-      </div>
+      <Column>
+        <Row
+          justifyContent="center"
+        >
+          <Column>
+            <StyledCwpButton cwpId={23} />
+            <StyledCwpButton cwpId={22} />
+            <StyledCwpButton cwpId={21} />
+            <StyledCwpButton cwpId={20} />
+          </Column>
+          <Column>
+            <StyledCwpButton cwpId={24} />
+            <StyledCwpButton cwpId={25} />
+            <StyledCwpButton cwpId={26} />
+            <StyledCwpButton cwpId={27} />
+          </Column>
+        </Row>
+        <Row justifyContent="center">
+          <Column
+            flexBasis={0}
+            flexGrow={1}
+            alignItems="flex-end"
+          >
+            <Row>
+              <StyledCwpButton cwpId={14} />
+              <StyledCwpButton cwpId={15} />
+              <StyledCwpButton cwpId={16} />
+            </Row>
+            <Row>
+              <StyledCwpButton cwpId={13} />
+              <StyledCwpButton cwpId={12} />
+              <StyledCwpButton cwpId={11} />
+            </Row>
+          </Column>
+          <Row
+            justifyContent="center"
+            alignItems="center"
+          >
+            <RoomStatus style={{margin: '0 100px'}} />
+          </Row>
+          <Column
+            flexBasis={0}
+            flexGrow={1}
+          >
+            <Row>
+              <StyledCwpButton cwpId={30} />
+              <StyledCwpButton cwpId={31} />
+              <StyledCwpButton cwpId={32} />
+              <StyledCwpButton cwpId={33} />
+            </Row>
+            <Row>
+              <StyledCwpButton cwpId={37} />
+              <StyledCwpButton cwpId={36} />
+              <StyledCwpButton cwpId={35} />
+              <StyledCwpButton cwpId={34} />
+            </Row>
+          </Column>
+        </Row>
+      </Column>
     );
   }
 }

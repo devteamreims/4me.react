@@ -73,6 +73,7 @@
     "bourbon": "4.2.7",
     "bourbon-neat": "1.8.0",
     "classnames": "2.2.5",
+    "flexbox-react": "4.0.2",
     "lodash": "4.15.0",
     "material-ui": "0.16.1",
     "moment": "2.15.0",
