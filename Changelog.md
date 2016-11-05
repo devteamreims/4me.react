@@ -1,4 +1,5 @@
 # Master
+  * Fixes CWP disabled status reverting back to enabled (devteamreims/4ME#131)
   * Display material-ui <Badge /> in left menu instead of svg icons (devteamreims/#96)
   * Correct react-hot-loader behaviour
   * Implement an example module (see src/example-module) for future developpers
