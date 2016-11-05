@@ -10,3 +10,45 @@ window.FOURME_CONFIG = {
   xman_url: 'http://xman.4me',
   arcid_url: 'http://arcid.4me'
 };
+
+
+// This is a visual group, it has a name, and an array of elementary sectors
+const FOURN = {
+  name: '4N',
+  sectors: ['HN', 'KN', 'UB', 'UN'],
+};
+
+const FIVER = {
+  name: '5R',
+  sectors: ['HYR', 'KR', 'XR', 'UR'],
+};
+
+const KD2F = {
+  name: 'KD2F',
+  sectors: ['KD', 'KF', 'UF'],
+};
+
+const FOURH = {
+  name: '4H',
+  sectors: ['HH', 'KH', 'XH', 'UH'],
+};
+
+const FOURE = {
+  name: '4E',
+  sectors: ['HE', 'KE', 'XE', 'UE'],
+};
+
+const FIR = {
+  name: 'FIR',
+  sectors: ['E', 'SE'],
+};
+
+// We define the visual layout of the control room dialog here
+// See here : http://i.imgur.com/IHkVrF5.png?2
+window.FOURME_CONFIG.CONTROL_ROOM = {
+// This is a 3 line array of arrays
+  sectorGroups: [
+    [FOURN, FIVER],
+    [KD2F, FOURH, FOURE, FIR],
+  ],
+};
