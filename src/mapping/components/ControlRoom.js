@@ -3,14 +3,10 @@ import React, { Component } from 'react';
 import CwpButton from './CwpButton';
 import RoomStatus from './RoomStatus';
 
-import _ from 'lodash';
 
-const cwpRows = {
-  north: [..._.range(20, 23 + 1), ..._.rangeRight(24, 27 + 1)],
-  west: [..._.range(11, 13 + 1), ..._.rangeRight(14, 16 + 1)],
-  east: [..._.range(30, 33 + 1), ..._.rangeRight(34, 37 + 1)],
-};
-
+// We flexbox layout here
+// The main idea is to use 'wrap' with maxHeight/maxWidth breakpoints to
+// display multiple rows / columns
 const styles = {
   outerDiv: {
     display: 'flex',
@@ -26,7 +22,7 @@ const styles = {
       flexBasis: '100%',
       flexGrow: '1',
       display: 'flex',
-      flexDirection: 'column-reverse',
+      flexDirection: 'column',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       alignContent: 'center',
@@ -46,9 +42,9 @@ const styles = {
     container: {
       display: 'flex',
       flexGrow: '1',
-      flexDirection: 'row-reverse',
-      flexWrap: 'wrap-reverse',
-      justifyContent: 'flex-start',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'flex-end',
       maxWidth: '500px',
       paddingLeft: '100px',
     },
@@ -84,30 +80,48 @@ const styles = {
   },
 };
 
+// This is just a helper component which increases readability of <ControlRoom />
+const StyledCwpButton = ({cwpId, style}) => (
+  <div style={style}>
+    <CwpButton cwpId={cwpId} />
+  </div>
+);
 
 class ControlRoom extends Component {
   render() {
-    const posToElement = pos => (
-      <div
-        key={pos}
-        style={styles[pos].container}
-      >
-        {_.map(cwpRows[pos] || [], cwpId =>
-          <div key={cwpId} style={styles[pos].element}>
-            <CwpButton cwpId={cwpId} />
-          </div>
-        )}
-      </div>
-    );
-
     return (
       <div style={styles.outerDiv}>
-        {posToElement('north')}
-        {posToElement('west')}
+        <div key="north" style={styles.north.container}>
+          <StyledCwpButton style={styles.north.element} cwpId={23} />
+          <StyledCwpButton style={styles.north.element} cwpId={22} />
+          <StyledCwpButton style={styles.north.element} cwpId={21} />
+          <StyledCwpButton style={styles.north.element} cwpId={20} />
+          <StyledCwpButton style={styles.north.element} cwpId={24} />
+          <StyledCwpButton style={styles.north.element} cwpId={25} />
+          <StyledCwpButton style={styles.north.element} cwpId={26} />
+          <StyledCwpButton style={styles.north.element} cwpId={27} />
+        </div>
+        <div key="west" style={styles.west.container}>
+          <StyledCwpButton style={styles.west.element} cwpId={14} />
+          <StyledCwpButton style={styles.west.element} cwpId={15} />
+          <StyledCwpButton style={styles.west.element} cwpId={16} />
+          <StyledCwpButton style={styles.west.element} cwpId={13} />
+          <StyledCwpButton style={styles.west.element} cwpId={12} />
+          <StyledCwpButton style={styles.west.element} cwpId={11} />
+        </div>
         <div style={styles.roomStatus.container}>
           <RoomStatus />
         </div>
-        {posToElement('east')}
+        <div key="east" style={styles.east.container}>
+          <StyledCwpButton style={styles.east.element} cwpId={30} />
+          <StyledCwpButton style={styles.east.element} cwpId={31} />
+          <StyledCwpButton style={styles.east.element} cwpId={32} />
+          <StyledCwpButton style={styles.east.element} cwpId={33} />
+          <StyledCwpButton style={styles.east.element} cwpId={37} />
+          <StyledCwpButton style={styles.east.element} cwpId={36} />
+          <StyledCwpButton style={styles.east.element} cwpId={35} />
+          <StyledCwpButton style={styles.east.element} cwpId={34} />
+        </div>
       </div>
     );
   }
