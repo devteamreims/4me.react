@@ -14,7 +14,7 @@ class Status extends Component {
     return (
       <SingleStatus
         title="CONTROL ROOM"
-        status={status}
+        level={status}
         items={items}
         displayLevel={displayLevel}
       />

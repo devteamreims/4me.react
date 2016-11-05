@@ -14,7 +14,7 @@ class Status extends Component {
     return (
       <SingleStatus
         title="XMAN"
-        status={status}
+        level={status}
         items={items}
         displayLevel={displayLevel}
       />

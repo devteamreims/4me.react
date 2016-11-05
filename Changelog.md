@@ -1,4 +1,5 @@
 # Master
+  * Fix status page icons
   * Only redirect from XMAN to Dashboard when no actions needed (devteamreims/4ME#130)
   * Fixes CWP disabled status reverting back to enabled (devteamreims/4ME#131)
   * Display material-ui <Badge /> in left menu instead of svg icons (devteamreims/#96)

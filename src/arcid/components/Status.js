@@ -14,7 +14,7 @@ class Status extends Component {
     return (
       <SingleStatus
         title="ETFMS PROFILE"
-        status={status}
+        level={status}
         items={items}
         displayLevel={displayLevel}
       />
