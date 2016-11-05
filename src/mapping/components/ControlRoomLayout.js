@@ -10,6 +10,10 @@ const Row = ({children, ...rest}) =>
 const Column = ({children, ...rest}) =>
   React.createElement(Flexbox, {...rest, flexDirection: 'column'}, children);
 
+
+// This component will take a component and a cwpId as props
+// Its job is to render supplied component with cwpId injected
+// We also add a 5px margin
 const RenderCwpButton = ({
   component: Component,
   cwpId,
