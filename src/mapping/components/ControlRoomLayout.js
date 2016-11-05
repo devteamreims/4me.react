@@ -11,6 +11,15 @@ const Column = ({children, ...rest}) =>
   React.createElement(Flexbox, {...rest, flexDirection: 'column'}, children);
 
 
+/**
+ * This component controls the general layout of the control room
+ * The idea is to allow callers to provide two sub components as props :
+ * * A CwpButton, which will get a cwpId injected as prop
+ * * An optional RoomStatus
+ * The layout should be built using Flexbox
+ * This allows the layout to be reused in different places where the container size changes
+ * For instance, this layout could be used in a widget context or a modal context
+ */
 class ControlRoomLayout extends Component {
   static propTypes = {
     cwpButtonComponent: React.PropTypes.element.isRequired,
@@ -28,7 +37,7 @@ class ControlRoomLayout extends Component {
     } = this.props;
 
 
-    // The point here is to inject cwpId as a prop to our supplied component
+    // This will inject cwpId as a prop to supplied component
     const renderCwpButton = (cwpId) => React.cloneElement(cwpButtonComponent, {cwpId});
 
 
