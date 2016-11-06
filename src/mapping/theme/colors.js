@@ -1,6 +1,9 @@
 import {
   indigo300,
   indigo500,
+  orange300,
+  orange800,
+  pink500,
   fullWhite,
   fullBlack,
 } from 'material-ui/styles/colors';
@@ -20,6 +23,18 @@ export const cwpButton = {
     backgroundColor: ColorManipulator.fade(fullWhite, 0.3),
     textColor: fullBlack,
   },
+  mineNormal: {
+    backgroundColor: orange800,
+    textColor: fullBlack,
+  },
+  mineEmpty: {
+    backgroundColor: orange300,
+    textColor: fullBlack,
+  },
+  hovered: {
+    backgroundColor: pink500,
+    textColor: fullBlack,
+  }
 };
 
 export default {
