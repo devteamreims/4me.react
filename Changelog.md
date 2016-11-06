@@ -1,4 +1,5 @@
 # Master
+  * Do not disable XMAN buttons when advisedMach === 0 (devteamreims/4ME#123)
   * Extract Control Room layout in a separate reusable component (devteamreims/4ME#125)
   * Extract CwpDialog SectorPicker configuration in our window.FOURME_CONFIG object (devteamreims/4ME#125)
   * Fix status page icons and fix control room status component description

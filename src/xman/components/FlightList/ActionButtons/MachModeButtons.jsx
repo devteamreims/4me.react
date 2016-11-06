@@ -53,7 +53,6 @@ class MachModeButtons extends Component {
 
   render() {
     const {
-      disabled,
       minimumCleanSpeed,
       readOnly,
       dimmed,
@@ -67,9 +66,8 @@ class MachModeButtons extends Component {
         return 'selected';
       }
 
-      if(mach === advisedMach) {
+      if(mach === advisedMach && mach !== 0) {
         const isSoft = dimmed;
-
         return isSoft ? 'advisedSoft' : 'advised';
       }
 
@@ -83,13 +81,11 @@ class MachModeButtons extends Component {
             key={index}
             label={`${mach}`}
             xmanState={getXmanState(mach)}
-            disabled={disabled && mach !== appliedMach}
             onClick={this.handleMach(mach)}
             dimmed={dimmed}
           />
         )}
         <McsButton
-          disabled={disabled}
           selected={minimumCleanSpeed}
           onClick={this.handleMcs}
           dimmed={dimmed}
@@ -125,7 +121,6 @@ const mapStateToProps = (state, ownProps) => {
     minimumCleanSpeed: getMinimumCleanSpeed(state, ifplId),
     appliedMach,
     advisedMach,
-    disabled: advisedMach === 0 || advisedMach === null,
   };
 };
 
