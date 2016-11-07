@@ -40,7 +40,7 @@ export function startQuery(callsign) {
       callsign,
     };
 
-    return axios.get(apiUrl, {params: reqParams})
+    return axios.get(apiUrl, {params: reqParams, timeout: 15000})
       .then(resp => {
         const results = resp.data;
 

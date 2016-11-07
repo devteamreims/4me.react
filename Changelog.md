@@ -1,4 +1,5 @@
 # Master
+  * Install timeouts to ETFMS PROFILE HTTP requests (devteamreims/4ME#124)
   * Do not disable XMAN buttons when advisedMach === 0 (devteamreims/4ME#123)
   * Extract Control Room layout in a separate reusable component (devteamreims/4ME#125)
   * Extract CwpDialog SectorPicker configuration in our window.FOURME_CONFIG object (devteamreims/4ME#125)
