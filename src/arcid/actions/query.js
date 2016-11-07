@@ -5,6 +5,8 @@ export const CLEAR_RESULTS = 'arcid/query/CLEAR_RESULTS';
 
 import _ from 'lodash';
 
+import Promise from 'bluebird';
+
 import axios from 'axios';
 import api from '../../api';
 
@@ -40,7 +42,7 @@ export function startQuery(callsign) {
       callsign,
     };
 
-    return axios.get(apiUrl, {params: reqParams})
+    return axios.get(apiUrl, {params: reqParams, timeout: 15000})
       .then(resp => {
         const results = resp.data;
 

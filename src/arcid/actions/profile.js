@@ -61,7 +61,7 @@ export function getProfile(flight, forceRefresh = false) {
       dispatch(optimisticAdd(flight));
     }
 
-    return axios.get(apiUrl, {params: reqParams})
+    return axios.get(apiUrl, {params: reqParams, timeout: 20000})
       .then((response) => {
         const results = response.data;
 
@@ -75,7 +75,7 @@ export function getProfile(flight, forceRefresh = false) {
         if(err.status === 404) {
           return dispatch(error(`${ifplId} : Flight plan not found`, err));
         }
-        return dispatch(error(null, err));
+        return dispatch(error(err.message, err));
       });
   };
 }

@@ -19,7 +19,7 @@ export function refreshHistory() {
       limit: HISTORY_SIZE_LIMIT,
     };
 
-    return axios.get(apiUrl, {params: reqParams})
+    return axios.get(apiUrl, {params: reqParams, timeout: 15000})
       .then(resp => {
         const results = resp.data;
         return dispatch(setHistory(results));
