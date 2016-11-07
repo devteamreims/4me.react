@@ -5,8 +5,6 @@ export const CLEAR_RESULTS = 'arcid/query/CLEAR_RESULTS';
 
 import _ from 'lodash';
 
-import Promise from 'bluebird';
-
 import axios from 'axios';
 import api from '../../api';
 
