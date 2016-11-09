@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import _ from 'lodash';
 import moment from 'moment';
+import R from 'ramda';
 
 import {
   Table,
@@ -124,8 +125,6 @@ class PointProfile extends Component {
 
     const styles = Object.assign({}, defaultStyles, style);
 
-    let previousTrend;
-
     return (
       <div
         style={{
@@ -145,8 +144,10 @@ class PointProfile extends Component {
             style={styles.tableBody}
           >
             {_.map(pointProfile, (point, index) => {
-              const showTrend = previousTrend !== point.trend || point.trend !== 'CRUISE';
-              previousTrend = point.trend;
+              const [center, pointName] = R.pipe(
+                R.pathOr('XXXX', ['airspace', 'name']),
+                R.splitAt(4),
+              )(point);
 
               return (
                 <TableRow
@@ -174,19 +175,21 @@ class PointProfile extends Component {
                   <TableRowColumn
                     style={styles.tableBodyColumn}
                   >
-                    <ColorizedContent hash={_.get(point, 'airspace.center', 'XXXX')}>
-                      {_.get(point, 'airspace.center', 'XXXX')}
+                    <ColorizedContent hash={center}>
+                      {center}
+                    </ColorizedContent>
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={styles.tableBodyColumn}
+                  >
+                    <ColorizedContent hash={pointName}>
+                      {pointName}
                     </ColorizedContent>
                   </TableRowColumn>
                   <TableRowColumn
                     style={styles.tableBodyColumn}
                   >
                     <ColoredFlightLevel flightLevel={point.flightLevel} />
-                  </TableRowColumn>
-                  <TableRowColumn
-                    style={styles.tableBodyColumn}
-                  >
-                    {showTrend && <Trend trend={point.trend} />}
                   </TableRowColumn>
                 </TableRow>
               );

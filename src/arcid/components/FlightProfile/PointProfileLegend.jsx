@@ -68,12 +68,12 @@ class PointProfileLegend extends Component {
               <TableHeaderColumn
                 style={styles.tableHeaderColumn}
               >
-                FL
+                Sector
               </TableHeaderColumn>
               <TableHeaderColumn
                 style={styles.tableHeaderColumn}
               >
-                Trend
+                FL
               </TableHeaderColumn>
             </TableRow>
           </TableHeader>
