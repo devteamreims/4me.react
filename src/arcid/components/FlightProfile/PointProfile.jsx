@@ -144,10 +144,8 @@ class PointProfile extends Component {
             style={styles.tableBody}
           >
             {_.map(pointProfile, (point, index) => {
-              const [center, pointName] = R.pipe(
-                R.pathOr('XXXX', ['airspace', 'name']),
-                R.splitAt(4),
-              )(point);
+              const center = R.pathOr('XXXX', ['airspace', 'center'], point);
+              const sector = R.pathOr('XXXX', ['airspace', 'name'], point);
 
               return (
                 <TableRow
@@ -182,8 +180,8 @@ class PointProfile extends Component {
                   <TableRowColumn
                     style={styles.tableBodyColumn}
                   >
-                    <ColorizedContent hash={pointName}>
-                      {pointName}
+                    <ColorizedContent hash={sector}>
+                      {sector}
                     </ColorizedContent>
                   </TableRowColumn>
                   <TableRowColumn
