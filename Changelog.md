@@ -1,4 +1,5 @@
 # Master
+  * Display sector alongside point in pointProfile (devteamreims/4ME#66)
   * Install timeouts to ETFMS PROFILE HTTP requests (devteamreims/4ME#124)
   * Do not disable XMAN buttons when advisedMach === 0 (devteamreims/4ME#123)
   * Extract Control Room layout in a separate reusable component (devteamreims/4ME#125)
