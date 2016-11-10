@@ -17,7 +17,6 @@ import theme from '../../../theme';
 import PointProfileLegend from './PointProfileLegend';
 import ColoredFlightLevel from './ColoredFlightLevel';
 import ColorizedContent from '../../../core/components/ColorizedContent';
-import Trend from './Trend';
 
 const defaultStyles = {
   table: {
