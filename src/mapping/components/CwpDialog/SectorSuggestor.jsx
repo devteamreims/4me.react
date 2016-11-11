@@ -17,6 +17,12 @@ class SectorSuggestor extends Component {
     fetchSuggestions();
   }
 
+  componentDidUpdate() {
+    // This line forces our container Dialog to reposition itself
+    // See devteamreims/4ME#135
+    window.dispatchEvent(new Event('resize'));
+  }
+
   render() {
     const {
       isLoading,
