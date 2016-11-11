@@ -6,6 +6,9 @@ import R from 'ramda';
 
 import AppBar from 'material-ui/AppBar';
 
+import IconButton from 'material-ui/IconButton';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+
 import RefreshButton from './RefreshButton';
 import HelpButton from './HelpButton';
 import StatusButton from './StatusButton';
@@ -13,10 +16,14 @@ import Clock from './Clock';
 
 import { Link } from 'react-router';
 
-import * as Colors from '../../../theme/colors';
-
+import { primary1Color } from '../../../theme/colors';
+import * as Colors from 'material-ui/styles/colors';
 
 export class TopBar extends Component {
+  static contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
+  };
+
   getColor = () => {
     const {
       sectors,
@@ -24,15 +31,17 @@ export class TopBar extends Component {
     } = this.props;
 
     if(isNormalCwp && _.isEmpty(sectors)) {
-      return Colors.accent1Color;
+      return Colors.grey900;
     }
 
-    return Colors.primary1Color;
+    return primary1Color;
   }
 
   render() {
     const {
-      cwpName,
+      sectors,
+      prettySectors,
+      status,
     } = this.props;
 
     const styles = {
@@ -42,24 +51,33 @@ export class TopBar extends Component {
       },
     };
 
-    const sectors = _.isEmpty(this.props.sectors) ?
+    const titleString = _.isEmpty(sectors) ?
       '' :
-      ` - ${this.props.prettifiedSectors}`;
+      ` - ${prettySectors}`;
 
-    const titleString = `4ME (${cwpName})${sectors} - `;
 
     // Note : We render an empty <span /> in iconElementLeft
     // MUI will render an icon if we don't provide this prop
     return (
       <AppBar
+        iconElementLeft={
+          <Link
+            to="/"
+            style={{textDecoration: 'none'}}
+          >
+            <IconButton>
+              <HomeIcon />
+            </IconButton>
+          </Link>
+        }
         title={
           <Link
             to="/"
             style={{textDecoration: 'none'}}
           >
             <span style={styles.title}>
+              <Clock />
               {titleString}
-              <Clock style={Object.assign({}, styles.title, {cursor: undefined})} />
             </span>
           </Link>
         }
@@ -67,28 +85,20 @@ export class TopBar extends Component {
           <div>
             <Link to="/status">
               <StatusButton
-                status={this.props.status}
+                status={status}
               />
             </Link>
             {false && <HelpButton />}
             <RefreshButton />
           </div>
         }
-        iconElementLeft={<span />}
         style={{flexShrink: '0', backgroundColor: this.getColor()}}
       />
     );
   }
 }
 
-TopBar.contextTypes = {
-  router: React.PropTypes.object.isRequired,
-  muiTheme: React.PropTypes.object.isRequired,
-};
-
-
 import {
-  getCwpName,
   isNormalCwp,
 } from '../../selectors/cwp';
 
@@ -105,9 +115,6 @@ import {
   maxStatus,
 } from '../../selectors/status';
 
-import {
-  getIndexRoute,
-} from '../../selectors/routes';
 
 import * as ExampleModule from '../../../example-module';
 import * as MappingModule from '../../../mapping';
@@ -131,10 +138,8 @@ const getModulesStatus = state => [
   getStatusStringSelector(XmanModule)(state),
 ];
 
-
 const mapStateToProps = (state) => {
   const sectors = getSectors(state);
-
 
   const status = maxStatus([
     R.prop('status', getCoreStatus(state)),
@@ -142,12 +147,10 @@ const mapStateToProps = (state) => {
   ]);
 
   return {
-    cwpName: getCwpName(state),
     sectors,
     isNormalCwp: isNormalCwp(state),
-    prettifiedSectors: getPrettifySectors(state)(sectors),
+    prettySectors: getPrettifySectors(state)(sectors),
     status,
-    indexRoute: getIndexRoute(state),
   };
 };
 
