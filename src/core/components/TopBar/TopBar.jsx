@@ -6,6 +6,9 @@ import R from 'ramda';
 
 import AppBar from 'material-ui/AppBar';
 
+import IconButton from 'material-ui/IconButton';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+
 import RefreshButton from './RefreshButton';
 import HelpButton from './HelpButton';
 import StatusButton from './StatusButton';
@@ -13,8 +16,8 @@ import Clock from './Clock';
 
 import { Link } from 'react-router';
 
-import * as Colors from '../../../theme/colors';
-
+import { primary1Color } from '../../../theme/colors';
+import * as Colors from 'material-ui/styles/colors';
 
 export class TopBar extends Component {
   getColor = () => {
@@ -24,10 +27,10 @@ export class TopBar extends Component {
     } = this.props;
 
     if(isNormalCwp && _.isEmpty(sectors)) {
-      return Colors.accent1Color;
+      return Colors.grey900;
     }
 
-    return Colors.primary1Color;
+    return primary1Color;
   }
 
   render() {
@@ -42,24 +45,33 @@ export class TopBar extends Component {
       },
     };
 
-    const sectors = _.isEmpty(this.props.sectors) ?
+    const titleString = _.isEmpty(this.props.sectors) ?
       '' :
       ` - ${this.props.prettifiedSectors}`;
 
-    const titleString = `4ME (${cwpName})${sectors} - `;
 
     // Note : We render an empty <span /> in iconElementLeft
     // MUI will render an icon if we don't provide this prop
     return (
       <AppBar
+        iconElementLeft={
+          <Link
+            to="/"
+            style={{textDecoration: 'none'}}
+          >
+            <IconButton>
+              <HomeIcon />
+            </IconButton>
+          </Link>
+        }
         title={
           <Link
             to="/"
             style={{textDecoration: 'none'}}
           >
             <span style={styles.title}>
+              <Clock />
               {titleString}
-              <Clock style={Object.assign({}, styles.title, {cursor: undefined})} />
             </span>
           </Link>
         }
@@ -74,7 +86,6 @@ export class TopBar extends Component {
             <RefreshButton />
           </div>
         }
-        iconElementLeft={<span />}
         style={{flexShrink: '0', backgroundColor: this.getColor()}}
       />
     );
