@@ -20,6 +20,10 @@ import { primary1Color } from '../../../theme/colors';
 import * as Colors from 'material-ui/styles/colors';
 
 export class TopBar extends Component {
+  static contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
+  };
+
   getColor = () => {
     const {
       sectors,
@@ -35,7 +39,9 @@ export class TopBar extends Component {
 
   render() {
     const {
-      cwpName,
+      sectors,
+      prettySectors,
+      status,
     } = this.props;
 
     const styles = {
@@ -45,9 +51,9 @@ export class TopBar extends Component {
       },
     };
 
-    const titleString = _.isEmpty(this.props.sectors) ?
+    const titleString = _.isEmpty(sectors) ?
       '' :
-      ` - ${this.props.prettifiedSectors}`;
+      ` - ${prettySectors}`;
 
 
     // Note : We render an empty <span /> in iconElementLeft
@@ -79,7 +85,7 @@ export class TopBar extends Component {
           <div>
             <Link to="/status">
               <StatusButton
-                status={this.props.status}
+                status={status}
               />
             </Link>
             {false && <HelpButton />}
@@ -92,14 +98,7 @@ export class TopBar extends Component {
   }
 }
 
-TopBar.contextTypes = {
-  router: React.PropTypes.object.isRequired,
-  muiTheme: React.PropTypes.object.isRequired,
-};
-
-
 import {
-  getCwpName,
   isNormalCwp,
 } from '../../selectors/cwp';
 
@@ -116,9 +115,6 @@ import {
   maxStatus,
 } from '../../selectors/status';
 
-import {
-  getIndexRoute,
-} from '../../selectors/routes';
 
 import * as ExampleModule from '../../../example-module';
 import * as MappingModule from '../../../mapping';
@@ -142,10 +138,8 @@ const getModulesStatus = state => [
   getStatusStringSelector(XmanModule)(state),
 ];
 
-
 const mapStateToProps = (state) => {
   const sectors = getSectors(state);
-
 
   const status = maxStatus([
     R.prop('status', getCoreStatus(state)),
@@ -153,12 +147,10 @@ const mapStateToProps = (state) => {
   ]);
 
   return {
-    cwpName: getCwpName(state),
     sectors,
     isNormalCwp: isNormalCwp(state),
-    prettifiedSectors: getPrettifySectors(state)(sectors),
+    prettySectors: getPrettifySectors(state)(sectors),
     status,
-    indexRoute: getIndexRoute(state),
   };
 };
 
