@@ -1,4 +1,6 @@
 # Master
+  * Remove useless stuff to the TopBar to increase readability (devteamreims/4ME#133)
+  * Make the TopBar grey when no sectors are bound to a CWP client (devteamreims/4ME#108)
   * Eliminate CwpDialog repositioning issues (devteamreims/4ME#135)
   * Display sector alongside point in pointProfile (devteamreims/4ME#66)
   * Install timeouts to ETFMS PROFILE HTTP requests (devteamreims/4ME#124)
