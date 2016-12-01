@@ -46,7 +46,6 @@ class CwpButton extends Component {
   render() {
     const {
       isRadioOk,
-      isEmpty,
       isDisabled,
       name,
       prettySectors,
@@ -123,7 +122,6 @@ import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 
 import {
   getSectorsByCwpId,
-  isCwpEmpty,
 } from '../../selectors/map';
 
 import {
@@ -152,7 +150,6 @@ const mapStateToProps = () => (state, ownProps) => {
     prettySectors: getPrettifySectors(state)(sectors),
     name: getName(state, ownProps.cwpId),
     isDisabled: isCwpDisabled(state, ownProps.cwpId),
-    isEmpty: isCwpEmpty(state, ownProps.cwpId),
     isButtonEnabled: isButtonEnabled,
     isRadioOk: isRadioOk(state, ownProps.cwpId),
   };
