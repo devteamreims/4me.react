@@ -16,8 +16,7 @@ import Clock from './Clock';
 
 import { Link } from 'react-router';
 
-import { primary1Color } from '../../../theme/colors';
-import * as Colors from 'material-ui/styles/colors';
+import { primary1Color, canvasColor } from '../../../theme/colors';
 
 export class TopBar extends Component {
   static contextTypes = {
@@ -31,7 +30,7 @@ export class TopBar extends Component {
     } = this.props;
 
     if(isNormalCwp && _.isEmpty(sectors)) {
-      return Colors.grey900;
+      return canvasColor;
     }
 
     return primary1Color;
