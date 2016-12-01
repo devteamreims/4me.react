@@ -1,3 +1,7 @@
+# Master
+  * Move to yarn for package management (devteamreims/4ME#141)
+  * Use controlled Docker image in CI pipeline (devteamreims/4ME#140)
+
 # v1.0.0-0
   * Add consitency between cwp button colors in widget and full view (devteamreims/4ME#132)
   * Remove useless stuff to the TopBar to increase readability (devteamreims/4ME#133 / devteamreims/4ME#137)
