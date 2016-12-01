@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import R from 'ramda';
 
 import {mapping as mappingConfig} from '../../../config';
 
@@ -45,11 +46,13 @@ class CwpButton extends Component {
   render() {
     const {
       isRadioOk,
-      isEmpty,
       isDisabled,
       name,
       prettySectors,
       style,
+      cwpId,
+      myCwpId,
+      sectors,
     } = this.props;
 
     const size = '100px';
@@ -68,13 +71,17 @@ class CwpButton extends Component {
     };
 
     let themeString = 'normal';
-
-    if(isEmpty) {
-      themeString = 'empty';
-    }
-
     if(isDisabled) {
       themeString = 'disabled';
+    } else if(myCwpId === cwpId) {
+      themeString = 'mineNormal';
+      if(R.isEmpty(sectors)) {
+        themeString = 'mineEmpty';
+      }
+    } else {
+      if(R.isEmpty(sectors)) {
+        themeString = 'empty';
+      }
     }
 
     const theme = buttonTheme[themeString];
@@ -115,7 +122,6 @@ import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 
 import {
   getSectorsByCwpId,
-  isCwpEmpty,
 } from '../../selectors/map';
 
 import {
@@ -125,6 +131,7 @@ import {
 
 import {
   isSupervisor,
+  getCwpId,
 } from '../../../core/selectors/cwp';
 
 import {
@@ -132,16 +139,17 @@ import {
 } from '../../selectors/frequencies';
 
 const mapStateToProps = () => (state, ownProps) => {
+  const myCwpId = getCwpId(state);
   const sectors = getSectorsByCwpId(state, ownProps.cwpId);
 
   const isButtonEnabled = isSupervisor(state) || process.env.NODE_ENV === 'development';
 
   return {
     sectors,
+    myCwpId,
     prettySectors: getPrettifySectors(state)(sectors),
     name: getName(state, ownProps.cwpId),
     isDisabled: isCwpDisabled(state, ownProps.cwpId),
-    isEmpty: isCwpEmpty(state, ownProps.cwpId),
     isButtonEnabled: isButtonEnabled,
     isRadioOk: isRadioOk(state, ownProps.cwpId),
   };

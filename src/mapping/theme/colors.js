@@ -25,7 +25,7 @@ export const cwpButton = {
   },
   mineNormal: {
     backgroundColor: orange800,
-    textColor: fullBlack,
+    textColor: fullWhite,
   },
   mineEmpty: {
     backgroundColor: orange300,

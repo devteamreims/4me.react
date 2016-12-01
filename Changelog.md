@@ -1,5 +1,6 @@
 # Master
-  * Remove useless stuff to the TopBar to increase readability (devteamreims/4ME#133)
+  * Add consitency between cwp button colors in widget and full view (devteamreims/4ME#132)
+  * Remove useless stuff to the TopBar to increase readability (devteamreims/4ME#133 / devteamreims/4ME#137)
   * Make the TopBar grey when no sectors are bound to a CWP client (devteamreims/4ME#108)
   * Eliminate CwpDialog repositioning issues (devteamreims/4ME#135)
   * Display sector alongside point in pointProfile (devteamreims/4ME#66)
