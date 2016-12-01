@@ -1,4 +1,4 @@
-image: node:6
+image: registry.gitlab.com/node-yarn:7.2.0
 
 cache:
   untracked: true
@@ -14,27 +14,27 @@ stages:
 check_deps:
   stage: test
   script:
-    - npm install --silent
+    - yarn --silent
     - npm run check-deps --silent
   allow_failure: true
 
 lint:
   stage: test
   script:
-    - npm install --silent
+    - yarn --silent
     - npm run lint -- --quiet
   allow_failure: true
 
 jest:
   stage: test
   script:
-    - npm install --silent
+    - yarn --silent
     - npm test -- --coverage
 
 build:artifact:
   stage: build
   script:
-    - npm install --silent
+    - yarn --silent
     - npm run build:ci
   artifacts:
     paths:
