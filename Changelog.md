@@ -1,4 +1,4 @@
-# Master
+# v1.0.0-0
   * Add consitency between cwp button colors in widget and full view (devteamreims/4ME#132)
   * Remove useless stuff to the TopBar to increase readability (devteamreims/4ME#133 / devteamreims/4ME#137)
   * Make the TopBar grey when no sectors are bound to a CWP client (devteamreims/4ME#108)
