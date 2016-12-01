@@ -18,6 +18,8 @@ const styles = {
   },
 };
 
+const Wrapper = props => <Paper zDepth={3} {...props} />;
+
 const Widget = ({
   cols = 1,
   children,
@@ -35,7 +37,7 @@ const Widget = ({
       style={styles.gridTile}
       cols={cols}
       title={title}
-      containerElement={Paper}
+      containerElement={Wrapper}
       titleBackground="rgba(0, 0, 0, 0.8)"
     >
       <div style={innerStyle}>
