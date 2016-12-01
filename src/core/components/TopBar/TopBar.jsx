@@ -17,6 +17,8 @@ import Clock from './Clock';
 import { Link } from 'react-router';
 
 import { primary1Color, canvasColor } from '../../../theme/colors';
+import * as Colors from 'material-ui/styles/colors';
+
 
 export class TopBar extends Component {
   static contextTypes = {
@@ -36,10 +38,28 @@ export class TopBar extends Component {
     return primary1Color;
   }
 
-  render() {
+  computeTitleString = () => {
     const {
       sectors,
+      isNormalCwp,
       prettySectors,
+    } = this.props;
+
+    if(!isNormalCwp) {
+      return '';
+    }
+
+    if(_.isEmpty(sectors)) {
+      return (
+        <span> - <span style={{color: Colors.red500}}>CLOSED CWP</span></span>
+      );
+    }
+
+    return ` - ${prettySectors}`;
+  }
+
+  render() {
+    const {
       status,
     } = this.props;
 
@@ -50,9 +70,7 @@ export class TopBar extends Component {
       },
     };
 
-    const titleString = _.isEmpty(sectors) ?
-      '' :
-      ` - ${prettySectors}`;
+    const titleString = this.computeTitleString();
 
 
     // Note : We render an empty <span /> in iconElementLeft
