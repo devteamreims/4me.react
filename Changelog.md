@@ -1,4 +1,5 @@
 # Master
+  * Add delay column to XMAN Widget (devteamreims/4ME#147)
   * Use `4me.env` as our environment library (devteamreims/4ME#146)
     * Implement environment config via our dynamic config file
     * Use `4me.env` in all components instead of state selector
