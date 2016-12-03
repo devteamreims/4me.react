@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import CwpButton from './CwpButton';
 import RoomStatus from './RoomStatus';
@@ -6,6 +7,14 @@ import RoomStatus from './RoomStatus';
 import ControlRoomLayout from './ControlRoomLayout';
 
 class ControlRoom extends Component {
+  componentWillUnmount() {
+    const {
+      closeDialog,
+    } = this.props;
+
+    closeDialog();
+  }
+
   render() {
     return (
       <ControlRoomLayout
@@ -16,4 +25,12 @@ class ControlRoom extends Component {
   }
 }
 
-export default ControlRoom;
+import {
+  close,
+} from '../actions/dialog';
+
+const mapDispatchToProps = {
+  closeDialog: close,
+};
+
+export default connect(null, mapDispatchToProps)(ControlRoom);
