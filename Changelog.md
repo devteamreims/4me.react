@@ -1,4 +1,8 @@
 # Master
+  * Use `4me.env` as our environment library (devteamreims/4ME#146)
+    * Implement environment config via our dynamic config file
+    * Use `4me.env` in all components instead of state selector
+    * Remove `sectorTree` from state (selectors/reducers/actions)
   * CwpDialog won't discard checked elementary sectors after a while (devteamreims/4ME#145)
   * Move to yarn for package management (devteamreims/4ME#141)
   * Use controlled Docker image in CI pipeline (devteamreims/4ME#140)

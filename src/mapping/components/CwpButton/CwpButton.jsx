@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import R from 'ramda';
 
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+
 import {mapping as mappingConfig} from '../../../config';
 
 import RaisedButton from 'material-ui/RaisedButton';
@@ -48,7 +51,6 @@ class CwpButton extends Component {
       isRadioOk,
       isDisabled,
       name,
-      prettySectors,
       style,
       cwpId,
       myCwpId,
@@ -91,7 +93,7 @@ class CwpButton extends Component {
     const inside = (
       <div style={containerStyle}>
         <PositionName name={name} style={{color: textColor}} />
-        <PositionSectors sectorName={prettySectors} style={{color: textColor}} />
+        <PositionSectors sectorName={prettyName(sectors)} style={{color: textColor}} />
         {
           this.shouldDisplayEmergencyFrequencies() &&
           !isRadioOk &&
@@ -117,8 +119,6 @@ class CwpButton extends Component {
 CwpButton.contextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 };
-
-import { getPrettifySectors } from '../../../core/selectors/sectorTree';
 
 import {
   getSectorsByCwpId,
@@ -147,7 +147,6 @@ const mapStateToProps = () => (state, ownProps) => {
   return {
     sectors,
     myCwpId,
-    prettySectors: getPrettifySectors(state)(sectors),
     name: getName(state, ownProps.cwpId),
     isDisabled: isCwpDisabled(state, ownProps.cwpId),
     isButtonEnabled: isButtonEnabled,

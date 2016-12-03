@@ -1,37 +1,12 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import R from 'ramda';
+import getEnv from '4me.env';
+
+const {
+  getClusters,
+  prettyName,
+} = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 import SingleGroupPicker from './SingleGroupPicker';
-
-const defaultSectorGroups = [
-  [
-    {
-      name: '4N',
-      sectors: ['HN', 'KN', 'UB', 'UN'],
-    }, {
-      name: '5R',
-      sectors: ['HYR', 'KR', 'XR', 'UR'],
-    }
-  ], [
-    {
-      name: 'KD2F',
-      sectors: ['KD', 'KF', 'UF'],
-    }, {
-      name: '4H',
-      sectors: ['HH', 'KH', 'XH', 'UH'],
-    }, {
-      name: '4E',
-      sectors: ['HE', 'KE', 'XE', 'UE'],
-    }, {
-      name: 'FIR',
-      sectors: ['E', 'SE'],
-    },
-  ],
-];
-
-const getSectorGroups = () =>
-  R.pathOr(defaultSectorGroups, ['FOURME_CONFIG', 'CONTROL_ROOM', 'sectorGroups'], window);
 
 class SectorPicker extends Component {
   render() {
@@ -57,23 +32,23 @@ class SectorPicker extends Component {
       },
     };
 
-    const sectorGroups = getSectorGroups();
+    const clusters = getClusters();
 
     return (
       <div style={styles.outerDiv}>
-        {_.map(sectorGroups, (topLevelGroup, index) =>
+        {clusters.map((cluster, index) =>
           <div
             key={index}
             style={styles.innerDiv}
           >
-            {_.map(topLevelGroup, (group, index) =>
+            {cluster.map((sectorBlock, index) =>
               <SingleGroupPicker
                 key={index}
                 boundSectors={boundSectors}
                 tempSectors={tempSectors}
                 toggleSectors={toggleSectors}
-                groupName={group.name}
-                sectors={group.sectors}
+                groupName={prettyName(sectorBlock)}
+                sectors={sectorBlock}
                 style={styles.element}
                 backupedRadios={backupedRadios}
               />

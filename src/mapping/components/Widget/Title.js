@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+
 import R from 'ramda';
 
 class WidgetTitle extends Component {
@@ -33,12 +36,11 @@ class WidgetTitle extends Component {
 
     const {
       cwpName,
-      prettySectors,
     } = this.props;
 
     return (
       <span>
-        {cwpName}: {prettySectors}
+        {cwpName}: {prettyName(sectors)}
       </span>
     );
   }
@@ -53,23 +55,17 @@ import {
   getName,
 } from '../../selectors/cwp';
 
-import {
-  getPrettifySectors,
-} from '../../../core/selectors/sectorTree';
-
 const mapStateToProps = (state, ownProps) => {
   if(!ownProps.selectedCwpId) {
     return {};
   }
 
   const sectors = getSectorsByCwpId(state, ownProps.selectedCwpId);
-  const prettySectors = getPrettifySectors(state)(sectors);
   const cwpName = getName(state, ownProps.selectedCwpId);
 
   return {
     cwpName,
     sectors,
-    prettySectors,
   };
 };
 

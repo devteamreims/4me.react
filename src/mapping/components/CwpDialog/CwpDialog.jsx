@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import R from 'ramda';
+
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -110,29 +114,28 @@ class CwpDialog extends Component {
 
   computeTitleString = () => {
     const {
-      prettyBoundSectors,
-      prettySectors,
       title,
+      boundSectors,
     } = this.props;
 
     const {
       tempSectors,
     } = this.state;
 
-    const prettyTempSectors = prettySectors(tempSectors);
-
-    if(prettyTempSectors === '' && prettyBoundSectors === '') {
-      return title;
-    }
-
     let fullTitle = `${title}`;
 
-    if(prettyBoundSectors !== '') {
-      fullTitle += ` : ${prettyBoundSectors}`;
+    if(!R.isEmpty(boundSectors)) {
+      fullTitle += ` : ${prettyName(boundSectors)}`;
     }
 
-    if(prettyTempSectors !== prettyBoundSectors) {
-      fullTitle += ` => ${prettyTempSectors}`;
+    const areDifferentFromBound = R.pipe(
+      R.symmetricDifference(boundSectors),
+      R.isEmpty,
+      R.not,
+    );
+
+    if(areDifferentFromBound(tempSectors)) {
+      fullTitle += ` => ${prettyName(tempSectors)}`;
     }
 
     return fullTitle;
@@ -142,8 +145,6 @@ class CwpDialog extends Component {
     const {
       title, // eslint-disable-line no-unused-vars
       boundSectors,
-      prettyBoundSectors, // eslint-disable-line no-unused-vars
-      prettySectors, // eslint-disable-line no-unused-vars
       open,
       cwpId,
       hasNoSectorsBound,
@@ -252,8 +253,6 @@ CwpDialog.contextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 };
 
-import { getPrettifySectors } from '../../../core/selectors/sectorTree';
-
 import {
   getSectorsByCwpId,
   isDisabled as isCwpDisabled,
@@ -273,8 +272,6 @@ const mapStateToProps = (state, ownProps) => {
 
   const cwpName = getName(state, cwpId);
   const boundSectors = getSectorsByCwpId(state, cwpId);
-  const prettySectors = getPrettifySectors(state);
-  const prettyBoundSectors = prettySectors(boundSectors);
   const isDisabled = isCwpDisabled(state, cwpId);
   const hasNoSectorsBound = isCwpEmpty(state, cwpId);
   const backupedRadios = getBackupedRadios(state, cwpId);
@@ -284,8 +281,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     title,
     boundSectors,
-    prettyBoundSectors,
-    prettySectors,
     isDisabled,
     hasNoSectorsBound,
     backupedRadios,

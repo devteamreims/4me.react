@@ -10,9 +10,3 @@ export const isBootstrapping = (state) => !_.get(getRaw(state), 'isBootstrapped'
 
 export const getSectors = (state) => _.get(getRaw(state), 'sectors', []);
 export const isCwpEmpty = (state) => _.isEmpty(getSectors(state));
-
-import {
-  getPrettifySectors,
-} from './sectorTree';
-
-export const getPrettySectors = (state) => getPrettifySectors(state)(getSectors(state));

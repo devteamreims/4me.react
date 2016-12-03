@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+
 import RaisedButton from 'material-ui/RaisedButton';
 
 import {
@@ -50,7 +53,7 @@ class SectorSuggestor extends Component {
         {_.map(suggestions, (s, index) => (
           <RaisedButton
             key={index}
-            label={s.prettySectors}
+            label={prettyName(s.sectors)}
             onTouchTap={onSuggestionClick(s.sectors)}
             style={buttonStyle}
             labelStyle={labelStyle}
@@ -79,21 +82,13 @@ import {
   isLoading as isMapLoading,
 } from '../../selectors/map';
 
-import { getPrettifySectors } from '../../../core/selectors/sectorTree';
-
 const mapStateToProps = (state, ownProps) => {
   const {
     cwpId
   } = ownProps;
 
   const isLoading = isSuggestionLoading(state) || isMapLoading(state);
-  const prettySectors = getPrettifySectors(state);
-  const suggestions = _.map(_.take(getSuggestions(state, cwpId), 10), s =>
-    ({
-      prettySectors: prettySectors(s.sectors),
-      ...s,
-    })
-  );
+  const suggestions = _.take(getSuggestions(state, cwpId), 10);
 
   return {
     isLoading,
