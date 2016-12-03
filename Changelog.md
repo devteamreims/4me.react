@@ -1,4 +1,5 @@
 # Master
+  * Move to React v15.4.1
   * Close CwpDialog when navigating out of CONTROL ROOM (devteamreims/4ME#144)
 
 # v1.0.0-1 (2016-12-03)
