@@ -32,10 +32,13 @@ class CwpDialog extends Component {
       });
     }
 
+    if(nextProps.cwpId !== this.props.cwpId) {
+      // Here, we know we changed CWP, reset internal state
+      Object.assign(newState, {
+        tempSectors: _.clone(nextProps.boundSectors),
+      });
+    }
 
-    Object.assign(newState, {
-      tempSectors: _.clone(nextProps.boundSectors),
-    });
 
     this.setState(newState);
   }
