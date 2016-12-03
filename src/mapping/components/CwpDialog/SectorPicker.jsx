@@ -3,7 +3,7 @@ import getEnv from '4me.env';
 
 const {
   getClusters,
-  getSectorGroupByElementarySectors,
+  prettyName,
 } = getEnv('LFEE').sectors;
 
 import SingleGroupPicker from './SingleGroupPicker';
@@ -47,7 +47,7 @@ class SectorPicker extends Component {
                 boundSectors={boundSectors}
                 tempSectors={tempSectors}
                 toggleSectors={toggleSectors}
-                groupName={getSectorGroupByElementarySectors(sectorBlock).name}
+                groupName={prettyName(sectorBlock)}
                 sectors={sectorBlock}
                 style={styles.element}
                 backupedRadios={backupedRadios}

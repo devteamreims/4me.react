@@ -3,10 +3,7 @@ import _ from 'lodash';
 import R from 'ramda';
 
 import getEnv from '4me.env';
-const { getSectorGroupByElementarySectors } = getEnv('LFEE').sectors;
-
-
-import { createSelector } from 'reselect';
+const { prettyName } = getEnv('LFEE').sectors;
 
 export const getRaw = (state) => _.get(p(state), 'sectorTree', {});
 
@@ -20,11 +17,7 @@ export const getPrettifySectors = () => (elementarySectors) => {
     return '';
   }
 
-  const sectorGroup = getSectorGroupByElementarySectors(elementarySectors);
-
-  return (
-    sectorGroup && sectorGroup.name
-  ) || elementarySectors.join(',');
+  return prettyName(elementarySectors);
 };
 
 /* eslint-disable */
