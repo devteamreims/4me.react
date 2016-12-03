@@ -1,3 +1,6 @@
+# Master
+  * Close CwpDialog when navigating out of CONTROL ROOM (devteamreims/4ME#144)
+
 # v1.0.0-1 (2016-12-03)
   * Add delay column to XMAN Widget (devteamreims/4ME#147)
   * Use `4me.env` as our environment library (devteamreims/4ME#146)
