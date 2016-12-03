@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import R from 'ramda';
 
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+
 import AppBar from 'material-ui/AppBar';
 
 import IconButton from 'material-ui/IconButton';
@@ -42,7 +45,6 @@ export class TopBar extends Component {
     const {
       sectors,
       isNormalCwp,
-      prettySectors,
     } = this.props;
 
     if(!isNormalCwp) {
@@ -55,7 +57,7 @@ export class TopBar extends Component {
       );
     }
 
-    return ` - ${prettySectors}`;
+    return ` - ${prettyName(sectors)}`;
   }
 
   render() {
@@ -124,10 +126,6 @@ import {
 } from '../../selectors/sector';
 
 import {
-  getPrettifySectors,
-} from '../../selectors/sectorTree';
-
-import {
   getCoreStatus,
   maxStatus,
 } from '../../selectors/status';
@@ -166,7 +164,6 @@ const mapStateToProps = (state) => {
   return {
     sectors,
     isNormalCwp: isNormalCwp(state),
-    prettySectors: getPrettifySectors(state)(sectors),
     status,
   };
 };
