@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"4me.env@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/4me.env/-/4me.env-0.0.1.tgz#8e691b32f01855a236b837e87d1e873c49ad7bc8"
+"4me.env@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/4me.env/-/4me.env-0.0.3.tgz#35b11003a4c63d3ffc08be50b75fa061a71ae853"
   dependencies:
     invariant "^2.2.2"
     ramda "^0.21.0"
