@@ -20,7 +20,11 @@ class CwpDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.state = this._getDefaultState();
+  }
+
+  _getDefaultState() { // eslint-disable-line
+    return {
       tempSectors: _.clone(this.props.boundSectors),
       isDisabled: this.props.isDisabled,
     };
@@ -28,6 +32,12 @@ class CwpDialog extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newState = {};
+
+    // Discard any state when we close the dialog
+    if(!nextProps.open) {
+      this.setState(this._getDefaultState);
+      return;
+    }
 
     if(nextProps.isDisabled !== this.props.isDisabled) {
       // Here we have an external prop change, discard internal state
@@ -60,7 +70,6 @@ class CwpDialog extends Component {
     const tempSectors = _(state)
       .without(sector)
       .concat(...this.props.boundSectors);
-
 
     return tempSectors.compact().uniq().value();
   };
@@ -197,7 +206,7 @@ class CwpDialog extends Component {
     if(isLoading) {
       content = [
         ...content,
-        <Loader />
+        <Loader key="loader" />
       ];
     } else {
       if(!isDisabled) {
@@ -222,9 +231,9 @@ class CwpDialog extends Component {
         content = [
           <div
             style={{marginBottom: 10}}
+            key="cwp-enabler"
           >
             <CwpEnabler
-              key="cwp-enabler"
               isEnabled={!isDisabled}
               onStatusChange={this.handleEnableDisable}
             />
