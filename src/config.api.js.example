@@ -1,6 +1,8 @@
 // This is 4ME configuration file
 // These are sensible defaults
 window.FOURME_CONFIG = {
+// `4me.env` environment (see https://gitlab.com/devteamreims/4me.env)
+  FOURME_ENV: 'LFEE',
 // Override cwpId (demo website)
   overrideCwpId: 32,
 // This will disable specific organs defined in organs.js at runtime

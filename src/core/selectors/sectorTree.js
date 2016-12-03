@@ -3,7 +3,7 @@ import _ from 'lodash';
 import R from 'ramda';
 
 import getEnv from '4me.env';
-const { prettyName } = getEnv('LFEE').sectors;
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 export const getRaw = (state) => _.get(p(state), 'sectorTree', {});
 

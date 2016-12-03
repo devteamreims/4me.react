@@ -4,7 +4,7 @@ import getEnv from '4me.env';
 const {
   getClusters,
   prettyName,
-} = getEnv('LFEE').sectors;
+} = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 import SingleGroupPicker from './SingleGroupPicker';
 
