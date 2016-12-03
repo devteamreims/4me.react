@@ -1,4 +1,5 @@
 # Master
+  * CwpDialog won't discard checked elementary sectors after a while (devteamreims/4ME#145)
   * Move to yarn for package management (devteamreims/4ME#141)
   * Use controlled Docker image in CI pipeline (devteamreims/4ME#140)
 
