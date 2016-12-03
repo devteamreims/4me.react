@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import R from 'ramda';
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 import TimeAgo from '../../../utils/components/TimeAgo';
 
@@ -14,8 +15,8 @@ const style = {
   sectors: {},
 };
 
-const AppliedBy = ({cwpName, prettifySectors, sectors, when}) => {
-  const prettySectors = prettifySectors(sectors);
+const AppliedBy = ({cwpName, sectors, when}) => {
+  const prettySectors = prettyName(sectors);
 
   return (
     <div style={style.wrapper}>
@@ -61,9 +62,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-import withPrettifySectors from '../../../core/wrappers/withPrettifySectors';
-
-export default R.pipe(
-  withPrettifySectors,
-  connect(mapStateToProps),
-)(AppliedBy);
+export default connect(mapStateToProps)(AppliedBy);
