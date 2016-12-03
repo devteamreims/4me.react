@@ -1,9 +1,5 @@
 import p from './prefix';
 import _ from 'lodash';
-import R from 'ramda';
-
-import getEnv from '4me.env';
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 export const getRaw = (state) => _.get(p(state), 'sectorTree', {});
 
@@ -12,13 +8,6 @@ export const isErrored = (state) => !_.isEmpty(_.get(getRaw(state), 'error'));
 
 export const getTree = (state) => _.get(getRaw(state), 'sectorTree', []);
 
-export const getPrettifySectors = () => (elementarySectors) => {
-  if(!elementarySectors || R.isEmpty(elementarySectors)) {
-    return '';
-  }
-
-  return prettyName(elementarySectors);
-};
 
 /* eslint-disable */
 // export const getPrettifySectors = createSelector(
