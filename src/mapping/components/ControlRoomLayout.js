@@ -61,7 +61,7 @@ class ControlRoomLayout extends Component {
         </Row>
         <Row justifyContent="center">
           <Column
-            flexBasis={0}
+            flexBasis="0"
             flexGrow={1}
             alignItems="flex-end"
           >
@@ -83,7 +83,7 @@ class ControlRoomLayout extends Component {
             {roomStatusComponent}
           </Row>
           <Column
-            flexBasis={0}
+            flexBasis="0"
             flexGrow={1}
           >
             <Row>
