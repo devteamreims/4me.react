@@ -125,7 +125,7 @@ class CwpDialog extends Component {
     let fullTitle = `${title}`;
 
     if(!R.isEmpty(boundSectors)) {
-      fullTitle += ` : ${prettyName(boundSectors)}`;
+      fullTitle += ` : ${prettyName(boundSectors, '+')}`;
     }
 
     const areDifferentFromBound = R.pipe(
@@ -135,7 +135,7 @@ class CwpDialog extends Component {
     );
 
     if(areDifferentFromBound(tempSectors)) {
-      fullTitle += ` => ${prettyName(tempSectors)}`;
+      fullTitle += ` => ${prettyName(tempSectors, '+')}`;
     }
 
     return fullTitle;
