@@ -1,5 +1,4 @@
 import { fetchCwp } from './cwp';
-import { fetchSectorTree } from './sectorTree';
 import { fetchSectors } from './sector';
 import { connectSocket, disconnectSocket } from './socket';
 
@@ -7,10 +6,9 @@ export function startBootstrap() {
   return (dispatch) => {
     // Start our bootstrap process
 
-    // First, fetch our cwpId and sectorTree
+    // First, fetch our cwpId
     return Promise.all([
       dispatch(fetchCwp()),
-      dispatch(fetchSectorTree()),
     ])
     // Then fetch our sectors and connect to mapping socket
     .then(() => {
