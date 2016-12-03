@@ -8,6 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import Callsign from '../FlightList/Callsign';
 import ActionButtons from '../FlightList/ActionButtons';
+import Delay from '../FlightList/Delay';
 
 import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
@@ -64,6 +65,12 @@ class CompactFlightList extends Component {
                   <Callsign
                     callsign={flight.arcid}
                     destination={flight.destination}
+                  />
+                </TableRowColumn>
+                <TableRowColumn style={{width: '10%'}}>
+                  <Delay
+                    delay={flight.delay}
+                    isTonedDown={false}
                   />
                 </TableRowColumn>
                 <TableRowColumn style={{textAlign: 'right'}}>
