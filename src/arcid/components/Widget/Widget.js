@@ -56,8 +56,14 @@ class WidgetComponent extends Component {
           {isErrored ? (
             <h3>ETFMS PROFILE is unavailable !</h3>
           ) : ([
-            <WidgetSearchBar onClickOnFlight={this.handleClickOnFlight} />,
-            <WidgetSearchResults onClickOnFlight={this.handleClickOnFlight} />
+            <WidgetSearchBar
+              key="search-bar"
+              onClickOnFlight={this.handleClickOnFlight}
+            />,
+            <WidgetSearchResults
+              key="search-results"
+              onClickOnFlight={this.handleClickOnFlight}
+            />,
           ])}
         </div>
       </Widget>

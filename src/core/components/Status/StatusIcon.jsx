@@ -36,9 +36,14 @@ class StatusIcon extends Component {
         color = success;
     }
 
+    const props = {};
+    if(colored) {
+      Object.assign(props, {color});
+    }
+
     return (
       <Icon
-        color={colored && color}
+        {...props}
         {...other}
       />
     );

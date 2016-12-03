@@ -28,6 +28,8 @@ class Results extends Component {
       isLoading,
       areResultsEmpty,
       queryString,
+      onClickOnFlight, // eslint-disable-line no-unused-vars
+      getProfile, // eslint-disable-line no-unused-vars
       ...other,
     } = this.props;
 
