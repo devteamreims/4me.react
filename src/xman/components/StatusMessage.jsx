@@ -9,18 +9,18 @@ class StatusMessage extends Component {
   render() {
     const {
       messages,
-      ...other,
+      style,
     } = this.props;
 
-    const inside = _.map(messages, message =>
-      <h3 style={{margin: 0}}>{message}</h3>
+    const inside = _.map(messages, (message, index) =>
+      <h3 key={index} style={{margin: 0}}>{message}</h3>
     );
 
     return (
       <Paper
         zDepth={0}
         rounded={false}
-        {...other}
+        style={style}
       >
         {inside}
       </Paper>

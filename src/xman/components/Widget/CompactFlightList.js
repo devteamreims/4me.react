@@ -59,7 +59,8 @@ class CompactFlightList extends Component {
             flight => (
               <TableRow
                 selectable={false}
-                style={flight.isHighlighted && {backgroundColor: highlightedColor}}
+                key={flight.ifplId}
+                style={flight.isHighlighted ? {backgroundColor: highlightedColor} : {}}
               >
                 <TableRowColumn style={{width: '25%'}}>
                   <Callsign

@@ -23,8 +23,8 @@ const Cop = ({name, targetTime, overrideText}) => {
 
 Cop.propTypes = {
   name: React.PropTypes.string.isRequired,
-  targetTime: React.PropTypes.number.isRequired,
-  estimatedTime: React.PropTypes.number.isRequired,
+  targetTime: React.PropTypes.string.isRequired,
+  estimatedTime: React.PropTypes.string.isRequired,
   overrideText: React.PropTypes.string,
 };
 

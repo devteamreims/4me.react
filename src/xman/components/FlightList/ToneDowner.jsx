@@ -53,7 +53,10 @@ class ToneDowner extends Component {
 
 ToneDowner.propTypes = {
   path: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired,
+  value: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]).isRequired,
   children: React.PropTypes.element.isRequired,
 };
 
