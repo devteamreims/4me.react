@@ -6,7 +6,10 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: 'eslint:recommended',
+  extends: [
+    'eslint:recommended',
+    'plugin:flowtype/recommended',
+  ],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 7,
@@ -17,6 +20,7 @@ module.exports = {
     }
   },
   plugins: [
+    'flowtype',
     'babel',
     'react',
   ],
@@ -83,7 +87,7 @@ module.exports = {
     'babel/arrow-parens': 'off',
     'babel/no-await-in-loop': 'error',
     'babel/func-params-comma-dangle': ['error', 'only-multiline'],
-    'babel/flow-object-type': 'error',
+    'babel/flow-object-type': ['error', 'comma'],
     'react/display-name': 'error',
     'react/jsx-boolean-value': ['error', 'always'],
     'react/jsx-closing-bracket-location': 'error',
