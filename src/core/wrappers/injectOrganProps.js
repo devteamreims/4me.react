@@ -1,4 +1,8 @@
+// @flow
 import { connect } from 'react-redux';
+
+import type { Sectors, Client } from '../types/index';
+import type { RootState } from '../../store/rootReducer';
 
 import {
   getClient,
@@ -8,9 +12,18 @@ import {
   getSectors,
 } from '../selectors/sector';
 
-const mapStateToProps = state => {
+type ExpectedProps = {
+  sectors: Sectors,
+  client: Client,
+};
+
+const mapStateToProps = (state: RootState): ExpectedProps => {
   const sectors = getSectors(state);
   const client = getClient(state);
+
+  if(!client) {
+    throw new Error('Unknown client !');
+  }
 
 
   const props = {
@@ -21,9 +34,12 @@ const mapStateToProps = state => {
   return props;
 };
 
-export const injectOrganProps = Component => {
+// Heavily inspired by react-redux types declaration
+export function injectOrganProps<OP>(
+  Component: Class<React$Component<*, OP, *>>
+): Class<React$Component<*, ExpectedProps & OP, *>> {
   return connect(mapStateToProps)(Component);
-};
+}
 
 
 export const injectExtendedOrganProps = injectOrganProps;

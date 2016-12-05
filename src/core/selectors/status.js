@@ -1,3 +1,4 @@
+// @flow
 import _ from 'lodash';
 import R from 'ramda';
 
@@ -5,21 +6,26 @@ import {
   isConnected,
 } from './socket';
 
-export const isNormal = (state) => isConnected(state);
-export const isWarning = () => false;
-export const isErrored = (state) => !isConnected(state);
+import type { Selector } from '../../store';
 
-export const getStatusString = (state) => {
+export const isNormal: Selector<boolean> = (state) => isConnected(state);
+export const isWarning: Selector<boolean> = () => false;
+export const isErrored: Selector<boolean> = (state) => !isConnected(state);
+
+export const getStatusString: Selector<string> = (state) => {
   if(isErrored(state)) {
     return 'error';
   } else if(isWarning(state)) {
     return 'warning';
-  } else {
-    return 'normal';
   }
+
+  return 'normal';
 };
 
-export const getSocketStatus = (state) => {
+type Status = Object;
+type StatusLevel = 'normal' | 'error' | 'warning' | 'critical';
+
+export const getSocketStatus: Selector<Status> = (state) => {
   let status;
   if(isConnected(state)) {
     status = 'normal';
@@ -34,7 +40,7 @@ export const getSocketStatus = (state) => {
 };
 
 
-export const getCoreStatus = (state) => {
+export const getCoreStatus: Selector<Status>  = (state) => {
   const items = [
     getSocketStatus(state),
   ];
@@ -51,7 +57,7 @@ export const getCoreStatus = (state) => {
 
 const getOrganStatuses = R.pathOr({}, ['core', 'organStatus']);
 
-export const getGlobalStatusString = (state) => {
+export const getGlobalStatusString: Selector<StatusLevel> = (state) => {
   const organStatuses = R.pipe(
     getOrganStatuses,
     R.values,
@@ -63,8 +69,8 @@ export const getGlobalStatusString = (state) => {
   ]);
 };
 
-export function maxStatus(items) {
-  const reduceStatus = (prev, current) => {
+export function maxStatus(items: Array<StatusLevel>): StatusLevel {
+  const reduceStatus = (prev: StatusLevel, current: StatusLevel): StatusLevel => {
     if(current === 'critical' || prev === 'critical' || current === 'error' || prev === 'error') {
       return 'critical';
     }
@@ -89,7 +95,8 @@ import {
  * Controls the amout of info displayed on the status page
  */
 
-export const getDisplayLevel = state => {
+type DisplayLevel = 'dumb' | 'normal' | 'extended';
+export const getDisplayLevel: Selector<DisplayLevel> = state => {
   if(isTechSupervisor(state)) {
     return 'extended';
   }

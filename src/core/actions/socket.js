@@ -1,6 +1,18 @@
+// @flow
 export const CONNECTING = 'core/socket/CONNECTING';
 export const CONNECTED = 'core/socket/CONNECTED';
 export const DISCONNECTED = 'core/socket/DISCONNECTED';
+
+export type Action =
+  | {type: 'core/socket/CONNECTING'}
+  | {type: 'core/socket/CONNECTED'}
+  | {type: 'core/socket/DISCONNECTED', error: string}
+;
+
+import type {
+  ThunkAction,
+} from '../../store';
+
 
 import io from 'socket.io-client';
 import api from '../../api';
@@ -19,7 +31,7 @@ import {
   startBootstrap,
 } from './bootstrap';
 
-export function connectSocket() {
+export function connectSocket(): ThunkAction<*> {
   return (dispatch, getState) => {
     console.log('Connecting socket !');
 
@@ -30,9 +42,13 @@ export function connectSocket() {
 
     dispatch(socketConnecting());
     const socketUrl = api.core.socket;
-    const cwpId = getCwpId(getState());
+    const clientId = getCwpId(getState());
 
-    mySocket = io.connect(socketUrl, {query: `cwp-id=${cwpId}`});
+    if(!clientId) {
+      throw new Error('Cannot connect to socket without knowing our ClientId !');
+    }
+
+    mySocket = io.connect(socketUrl, {query: `cwp-id=${clientId}`});
 
     mySocket.on('connect', (socket) => { // eslint-disable-line no-unused-vars
       console.log('core/socket: Socket connected');
@@ -66,7 +82,7 @@ export function connectSocket() {
   };
 }
 
-export function disconnectSocket() {
+export function disconnectSocket(): ThunkAction<void> {
   return () => {
     if(!mySocket) {
       return;
@@ -78,19 +94,19 @@ export function disconnectSocket() {
   };
 }
 
-function socketConnecting() {
+function socketConnecting(): Action {
   return {
     type: CONNECTING,
   };
 }
 
-function socketConnected() {
+function socketConnected(): Action {
   return {
     type: CONNECTED,
   };
 }
 
-function socketDisconnected(error) {
+function socketDisconnected(error: string = 'Unknown error'): Action {
   return {
     type: DISCONNECTED,
     error,

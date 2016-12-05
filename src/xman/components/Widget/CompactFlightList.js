@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+// @flow
+import React from 'react';
 import {connect} from 'react-redux';
 
 import R from 'ramda';
@@ -16,6 +17,8 @@ import {
   primary1Color,
 } from '../../../theme/colors';
 
+import type { RichFlight } from '../../types/flight';
+
 const highlightedColor = ColorManipulator.fade(primary1Color, 0.2);
 
 const styles = {
@@ -29,75 +32,77 @@ const styles = {
   }
 };
 
-class CompactFlightList extends Component {
-  render() {
-    const {
-      flights,
-      isLoading,
-    } = this.props;
+type Props = {
+  isLoading: boolean,
+  flights: ?Array<RichFlight>,
+};
 
-    if(isLoading) {
-      return (
-        <div style={styles.container}>
-          <CircularProgress />
-        </div>
-      );
-    }
-
-    if(R.isEmpty(flights)) {
-      return null;
-    }
-
+export const CompactFlightList = ({
+  isLoading,
+  flights,
+}: Props) => {
+  if(isLoading) {
     return (
-      <Table
-        selectable={false}
-      >
-        <TableBody
-          displayRowCheckbox={false}
-        >
-          {R.map(
-            flight => (
-              <TableRow
-                selectable={false}
-                key={flight.ifplId}
-                style={flight.isHighlighted ? {backgroundColor: highlightedColor} : {}}
-              >
-                <TableRowColumn style={{width: '25%'}}>
-                  <Callsign
-                    callsign={flight.arcid}
-                    destination={flight.destination}
-                  />
-                </TableRowColumn>
-                <TableRowColumn style={{width: '10%'}}>
-                  <Delay
-                    delay={flight.delay}
-                    isTonedDown={false}
-                  />
-                </TableRowColumn>
-                <TableRowColumn style={{textAlign: 'right'}}>
-                  <ActionButtons
-                    ifplId={flight.ifplId}
-                    isHighlighted={flight.isHighlighted}
-                  />
-                </TableRowColumn>
-              </TableRow>
-            ),
-            flights
-          )}
-        </TableBody>
-      </Table>
+      <div style={styles.container}>
+        <CircularProgress />
+      </div>
     );
   }
-}
+
+  if(R.isEmpty(flights)) {
+    return null;
+  }
+
+  return (
+    <Table
+      selectable={false}
+    >
+      <TableBody
+        displayRowCheckbox={false}
+      >
+        {R.map(
+          (flight: RichFlight) => (
+            <TableRow
+              selectable={false}
+              key={flight.ifplId}
+              style={flight.isHighlighted ? {backgroundColor: highlightedColor} : {}}
+            >
+              <TableRowColumn style={{width: '25%'}}>
+                <Callsign
+                  callsign={flight.arcid}
+                  destination={flight.destination}
+                />
+              </TableRowColumn>
+              <TableRowColumn style={{width: '10%'}}>
+                <Delay
+                  delay={flight.delay}
+                  isTonedDown={false}
+                />
+              </TableRowColumn>
+              <TableRowColumn style={{textAlign: 'right'}}>
+                <ActionButtons
+                  ifplId={flight.ifplId}
+                  isHighlighted={flight.isHighlighted}
+                />
+              </TableRowColumn>
+            </TableRow>
+          ),
+          flights
+        )}
+      </TableBody>
+    </Table>
+  );
+};
 
 import {
   getRichFlights,
   isLoading,
 } from '../../selectors/flight-list';
 
+
 const mapStateToProps = state => ({
   flights: getRichFlights(state),
   isLoading: isLoading(state),
-});
+}: Props);
 
 export default connect(mapStateToProps)(CompactFlightList);

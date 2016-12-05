@@ -1,1 +1,3 @@
-export default from './Widget';
+// @flow
+import Widget from './Widget';
+export default Widget;

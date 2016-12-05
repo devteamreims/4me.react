@@ -1,17 +1,30 @@
+// @flow
 import _ from 'lodash';
 import p from './prefix';
 import R from 'ramda';
 
-export const getRaw = (state) => _.get(p(state), 'flightList', {});
+import type {
+  Flight,
+  RichFlight,
+  IfplId,
+} from '../types/flight';
 
-export const isLoading = (state) => !!_.get(getRaw(state), 'isLoading', false);
+export const getRaw = (state: Object) => _.get(p(state), 'flightList', {});
 
+type IsLoading = Object => boolean;
+export const isLoading: IsLoading = state => !!_.get(getRaw(state), 'isLoading', false);
+
+
+type GetFlights = Object => ?Array<Flight>;
 const emptyFlightList = [];
-export const getFlights = (state) => _.get(getRaw(state), 'flights', emptyFlightList);
+export const getFlights: GetFlights = state => _.get(getRaw(state), 'flights', emptyFlightList);
 
-export const getKnownFlightIds = (state) => _.map(getFlights(state), f => f.ifplId);
+type GetKnownFlightIds = Object => ?Array<IfplId>;
+export const getKnownFlightIds: GetKnownFlightIds = state => _.map(getFlights(state), f => f.ifplId);
 
-export const getFlightByIfplId = (state, ifplId) => _.find(getFlights(state), f => f.ifplId === ifplId);
+type GetFlightByIfplId = (Object, IfplId) => ?Flight;
+// eslint-disable-next-line max-len
+export const getFlightByIfplId: GetFlightByIfplId = (state, ifplId) => _.find(getFlights(state), f => f.ifplId === ifplId);
 
 import {
   isFlightHighlighted,
@@ -23,7 +36,8 @@ import {
   isForcedMcs,
 } from './status';
 
-export const getRichFlights = state => {
+type GetRichFlights = Object => ?Array<RichFlight>;
+export const getRichFlights: GetRichFlights = state => {
   const flights = R.map(flight => {
     const {
       ifplId,
@@ -50,7 +64,7 @@ import {
   getSectors,
 } from '../../core/selectors/sector';
 
-export const getQueryParams = (state) => {
+export const getQueryParams = (state: Object) => {
   const sectors = getSectors(state);
   const selectedFilter = getFilter(state);
 

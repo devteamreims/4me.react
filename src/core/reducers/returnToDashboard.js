@@ -1,28 +1,42 @@
+// @flow
 import {
   RESET_TIMER,
   ENABLE,
   DISABLE,
 } from '../actions/returnToDashboard';
 
-const defaultState = {
-  lastUserInteraction: Date.now(),
+import type { Exact } from '../../utils/types';
+
+export type State = Exact<{
+  lastUserInteraction: ?number,
+  enabled: boolean,
+  targetRoute: ?string,
+  interval: number,
+}>;
+
+const defaultState: State = {
+  lastUserInteraction: null,
   enabled: false,
   targetRoute: null,
   interval: 90 * 1000, // 90 seconds
 };
 
-export default function lastUserInteraction(state = defaultState, action) {
+import type { Action } from '../../store';
+
+export default function lastUserInteraction(state: State = defaultState, action: Action): State {
   switch(action.type) {
     case RESET_TIMER:
-      return Object.assign({}, state, {
+      return {
         lastUserInteraction: Date.now(),
-      });
+        ...state,
+      };
     case ENABLE:
-      return Object.assign({}, state, {
+      return {
         enabled: true,
         targetRoute: action.targetRoute || '/',
         lastUserInteraction: Date.now(),
-      });
+        ...state,
+      };
     case DISABLE:
       return Object.assign({}, state, {
         enabled: false,

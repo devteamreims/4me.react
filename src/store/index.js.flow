@@ -1,0 +1,24 @@
+// @flow
+
+import type {
+  Dispatch as ReduxDispatch,
+} from 'redux';
+
+import type { Action as CoreAction } from '../core/actions';
+
+export type Action =
+  | CoreAction;
+
+export type GetState = Function;
+
+export type ThunkAction<A> = (dispatch: Dispatch, getState: GetState) => A;
+
+export type Dispatch =
+  & ReduxDispatch<Action>
+  & ThunkAction<*> => *
+;
+
+import type { RootState as GlobalState } from './rootReducer';
+
+export type RootState = GlobalState;
+export type Selector<A> = RootState => A;

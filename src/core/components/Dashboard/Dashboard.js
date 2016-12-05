@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 
 import { GridList } from 'material-ui/GridList';
@@ -17,15 +18,20 @@ import * as EtfmsProfileModule from '../../../arcid';
 
 import { isModuleDisabled } from '../../../fmeModules';
 
-const getWidgetComponent = ({Widget, name}) => {
+type GetWidgetComponent = ({Widget: *, name: string}) => *;
+
+const getWidgetComponent: GetWidgetComponent = ({Widget, name}) => {
   if(!Widget || isModuleDisabled(name)) {
     return () => null;
   }
+
   return injectOrganProps(Widget);
 };
 
+type Props = {};
+
 class Dashboard extends Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this._organs = {
       XmanModuleWidget: getWidgetComponent(XmanModule),
@@ -34,6 +40,11 @@ class Dashboard extends Component {
       MappingModuleWidget: getWidgetComponent(MappingModule),
     };
   }
+
+  _organs: {
+    [name: string]: *,
+  };
+
   render() {
     const {
       XmanModuleWidget,

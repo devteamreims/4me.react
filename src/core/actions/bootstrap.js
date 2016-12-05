@@ -1,8 +1,13 @@
+// @flow
 import { fetchCwp } from './cwp';
 import { fetchSectors } from './sector';
 import { connectSocket, disconnectSocket } from './socket';
 
-export function startBootstrap() {
+import type {
+  ThunkAction,
+} from '../../store';
+
+export function startBootstrap(): ThunkAction<Promise<*>> {
   return (dispatch) => {
     // Start our bootstrap process
 
@@ -20,7 +25,7 @@ export function startBootstrap() {
   };
 }
 
-export function cleanUp() {
+export function cleanUp(): ThunkAction<*> {
   return (dispatch) => { // eslint-disable-line no-unused-vars
     // TODO: Implement a proper clean up sequence here
     console.log('core/actions/bootstrap: Clean up sequence triggered !');

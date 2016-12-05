@@ -1,13 +1,25 @@
+// @flow
 export const FETCH = 'core/cwp/FETCH';
 export const COMPLETE = 'core/cwp/COMPLETE';
 export const ERROR = 'core/cwp/ERROR';
+
+import type { Client } from '../types';
+
+export type Action =
+  | {|type: 'core/cwp/COMPLETE', cwp: Client|}
+  | {|type: 'core/cwp/FETCH'|}
+  | {|type: 'core/cwp/ERROR', error: string|};
 
 import axios from 'axios';
 import _ from 'lodash';
 
 import api from '../../api';
 
-export function fetchCwp() {
+import type {
+  ThunkAction,
+} from '../../store';
+
+export function fetchCwp(): ThunkAction<Promise<void>> {
   return (dispatch) => {
     dispatch(fetchAction());
 
@@ -19,7 +31,7 @@ export function fetchCwp() {
 
     return axios.get(apiUrl)
       .then((response) => {
-        const cwp = _.pick(response.data, ['id', 'name', 'disabled', 'type']);
+        const cwp: Client = _.pick(response.data, ['id', 'name', 'disabled', 'type']);
         return dispatch(completeAction(cwp));
       })
       .catch((error) => {
@@ -29,20 +41,20 @@ export function fetchCwp() {
   };
 }
 
-function completeAction(cwp) {
+function completeAction(cwp: Client): Action {
   return {
     type: COMPLETE,
     cwp,
   };
 }
 
-function fetchAction() {
+function fetchAction(): Action {
   return {
     type: FETCH,
   };
 }
 
-function errorAction(error) {
+function errorAction(error): Action {
   return {
     type: ERROR,
     error,

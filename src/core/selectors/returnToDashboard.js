@@ -1,15 +1,19 @@
+// @flow
 import p from './prefix';
 import _ from 'lodash';
 
-export const getRaw = (state) => _.get(p(state), 'returnToDashboard', {});
+import type { Selector } from '../../store';
+import type { State } from '../reducers/returnToDashboard';
 
-export const isEnabled = (state) => !!_.get(getRaw(state), 'enabled');
+export const getRaw: Selector<State> = state => _.get(p(state), 'returnToDashboard', {});
 
-export const getLastInteraction = (state) => _.get(getRaw(state), 'lastUserInteraction');
+export const isEnabled: Selector<boolean> = state => !!_.get(getRaw(state), 'enabled');
 
-const getInterval = (state) => _.get(getRaw(state), 'interval');
+export const getLastInteraction: Selector<number> = state => getRaw(state).lastUserInteraction;
 
-export const getReturnToDashboardTime = (state) => {
+const getInterval: Selector<number> = (state) => _.get(getRaw(state), 'interval');
+
+export const getReturnToDashboardTime: Selector<?number> = (state) => {
   if(isEnabled(state)) {
     return new Date(getLastInteraction(state) + getInterval(state));
   }
@@ -17,4 +21,4 @@ export const getReturnToDashboardTime = (state) => {
   return null;
 };
 
-export const getTargetRoute = (state) => _.get(getRaw(state), 'targetRoute', '/');
+export const getTargetRoute: Selector<string> = (state) => _.get(getRaw(state), 'targetRoute', '/');

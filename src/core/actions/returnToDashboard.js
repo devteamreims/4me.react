@@ -1,28 +1,39 @@
+// @flow
 export const RESET_TIMER = 'core/returnToDashboard/RESET_TIMER';
 export const ENABLE = 'core/returnToDashboard/ENABLE';
 export const DISABLE = 'core/returnToDashboard/DISABLE';
+
+export type Action =
+  | {type: 'core/returnToDashboard/ENABLE', targetRoute: string}
+  | {type: 'core/returnToDashboard/RESET_TIMER', when: number}
+  | {type: 'core/returnToDashboard/DISABLE'};
 
 import {
   isEnabled,
 } from '../selectors/returnToDashboard';
 
-export function interact() {
+import type {
+  ThunkAction,
+} from '../../store';
+
+export function interact(): ThunkAction<*> {
   return (dispatch, getState) => {
     if(!isEnabled(getState())) {
       return;
     }
+
     return dispatch(resetTimerAction());
   };
 }
 
-export function enable(targetRoute = '/') {
+export function enable(targetRoute: string = '/'): Action {
   return {
     type: ENABLE,
     targetRoute,
   };
 }
 
-export function disable() {
+export function disable(): ThunkAction<*> {
   return (dispatch, getState) => {
     if(!isEnabled(getState())) {
       return;
@@ -34,7 +45,7 @@ export function disable() {
   };
 }
 
-function resetTimerAction(when = Date.now()) {
+function resetTimerAction(when = Date.now()): Action {
   return {
     type: RESET_TIMER,
     when,
