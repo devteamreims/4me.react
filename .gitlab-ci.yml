@@ -25,6 +25,12 @@ lint:
     - npm run lint -- --quiet
   allow_failure: true
 
+flow:
+  stage: test
+  script:
+    - yarn
+    - npm run flow
+
 jest:
   stage: test
   script:
