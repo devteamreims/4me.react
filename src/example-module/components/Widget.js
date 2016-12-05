@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
@@ -7,6 +8,12 @@ import { Increment, Decrement } from './CounterActions';
 import Counter from './Counter';
 
 class WidgetComponent extends Component {
+  props: {
+    increment: void => void,
+    decrement: void => void,
+    cols: number,
+    counter: number,
+  };
 
   handleIncrement = () => {
     const {

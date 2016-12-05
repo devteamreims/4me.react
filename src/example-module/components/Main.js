@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
@@ -14,8 +15,19 @@ import {
   decrement,
 } from '../actions';
 
+import type { Client, Sectors } from '../../core/types';
+
+type Props = {
+  increment: void => void,
+  decrement: void => void,
+  counter: number,
+  client: Client,
+  sectors: Sectors,
+};
 
 class Main extends Component {
+  props: Props;
+
   handleDecrement = () => {
     const {
       decrement,
@@ -32,7 +44,7 @@ class Main extends Component {
     increment();
   };
 
-  getExplanationString = () => {
+  getExplanationString = (): ?React.Element<*> => {
     const {
       counter,
     } = this.props;
@@ -96,7 +108,7 @@ class Main extends Component {
       width: 400,
     };
 
-    const shouldRedirectToDashboard = !R.isEmpty(sectors);
+    const shouldRedirectToDashboard: boolean = !R.isEmpty(sectors);
 
     return (
       <div style={containerStyle}>
@@ -137,7 +149,7 @@ const mapStateToProps = (state) => {
   const ourState = p(state);
 
   return {
-    counter: R.prop('counter', ourState),
+    counter: ourState.counter,
   };
 };
 

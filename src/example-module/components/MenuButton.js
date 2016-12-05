@@ -1,13 +1,20 @@
+// @flow
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-
-import R from 'ramda';
 
 import {
   OrganButton,
 } from '../../core/components/LeftMenu';
 
 export class MenuButton extends Component {
+  props: {
+    isActive: boolean,
+    transition: () => void,
+    client: any,
+    sectors: any,
+    counter: number,
+  };
+
   render() {
     const {
       isActive,
@@ -17,7 +24,7 @@ export class MenuButton extends Component {
       counter,
     } = this.props;
 
-    const getPriority = count => {
+    const getPriority = (count: number) => {
       if(count < 3) {
         return 'low';
       } else if(count < 5) {
@@ -48,9 +55,11 @@ import { p } from '../selectors';
 const mapStateToProps = (state) => {
   const ourState = p(state);
 
-  return {
-    counter: R.prop('counter', ourState),
+  const props: {counter: number} = {
+    counter: ourState.counter,
   };
+
+  return props;
 };
 
 export default connect(mapStateToProps)(MenuButton);

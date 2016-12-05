@@ -1,13 +1,20 @@
+// @flow
+
 export const INCREMENT = 'exampleModule/counter/INCREMENT';
 export const DECREMENT = 'exampleModule/counter/DECREMENT';
 
-export function increment() {
+export type Action =
+  | {|type: 'exampleModule/counter/INCREMENT'|}
+  | {|type: 'exampleModule/counter/DECREMENT'|}
+;
+
+export function increment(): Action {
   return {
     type: INCREMENT,
   };
 }
 
-export function decrement() {
+export function decrement(): Action {
   return {
     type: DECREMENT,
   };

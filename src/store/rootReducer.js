@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import * as MappingModule from '../mapping';
 
 import * as ExampleModule from '../example-module';
+import type { ExampleModuleState } from '../example-module';
 
 import * as XmanModule from '../xman';
 import type { XmanState } from '../xman';
@@ -24,5 +25,6 @@ export function createRootReducer() {
 }
 
 export type RootState =
+  & ExampleModuleState
   & XmanState
   & {core: CoreState};
