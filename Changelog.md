@@ -3,6 +3,7 @@
   * Use `4me.env` <ControlRoomLayout /> (devteamreims/4ME#148)
   * Use `4me.env` suggestion engine (devteamreims/4ME#153)
   * Change orange to teal in CONTROL ROOM (devteamreims/4ME#157)
+  * Implement flow in project (devteamreims/4ME#111)
 
 # v1.0.0 (2016-12-06)
   * Move to React v15.4.1
