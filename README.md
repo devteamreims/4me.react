@@ -8,16 +8,26 @@ This is 4ME main client.
 
 ## Build (dev env)
 
+Dependencies :
+* NodeJS (tested with 7.2.0)
+* yarn (`npm install --global yarn`)
+
 ```
 # git clone
-# npm install
+# yarn
+# cp src/config.api.js.example src/config.api.js
+```
+
+Then edit `src/config.api.js` to setup a proper 4ME environment (data services + 4ME environment designator)
+
+```
 # npm start
 ```
 
 ## Build (prod)
 ```
 # git clone
-# npm install
+# yarn
 # npm run build
 ```
 
