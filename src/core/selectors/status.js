@@ -7,6 +7,11 @@ import {
 } from './socket';
 
 import type { Selector } from '../../store';
+import type {
+  StatusItem,
+  StatusLevel,
+  StatusDisplayLevel,
+} from '../types';
 
 export const isNormal: Selector<boolean> = (state) => isConnected(state);
 export const isWarning: Selector<boolean> = () => false;
@@ -22,10 +27,7 @@ export const getStatusString: Selector<string> = (state) => {
   return 'normal';
 };
 
-type Status = Object;
-type StatusLevel = 'normal' | 'error' | 'warning' | 'critical';
-
-export const getSocketStatus: Selector<Status> = (state) => {
+export const getSocketStatus: Selector<StatusItem> = (state) => {
   let status;
   if(isConnected(state)) {
     status = 'normal';
@@ -40,7 +42,7 @@ export const getSocketStatus: Selector<Status> = (state) => {
 };
 
 
-export const getCoreStatus: Selector<Status>  = (state) => {
+export const getCoreStatus: Selector<StatusItem> = (state) => {
   const items = [
     getSocketStatus(state),
   ];
@@ -95,8 +97,7 @@ import {
  * Controls the amout of info displayed on the status page
  */
 
-type DisplayLevel = 'dumb' | 'normal' | 'extended';
-export const getDisplayLevel: Selector<DisplayLevel> = state => {
+export const getDisplayLevel: Selector<StatusDisplayLevel> = state => {
   if(isTechSupervisor(state)) {
     return 'extended';
   }
