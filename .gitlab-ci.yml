@@ -28,6 +28,8 @@ lint:
 flow:
   stage: test
   script:
+    - apt-get update -qq
+    - apt-get install -qy libelf1
     - yarn
     - npm run flow
 
