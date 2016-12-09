@@ -1,8 +1,8 @@
 import {
   indigo300,
   indigo500,
-  orange300,
-  orange800,
+  teal300,
+  teal800,
   pink500,
   fullWhite,
   fullBlack,
@@ -24,11 +24,11 @@ export const cwpButton = {
     textColor: fullBlack,
   },
   mineNormal: {
-    backgroundColor: orange800,
+    backgroundColor: teal800,
     textColor: fullWhite,
   },
   mineEmpty: {
-    backgroundColor: orange300,
+    backgroundColor: teal300,
     textColor: fullBlack,
   },
   hovered: {
