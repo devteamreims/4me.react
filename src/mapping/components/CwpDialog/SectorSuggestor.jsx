@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import R from 'ramda';
 
 import getEnv from '4me.env';
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+const { getSectorSuggestions } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -14,12 +15,6 @@ import {
 import Loader from './Loader';
 
 class SectorSuggestor extends Component {
-
-  componentDidMount() {
-    const { fetchSuggestions } = this.props;
-    fetchSuggestions();
-  }
-
   componentDidUpdate() {
     // This line forces our container Dialog to reposition itself
     // See devteamreims/4ME#135
@@ -29,7 +24,7 @@ class SectorSuggestor extends Component {
   render() {
     const {
       isLoading,
-      suggestions,
+      suggestions = [],
       onSuggestionClick,
     } = this.props;
 
@@ -50,11 +45,11 @@ class SectorSuggestor extends Component {
 
     return (
       <div>
-        {_.map(suggestions, (s, index) => (
+        {suggestions.map((s, index) => (
           <RaisedButton
-            key={index}
-            label={prettyName(s.sectors)}
-            onTouchTap={onSuggestionClick(s.sectors)}
+            key={`suggestion-${index}`}
+            label={prettyName(s)}
+            onTouchTap={onSuggestionClick(s)}
             style={buttonStyle}
             labelStyle={labelStyle}
             backgroundColor={accent1Color}
@@ -74,21 +69,27 @@ SectorSuggestor.propTypes = {
 };
 
 import {
-  isLoading as isSuggestionLoading,
-  getSuggestions,
-} from '../../selectors/suggest';
-
-import {
   isLoading as isMapLoading,
+  getMap,
 } from '../../selectors/map';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    cwpId
+    cwpId,
   } = ownProps;
 
-  const isLoading = isSuggestionLoading(state) || isMapLoading(state);
-  const suggestions = _.take(getSuggestions(state, cwpId), 10);
+  const isLoading = isMapLoading(state);
+  const rawMap = getMap(state);
+
+  // Our state map is not compliant with what's expected in 4me.env
+  const map = R.map(mapItem => {
+    return {
+      clientId: mapItem.cwpId,
+      sectors: mapItem.sectors || [],
+    };
+  }, rawMap);
+
+  const suggestions = getSectorSuggestions(map, cwpId);
 
   return {
     isLoading,
@@ -96,17 +97,5 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-import { fetchSuggestions } from '../../actions/suggest';
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const {
-    cwpId,
-  } = ownProps;
-
-  return {
-    fetchSuggestions: () => dispatch(fetchSuggestions(cwpId)),
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SectorSuggestor);
+export default connect(mapStateToProps)(SectorSuggestor);

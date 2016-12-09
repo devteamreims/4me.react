@@ -1,4 +1,5 @@
 # Master
+  * Use `4me.env` suggestion engine (devteamreims/4ME#153)
   * Change orange to teal in CONTROL ROOM (devteamreims/4ME#157)
 
 # v1.0.0 (2016-12-06)
