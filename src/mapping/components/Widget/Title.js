@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import getEnv from '4me.env';
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 
 import R from 'ramda';
 
@@ -51,17 +52,16 @@ import {
   getSectorsByCwpId,
 } from '../../selectors/map';
 
-import {
-  getName,
-} from '../../selectors/cwp';
 
 const mapStateToProps = (state, ownProps) => {
   if(!ownProps.selectedCwpId) {
     return {};
   }
 
+  const client = getClientById(ownProps.selectedCwpId);
+
   const sectors = getSectorsByCwpId(state, ownProps.selectedCwpId);
-  const cwpName = getName(state, ownProps.selectedCwpId);
+  const cwpName = client ? client.name : `CWP ${ownProps.selectedCwpId}`;
 
   return {
     cwpName,

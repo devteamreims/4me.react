@@ -123,11 +123,8 @@ CwpButton.contextTypes = {
 
 import {
   getSectorsByCwpId,
-} from '../../selectors/map';
-
-import {
   isDisabled as isCwpDisabled,
-} from '../../selectors/cwp';
+} from '../../selectors/map';
 
 import {
   isSupervisor,

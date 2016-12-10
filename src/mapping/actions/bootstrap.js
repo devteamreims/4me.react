@@ -1,4 +1,3 @@
-import { refreshCwps } from './cwp';
 import { refreshMap } from './map';
 
 import io from 'socket.io-client';
@@ -28,7 +27,6 @@ export function bootstrap() {
 
     return Promise.all([
       dispatch(refreshMap()),
-      dispatch(refreshCwps()),
       setupSocket(),
     ]);
   };

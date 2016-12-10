@@ -115,11 +115,8 @@ class WidgetCwpButton extends Component {
 }
 
 import {
-  isDisabled as isCwpDisabled,
-} from '../../selectors/cwp';
-
-import {
   getSectorsByCwpId,
+  isDisabled as isCwpDisabled,
 } from '../../selectors/map';
 
 import {
