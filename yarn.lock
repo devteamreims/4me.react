@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"4me.env@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/4me.env/-/4me.env-0.2.4.tgz#9dfb6c0d81da0ce02099ac626f29880fc83d747e"
+"4me.env@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/4me.env/-/4me.env-0.3.0.tgz#b31f9b156b6931a4736cebb2e233ca41d1f0ee19"
   dependencies:
     flexbox-react "^4.1.0"
     invariant "^2.2.2"
