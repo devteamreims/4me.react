@@ -25,7 +25,7 @@ const style = {
 class ErrorModal extends Component {
   props: {
     title?: string,
-    children: ?React.Element<*>,
+    children?: ?React.Element<*>,
     actions?: React.Element<*>,
   };
 

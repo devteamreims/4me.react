@@ -88,7 +88,6 @@ class Keyboard extends Component {
       // And it's not disabled
       target.disabled === false
     ) {
-      console.log('test');
       return true;
     }
 
@@ -212,9 +211,8 @@ class Keyboard extends Component {
                 onClick={this.onClickHandler(key)}
                 style={buttonStyles}
                 backgroundColor={keyBackgroundColor}
-              >
-                {key}
-              </KeyboardButton>
+                title={key}
+              />
             )}
           </div>
         )}
@@ -232,6 +230,7 @@ class KeyboardButton extends Component {
   props: {
     children: ?React.Element<*>,
     onClick: (Event) => void,
+    title: string,
   };
 
   static defaultProps = {
@@ -258,10 +257,10 @@ class KeyboardButton extends Component {
 
   isIconButton() {
     const {
-      children,
+      title,
     } = this.props;
 
-    if(children === '{BACKSPACE}') {
+    if(title === '{BACKSPACE}') {
       return true;
     }
 
@@ -270,10 +269,10 @@ class KeyboardButton extends Component {
 
   getIcon() {
     const {
-      children,
+      title,
     } = this.props;
 
-    if(children === '{BACKSPACE}') {
+    if(title === '{BACKSPACE}') {
       return <BackspaceIcon />;
     }
 
@@ -282,7 +281,7 @@ class KeyboardButton extends Component {
 
   render() {
     const {
-      children,
+      title,
       onClick, // eslint-disable-line no-unused-vars
       ...other,
     } = this.props;
@@ -294,7 +293,7 @@ class KeyboardButton extends Component {
         icon={this.getIcon()}
         {...other}
       >
-        {!this.isIconButton() && children}
+        {!this.isIconButton() && title}
       </FlatButton>
     );
   }

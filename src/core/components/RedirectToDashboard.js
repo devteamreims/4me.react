@@ -1,12 +1,26 @@
+// @flow
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import {connect} from 'react-redux';
+import type {
+  ConnectedComponentClass,
+  MapDispatchToProps,
+} from 'react-redux';
+
+import type { Action, Dispatch } from '../../store';
 
 import {
   enable as enableRedirect,
   disable as disableRedirect,
 } from '../actions/returnToDashboard';
 
+type Props = {
+  enableRedirect: () => *,
+  disableRedirect: () => *,
+};
+
 class RedirectToDashboard extends Component {
+  props: Props;
+
   componentDidMount() {
     const {
       enableRedirect,
@@ -28,9 +42,13 @@ class RedirectToDashboard extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  enableRedirect,
-  disableRedirect,
+const mapDispatchToProps: MapDispatchToProps<Action, {}, Props> = (dispatch: Dispatch) => {
+  return {
+    enableRedirect: () => dispatch(enableRedirect()),
+    disableRedirect: () => dispatch(disableRedirect()),
+  };
 };
+
+type Export = ConnectedComponentClass<{}, Props, void, void>;
 
 export default connect(null, mapDispatchToProps)(RedirectToDashboard);

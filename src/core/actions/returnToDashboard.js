@@ -16,13 +16,13 @@ import type {
   ThunkAction,
 } from '../../store';
 
-export function interact(): ThunkAction<*> {
+export function interact(): ThunkAction<void> {
   return (dispatch, getState) => {
     if(!isEnabled(getState())) {
       return;
     }
 
-    return dispatch(resetTimerAction());
+    dispatch(resetTimerAction());
   };
 }
 
@@ -33,15 +33,9 @@ export function enable(targetRoute: string = '/'): Action {
   };
 }
 
-export function disable(): ThunkAction<*> {
-  return (dispatch, getState) => {
-    if(!isEnabled(getState())) {
-      return;
-    }
-
-    return dispatch({
-      type: DISABLE,
-    });
+export function disable(): Action {
+  return {
+    type: DISABLE,
   };
 }
 
