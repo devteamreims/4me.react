@@ -1,9 +1,15 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { throttle } from 'lodash';
 
 class InteractionCatcher extends Component {
-  handleUserInteraction = _.throttle(ev => { // eslint-disable-line no-unused-vars
+  props: {
+    children: ?React.Element<*>,
+    interact: Function,
+  };
+
+  handleUserInteraction = throttle(ev => { // eslint-disable-line no-unused-vars
     const {
       interact,
     } = this.props;
@@ -13,7 +19,7 @@ class InteractionCatcher extends Component {
 
   render() {
     const {
-      children = null,
+      children,
       interact, // eslint-disable-line no-unused-vars
       ...rest
     } = this.props;

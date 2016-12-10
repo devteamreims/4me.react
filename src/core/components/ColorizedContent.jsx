@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 
 import * as Colors from 'material-ui/styles/colors';
@@ -5,7 +6,8 @@ import * as Colors from 'material-ui/styles/colors';
 import _ from 'lodash';
 
 const colorLevel = '200';
-const colors = _.map([
+type Color = string;
+const colors: Array<Color> = [
   'pink',
   'purple',
   'indigo',
@@ -13,11 +15,11 @@ const colors = _.map([
   'green',
   'deepOrange',
   'brown',
-], str => Colors[str + colorLevel]);
+].map(str => Colors[str + colorLevel]);
 
 
 /* http://stackoverflow.com/a/7616484/194685 */
-function hashCode(str) {
+function hashCode(str: string): number {
   let hash = 0;
   let i;
   let chr;
@@ -36,18 +38,24 @@ function hashCode(str) {
  * If hash is set to -1, then we'll return a specific color (bluegrey)
  */
 
-class ColorizedContent extends Component {
+type Props = {
+  hash: string | number,
+  children: React.Element<*>,
+};
 
-  _hashToColor(rawHash) {
+class ColorizedContent extends Component {
+  props: Props;
+
+  _hashToColor(rawHash: string | number) {
     if(rawHash === -1) {
       return Colors[`blueGrey${colorLevel}`];
     }
 
     let hash;
 
-    if(_.isNumber(rawHash)) {
+    if(typeof rawHash === 'number') {
       hash = rawHash;
-    } else if(_.isString(rawHash)) {
+    } else if(typeof rawHash === 'string') {
       hash = hashCode(rawHash);
     } else {
       throw new Error('Invalid argument');
@@ -72,12 +80,5 @@ class ColorizedContent extends Component {
     );
   }
 }
-
-ColorizedContent.propTypes = {
-  hash: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
-  ]).isRequired,
-};
 
 export default ColorizedContent;

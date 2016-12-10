@@ -1,6 +1,5 @@
+// @flow
 import React, { Component } from 'react';
-
-import _ from 'lodash';
 
 const keys = [
   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '{BACKSPACE}'],
@@ -20,8 +19,16 @@ import {
 const backgroundColor = lightBlack;
 const keyBackgroundColor = canvasColor;
 
+type Props = {};
+
 class Keyboard extends Component {
-  constructor(props) {
+  props: Props;
+  state: {
+    showKeyboard: boolean,
+    targetElement: ?(HTMLInputElement | HTMLTextAreaElement),
+  };
+
+  constructor(props: Props) {
     super(props);
     this.state = this._getDefaultState();
   }
@@ -39,14 +46,24 @@ class Keyboard extends Component {
     window.removeEventListener('blur', this.blurHandler, true);
   }
 
-  focusHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState({showKeyboard: true, targetElement: el.target});
+  focusHandler = (ev: Event) => {
+    // This looks like duplicate type refinement stuff
+    // But flow won't take the refinement otherwise
+    // eslint-disable-next-line max-len
+    // See : https://flowtype.org/try/#0PQKgBAAgZgNg9gdzCYAoALgTwA4FMwCiAHngMbq4AmYAvGABIAqAsgDICSAdtgK7oExcAW1yd0AblSpSMAIYBneWEa556MAG9UYMAH0KagFyESuclUk7tYKHFI959WZ0qCATrTAAKXADdjBL6i6ACUtAB8mtY6AJZQPr4AdOiybgDmuOoxnGrOpLhwUAwsHNx8AsLBYVo6tWDoABYx8on6qup0fsmpGRLRYAC+1gOSI1LScorK7QBMUTptRiZkFJSS1rb2js6uuB50CQFBYmE0kTW1pHA56inpmZ5dd72WtXFejc2tBvy+Hz2ZELVfo6T4tRYdeoAvp1IY6MbWCGBTz-e6hCLzN7xZ4PbK5Tj5QrFNhcXj8QQiE6YupuTI8NycepuHi4V7w-q09D0xlQWQweSs4ajcRAA
+    if(this._shouldTriggerKeyboard(ev.target) && (
+      ev.target instanceof HTMLInputElement ||
+      ev.target instanceof HTMLTextAreaElement
+    )) {
+      this.setState({showKeyboard: true, targetElement: ev.target});
     }
   };
 
-  blurHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
+  blurHandler = (ev: Event) => {
+    if(this._shouldTriggerKeyboard(ev.target) && (
+      ev.target instanceof HTMLInputElement ||
+      ev.target instanceof HTMLTextAreaElement
+    )) {
       this.setState(this._getDefaultState());
     }
   };
@@ -55,31 +72,38 @@ class Keyboard extends Component {
     return {showKeyboard: false, targetElement: null};
   }
 
-  handleMouseDown = (ev) => this.preventFocus(ev);
+  handleMouseDown = (ev: Event) => this.preventFocus(ev);
 
-  preventFocus = (ev) => {
+  preventFocus = (ev: Event) => {
     ev.stopPropagation();
     ev.preventDefault();
   };
 
-  _shouldTriggerKeyboard(target) {
-    return _.get(target, 'nodeName') === 'INPUT' &&
-      _.get(target, 'type') === 'text';
-  }
-
-  focusHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState({showKeyboard: true, targetElement: el.target});
+  _shouldTriggerKeyboard = (target: EventTarget): boolean => {
+    if(
+      // We have an input
+      target instanceof HTMLInputElement &&
+      // And it's a text input
+      target.type === 'text' &&
+      // And it's not disabled
+      target.disabled === false
+    ) {
+      console.log('test');
+      return true;
     }
+
+    if(
+      target instanceof HTMLTextAreaElement &&
+      target.disabled === false
+    ) {
+      return true;
+    }
+
+    return false;
   };
 
-  blurHandler = (el) => {
-    if(this._shouldTriggerKeyboard(el.target)) {
-      this.setState(this._getDefaultState());
-    }
-  };
 
-  onClickHandler = (key) => (ev) => {
+  onClickHandler = (key: string) => (ev: Event): void => {
     // Prevent focus change
     this.preventFocus(ev);
 
@@ -177,12 +201,12 @@ class Keyboard extends Component {
         style={styles}
         onMouseDown={this.handleMouseDown}
       >
-        {showKeyboard && _.map(keys, (row, index) =>
+        {showKeyboard && keys.map((row, index: number) =>
           <div
             key={index}
             style={{margin: '5px 30px'}}
           >
-            {_.map(row, (key, index) =>
+            {row.map((key, index) =>
               <KeyboardButton
                 key={index}
                 onClick={this.onClickHandler(key)}
@@ -203,14 +227,23 @@ class Keyboard extends Component {
 import FlatButton from 'material-ui/FlatButton';
 import BackspaceIcon from 'material-ui/svg-icons/content/backspace';
 
-class KeyboardButton extends Component {
 
-  handleMouseDown = (ev) => {
+class KeyboardButton extends Component {
+  props: {
+    children: ?React.Element<*>,
+    onClick: (Event) => void,
+  };
+
+  static defaultProps = {
+    children: null,
+  };
+
+  handleMouseDown = (ev: Event) => {
     ev.stopPropagation();
     ev.preventDefault();
   };
 
-  handleClick = (ev) => {
+  handleClick = (ev: Event) => {
     const {
       onClick,
     } = this.props;
@@ -250,6 +283,7 @@ class KeyboardButton extends Component {
   render() {
     const {
       children,
+      onClick, // eslint-disable-line no-unused-vars
       ...other,
     } = this.props;
 
