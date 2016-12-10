@@ -123,7 +123,15 @@ module.exports = {
     'react/require-extension': 'error',
     'react/require-render-return': 'error',
     'react/self-closing-comp': 'error',
-    'react/sort-comp': 'error',
+    'react/sort-comp': [1, {
+      order: [
+        'type-annotations',
+        'static-methods',
+        'lifecycle',
+        'everything-else',
+        'render',
+      ],
+    }],
     'react/sort-prop-types': 'off',
 
     'react/no-string-refs': 'warn', // Wishlist, one day.
