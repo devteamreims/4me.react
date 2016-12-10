@@ -5,6 +5,7 @@ import R from 'ramda';
 
 import getEnv from '4me.env';
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -270,21 +271,19 @@ import {
   isLoading as isMapLoading,
 } from '../../selectors/map';
 
-import {
-  getName,
-  getBackupedRadios,
-} from '../../selectors/cwp';
-
 const mapStateToProps = (state, ownProps) => {
   const {
     cwpId,
   } = ownProps;
 
-  const cwpName = getName(state, cwpId);
+  const client = getClientById(cwpId);
+  const cwpName = client ? client.name : `P${cwpId}`;
+
   const boundSectors = getSectorsByCwpId(state, cwpId);
   const isDisabled = isCwpDisabled(state, cwpId);
   const hasNoSectorsBound = isCwpEmpty(state, cwpId);
-  const backupedRadios = getBackupedRadios(state, cwpId);
+  // TODO: Reimplement backuped radios
+  const backupedRadios = [];
 
   const title = `${cwpName}`;
 

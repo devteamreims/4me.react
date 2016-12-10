@@ -5,9 +5,8 @@ import {
   isEmpty as isCwpEmpty,
 } from '../selectors/map';
 
-import {
-  getCwpById,
-} from '../selectors/cwp';
+import getEnv from '4me.env';
+const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 
 import axios from 'axios';
 import _ from 'lodash';
@@ -63,9 +62,9 @@ export function refreshMap() {
 export function bindSectorsToCwp(cwpId, sectors) {
   return (dispatch, getState) => {
     // Sanity check
-    const cwpExists = !_.isEmpty(getCwpById(getState(), cwpId));
+    const client = getClientById(cwpId);
 
-    if(!cwpExists) {
+    if(!client || client.type !== 'cwp') {
       console.log(`Could not bind sectors to unknown cwp : ${cwpId}!`);
       return Promise.reject();
     }

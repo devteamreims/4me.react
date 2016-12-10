@@ -1,4 +1,6 @@
 # Master
+  * Remove core.mapping dependency for cwp list, use 4me.env instead (devteamreims/4ME#146)
+  * Use `4me.env` <ControlRoomLayout /> (devteamreims/4ME#148)
   * Use `4me.env` suggestion engine (devteamreims/4ME#153)
   * Change orange to teal in CONTROL ROOM (devteamreims/4ME#157)
 

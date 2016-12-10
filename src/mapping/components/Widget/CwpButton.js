@@ -9,7 +9,7 @@ import {
 
 class WidgetCwpButton extends Component {
   static propTypes = {
-    cwpId: React.PropTypes.number.isRequired,
+    clientId: React.PropTypes.number.isRequired,
     myCwpId: React.PropTypes.number,
     sectors: React.PropTypes.arrayOf(React.PropTypes.string),
     isDisabled: React.PropTypes.bool,
@@ -32,7 +32,7 @@ class WidgetCwpButton extends Component {
 
   handleMouseEnter = (event) => { // eslint-disable-line no-unused-vars
     const {
-      cwpId,
+      clientId,
       onMouseEnter,
       sectors,
     } = this.props;
@@ -41,23 +41,23 @@ class WidgetCwpButton extends Component {
       return;
     }
 
-    onMouseEnter(event, cwpId);
+    onMouseEnter(event, clientId);
     this.setState({hovered: true});
   };
 
   handleMouseLeave = (event) => { // eslint-disable-line no-unused-vars
     const {
-      cwpId,
+      clientId,
       onMouseLeave,
     } = this.props;
 
-    onMouseLeave(event, cwpId);
+    onMouseLeave(event, clientId);
     this.setState({hovered: false});
   };
 
   render() {
     const {
-      cwpId,
+      clientId,
       myCwpId,
       sectors,
       isDisabled,
@@ -82,7 +82,7 @@ class WidgetCwpButton extends Component {
     let themeString = 'normal';
     if(isDisabled) {
       themeString = 'disabled';
-    } else if(myCwpId === cwpId) {
+    } else if(myCwpId === clientId) {
       themeString = 'mineNormal';
       if(R.isEmpty(sectors)) {
         themeString = 'mineEmpty';
@@ -115,11 +115,8 @@ class WidgetCwpButton extends Component {
 }
 
 import {
-  isDisabled as isCwpDisabled,
-} from '../../selectors/cwp';
-
-import {
   getSectorsByCwpId,
+  isDisabled as isCwpDisabled,
 } from '../../selectors/map';
 
 import {
@@ -128,8 +125,8 @@ import {
 
 const mapStateToProps = (state, ownProps) => ({
   myCwpId: getCwpId(state),
-  sectors: getSectorsByCwpId(state, ownProps.cwpId),
-  isDisabled: isCwpDisabled(state, ownProps.cwpId),
+  sectors: getSectorsByCwpId(state, ownProps.clientId),
+  isDisabled: isCwpDisabled(state, ownProps.clientId),
 });
 
 export default connect(mapStateToProps)(WidgetCwpButton);
