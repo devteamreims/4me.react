@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import CwpButton from './CwpButton';
 import RoomStatus from './RoomStatus';
 
-import ControlRoomLayout from './ControlRoomLayout';
+import getEnv from '4me.env';
+const {
+  getControlRoomLayout,
+} = getEnv(window.FOURME_CONFIG.FOURME_ENV).components;
+
+const ControlRoomLayout = getControlRoomLayout();
 
 class ControlRoom extends Component {
   componentWillUnmount() {
@@ -18,8 +23,8 @@ class ControlRoom extends Component {
   render() {
     return (
       <ControlRoomLayout
-        cwpButtonComponent={<CwpButton style={{margin: 5}} />}
-        roomStatusComponent={<RoomStatus style={{margin: '0 100px'}} />}
+        cwpButton={<CwpButton style={{margin: 5}} />}
+        roomStatus={<RoomStatus style={{margin: '0 100px'}} />}
       />
     );
   }

@@ -4,6 +4,7 @@ import _ from 'lodash';
 import R from 'ramda';
 
 import getEnv from '4me.env';
+const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
 import {mapping as mappingConfig} from '../../../config';
@@ -38,11 +39,11 @@ class CwpButton extends Component {
     const {
       openDialog,
       isButtonEnabled,
-      cwpId,
+      clientId,
     } = this.props;
 
     if(isButtonEnabled) {
-      openDialog(cwpId);
+      openDialog(clientId);
     }
   };
 
@@ -52,7 +53,7 @@ class CwpButton extends Component {
       isDisabled,
       name,
       style,
-      cwpId,
+      clientId,
       myCwpId,
       sectors,
     } = this.props;
@@ -75,7 +76,7 @@ class CwpButton extends Component {
     let themeString = 'normal';
     if(isDisabled) {
       themeString = 'disabled';
-    } else if(myCwpId === cwpId) {
+    } else if(myCwpId === clientId) {
       themeString = 'mineNormal';
       if(R.isEmpty(sectors)) {
         themeString = 'mineEmpty';
@@ -125,7 +126,6 @@ import {
 } from '../../selectors/map';
 
 import {
-  getName,
   isDisabled as isCwpDisabled,
 } from '../../selectors/cwp';
 
@@ -140,17 +140,20 @@ import {
 
 const mapStateToProps = () => (state, ownProps) => {
   const myCwpId = getCwpId(state);
-  const sectors = getSectorsByCwpId(state, ownProps.cwpId);
+  const sectors = getSectorsByCwpId(state, ownProps.clientId);
 
   const isButtonEnabled = isSupervisor(state) || process.env.NODE_ENV === 'development';
+
+  const client = getClientById(ownProps.clientId);
+  const name = client ? client.name : `CWP ${ownProps.clientId}`;
 
   return {
     sectors,
     myCwpId,
-    name: getName(state, ownProps.cwpId),
-    isDisabled: isCwpDisabled(state, ownProps.cwpId),
+    name,
+    isDisabled: isCwpDisabled(state, ownProps.clientId),
     isButtonEnabled: isButtonEnabled,
-    isRadioOk: isRadioOk(state, ownProps.cwpId),
+    isRadioOk: isRadioOk(state, ownProps.clientId),
   };
 };
 
