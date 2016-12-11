@@ -1,4 +1,5 @@
 # Master
+  * Move components to JSS (devteamreims/4ME#161)
   * Clean build process (remove unused stuff, move webpack config files in a more explicit folder)
   * Remove SASS dependency (devteamreims/4ME#161)
   * Remove core.mapping dependency for cwp list, use 4me.env instead (devteamreims/4ME#146)
