@@ -1,0 +1,8 @@
+/* Global override : to fix material-ui style */
+span[type=button] {
+  appearance: none;
+}
+
+a[type=button] {
+  appearance: none;
+}

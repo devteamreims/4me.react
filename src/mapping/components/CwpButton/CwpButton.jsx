@@ -24,7 +24,7 @@ import {
   error,
 } from '../../../theme/colors';
 
-import './button.scss';
+import './button.css';
 
 
 class CwpButton extends Component {

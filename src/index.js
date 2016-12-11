@@ -1,6 +1,13 @@
+// First normalize
+import 'normalize.css';
+// Then we have an issue with material-ui
+// https://github.com/callemall/material-ui/issues/4008
+// https://github.com/pjhjohn/jsonplaceholder-client/pull/64
+import './styles/material-ui-fix.css';
 // Import Roboto
 import './styles/font.css';
-import './styles/styles.scss';
+// Import global styles
+import './styles/styles.css';
 
 import React from 'react';
 import { render } from 'react-dom';

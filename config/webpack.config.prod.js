@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const neatPaths = require('node-neat').includePaths;
-
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -70,8 +68,8 @@ module.exports = {
         exclude: PATHS.app + '/config.api.js',
       },
       {
-        test: /\.s?css$/,
-        loaders: ['style', 'css', 'postcss', 'sass'],
+        test: /\.css$/,
+        loaders: ['style', 'css', 'postcss'],
       },
       // {
       //   test: /\.css$/,
@@ -84,9 +82,6 @@ module.exports = {
         loader: 'url-loader?limit=8192&name=images/[name].[ext]?[hash]'
       },
     ]
-  },
-  sassLoader: {
-    includePaths: neatPaths,
   },
   plugins: plugins,
   devtool: 'source-map'

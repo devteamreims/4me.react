@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import R from 'ramda';
 
-import './buttons.scss';
+import './buttons.css';
 
 import McsModeButtons from './McsModeButtons';
 import MachModeButtons from './MachModeButtons';

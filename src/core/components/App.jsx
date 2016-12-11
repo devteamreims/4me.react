@@ -25,7 +25,7 @@ import Dashboard from './Dashboard';
 import StatusPage from './Status';
 import Error404 from './Error404';
 
-import '../../styles/disable-select.scss';
+import '../../styles/disable-select.css';
 import './App.css';
 
 import type { EmptyComponent } from '../../utils/types';
