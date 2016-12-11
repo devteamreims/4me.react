@@ -1,6 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import injectSheet from 'react-jss';
+
 import _ from 'lodash';
 import R from 'ramda';
 
@@ -24,7 +26,18 @@ import {
   error,
 } from '../../../theme/colors';
 
-import './button.css';
+// import './button.css';
+//
+
+const styles = {
+  cwpButton: {
+    borderRadius: '50% !important',
+    // We select a bunch of stuff here, material-ui has a messy dom structure
+    '& > button, & > button > div > div': {
+      borderRadius: '50% !important',
+    },
+  },
+};
 
 
 class CwpButton extends Component {
@@ -57,13 +70,13 @@ class CwpButton extends Component {
       clientId,
       myCwpId,
       sectors,
+      sheet: {classes},
     } = this.props;
 
     const size = '100px';
     const buttonStyle = Object.assign({
       height: size,
       width: size,
-      borderRadius: '50%',
     }, style);
 
     const containerStyle = {
@@ -109,8 +122,7 @@ class CwpButton extends Component {
         backgroundColor={backgroundColor}
         style={buttonStyle}
         onClick={this.openDialog}
-        className="mapping-cwp-button"
-        rippleStyle={{borderRadius: '50%'}}
+        className={classes.cwpButton}
       >
         {inside}
       </RaisedButton>
@@ -163,4 +175,7 @@ const mapDispatchToProps = {
   openDialog: open,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CwpButton);
+export default R.compose(
+  injectSheet(styles),
+  connect(mapStateToProps, mapDispatchToProps),
+)(CwpButton);
