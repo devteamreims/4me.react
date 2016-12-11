@@ -249,7 +249,6 @@ const mapStateToProps = (state) => {
     errorMessage: getErrorString(state),
     shouldZoomUi: isNormalCwp(state),
     shouldDisableSelect: process.env.NODE_ENV === 'development',
-    uiZoom: 1.20,
   };
 };
 
