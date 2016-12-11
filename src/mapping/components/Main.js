@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
@@ -9,6 +10,7 @@ import ControlRoom from './ControlRoom';
 import RedirectToDashboard from '../../core/components/RedirectToDashboard';
 
 class MappingRoot extends Component {
+
   handleRequestClose = (event) => { // eslint-disable-line no-unused-vars
     const {
       closeDialog,
