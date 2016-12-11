@@ -50,5 +50,5 @@ const mapDispatchToProps: MapDispatchToProps<Action, {}, Props> = (dispatch: Dis
 };
 
 type Export = ConnectedComponentClass<{}, Props, void, void>;
-
-export default connect(null, mapDispatchToProps)(RedirectToDashboard);
+const Ex: Export = connect(null, mapDispatchToProps)(RedirectToDashboard);
+export default Ex;

@@ -13,7 +13,7 @@ export const getLastInteraction: Selector<number> = state => getRaw(state).lastU
 
 const getInterval: Selector<number> = (state) => _.get(getRaw(state), 'interval');
 
-export const getReturnToDashboardTime: Selector<?number> = (state) => {
+export const getReturnToDashboardTime: Selector<?Date> = (state) => {
   if(isEnabled(state)) {
     return new Date(getLastInteraction(state) + getInterval(state));
   }

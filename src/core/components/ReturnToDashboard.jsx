@@ -9,26 +9,29 @@ import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
 import LinearProgress from 'material-ui/LinearProgress';
 
-type Props = {
-  returnToDashboardTime: Date,
-  lastUserInteraction: Date,
+type StateProps = {
+  returnToDashboardTime: ?Date,
+  lastUserInteraction: ?Date | ?number,
   targetRoute: string,
   redirectEnabled: boolean,
+};
+
+type DispatchProps = {
   disableRedirect: () => *,
 };
 
-type State = {
-  showProgress: boolean,
-  triggerRedirect: boolean,
-  progressPercentage: number,
-};
+type Props = StateProps & DispatchProps;
 
 class ReturnToDashboard extends Component {
   props: Props;
   intervalId: ?number;
   refreshInterval: number;
   percentageThreshold: number;
-  state: State;
+  state: {
+    showProgress: boolean,
+    triggerRedirect: boolean,
+    progressPercentage: number,
+  };
 
   static contextTypes = {
     router: React.PropTypes.any.isRequired,
@@ -39,7 +42,7 @@ class ReturnToDashboard extends Component {
 
     this.state = this._getInitialState();
     this.intervalId = null;
-    this.refreshInterval = 100; // Autoupdate this component every 100ms
+    this.refreshInterval = 16; // Autoupdate this component every 16ms (target 60fps)
     this.percentageThreshold = 0.80; // Progress bar will not be visible before 80% of the timer has passed
   }
 
@@ -104,7 +107,7 @@ class ReturnToDashboard extends Component {
     }
 
     // Calculate progress to display or not the progress bar
-    const interval = moment(returnToDashboardTime).diff(lastUserInteraction);
+    const interval = moment(returnToDashboardTime).diff(lastUserInteraction || 0);
 
 
     const threshold = Math.floor(interval * this.percentageThreshold);
@@ -156,6 +159,10 @@ import type {
   MapStateToProps,
 } from 'react-redux';
 
+import type {
+  RootState,
+} from '../../store';
+
 import {
   getReturnToDashboardTime,
   getLastInteraction,
@@ -167,7 +174,7 @@ import {
   disable as disableRedirect
 } from '../actions/returnToDashboard';
 
-const mapStateToProps: MapStateToProps<*, {}, *> = (state) => {
+const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = (state: RootState) => {
   return {
     returnToDashboardTime: getReturnToDashboardTime(state),
     lastUserInteraction: getLastInteraction(state),
@@ -176,8 +183,12 @@ const mapStateToProps: MapStateToProps<*, {}, *> = (state) => {
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<*, {}, *> = {
-  disableRedirect,
+import type { Action, Dispatch } from '../../store';
+
+const mapDispatchToProps: MapDispatchToProps<Action, {}, DispatchProps> = (dispatch: Dispatch) => {
+  return {
+    disableRedirect: () => dispatch(disableRedirect()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReturnToDashboard);

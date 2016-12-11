@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 
 import * as Colors from 'material-ui/styles/colors';
 
-import _ from 'lodash';
-
 const colorLevel = '200';
 type Color = string;
 const colors: Array<Color> = [
