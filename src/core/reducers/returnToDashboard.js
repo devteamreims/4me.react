@@ -27,15 +27,15 @@ export default function lastUserInteraction(state: State = defaultState, action:
   switch(action.type) {
     case RESET_TIMER:
       return {
-        lastUserInteraction: Date.now(),
         ...state,
+        lastUserInteraction: Date.now(),
       };
     case ENABLE:
       return {
+        ...state,
         enabled: true,
         targetRoute: action.targetRoute || '/',
         lastUserInteraction: Date.now(),
-        ...state,
       };
     case DISABLE:
       return Object.assign({}, state, {
