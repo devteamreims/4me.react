@@ -24,7 +24,7 @@ const Wrapper = props => <Paper zDepth={3} {...props} />;
 type Props = {
   cols: number,
   children?: React.Element<*>,
-  title: ?string,
+  title: ?string | ?React.Element<*>,
 }
 const Widget = ({
   cols = 1,
