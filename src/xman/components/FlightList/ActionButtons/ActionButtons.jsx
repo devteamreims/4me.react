@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import injectSheet from 'react-jss';
 
 import R from 'ramda';
 
-import './buttons.scss';
-
 import McsModeButtons from './McsModeButtons';
 import MachModeButtons from './MachModeButtons';
+
+const styles = {
+  xmanButtons: {
+    // Remove left border radius on any button but the first
+    '& div:not(:first-child), & div:not(:first-child) > button': {
+      borderTopLeftRadius: '0 !important',
+      borderBottomLeftRadius: '0 !important',
+    },
+    // Remove right border radius on any button but the last
+    '& div:not(:last-child), & div:not(:last-child) > button': {
+      borderTopRightRadius: '0 !important',
+      borderBottomRightRadius: '0 !important',
+    },
+  },
+};
 
 class ActionButtons extends Component {
   render() {
@@ -19,6 +33,7 @@ class ActionButtons extends Component {
       sectors,
       isHighlighted,
       isTonedDown,
+      sheet: {classes},
     } = this.props;
 
     const dimmed = !isHighlighted || isTonedDown;
@@ -40,6 +55,7 @@ class ActionButtons extends Component {
           dimmed={dimmed}
           readOnly={readOnly}
           author={author}
+          className={classes.xmanButtons}
         />
       );
     } else if(isMachMode) {
@@ -49,6 +65,7 @@ class ActionButtons extends Component {
           dimmed={dimmed}
           readOnly={readOnly}
           author={author}
+          className={classes.xmanButtons}
         />
       );
     } else if(isSpeedMode) {
@@ -95,4 +112,5 @@ import { injectOrganProps } from '../../../../core/wrappers/injectOrganProps';
 export default R.pipe(
   injectOrganProps,
   connect(mapStateToProps),
+  injectSheet(styles),
 )(ActionButtons);

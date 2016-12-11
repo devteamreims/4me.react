@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const neatPaths = require('node-neat').includePaths;
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -66,30 +64,15 @@ module.exports = {
         loaders: ['babel'],
         include: PATHS.app,
         exclude: [PATHS.app + '/config.api.js']
-      },
-      {
-        test: /\.scss$/,
-        loaders: [
-          'style',
-          'css',
-          'postcss',
-          'sass',
-        ],
-      },
-      {
+      }, {
         test: /\.css$/,
-        //loader: ['style-loader', 'css-loader', 'postcss-loader']
         loaders: ['style', 'css', 'postcss'],
-      },
-      // Inline base64 URLs for <=8k images, direct URLs for the rest
-      {
+      }, {
+        // Inline base64 URLs for <=8k images, direct URLs for the rest
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
         loader: 'url-loader?limit=8192'
       }
     ],
-  },
-  sassLoader: {
-    includePaths: neatPaths,
   },
   plugins: plugins,
   devServer: {

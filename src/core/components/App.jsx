@@ -1,6 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import injectSheet from 'react-jss';
+
+import { compose } from 'ramda';
 
 import FlatButton from 'material-ui/FlatButton';
 
@@ -25,8 +28,15 @@ import Dashboard from './Dashboard';
 import StatusPage from './Status';
 import Error404 from './Error404';
 
-import '../../styles/disable-select.scss';
-import './App.css';
+
+const styles = {
+  disableSelect: {
+    userSelect: 'none',
+  },
+  zoom: {
+    zoom: '1.2',
+  },
+};
 
 import type { EmptyComponent } from '../../utils/types';
 
@@ -50,6 +60,9 @@ type Props = {
   shouldZoomUi: boolean,
   uiZoom: number,
   shouldDisableSelect: boolean,
+  sheet: {
+    classes: Object,
+  },
 };
 
 export class App extends Component {
@@ -101,6 +114,7 @@ export class App extends Component {
       bootstrapMessage,
       shouldZoomUi,
       shouldDisableSelect,
+      sheet: {classes},
     } = this.props;
 
 
@@ -109,14 +123,12 @@ export class App extends Component {
     // Here we apply zoom to body
     // Some material-ui components will not remain self contained in our DOM tree
     // Some will append elements to document.body, hence the need for a full body zoom level
-    if(shouldZoomUi) {
-      document.body.classList.toggle('fme_zoom', shouldZoomUi);
-    }
+    document.body.classList.toggle(classes.zoom, shouldZoomUi);
 
     let className;
 
     if(shouldDisableSelect) {
-      className = 'disable-select';
+      className = classes.disableSelect;
     }
 
     // If our app is errored or boostrapping, show some place holder
@@ -235,10 +247,13 @@ const mapStateToProps = (state) => {
     isErrored: isErrored(state),
     bootstrapMessage: getBootstrappingString(state),
     errorMessage: getErrorString(state),
-    shouldZoomUi: true || isNormalCwp(state),
+    shouldZoomUi: isNormalCwp(state),
     shouldDisableSelect: process.env.NODE_ENV === 'development',
     uiZoom: 1.20,
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  injectSheet(styles),
+)(App);
