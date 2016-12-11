@@ -40,10 +40,11 @@ class McsModeButtons extends Component {
       readOnly,
       dimmed,
       ifplId,
+      className,
     } = this.props;
 
     return (
-      <div className="xman-buttons">
+      <div className={className}>
         <McsButton
           disabled={disabled}
           selected={minimumCleanSpeed}

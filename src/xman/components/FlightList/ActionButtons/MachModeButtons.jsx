@@ -59,6 +59,7 @@ class MachModeButtons extends Component {
       ifplId,
       appliedMach,
       advisedMach,
+      className,
     } = this.props;
 
     function getXmanState(mach) {
@@ -75,7 +76,7 @@ class MachModeButtons extends Component {
     }
 
     return (
-      <div className="xman-buttons">
+      <div className={className}>
         {_.map(possibleMachs, (mach, index) =>
           <SpeedMachButton
             key={index}
