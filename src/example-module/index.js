@@ -1,3 +1,4 @@
+// @flow
 /**
  * This is the main interface for 4ME UI modules
  * A 4ME Module must export a set of things to integrate with 4ME UI framework
@@ -34,8 +35,8 @@
  *
  */
 
-export const name = 'exampleModule';
-export const uri = '/example-module';
+export const name: string = 'exampleModule';
+export const uri: string = '/example-module';
 
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
@@ -53,11 +54,29 @@ export function getReducer() {
   return exampleReducer;
 }
 
+// 4ME uses flow types
+import type { State } from './reducer';
+import type { Exact } from '../utils/types';
+
+/**
+ * 4ME expects a type export defined our state shape
+ * Note that we place our state under the key 'exampleModule'
+ * which is the value of our export `name`;
+ *
+ */
+export type ExampleModuleState = Exact<{
+  exampleModule: State,
+}>;
+
 
 // CORE will allocate a state slice keyed by our exported `name`
-export function getStatusString(state) {
+import type { Selector } from '../store';
+
+import type { StatusLevel } from '../core/types';
+
+export const getStatusString: Selector<StatusLevel> = (state) => {
   // We get our state slice here
   return state[name].counter >= 10 ?
     'warning' :
     'normal';
-}
+};

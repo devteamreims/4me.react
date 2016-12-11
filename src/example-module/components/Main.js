@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
@@ -14,8 +15,25 @@ import {
   decrement,
 } from '../actions';
 
+import type { Client, Sectors } from '../../core/types';
+
+type StateProps = {
+  counter: number,
+};
+
+type DispatchProps = {
+  increment: void => *,
+  decrement: void => *,
+};
+
+type Props = StateProps & DispatchProps & {
+  client: Client,
+  sectors: Sectors,
+};
 
 class Main extends Component {
+  props: Props;
+
   handleDecrement = () => {
     const {
       decrement,
@@ -32,7 +50,7 @@ class Main extends Component {
     increment();
   };
 
-  getExplanationString = () => {
+  getExplanationString = (): ?React.Element<*> => {
     const {
       counter,
     } = this.props;
@@ -78,7 +96,7 @@ class Main extends Component {
 
   render() {
     const {
-      counter = 0,
+      counter,
       client,
       sectors,
     } = this.props;
@@ -96,7 +114,7 @@ class Main extends Component {
       width: 400,
     };
 
-    const shouldRedirectToDashboard = !R.isEmpty(sectors);
+    const shouldRedirectToDashboard: boolean = !R.isEmpty(sectors);
 
     return (
       <div style={containerStyle}>
@@ -133,15 +151,18 @@ class Main extends Component {
 
 import { p } from '../selectors';
 
-const mapStateToProps = (state) => {
+import type { Action, RootState } from '../../store';
+import type { MapDispatchToProps, MapStateToProps } from 'react-redux';
+
+const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = state => {
   const ourState = p(state);
 
   return {
-    counter: R.prop('counter', ourState),
+    counter: ourState.counter,
   };
 };
 
-const mapDispatchToProps = {
+const mapDispatchToProps: MapDispatchToProps<Action, *, DispatchProps> = {
   increment,
   decrement,
 };

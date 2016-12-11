@@ -57,7 +57,7 @@ module.exports = {
   },
   resolve: {
     // We can now require('file') instead of require('file.jsx')
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx', '.scss', '.css']
   },
   target: 'web',
   module: {
@@ -70,14 +70,14 @@ module.exports = {
         exclude: PATHS.app + '/config.api.js',
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         loaders: ['style', 'css', 'postcss', 'sass'],
       },
-      {
-        test: /\.css$/,
-        include: PATHS.styles,
-        loaders: ['style', 'css', 'postcss'],
-      },
+      // {
+      //   test: /\.css$/,
+      //   include: PATHS.styles,
+      //   loaders: ['style', 'css', 'postcss'],
+      // },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,

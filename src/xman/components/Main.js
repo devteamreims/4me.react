@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -11,8 +12,19 @@ import StatusMessage from './StatusMessage';
 
 import RedirectToDashboard from '../../core/components/RedirectToDashboard';
 
+import type { Sectors, Client } from '../../core/types';
+
+type Props = {
+  shouldDisplayMessage: boolean,
+  shouldDisplayList: boolean,
+  hasPendingAction: boolean,
+  client: Client,
+  sectors: Sectors,
+};
 
 class XmanRoot extends Component {
+  props: Props;
+
   render() {
     const {
       shouldDisplayMessage,

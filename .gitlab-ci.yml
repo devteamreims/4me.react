@@ -25,6 +25,14 @@ lint:
     - npm run lint -- --quiet
   allow_failure: true
 
+flow:
+  stage: test
+  script:
+    - apt-get update -qq
+    - apt-get install -qy libelf1
+    - yarn
+    - npm run flow
+
 jest:
   stage: test
   script:

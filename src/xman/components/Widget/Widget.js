@@ -1,4 +1,5 @@
-import React from 'react';
+// @flow
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import R from 'ramda';
@@ -8,42 +9,55 @@ import Controls from '../FlightListControls';
 import StatusMessage from '../StatusMessage';
 import CompactFlightList from './CompactFlightList';
 
-const WidgetComponent = ({
-  cols,
-  sectors,
-  shouldDisplayList,
-  shouldDisplayMessage,
-}) => {
-  if(!shouldDisplayList) {
+type Props = {
+  cols: number,
+  sectors: Array<string>,
+  shouldDisplayList: boolean,
+  shouldDisplayMessage: boolean,
+};
+
+class WidgetComponent extends Component {
+  props: Props;
+
+  render() {
+    const {
+      cols,
+      sectors,
+      shouldDisplayList,
+      shouldDisplayMessage,
+    } = this.props;
+
+    if(!shouldDisplayList) {
+      return (
+        <Widget
+          cols={cols}
+          title="XMAN : Error !"
+        />
+      );
+    }
+
+    // If we have no sectors bound, do not display filter controls
+    const showFilterControl: boolean = !R.isEmpty(sectors);
+    const title = showFilterControl ?
+      <Controls showFilterControl={showFilterControl} /> :
+      null;
+
     return (
       <Widget
         cols={cols}
-        title="XMAN : Error !"
-      />
+        title={title}
+      >
+        {shouldDisplayMessage &&
+          <StatusMessage
+            key="status-message-0"
+            style={{textAlign: 'center', margin: 0, padding: 10}}
+          />
+        }
+        <CompactFlightList />
+      </Widget>
     );
   }
-
-  // If we have no sectors bound, do not display filter controls
-  const showFilterControl = !R.isEmpty(sectors);
-  const title = showFilterControl ?
-    <Controls showFilterControl={showFilterControl} /> :
-    null;
-
-  return (
-    <Widget
-      cols={cols}
-      title={title}
-    >
-      {shouldDisplayMessage &&
-        <StatusMessage
-          key="status-message-0"
-          style={{textAlign: 'center', margin: 0, padding: 10}}
-        />
-      }
-      <CompactFlightList />
-    </Widget>
-  );
-};
+}
 
 import {
   shouldDisplayList,

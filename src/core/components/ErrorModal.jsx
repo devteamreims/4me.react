@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 
 import {
@@ -22,6 +23,15 @@ const style = {
 };
 
 class ErrorModal extends Component {
+  props: {
+    title?: string,
+    children?: ?React.Element<*>,
+    actions?: React.Element<*>,
+  };
+
+  static defaultProps = {
+    children: null,
+  };
 
   render() {
     const {
@@ -45,9 +55,5 @@ class ErrorModal extends Component {
     );
   }
 }
-
-ErrorModal.propTypes = {
-  title: React.PropTypes.string,
-};
 
 export default ErrorModal;

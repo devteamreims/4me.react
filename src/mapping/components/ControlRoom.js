@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -5,13 +6,17 @@ import CwpButton from './CwpButton';
 import RoomStatus from './RoomStatus';
 
 import getEnv from '4me.env';
-const {
-  getControlRoomLayout,
-} = getEnv(window.FOURME_CONFIG.FOURME_ENV).components;
+const { getControlRoomLayout } = getEnv(window.FOURME_CONFIG.FOURME_ENV).components;
 
 const ControlRoomLayout = getControlRoomLayout();
 
+type Props = {
+  closeDialog: Function,
+};
+
 class ControlRoom extends Component {
+  props: Props;
+
   componentWillUnmount() {
     const {
       closeDialog,

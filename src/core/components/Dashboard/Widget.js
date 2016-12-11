@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 import { GridTile } from 'material-ui/GridList';
@@ -20,11 +21,16 @@ const styles = {
 
 const Wrapper = props => <Paper zDepth={3} {...props} />;
 
+type Props = {
+  cols: number,
+  children?: React.Element<*>,
+  title: ?string | ?React.Element<*>,
+}
 const Widget = ({
   cols = 1,
   children,
   title,
-}) => {
+}: Props) => {
   // If we have a title, we must add some padding in our div to allow scroll all the way down
   const innerStyle = Object.assign({}, styles.gridTileChildren);
 

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import getEnv from '4me.env';
 

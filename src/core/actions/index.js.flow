@@ -1,0 +1,12 @@
+// @flow
+import type { Action as SectorAction } from './sector';
+import type { Action as ClientAction } from './cwp';
+import type { Action as ReturnToDashboardAction } from './returnToDashboard';
+import type { Action as SocketAction } from './socket';
+
+export type Action =
+  | ClientAction
+  | SectorAction
+  | ReturnToDashboardAction
+  | SocketAction
+;

@@ -1,5 +1,7 @@
-import _ from 'lodash';
+// @flow
+import type { RootState } from '../../store';
+import type { CoreState } from '../reducers';
 
-export default function prefix(state) {
-  return _.get(state, 'core');
+export default function prefix(state: RootState): CoreState {
+  return state.core;
 }

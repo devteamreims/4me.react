@@ -1,24 +1,10 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState } from 'redux-devtools';
+
+import { createRootReducer } from './rootReducer';
 
 import thunk from 'redux-thunk';
 // import createLogger from 'redux-logger';
-
-import * as MappingModule from '../mapping';
-import * as ExampleModule from '../example-module';
-import * as XmanModule from '../xman';
-import * as EtfmsProfileModule from '../arcid';
-import coreReducer from '../core/reducers';
-
-export function createRootReducer() {
-  return combineReducers({
-    core: coreReducer,
-    [ExampleModule.name]: ExampleModule.getReducer(),
-    [MappingModule.name]: MappingModule.getReducer(),
-    [XmanModule.name]: XmanModule.getReducer(),
-    [EtfmsProfileModule.name]: EtfmsProfileModule.getReducer(),
-  });
-}
 
 export default function configureStore(initialState) {
   let enhancer;

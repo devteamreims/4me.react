@@ -1,5 +1,6 @@
-export const name = 'xman';
-export const uri = '/xman';
+// @flow
+export const name: string = 'xman';
+export const uri: string = '/xman';
 
 import rootReducer from './reducers';
 export const getReducer = () => rootReducer;
@@ -15,3 +16,5 @@ export const MenuButton = MenuButtonComponent;
 export const Widget = WidgetComponent;
 
 export { getStatusString } from './selectors/status';
+
+export type XmanState = {"xman": Object};

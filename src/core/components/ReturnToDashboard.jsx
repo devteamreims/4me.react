@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 // import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -8,19 +9,41 @@ import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
 import LinearProgress from 'material-ui/LinearProgress';
 
-const refreshInterval = 100;
-const percentageThreshold = 0.80; // Progress bar will not be visible before 80% of the timer has passed
+type StateProps = {
+  returnToDashboardTime: ?Date,
+  lastUserInteraction: ?Date | ?number,
+  targetRoute: string,
+  redirectEnabled: boolean,
+};
+
+type DispatchProps = {
+  disableRedirect: () => *,
+};
+
+type Props = StateProps & DispatchProps;
 
 class ReturnToDashboard extends Component {
+  props: Props;
+  intervalId: ?number;
+  refreshInterval: number;
+  percentageThreshold: number;
+  state: {
+    showProgress: boolean,
+    triggerRedirect: boolean,
+    progressPercentage: number,
+  };
+
   static contextTypes = {
     router: React.PropTypes.any.isRequired,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = this._getInitialState();
-    this.refreshInterval = null;
+    this.intervalId = null;
+    this.refreshInterval = 16; // Autoupdate this component every 16ms (target 60fps)
+    this.percentageThreshold = 0.80; // Progress bar will not be visible before 80% of the timer has passed
   }
 
   _getInitialState = () => ({ // eslint-disable-line react/sort-comp
@@ -31,7 +54,7 @@ class ReturnToDashboard extends Component {
 
   componentDidMount() {
     this.updateProgress();
-    this.refreshInterval = setInterval(this.updateProgress, refreshInterval);
+    this.intervalId = setInterval(this.updateProgress, this.refreshInterval);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,15 +67,19 @@ class ReturnToDashboard extends Component {
 
     // Here we extract some props, and decide wether we must reset or timer or not
     if(!shallowEqual(prepareForComparison(nextProps), prepareForComparison(this.props))) {
-      clearInterval(this.refreshInterval);
+      if(this.intervalId) {
+        clearInterval(this.intervalId);
+      }
       this.updateProgress();
-      this.refreshInterval = setInterval(this.updateProgress, refreshInterval);
+      this.intervalId = setInterval(this.updateProgress, this.refreshInterval);
     }
   }
 
 
   componentWillUnmount() {
-    clearInterval(this.refreshInterval);
+    if(this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   updateProgress = () => {
@@ -80,10 +107,10 @@ class ReturnToDashboard extends Component {
     }
 
     // Calculate progress to display or not the progress bar
-    const interval = moment(returnToDashboardTime).diff(lastUserInteraction);
+    const interval = moment(returnToDashboardTime).diff(lastUserInteraction || 0);
 
 
-    const threshold = Math.floor(interval * percentageThreshold);
+    const threshold = Math.floor(interval * this.percentageThreshold);
     const cutOff = moment(lastUserInteraction).add(threshold);
 
     if(moment().isBefore(cutOff)) {
@@ -127,6 +154,16 @@ class ReturnToDashboard extends Component {
   }
 }
 
+import type {
+  MapDispatchToProps,
+  MapStateToProps,
+} from 'react-redux';
+
+import type {
+  RootState,
+  Action,
+} from '../../store';
+
 import {
   getReturnToDashboardTime,
   getLastInteraction,
@@ -135,10 +172,10 @@ import {
 } from '../selectors/returnToDashboard';
 
 import {
-  disable as disableRedirect
+  disable as disableRedirect,
 } from '../actions/returnToDashboard';
 
-const mapStateToProps = (state) => {
+const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = (state: RootState) => {
   return {
     returnToDashboardTime: getReturnToDashboardTime(state),
     lastUserInteraction: getLastInteraction(state),
@@ -147,7 +184,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
+const mapDispatchToProps: MapDispatchToProps<Action, {}, DispatchProps> = {
   disableRedirect,
 };
 

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -25,16 +26,39 @@ import StatusPage from './Status';
 import Error404 from './Error404';
 
 import '../../styles/disable-select.scss';
+import './App.css';
 
-const getMainComponent = ({Main, name}) => {
+import type { EmptyComponent } from '../../utils/types';
+
+type MainComponent = Class<React.Component<*, *, *>> | EmptyComponent;
+const getMainComponent = ({Main, name}): MainComponent => {
   if(!Main || isModuleDisabled(name)) {
     return () => null;
   }
   return injectOrganProps(Main);
 };
 
+type Props = {
+  // Redux actions
+  cleanUp: Function,
+  startBootstrap: Function,
+  // Redux state props
+  isErrored: boolean,
+  isBootstrapping: boolean,
+  errorMessage: ?string,
+  bootstrapMessage: ?string,
+  shouldZoomUi: boolean,
+  uiZoom: number,
+  shouldDisableSelect: boolean,
+};
+
 export class App extends Component {
-  constructor(props) {
+  props: Props;
+  _organs: {
+    [key: string]: MainComponent,
+  };
+
+  constructor(props: Props) {
     super(props);
     /**
      * Here, we preload our components in constructor
@@ -60,7 +84,7 @@ export class App extends Component {
     cleanUp();
   }
 
-  handleRestart = (ev) => { // eslint-disable-line no-unused-vars
+  handleRestart = () => { // eslint-disable-line no-unused-vars
     const {
       startBootstrap,
       cleanUp,
@@ -76,7 +100,6 @@ export class App extends Component {
       isBootstrapping,
       bootstrapMessage,
       shouldZoomUi,
-      uiZoom,
       shouldDisableSelect,
     } = this.props;
 
@@ -87,7 +110,7 @@ export class App extends Component {
     // Some material-ui components will not remain self contained in our DOM tree
     // Some will append elements to document.body, hence the need for a full body zoom level
     if(shouldZoomUi) {
-      document.body.style.zoom = uiZoom;
+      document.body.classList.toggle('fme_zoom', shouldZoomUi);
     }
 
     let className;
@@ -212,9 +235,8 @@ const mapStateToProps = (state) => {
     isErrored: isErrored(state),
     bootstrapMessage: getBootstrappingString(state),
     errorMessage: getErrorString(state),
-    shouldZoomUi: isNormalCwp(state),
-    /* global __DEMO__ */
-    shouldDisableSelect: !(process.env.NODE_ENV === 'development' || __DEMO__ === true),
+    shouldZoomUi: true || isNormalCwp(state),
+    shouldDisableSelect: process.env.NODE_ENV === 'development',
     uiZoom: 1.20,
   };
 };
