@@ -4,8 +4,6 @@ import injectSheet from 'react-jss';
 
 import R from 'ramda';
 
-import './buttons.css';
-
 import McsModeButtons from './McsModeButtons';
 import MachModeButtons from './MachModeButtons';
 
