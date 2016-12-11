@@ -2,6 +2,7 @@
   * Update dependencies :
     * Material-UI@0.16.5
     * babel-*
+    * webpack plugins
   * Move components to JSS (devteamreims/4ME#161)
   * Clean build process (remove unused stuff, move webpack config files in a more explicit folder)
   * Remove SASS dependency (devteamreims/4ME#161)
