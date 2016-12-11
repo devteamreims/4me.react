@@ -62,7 +62,7 @@
     "bluebird": "3.4.6",
     "flexbox-react": "4.0.2",
     "lodash": "4.15.0",
-    "material-ui": "0.16.1",
+    "material-ui": "^0.16.5",
     "moment": "2.15.0",
     "normalize.css": "5.0.0",
     "npm-check": "5.2.3",
