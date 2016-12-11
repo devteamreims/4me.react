@@ -17,10 +17,16 @@ import {
 
 import type { Client, Sectors } from '../../core/types';
 
-type Props = {
-  increment: void => void,
-  decrement: void => void,
+type StateProps = {
   counter: number,
+};
+
+type DispatchProps = {
+  increment: void => *,
+  decrement: void => *,
+};
+
+type Props = StateProps & DispatchProps & {
   client: Client,
   sectors: Sectors,
 };
@@ -90,7 +96,7 @@ class Main extends Component {
 
   render() {
     const {
-      counter = 0,
+      counter,
       client,
       sectors,
     } = this.props;
@@ -145,7 +151,10 @@ class Main extends Component {
 
 import { p } from '../selectors';
 
-const mapStateToProps = (state) => {
+import type { Action, RootState } from '../../store';
+import type { MapDispatchToProps, MapStateToProps } from 'react-redux';
+
+const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = state => {
   const ourState = p(state);
 
   return {
@@ -153,7 +162,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
+const mapDispatchToProps: MapDispatchToProps<Action, *, DispatchProps> = {
   increment,
   decrement,
 };

@@ -161,6 +161,7 @@ import type {
 
 import type {
   RootState,
+  Action,
 } from '../../store';
 
 import {
@@ -171,7 +172,7 @@ import {
 } from '../selectors/returnToDashboard';
 
 import {
-  disable as disableRedirect
+  disable as disableRedirect,
 } from '../actions/returnToDashboard';
 
 const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = (state: RootState) => {
@@ -183,12 +184,8 @@ const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = (state: Root
   };
 };
 
-import type { Action, Dispatch } from '../../store';
-
-const mapDispatchToProps: MapDispatchToProps<Action, {}, DispatchProps> = (dispatch: Dispatch) => {
-  return {
-    disableRedirect: () => dispatch(disableRedirect()),
-  };
+const mapDispatchToProps: MapDispatchToProps<Action, {}, DispatchProps> = {
+  disableRedirect,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReturnToDashboard);
