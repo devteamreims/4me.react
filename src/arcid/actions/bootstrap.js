@@ -8,10 +8,6 @@ import {
   disconnect,
 } from '../socket';
 
-import {
-  refreshHistory,
-} from './history';
-
 export function bootstrap() {
   return (dispatch) => {
     console.log('Bootstrapping ARCID !!');
@@ -29,12 +25,8 @@ export function bootstrap() {
     };
 
 
-    // Refresh history
-
-    return Promise.all([
-      setupSocket(),
-      dispatch(refreshHistory()),
-    ]);
+    // History will be refreshed when our socket connects
+    return setupSocket();
   };
 }
 
