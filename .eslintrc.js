@@ -151,6 +151,7 @@ module.exports = {
       ],
     }],
     'react/sort-prop-types': 'off',
+    'import/no-duplicates': 'error',
 
     'react/no-string-refs': 'warn', // Wishlist, one day.
 

@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import {
   refreshFullList,
+  clear as clearFlightList,
 } from './flight-list';
 
 import {
@@ -13,10 +14,6 @@ import {
 import {
   setSubscriptionFilter,
 } from '../socket';
-
-import {
-  clear as clearFlightList,
-} from './flight-list';
 
 export function setFilter(type) {
   return (dispatch, getState) => {
