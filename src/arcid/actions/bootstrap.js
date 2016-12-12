@@ -29,12 +29,8 @@ export function bootstrap() {
     };
 
 
-    // Refresh history
-
-    return Promise.all([
-      setupSocket(),
-      dispatch(refreshHistory()),
-    ]);
+    // History will be refreshed when our socket connects
+    return setupSocket();
   };
 }
 

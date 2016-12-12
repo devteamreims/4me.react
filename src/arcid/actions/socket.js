@@ -1,9 +1,14 @@
 export const CONNECTED = 'arcid/socket/CONNECTED';
 export const DISCONNECTED = 'arcid/socket/DISCONNECTED';
 
+import { refreshHistory } from './history';
+
 export function socketConnected() {
   return (dispatch) => {
-    return dispatch(socketConnectedAction());
+    return Promise.all([
+      dispatch(socketConnectedAction()),
+      dispatch(refreshHistory())
+    ]);
   };
 }
 
