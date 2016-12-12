@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const fs = require('fs');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -7,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../src'),
+  config: path.resolve(__dirname, '../src/config.api.js'),
   entry: path.resolve(__dirname, '../src/index.js'),
   styles: path.resolve(__dirname, '../src/styles'),
   build: path.resolve(__dirname, '../build')
@@ -22,12 +24,12 @@ const plugins = [
     '__DEMO__': JSON.stringify(false),
   }),
   new webpack.NamedModulesPlugin(),
-  new CopyWebpackPlugin([
-    {
+  fs.existsSync(PATHS.config) ?
+    new CopyWebpackPlugin([{
       from: PATHS.app + '/config.api.js',
       to: PATHS.build + '/js/config.api.js',
-    },
-  ]),
+    }]) :
+    new CopyWebpackPlugin(),
   new HtmlWebpackPlugin({
     template: PATHS.app + '/index.html',
   }),
