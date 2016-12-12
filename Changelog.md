@@ -4,6 +4,10 @@
     * babel-*
     * webpack plugins
     * eslint-* + improve rules
+    * lodash@4.17.2
+    * flexbox-react@4.1.0
+    * moment@2.17.1
+    * redux-*
   * Move components to JSS (devteamreims/4ME#161)
   * Clean build process (remove unused stuff, move webpack config files in a more explicit folder)
   * Remove SASS dependency (devteamreims/4ME#161)
