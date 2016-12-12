@@ -23,7 +23,6 @@ lint:
   script:
     - yarn
     - npm run lint -- --quiet
-  allow_failure: true
 
 flow:
   stage: test

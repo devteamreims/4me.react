@@ -1,4 +1,5 @@
 # Master
+  * Build will fail if lint step fails
   * Refresh history in ETFMS PROFILE when backend connection is restored (devteamreims/4ME#139)
   * Update dependencies :
     * Material-UI@0.16.5
