@@ -8,10 +8,6 @@ import {
   disconnect,
 } from '../socket';
 
-import {
-  refreshHistory,
-} from './history';
-
 export function bootstrap() {
   return (dispatch) => {
     console.log('Bootstrapping ARCID !!');
