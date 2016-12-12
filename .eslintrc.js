@@ -9,6 +9,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:flowtype/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
   ],
   parser: 'babel-eslint',
   parserOptions: {
@@ -23,14 +25,32 @@ module.exports = {
     'flowtype',
     'babel',
     'react',
+    'import',
   ],
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: {
+          resolve: {
+            extensions: ['.js', '.jsx', '.css', '.js.flow'],
+          },
+        },
+      },
+    },
+  },
   rules: {
     'array-bracket-spacing': ['error', 'never'],
     'arrow-spacing': 'error',
     'arrow-parens': 'off',
     'block-spacing': ['error', 'always'],
     'brace-style': 'error',
-    'comma-dangle': ['error', 'only-multiline'],
+    'comma-dangle': ['error', {
+      'arrays': 'only-multiline',
+      'objects': 'only-multiline',
+      'imports': 'only-multiline',
+      'exports': 'only-multiline',
+      'functions': 'only-multiline',
+    }],
     'comma-spacing': ['error', {before: false, after: true}],
     'comma-style': ['error', 'last'],
     'computed-property-spacing': ['error', 'never'],
@@ -82,12 +102,11 @@ module.exports = {
     'spaced-comment': 'error',
     'yoda': 'error',
     'babel/object-curly-spacing': ['off'],
-    'babel/generator-star-spacing': 'error',
-    'babel/array-bracket-spacing': 'error',
+    'generator-star-spacing': 'error',
+    'array-bracket-spacing': 'error',
     'babel/arrow-parens': 'off',
     'babel/no-await-in-loop': 'error',
-    'babel/func-params-comma-dangle': ['error', 'only-multiline'],
-    'babel/flow-object-type': ['error', 'comma'],
+    'flowtype/object-type-delimiter': ['error', 'comma'],
     'react/display-name': 'error',
     'react/jsx-boolean-value': ['error', 'always'],
     'react/jsx-closing-bracket-location': 'error',
@@ -120,7 +139,6 @@ module.exports = {
     'react/prefer-es6-class': 'error',
     'react/prop-types': 'warn',
     'react/react-in-jsx-scope': 'error',
-    'react/require-extension': 'error',
     'react/require-render-return': 'error',
     'react/self-closing-comp': 'error',
     'react/sort-comp': [1, {
