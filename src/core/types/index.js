@@ -11,7 +11,7 @@ import type { Exact } from '../../utils/types';
 export type Client = Exact<{
   id: ClientId,
   name: string,
-  disabled: boolean,
+  disabled?: boolean,
   type: ClientType,
 }>;
 

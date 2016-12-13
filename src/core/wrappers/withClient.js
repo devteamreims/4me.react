@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import {
   getClient,
-} from '../selectors/cwp';
+} from '../selectors/client';
 
 const mapStateToProps = state => ({
   client: getClient(state),

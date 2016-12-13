@@ -18,8 +18,8 @@ import io from 'socket.io-client';
 import api from '../../api';
 
 import {
-  getCwpId,
-} from '../selectors/cwp';
+  getClientId,
+} from '../selectors/client';
 
 import {
   fetchSectors,
@@ -42,7 +42,7 @@ export function connectSocket(): ThunkAction<*> {
 
     dispatch(socketConnecting());
     const socketUrl = api.core.socket;
-    const clientId = getCwpId(getState());
+    const clientId = getClientId(getState());
 
     if(!clientId) {
       throw new Error('Cannot connect to socket without knowing our ClientId !');

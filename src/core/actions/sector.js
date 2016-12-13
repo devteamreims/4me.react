@@ -40,14 +40,17 @@ function errorAction(message: string): Action {
 }
 
 
-import { getCwpId } from '../selectors/cwp';
+import { getClient } from '../selectors/client';
 
 export function fetchSectors(isBootstrapping: boolean = false): ThunkAction<Promise<*>> {
   return (dispatch, getState) => {
-    dispatch(fetchAction(isBootstrapping));
+    const myClient = getClient(getState());
+    if(!myClient || myClient.type !== 'cwp') {
+      return Promise.resolve();
+    }
 
-    const myCwpId = getCwpId(getState());
-    const url = api.core.mapping.sectors.getMine(myCwpId);
+    dispatch(fetchAction(isBootstrapping));
+    const url = api.core.mapping.sectors.getMine(myClient.id);
 
     return axios.get(url)
       .then((response) => {

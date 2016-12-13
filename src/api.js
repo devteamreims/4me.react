@@ -12,13 +12,9 @@ const xmanUrl = get(window.FOURME_CONFIG, 'xman_url', 'xman.4me');
 
 const core = {
   mapping: {
-    cwp: {
-      getMine: `${coreMappingUrl}/cwp/getMine`,
-      getSingle: (cwpId) => `${coreMappingUrl}/cwp/${cwpId}`,
-    },
+    identify: `${coreMappingUrl}/identify`,
     sectors: {
-      getMine: (cwpId) => `${coreMappingUrl}/mapping/cwp/${cwpId}`,
-      getTree: `${coreMappingUrl}/sectors`,
+      getMine: (cwpId) => `${coreMappingUrl}/map/${cwpId}`,
     },
   },
   socket: `${coreMappingUrl}`,
@@ -46,12 +42,8 @@ const xman = {
 
 const mapping = {
   map: {
-    getMap: `${mappingUrl}/mapping`,
-    commit: `${mappingUrl}/mapping`,
-    suggest: (cwpId) => `${mappingUrl}/mapping/cwp/${cwpId}/suggest`,
-  },
-  cwp: {
-    getAll: `${mappingUrl}/cwp`,
+    getMap: `${mappingUrl}/map`,
+    commit: `${mappingUrl}/map`,
   },
   socket: `${mappingUrl}`,
 };

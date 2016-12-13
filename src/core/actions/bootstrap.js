@@ -1,5 +1,5 @@
 // @flow
-import { fetchCwp } from './cwp';
+import { fetchClient } from './client';
 import { fetchSectors } from './sector';
 import { connectSocket, disconnectSocket } from './socket';
 
@@ -13,7 +13,7 @@ export function startBootstrap(): ThunkAction<Promise<*>> {
 
     // First, fetch our cwpId
     return Promise.all([
-      dispatch(fetchCwp()),
+      dispatch(fetchClient()),
     ])
     // Then fetch our sectors and connect to mapping socket
     .then(() => {

@@ -6,7 +6,7 @@ import type { RootState } from '../../store/rootReducer';
 
 import {
   getClient,
-} from '../selectors/cwp';
+} from '../selectors/client';
 
 import {
   getSectors,

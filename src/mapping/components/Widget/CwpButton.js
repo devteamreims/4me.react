@@ -51,7 +51,7 @@ class WidgetCwpButton extends Component {
   renderButton() {
     const {
       clientId,
-      myCwpId,
+      myClientId,
       sectors,
       isDisabled,
       style,
@@ -75,7 +75,7 @@ class WidgetCwpButton extends Component {
     let themeString = 'normal';
     if(isDisabled) {
       themeString = 'disabled';
-    } else if(myCwpId === clientId) {
+    } else if(myClientId === clientId) {
       themeString = 'mineNormal';
       if(R.isEmpty(sectors)) {
         themeString = 'mineEmpty';
@@ -137,11 +137,11 @@ import {
 } from '../../selectors/map';
 
 import {
-  getCwpId,
-} from '../../../core/selectors/cwp';
+  getClientId,
+} from '../../../core/selectors/client';
 
 const mapStateToProps = (state, ownProps) => ({
-  myCwpId: getCwpId(state),
+  myClientId: getClientId(state),
   sectors: getSectorsByCwpId(state, ownProps.clientId),
   isDisabled: isCwpDisabled(state, ownProps.clientId),
 });
