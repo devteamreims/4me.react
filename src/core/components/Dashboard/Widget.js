@@ -26,8 +26,8 @@ const Wrapper = props => <Paper zDepth={3} {...props} />;
 
 type Props = {
   cols: number,
-  children?: React.Element<*>,
-  title?: null | string | React.Element<*>,
+  children?: React.Element<any>,
+  title?: null | string | React.Element<any>,
   linkTo?: string,
 }
 
