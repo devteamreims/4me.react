@@ -11,6 +11,8 @@ const ControlRoomLayout = getControlRoomLayout();
 import CwpButton from './CwpButton';
 import Title from './Title';
 
+import { uri } from '../../';
+
 class ControlRoomWidget extends Component {
   static propTypes = {
     cols: React.PropTypes.number,
@@ -53,6 +55,7 @@ class ControlRoomWidget extends Component {
     return (
       <Widget
         cols={cols}
+        linkTo={uri}
         title={
           <Title
             selectedCwpId={hoveredCwpId || myCwpId}
