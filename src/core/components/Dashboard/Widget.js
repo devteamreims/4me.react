@@ -72,8 +72,8 @@ class Widget extends Component {
 
     // We still allow users to pass 'null' as title
     // The effect will be to remove the title bar
-    // Therefore we only add padding if title is set
-    if(title) {
+    // Therefore we only add padding if title is not null
+    if(title !== null) {
       Object.assign(innerStyle, {
         // Add 48px padding to our widget content
         // 48px is the height of the material-ui title bar
@@ -91,7 +91,7 @@ class Widget extends Component {
         containerElement={<Wrapper />}
         titleBackground="rgba(0, 0, 0, 0.8)"
       >
-        <div style={styles.gridTileChildren}>
+        <div style={innerStyle}>
           {children}
         </div>
       </GridTile>
