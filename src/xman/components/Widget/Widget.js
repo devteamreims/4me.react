@@ -9,6 +9,8 @@ import Controls from '../FlightListControls';
 import StatusMessage from '../StatusMessage';
 import CompactFlightList from './CompactFlightList';
 
+import { uri } from '../../';
+
 type Props = {
   cols: number,
   sectors: Array<string>,
@@ -46,6 +48,7 @@ class WidgetComponent extends Component {
       <Widget
         cols={cols}
         title={title}
+        linkTo={uri}
       >
         {shouldDisplayMessage &&
           <StatusMessage
