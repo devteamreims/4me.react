@@ -23,18 +23,6 @@ class ControlRoomWidget extends Component {
     cols: 1,
   };
 
-  state = {
-    hoveredCwpId: null,
-  };
-
-  handleMouseEnterOnCwpButton = (event, cwpId) => {
-    this.setState({hoveredCwpId: cwpId});
-  };
-
-  handleMouseLeaveOnCwpButton = (event, cwpId) => { // eslint-disable-line no-unused-vars
-    this.setState({hoveredCwpId: null});
-  }
-
   render() {
     const {
       cols,
@@ -42,9 +30,6 @@ class ControlRoomWidget extends Component {
       sectorCount,
     } = this.props;
 
-    const {
-      hoveredCwpId
-    } = this.state;
 
     const RoomStatus = () => (
       <div style={{margin: '0 24px'}} />
@@ -58,7 +43,7 @@ class ControlRoomWidget extends Component {
         linkTo={uri}
         title={
           <Title
-            selectedCwpId={hoveredCwpId || myCwpId}
+            selectedCwpId={myCwpId}
             sectorCount={sectorCount}
           />
         }
@@ -73,11 +58,7 @@ class ControlRoomWidget extends Component {
         >
           <ControlRoomLayout
             cwpButton={
-              <CwpButton
-                onMouseEnter={this.handleMouseEnterOnCwpButton}
-                onMouseLeave={this.handleMouseLeaveOnCwpButton}
-                style={{margin: 3}}
-              />
+              <CwpButton style={{margin: 3}} />
             }
             roomStatus={<RoomStatus />}
           />
