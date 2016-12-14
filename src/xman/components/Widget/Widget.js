@@ -42,7 +42,7 @@ class WidgetComponent extends Component {
     const showFilterControl: boolean = !R.isEmpty(sectors);
     const title = showFilterControl ?
       <Controls showFilterControl={showFilterControl} /> :
-      null;
+      undefined;
 
     return (
       <Widget
