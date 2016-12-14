@@ -1,4 +1,5 @@
 # Master
+  * <Widget> API is now slightly different and will render a title bar unless explicity told not to (devteamreims/4ME#165)
   * <Widget> will now accept a `linkTo` prop and render a icon allowing navigation to supplied uri (devteamreims/4ME#166)
 
 # v1.0.1 (2016-12-14)
