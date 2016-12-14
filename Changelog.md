@@ -1,4 +1,4 @@
-# Master
+# v1.0.1 (2016-12-14)
   * Build will fail if lint step fails
   * Refresh history in ETFMS PROFILE when backend connection is restored (devteamreims/4ME#139)
   * Update dependencies :
