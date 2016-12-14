@@ -8,6 +8,8 @@ import Widget from '../../../core/components/Dashboard/Widget';
 import WidgetSearchBar from './SearchBar';
 import WidgetSearchResults from './SearchResults';
 
+import { uri } from '../../';
+
 class WidgetComponent extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +51,7 @@ class WidgetComponent extends Component {
       <Widget
         cols={cols}
         title="ETFMS PROFILE"
+        linkTo={uri}
       >
         <div
           style={containerStyle}
