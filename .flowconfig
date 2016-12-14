@@ -1,9 +1,11 @@
 [ignore]
 <PROJECT_ROOT>/node_modules/jss
+.*/node_modules/fbjs/.*
 
 [include]
 
 [libs]
+
 
 [options]
 module.name_mapper.extension='css' -> '<PROJECT_ROOT>/src/utils/CSSFlowStub.js'
