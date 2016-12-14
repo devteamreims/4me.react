@@ -26,6 +26,9 @@ const style = {
   underlineStyle: {
     borderColor: theme.palette.accent1Color,
   },
+  listStyle: {
+    backgroundColor: 'black',
+  },
 };
 
 class SearchBox extends Component {
@@ -206,6 +209,7 @@ class SearchBox extends Component {
           fullWidth={true}
           animated={true}
           filter={AutoComplete.noFilter}
+          listStyle={style.listStyle}
           underlineFocusStyle={style.underlineStyle}
           onSubmit={this.handlePerformQuery}
           onUpdateInput={this.handleUpdateInput}
