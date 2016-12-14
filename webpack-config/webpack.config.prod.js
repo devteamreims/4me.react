@@ -40,6 +40,8 @@ const plugins = [
     '__DEV__': JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     '__DEMO__': JSON.stringify(false),
   }),
+  new webpack.optimize.UglifyJsPlugin(),
+  new webpack.optimize.OccurrenceOrderPlugin(),
 ];
 
 module.exports = {
@@ -52,12 +54,9 @@ module.exports = {
     filename: 'js/[name].js',
     publicPath: '/',
   },
-  stats: {
-    colors: true
-  },
   resolve: {
     // We can now require('file') instead of require('file.jsx')
-    extensions: ['', '.js', '.jsx', '.scss', '.css']
+    extensions: ['.js', '.jsx', '.scss', '.css']
   },
   target: 'web',
   module: {
@@ -65,13 +64,13 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        loaders: ['babel-loader'],
         include: PATHS.app,
         exclude: PATHS.app + '/config.api.js',
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css', 'postcss'],
+        loaders: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       // {
       //   test: /\.css$/,

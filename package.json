@@ -14,9 +14,9 @@
     "preversion": "git add Changelog.md",
     "clean:build": "rm -rf build && mkdir build",
     "prestart": "rm -rf build",
-    "start": "NODE_ENV=development webpack-dev-server --config ./webpack-config/webpack.config.dev.js --hot --inline --progress",
+    "start": "NODE_ENV=development webpack-dev-server --config ./webpack-config/webpack.config.dev.js --progress --hot --inline",
     "prebuild": "npm run clean:build",
-    "build:ci": "NODE_ENV=production webpack -p --config ./webpack-config/webpack.config.prod.js",
+    "build:ci": "NODE_ENV=production webpack --config ./webpack-config/webpack.config.prod.js",
     "build": "npm run build:ci -- --progress",
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
     "test": "echo \"No test specified\" && exit 0",
@@ -55,8 +55,9 @@
     "redux-devtools-log-monitor": "^1.1.1",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
-    "webpack": "2.1.0-beta.22",
-    "webpack-dev-server": "2.1.0-beta.4"
+    "webpack": "2.1.0-beta.28",
+    "webpack-bundle-size-analyzer": "^2.2.0",
+    "webpack-dev-server": "2.1.0-beta.12"
   },
   "dependencies": {
     "4me.env": "0.3.0",

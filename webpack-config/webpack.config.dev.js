@@ -36,7 +36,6 @@ const plugins = [
 ];
 
 module.exports = {
-  env : process.env.NODE_ENV,
   entry: {
     app: [
       'webpack-dev-server/client?http://localhost:3000',
@@ -52,23 +51,22 @@ module.exports = {
     publicPath: '/'
   },
   stats: {
-    colors: true,
-    reasons: true
+    reasons: true,
   },
   resolve: {
     // We can now require('file') instead of require('file.jsx')
-    extensions: ['', '.js', '.jsx', '.scss'],
+    extensions: ['.js', '.jsx', '.scss'],
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        loaders: ['babel-loader'],
         include: PATHS.app,
         exclude: [PATHS.app + '/config.api.js']
       }, {
         test: /\.css$/,
-        loaders: ['style', 'css', 'postcss'],
+        loaders: ['style-loader', 'css-loader', 'postcss-loader'],
       }, {
         // Inline base64 URLs for <=8k images, direct URLs for the rest
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
