@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { uri } from '../';
-
 import Widget from '../../core/components/Dashboard/Widget';
 import { Increment, Decrement } from './CounterActions';
 import Counter from './Counter';
@@ -15,6 +13,7 @@ class WidgetComponent extends Component {
     decrement: void => void,
     cols: number,
     counter: number,
+    pathName: string,
   };
 
   handleIncrement = () => {
@@ -37,6 +36,7 @@ class WidgetComponent extends Component {
     const {
       cols,
       counter,
+      pathName,
     } = this.props;
 
     const containerStyle = {
@@ -59,7 +59,7 @@ class WidgetComponent extends Component {
       <Widget
         cols={cols}
         title="Example module"
-        linkTo={uri}
+        linkTo={pathName}
       >
         <div style={containerStyle}>
           <Counter

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
@@ -8,9 +9,26 @@ import Widget from '../../../core/components/Dashboard/Widget';
 import WidgetSearchBar from './SearchBar';
 import WidgetSearchResults from './SearchResults';
 
-import { uri } from '../../';
+type StateProps = {
+  isErrored: boolean,
+};
+
+type Props = StateProps & {
+  increment: void => void,
+  decrement: void => void,
+  cols: number,
+  counter: number,
+  pathName: string,
+};
+
+type State = {
+  shouldTransition: boolean,
+};
 
 class WidgetComponent extends Component {
+  props: Props;
+  state: State;
+
   constructor(props) {
     super(props);
 
@@ -51,7 +69,7 @@ class WidgetComponent extends Component {
       <Widget
         cols={cols}
         title="ETFMS PROFILE"
-        linkTo={uri}
+        linkTo={pathName}
       >
         <div
           style={containerStyle}

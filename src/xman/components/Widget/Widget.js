@@ -9,13 +9,15 @@ import Controls from '../FlightListControls';
 import StatusMessage from '../StatusMessage';
 import CompactFlightList from './CompactFlightList';
 
-import { uri } from '../../';
-
-type Props = {
-  cols: number,
-  sectors: Array<string>,
+type StateProps = {
   shouldDisplayList: boolean,
   shouldDisplayMessage: boolean,
+};
+
+type Props = StateProps & {
+  cols: number,
+  sectors: Array<string>,
+  pathName: string,
 };
 
 class WidgetComponent extends Component {
@@ -27,12 +29,14 @@ class WidgetComponent extends Component {
       sectors,
       shouldDisplayList,
       shouldDisplayMessage,
+      pathName,
     } = this.props;
 
     if(!shouldDisplayList) {
       return (
         <Widget
           cols={cols}
+          linkTo={pathName}
           title="XMAN : Error !"
         />
       );
@@ -48,7 +52,7 @@ class WidgetComponent extends Component {
       <Widget
         cols={cols}
         title={title}
-        linkTo={uri}
+        linkTo={pathName}
       >
         {shouldDisplayMessage &&
           <StatusMessage
