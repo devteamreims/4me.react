@@ -4,6 +4,12 @@ import {connect} from 'react-redux';
 
 import R from 'ramda';
 
+import getEnv from '4me.env';
+const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+
+import { Tooltip } from 'pui-react-tooltip';
+import { OverlayTrigger } from 'pui-react-overlay-trigger';
+
 import {
   cwpButton as buttonTheme,
 } from '../../theme/colors';
@@ -15,8 +21,6 @@ class WidgetCwpButton extends Component {
     sectors: React.PropTypes.arrayOf(React.PropTypes.string),
     isDisabled: React.PropTypes.bool,
     style: React.PropTypes.object,
-    onMouseEnter: React.PropTypes.func,
-    onMouseLeave: React.PropTypes.func,
   };
 
   static defaultProps = {
@@ -32,31 +36,19 @@ class WidgetCwpButton extends Component {
   };
 
   handleMouseEnter = (event) => { // eslint-disable-line no-unused-vars
-    const {
-      clientId,
-      onMouseEnter,
-      sectors,
-    } = this.props;
-
+    const { sectors } = this.props;
     if(R.isEmpty(sectors)) {
       return;
     }
 
-    onMouseEnter(event, clientId);
     this.setState({hovered: true});
   };
 
   handleMouseLeave = (event) => { // eslint-disable-line no-unused-vars
-    const {
-      clientId,
-      onMouseLeave,
-    } = this.props;
-
-    onMouseLeave(event, clientId);
     this.setState({hovered: false});
   };
 
-  render() {
+  renderButton() {
     const {
       clientId,
       myCwpId,
@@ -111,6 +103,30 @@ class WidgetCwpButton extends Component {
         onMouseLeave={this.handleMouseLeave}
         style={newStyle}
       />
+    );
+  }
+
+  render() {
+    const {
+      sectors,
+    } = this.props;
+
+    // No sectors, render the button without tooltip overlay
+    if(R.isEmpty(sectors)) {
+      return this.renderButton();
+    }
+
+    const tooltip = (
+      <Tooltip>{prettyName(sectors)}</Tooltip>
+    );
+
+    return (
+      <OverlayTrigger
+        placement="bottom"
+        overlay={tooltip}
+      >
+        {this.renderButton()}
+      </OverlayTrigger>
     );
   }
 }
