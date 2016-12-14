@@ -27,12 +27,18 @@ const Wrapper = props => <Paper zDepth={3} {...props} />;
 type Props = {
   cols: number,
   children?: React.Element<*>,
-  title: ?string | ?React.Element<*>,
+  title?: null | string | React.Element<*>,
   linkTo?: string,
 }
 
 class Widget extends Component {
   props: Props;
+
+  static defaultProps: Props = {
+    cols: 1,
+    // If title is null or undefined, material-ui will not render the title bar
+    title: <span />,
+  };
 
   _renderIcon() {
     const { linkTo } = this.props;
@@ -56,15 +62,24 @@ class Widget extends Component {
 
   render() {
     const {
-      cols = 1,
+      cols,
       children,
       title,
     } = this.props;
 
+
     const innerStyle = Object.assign({}, styles.gridTileChildren);
 
+    // We still allow users to pass 'null' as title
+    // The effect will be to remove the title bar
+    // Therefore we only add padding if title is set
     if(title) {
-      Object.assign(innerStyle, {paddingBottom: 48});
+      Object.assign(innerStyle, {
+        // Add 48px padding to our widget content
+        // 48px is the height of the material-ui title bar
+        // See : https://github.com/callemall/material-ui/blob/master/src/GridList/GridTile.js
+        paddingBottom: 48,
+      });
     }
 
     return (
@@ -76,7 +91,7 @@ class Widget extends Component {
         containerElement={<Wrapper />}
         titleBackground="rgba(0, 0, 0, 0.8)"
       >
-        <div style={innerStyle}>
+        <div style={styles.gridTileChildren}>
           {children}
         </div>
       </GridTile>
