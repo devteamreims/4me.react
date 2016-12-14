@@ -63,7 +63,14 @@ class ControlRoomWidget extends Component {
           />
         }
       >
-        <div style={{display: 'flex', overflow: 'auto', flexDirection: 'column'}}>
+        <div
+          style={{
+            display: 'flex',
+            overflow: 'auto',
+            flexDirection: 'column',
+            flexGrow: '1',
+          }}
+        >
           <ControlRoomLayout
             cwpButton={
               <CwpButton
