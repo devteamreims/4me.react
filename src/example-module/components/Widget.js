@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
+import { uri } from '../';
+
 import Widget from '../../core/components/Dashboard/Widget';
 import { Increment, Decrement } from './CounterActions';
 import Counter from './Counter';
@@ -57,6 +59,7 @@ class WidgetComponent extends Component {
       <Widget
         cols={cols}
         title="Example module"
+        linkTo={uri}
       >
         <div style={containerStyle}>
           <Counter
