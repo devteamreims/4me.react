@@ -1,4 +1,5 @@
 # Master
+  * Update webpack to latest version + tweak build script
   * Autocomplete background color is now black to provide better contrast (devteamreims/4ME#167)
   * ControlRoom widget will now display a tooltip on hover instead of change the widget title (devteamreims/4ME#164)
   * <Widget> API is now slightly different and will render a title bar unless explicity told not to (devteamreims/4ME#165)
