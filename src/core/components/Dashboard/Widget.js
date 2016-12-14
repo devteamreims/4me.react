@@ -1,8 +1,11 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 
 import { GridTile } from 'material-ui/GridList';
 import Paper from 'material-ui/Paper';
+import IconButton from 'material-ui/IconButton';
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
+import { Link } from 'react-router';
 
 const styles = {
   gridTile: {
@@ -23,35 +26,78 @@ const Wrapper = props => <Paper zDepth={3} {...props} />;
 
 type Props = {
   cols: number,
-  children?: React.Element<*>,
-  title: ?string | ?React.Element<*>,
+  children?: React.Element<any>,
+  title?: null | string | React.Element<any>,
+  linkTo?: string,
 }
-const Widget = ({
-  cols = 1,
-  children,
-  title,
-}: Props) => {
-  // If we have a title, we must add some padding in our div to allow scroll all the way down
-  const innerStyle = Object.assign({}, styles.gridTileChildren);
 
-  if(title) {
-    Object.assign(innerStyle, {paddingBottom: 48});
+class Widget extends Component {
+  props: Props;
+
+  static defaultProps: Props = {
+    cols: 1,
+    // If title is null or undefined, material-ui will not render the title bar
+    title: <span />,
+  };
+
+  _renderIcon() {
+    const { linkTo } = this.props;
+
+    if(!linkTo) {
+      return null;
+    }
+
+
+    // See more here : https://react-router.now.sh/Link about react-router
+    return (
+      <Link to={linkTo}>{
+        ({ transition }) => (
+          <IconButton onClick={transition}>
+            <ArrowForward />
+          </IconButton>
+        )
+      }</Link>
+    );
   }
 
-  return (
-    <GridTile
-      style={styles.gridTile}
-      cols={cols}
-      title={title}
-      containerElement={<Wrapper />}
-      titleBackground="rgba(0, 0, 0, 0.8)"
-    >
-      <div style={innerStyle}>
-        {children}
-      </div>
-    </GridTile>
-  );
-};
+  render() {
+    const {
+      cols,
+      children,
+      title,
+    } = this.props;
+
+
+    const innerStyle = Object.assign({}, styles.gridTileChildren);
+
+    // We still allow users to pass 'null' as title
+    // The effect will be to remove the title bar
+    // Therefore we only add padding if title is set
+    if(title) {
+      Object.assign(innerStyle, {
+        // Add 48px padding to our widget content
+        // 48px is the height of the material-ui title bar
+        // See : https://github.com/callemall/material-ui/blob/master/src/GridList/GridTile.js
+        paddingBottom: 48,
+      });
+    }
+
+    return (
+      <GridTile
+        style={styles.gridTile}
+        cols={cols}
+        title={title}
+        actionIcon={this._renderIcon()}
+        containerElement={<Wrapper />}
+        titleBackground="rgba(0, 0, 0, 0.8)"
+      >
+        <div style={styles.gridTileChildren}>
+          {children}
+        </div>
+      </GridTile>
+    );
+  }
+}
 
 
 export default Widget;

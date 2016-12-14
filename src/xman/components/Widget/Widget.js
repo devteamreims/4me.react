@@ -9,6 +9,8 @@ import Controls from '../FlightListControls';
 import StatusMessage from '../StatusMessage';
 import CompactFlightList from './CompactFlightList';
 
+import { uri } from '../../';
+
 type Props = {
   cols: number,
   sectors: Array<string>,
@@ -40,12 +42,13 @@ class WidgetComponent extends Component {
     const showFilterControl: boolean = !R.isEmpty(sectors);
     const title = showFilterControl ?
       <Controls showFilterControl={showFilterControl} /> :
-      null;
+      undefined;
 
     return (
       <Widget
         cols={cols}
         title={title}
+        linkTo={uri}
       >
         {shouldDisplayMessage &&
           <StatusMessage
