@@ -1,0 +1,5 @@
+// @flow
+import type { Action as SocketAction } from './socket';
+
+export type Action =
+  | SocketAction
