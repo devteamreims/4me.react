@@ -46,7 +46,9 @@ export function fetchSectors(isBootstrapping: boolean = false): ThunkAction<Prom
   return (dispatch, getState) => {
     const myClient = getClient(getState());
     if(!myClient || myClient.type !== 'cwp') {
-      return Promise.resolve();
+      // If our client is not a CWP, dispatch a complete action with an empty sector array
+      return Promise.resolve()
+        .then(() => dispatch(completeAction([])));
     }
 
     dispatch(fetchAction(isBootstrapping));
