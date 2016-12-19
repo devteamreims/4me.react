@@ -25,12 +25,11 @@ import {
   fetchSectors,
 } from './sector';
 
-let mySocket;
-
 import {
   startBootstrap,
 } from './bootstrap';
 
+let mySocket;
 export function connectSocket(): ThunkAction<*> {
   return (dispatch, getState) => {
     console.log('Connecting socket !');
@@ -48,7 +47,7 @@ export function connectSocket(): ThunkAction<*> {
       throw new Error('Cannot connect to socket without knowing our ClientId !');
     }
 
-    mySocket = io.connect(socketUrl, {query: `cwp-id=${clientId}`});
+    mySocket = io.connect(socketUrl, {query: `client-id=${clientId}`});
 
     mySocket.on('connect', (socket) => { // eslint-disable-line no-unused-vars
       console.log('core/socket: Socket connected');
@@ -68,8 +67,13 @@ export function connectSocket(): ThunkAction<*> {
       return dispatch(socketDisconnected());
     });
 
-    mySocket.on('mapping:refresh', () => {
-      return dispatch(fetchSectors());
+    mySocket.on('clients_changed', clientIds => {
+      console.log('core/socket: clients_changed', clientIds);
+      // Backend will notify everyone that something happened
+      // Backend will include ids of clients whose sectors have been updated
+      if(clientIds.includes(clientId)) {
+        dispatch(fetchSectors());
+      }
     });
 
     mySocket.on('force_reload', () => {
