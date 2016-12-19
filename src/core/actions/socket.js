@@ -32,7 +32,7 @@ import {
 let mySocket;
 export function connectSocket(): ThunkAction<*> {
   return (dispatch, getState) => {
-    console.log('Connecting socket !');
+    console.log('core/socket: Connecting ...');
 
     if(mySocket) {
       console.log('core/socket: trying to connectSocket when socket is already connected');
