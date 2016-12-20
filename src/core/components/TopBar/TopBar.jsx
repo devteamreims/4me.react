@@ -74,9 +74,6 @@ export class TopBar extends Component {
 
     const titleString = this.computeTitleString();
 
-
-    // Note : We render an empty <span /> in iconElementLeft
-    // MUI will render an icon if we don't provide this prop
     return (
       <AppBar
         iconElementLeft={
@@ -119,7 +116,7 @@ export class TopBar extends Component {
 
 import {
   isNormalCwp,
-} from '../../selectors/cwp';
+} from '../../selectors/client';
 
 import {
   getSectors,

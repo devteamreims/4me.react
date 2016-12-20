@@ -2,7 +2,7 @@
 import {
   isLoading as isCwpLoading,
   isErrored as isCwpErrored,
-} from './cwp';
+} from './client';
 
 import {
   isBootstrapping as isSectorBootstrapping,

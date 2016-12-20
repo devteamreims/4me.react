@@ -162,14 +162,14 @@ import {
 } from '../../core/selectors/sector';
 
 import {
-  getCwpId,
-  getCwpName,
-} from '../../core/selectors/cwp';
+  getClientId,
+  getClientName,
+} from '../../core/selectors/client';
 
 export function getActionAuthor(state) {
   const sectors = getSectors(state) || [];
-  const name = getCwpName(state) || '';
-  const id = getCwpId(state) || '';
+  const name = getClientName(state) || '';
+  const id = getClientId(state) || '';
 
   return {
     sectors,

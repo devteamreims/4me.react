@@ -68,7 +68,7 @@ class CwpButton extends Component {
       name,
       style,
       clientId,
-      myCwpId,
+      myClientId,
       sectors,
       sheet: {classes},
     } = this.props;
@@ -90,7 +90,7 @@ class CwpButton extends Component {
     let themeString = 'normal';
     if(isDisabled) {
       themeString = 'disabled';
-    } else if(myCwpId === clientId) {
+    } else if(myClientId === clientId) {
       themeString = 'mineNormal';
       if(R.isEmpty(sectors)) {
         themeString = 'mineEmpty';
@@ -141,15 +141,15 @@ import {
 
 import {
   isSupervisor,
-  getCwpId,
-} from '../../../core/selectors/cwp';
+  getClientId,
+} from '../../../core/selectors/client';
 
 import {
   isRadioOk,
 } from '../../selectors/frequencies';
 
 const mapStateToProps = () => (state, ownProps) => {
-  const myCwpId = getCwpId(state);
+  const myClientId = getClientId(state);
   const sectors = getSectorsByCwpId(state, ownProps.clientId);
 
   const isButtonEnabled = isSupervisor(state) || process.env.NODE_ENV === 'development';
@@ -159,7 +159,7 @@ const mapStateToProps = () => (state, ownProps) => {
 
   return {
     sectors,
-    myCwpId,
+    myClientId,
     name,
     isDisabled: isCwpDisabled(state, ownProps.clientId),
     isButtonEnabled: isButtonEnabled,

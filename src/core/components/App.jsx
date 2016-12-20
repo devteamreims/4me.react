@@ -234,7 +234,7 @@ import {
 
 import {
   isNormalCwp,
-} from '../selectors/cwp';
+} from '../selectors/client';
 
 const mapDispatchToProps = {
   startBootstrap,

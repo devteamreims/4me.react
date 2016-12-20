@@ -1,3 +1,4 @@
+// @flow
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
 import StatusComponent from './components/Status';

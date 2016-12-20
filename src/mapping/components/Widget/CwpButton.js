@@ -14,14 +14,22 @@ import {
   cwpButton as buttonTheme,
 } from '../../theme/colors';
 
+
+type StateProps = {
+  myClientId: any,
+  sectors: any,
+  isDisabled: boolean,
+};
+
+type ExternalProps = {
+  clientId?: any,
+  style?: Object,
+};
+
+type Props = ExternalProps & StateProps;
+
 class WidgetCwpButton extends Component {
-  static propTypes = {
-    clientId: React.PropTypes.number.isRequired,
-    myCwpId: React.PropTypes.number,
-    sectors: React.PropTypes.arrayOf(React.PropTypes.string),
-    isDisabled: React.PropTypes.bool,
-    style: React.PropTypes.object,
-  };
+  props: Props;
 
   static defaultProps = {
     sectors: [],
@@ -51,7 +59,7 @@ class WidgetCwpButton extends Component {
   renderButton() {
     const {
       clientId,
-      myCwpId,
+      myClientId,
       sectors,
       isDisabled,
       style,
@@ -75,7 +83,7 @@ class WidgetCwpButton extends Component {
     let themeString = 'normal';
     if(isDisabled) {
       themeString = 'disabled';
-    } else if(myCwpId === clientId) {
+    } else if(myClientId === clientId) {
       themeString = 'mineNormal';
       if(R.isEmpty(sectors)) {
         themeString = 'mineEmpty';
@@ -137,11 +145,11 @@ import {
 } from '../../selectors/map';
 
 import {
-  getCwpId,
-} from '../../../core/selectors/cwp';
+  getClientId,
+} from '../../../core/selectors/client';
 
-const mapStateToProps = (state, ownProps) => ({
-  myCwpId: getCwpId(state),
+const mapStateToProps = (state, ownProps: ExternalProps) => ({
+  myClientId: getClientId(state),
   sectors: getSectorsByCwpId(state, ownProps.clientId),
   isDisabled: isCwpDisabled(state, ownProps.clientId),
 });

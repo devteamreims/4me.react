@@ -90,7 +90,7 @@ export function maxStatus(items: Array<StatusLevel>): StatusLevel {
 import {
   isSupervisor,
   isTechSupervisor,
-} from './cwp';
+} from './client';
 
 /*
  * Returns a string : dumb, normal, extended

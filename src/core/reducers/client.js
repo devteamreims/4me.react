@@ -3,7 +3,7 @@ import {
   FETCH,
   COMPLETE,
   ERROR,
-} from '../actions/cwp';
+} from '../actions/client';
 
 import type { Action } from '../../store';
 import type { Client } from '../types';
@@ -11,13 +11,13 @@ import type { Exact } from '../../utils/types';
 
 export type State = Exact<{
   isLoading: boolean,
-  cwp: ?Client,
+  client: ?Client,
   error: ?string,
 }>;
 
 const defaultState: State = {
   isLoading: false,
-  cwp: null,
+  client: null,
   error: null,
 };
 
@@ -29,12 +29,12 @@ export default function cwpReducer(state: State = defaultState, action: Action):
     case COMPLETE:
       return Object.assign({}, state, {
         isLoading: false,
-        cwp: {...action.cwp},
+        client: {...action.client},
       });
     case ERROR:
       return Object.assign({}, state, {
         isLoading: false,
-        cwp: null,
+        client: null,
         error: action.error,
       });
   }
