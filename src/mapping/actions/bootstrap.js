@@ -23,9 +23,6 @@ export function bootstrap(): ThunkAction<*> {
 export function cleanUp(): ThunkAction<*> {
   return (dispatch) => {
     console.log('Cleaning up MAPPING');
-
-
-
     dispatch(disconnectSocket());
   };
 }
