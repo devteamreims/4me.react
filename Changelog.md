@@ -1,4 +1,4 @@
-# Master
+# v1.1.0-0 (2016-12-20)
   * New core / mapping API (devteamreims/4ME#163)
   * Update webpack to latest version + tweak build script
   * Autocomplete background color is now black to provide better contrast (devteamreims/4ME#167)
