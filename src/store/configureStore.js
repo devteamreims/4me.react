@@ -45,10 +45,10 @@ export default function configureStore(initialState) {
     module.hot.accept(
       [
         '../core/reducers',
-        '../arcid',
-        '../example-module',
-        '../mapping',
-        '../xman',
+        '../modules/etfms-profile/reducers',
+        '../modules/mapping/reducers',
+        '../modules/xman/reducers',
+        '../modules/example-module/reducer',
       ],
       () => {
         console.debug('HMR: replace reducers !');

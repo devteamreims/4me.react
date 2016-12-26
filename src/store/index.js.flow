@@ -5,8 +5,8 @@ import type {
 } from 'redux';
 
 import type { Action as CoreAction } from '../core/actions';
-import type { Action as ExampleModuleAction } from '../example-module/actions';
-import type { Action as ControlRoomAction } from '../mapping/actions';
+import type { Action as ExampleModuleAction } from '../modules/example-module/actions';
+import type { Action as ControlRoomAction } from '../modules/mapping/actions';
 
 export type Action =
   | ExampleModuleAction

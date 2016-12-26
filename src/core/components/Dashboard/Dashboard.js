@@ -11,10 +11,10 @@ const styles = {
   },
 };
 
-import * as MappingModule from '../../../mapping';
-import * as ExampleModule from '../../../example-module';
-import * as XmanModule from '../../../xman';
-import * as EtfmsProfileModule from '../../../arcid';
+import * as MappingModule from '../../../modules/mapping';
+import * as ExampleModule from '../../../modules/example-module';
+import * as XmanModule from '../../../modules/xman';
+import * as EtfmsProfileModule from '../../../modules/etfms-profile';
 
 import { isModuleDisabled } from '../../../fmeModules';
 

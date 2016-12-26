@@ -1,15 +1,15 @@
 // @flow
 import { combineReducers } from 'redux';
 
-import * as MappingModule from '../mapping';
+import * as MappingModule from '../modules/mapping';
 
-import * as ExampleModule from '../example-module';
-import type { ExampleModuleState } from '../example-module';
+import * as ExampleModule from '../modules/example-module';
+import type { ExampleModuleState } from '../modules/example-module';
 
-import * as XmanModule from '../xman';
-import type { XmanState } from '../xman';
+import * as XmanModule from '../modules/xman';
+import type { XmanState } from '../modules/xman';
 
-import * as EtfmsProfileModule from '../arcid';
+import * as EtfmsProfileModule from '../modules/etfms-profile';
 
 import coreReducer from '../core/reducers';
 import type { CoreState } from '../core/reducers';
