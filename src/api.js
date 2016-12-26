@@ -1,4 +1,4 @@
-import {get} from 'lodash';
+import { get } from 'lodash';
 
 if(!window.FOURME_CONFIG) {
   throw new Error('Must have a FOURME_CONFIG variable set ! Please create a config.api.js file');

@@ -5,8 +5,9 @@ window.FOURME_CONFIG = {
   FOURME_ENV: 'LFEE',
 // Override cwpId (demo website)
   overrideCwpId: 32,
-// This will disable specific organs defined in organs.js at runtime
+// This will disable specific 4me modules at runtime
   disabledModules: ['exampleModule'],
+// Module specific stuff here
   core_mapping_url: 'http://mapping.4me',
   mapping_url: 'http://mapping.4me',
   xman_url: 'http://xman.4me',
