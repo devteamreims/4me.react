@@ -5,7 +5,7 @@ export const OPTIMISTIC_ADD = 'arcid/history/OPTIMISTIC_ADD';
 import _ from 'lodash';
 
 import axios from 'axios';
-import api from '../../../api';
+import api from '../api';
 
 const HISTORY_SIZE_LIMIT = 10;
 
@@ -13,13 +13,11 @@ export function refreshHistory() {
   return (dispatch) => {
     dispatch({type: FETCH_START});
 
-    const apiUrl = api.arcid.history;
-
     const reqParams = {
       limit: HISTORY_SIZE_LIMIT,
     };
 
-    return axios.get(apiUrl, {params: reqParams, timeout: 15000})
+    return axios.get(api.history, {params: reqParams, timeout: 15000})
       .then(resp => {
         const results = resp.data;
         return dispatch(setHistory(results));

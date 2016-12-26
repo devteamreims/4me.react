@@ -6,7 +6,7 @@ export const CLEAR_RESULTS = 'arcid/query/CLEAR_RESULTS';
 import _ from 'lodash';
 
 import axios from 'axios';
-import api from '../../../api';
+import api from '../api';
 
 import {
   isLoading,
@@ -35,7 +35,7 @@ export function startQuery(callsign) {
     // Inform our store that we are starting a callsign query
     dispatch(startAction(callsign));
 
-    const apiUrl = api.arcid.searchCallsign;
+    const apiUrl = api.searchCallsign;
     const reqParams = {
       callsign,
     };

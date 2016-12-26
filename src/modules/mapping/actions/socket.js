@@ -12,7 +12,7 @@ import type {
 
 
 import io from 'socket.io-client';
-import api from '../../../api';
+import api from '../api';
 
 import {
   complete as setMap,
@@ -29,7 +29,7 @@ export function connectSocket(): ThunkAction<*> {
       return;
     }
 
-    mySocket = io.connect(api.mapping.socket);
+    mySocket = io.connect(api.socket);
 
     mySocket.on('connect', (socket) => { // eslint-disable-line no-unused-vars
       console.log('mapping/socket: Socket connected');

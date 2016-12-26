@@ -11,7 +11,7 @@ const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 import axios from 'axios';
 import _ from 'lodash';
 
-import api from '../../../api';
+import api from '../api';
 
 export const FETCH = 'mapping/map/FETCH';
 export const FETCH_FAIL = 'mapping/map/FETCH_FAIL';
@@ -44,7 +44,7 @@ export function refreshMap() {
 
     dispatch(start());
 
-    const apiUrl = api.mapping.map.getMap;
+    const apiUrl = api.map.getMap;
 
 
     console.log('Loading Mapping from backend');
@@ -136,7 +136,7 @@ function commitMap(map) {
   return (dispatch) => {
     dispatch(commitStart());
 
-    const apiUrl = api.mapping.map.commit;
+    const apiUrl = api.map.commit;
 
     return axios.post(apiUrl, map)
       .catch((error) => {

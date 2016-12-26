@@ -7,7 +7,7 @@ export const FAIL = 'xman/flightList/FAIL';
 export const CLEAR = 'xman/flightList/CLEAR';
 export const UPDATE_FLIGHT = 'xman/flightList/UPDATE_FLIGHT';
 
-import api from '../../../api';
+import api from '../api';
 import axios from 'axios';
 
 import {
@@ -36,21 +36,19 @@ export function refreshFullList() {
 
     dispatch(start());
 
-    const apiUrl = api.xman.xman.getAll;
+    const apiUrl = api.flights.getAll;
 
-    const queryParams = getQueryParams(getState());
+    const params = getQueryParams(getState());
 
-    console.log('Loading XMAN flights with these params :');
-    console.log(queryParams);
+    console.log('Loading XMAN flights with these params :', params);
 
-    return axios.get(apiUrl, {
-      params: queryParams
-    }).then((response) => {
-      return dispatch(complete(response.data));
-    })
-    .catch((error) => {
-      return dispatch(fail(error));
-    });
+    return axios.get(apiUrl, { params })
+      .then((response) => {
+        return dispatch(complete(response.data));
+      })
+      .catch((error) => {
+        return dispatch(fail(error));
+      });
   };
 }
 

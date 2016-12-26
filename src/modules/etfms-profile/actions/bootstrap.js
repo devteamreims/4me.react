@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-import api from '../../../api';
+import api from '../api';
 
 import {
   setupSocketIo,
@@ -19,7 +19,7 @@ export function bootstrap() {
         return;
       }
 
-      const socketIo = io.connect(api.arcid.socket);
+      const socketIo = io.connect(api.socket);
 
       return setupSocketIo(dispatch, socketIo);
     };

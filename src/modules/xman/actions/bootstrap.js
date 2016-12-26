@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { fetchStatus } from './backend-status';
 
 import io from 'socket.io-client';
-import api from '../../../api';
+import api from '../api';
 
 import {
   setupSocketIo,
@@ -26,7 +26,7 @@ export function bootstrap(sectors = []) {
         return;
       }
 
-      const socketIo = io.connect(api.xman.socket);
+      const socketIo = io.connect(api.socket);
 
       return setupSocketIo(dispatch, socketIo);
     };

@@ -1,4 +1,4 @@
-import api from '../../../api';
+import api from '../api';
 import axios from 'axios';
 
 export const SET_FORCE_OFF = 'xman/fetcher-status/SET_FORCE_OFF';
@@ -19,7 +19,7 @@ export function toggleForceOff(fetcher, value) {
 
     const newStatus = value === undefined ? !isForcedOff(getState(), fetcher) : !!value;
 
-    const apiUrl = api.xman.status.setFetcher(fetcher);
+    const apiUrl = api.status.setFetcher(fetcher);
 
     const params = {forceOff: newStatus};
 
@@ -39,7 +39,7 @@ export function toggleForceMcs(fetcher, value) {
 
     const newStatus = value === undefined ? !isForcedMcs(getState(), fetcher) : !!value;
 
-    const apiUrl = api.xman.status.setFetcher(fetcher);
+    const apiUrl = api.status.setFetcher(fetcher);
 
     const params = {forceMcs: newStatus};
 

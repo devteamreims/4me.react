@@ -4,7 +4,7 @@ export const CLEAR = 'arcid/autocomplete/CLEAR';
 
 
 import axios from 'axios';
-import api from '../../../api';
+import api from '../api';
 
 export function startSearch(query) {
   return (dispatch) => {
@@ -13,7 +13,7 @@ export function startSearch(query) {
       return;
     }
 
-    const apiUrl = api.arcid.autocomplete(query);
+    const apiUrl = api.autocomplete(query);
 
     dispatch(startAction(query));
 

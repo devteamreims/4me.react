@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import pick from 'lodash/fp/pick';
 
-import api from '../../../api';
+import api from '../api';
 import axios from 'axios';
 
 export const SET_FETCHER_SERVICES_STATUS = 'xman/backend-status/SET_FETCHER_SERVICES_STATUS';
@@ -11,7 +11,7 @@ export const SET_POSITION_SERVICE_STATUS = 'xman/backend-status/SET_POSITION_SER
 export function fetchStatus() {
   // HTTP Request to fetch status
   return (dispatch) => {
-    const apiUrl = api.xman.status.getAll;
+    const apiUrl = api.status.getAll;
 
     return axios.get(apiUrl)
       .then((response) => {

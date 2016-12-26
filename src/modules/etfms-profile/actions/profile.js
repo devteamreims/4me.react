@@ -5,7 +5,7 @@ export const COMPLETE = 'arcid/profile/COMPLETE';
 export const FAIL = 'arcid/profile/FAIL';
 
 import axios from 'axios';
-import api from '../../../api';
+import api from '../api';
 
 import {
   optimisticAdd,
@@ -45,8 +45,8 @@ export function getProfile(flight, forceRefresh = false) {
     dispatch(clearAutocomplete());
 
 
-    const apiUrl = api.arcid.searchProfile;
-    const reqParams = {ifplId};
+    const apiUrl = api.searchProfile;
+    const reqParams = { ifplId };
 
     if(forceRefresh) {
       Object.assign(reqParams, {forceRefresh: true});
