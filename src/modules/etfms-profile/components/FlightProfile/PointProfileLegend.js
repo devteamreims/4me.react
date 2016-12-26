@@ -7,7 +7,7 @@ import {
   TableRow,
 } from 'material-ui/Table';
 
-import theme from '../../../../theme';
+import theme from '../../../../shared/theme';
 
 const defaultStyles = {
   table: {

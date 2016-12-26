@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {
   accent1Color,
-} from '../../../../theme/colors';
+} from '../../../../shared/theme/colors';
 
 const highlightColor = accent1Color;
 

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import LinearProgress from 'material-ui/LinearProgress';
 
 import FlightRow from './FlightRow';
-import theme from '../../../../theme';
+import theme from '../../../../shared/theme';
 
 import {
   Table,

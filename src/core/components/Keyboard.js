@@ -14,7 +14,7 @@ import {
 
 import {
   canvasColor,
-} from '../../theme/colors';
+} from '../../shared/theme/colors';
 
 const backgroundColor = lightBlack;
 const keyBackgroundColor = canvasColor;

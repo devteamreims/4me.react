@@ -9,7 +9,7 @@ import {
 } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
-import theme from '../../../theme';
+import theme from '../../../shared/theme';
 import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
 const styles = {

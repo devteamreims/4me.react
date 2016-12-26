@@ -15,7 +15,7 @@ import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
 import {
   primary1Color,
-} from '../../../../theme/colors';
+} from '../../../../shared/theme/colors';
 
 import type { RichFlight } from '../../types/flight';
 

@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import Highlighter from 'react-highlighter';
 
-import theme from '../../../../theme';
+import theme from '../../../../shared/theme';
 
 const style = {
   container: {

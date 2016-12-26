@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import R from 'ramda';
@@ -10,7 +11,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import {
   accent1Color,
-} from '../../../../theme/colors';
+} from '../../../../shared/theme/colors';
 
 import Loader from './Loader';
 

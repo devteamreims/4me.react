@@ -16,7 +16,7 @@ import EmptyResults from './EmptyResults';
 
 import MenuItem from 'material-ui/MenuItem';
 
-import theme from '../../../../theme';
+import theme from '../../../../shared/theme';
 
 const style = {
   container: {

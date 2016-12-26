@@ -9,7 +9,7 @@ import {
 import History from './History';
 import Results from './Results';
 
-import theme from '../../../theme';
+import theme from '../../../shared/theme';
 
 const styles = {
   outer: {

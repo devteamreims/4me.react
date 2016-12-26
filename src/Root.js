@@ -6,7 +6,7 @@ import configureStore from './store/configureStore';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import mainTheme from './theme';
+import mainTheme from './shared/theme';
 
 const theme = getMuiTheme(mainTheme);
 

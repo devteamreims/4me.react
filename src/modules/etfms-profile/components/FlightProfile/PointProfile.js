@@ -12,7 +12,7 @@ import {
   TableRowColumn
 } from 'material-ui/Table';
 
-import theme from '../../../../theme';
+import theme from '../../../../shared/theme';
 
 import PointProfileLegend from './PointProfileLegend';
 import ColoredFlightLevel from './ColoredFlightLevel';

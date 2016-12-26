@@ -17,7 +17,7 @@ import {
 
 import {
   primary1Color,
-} from '../../../../theme/colors';
+} from '../../../../shared/theme/colors';
 
 
 const highlightedColor = ColorManipulator.fade(primary1Color, 0.2);

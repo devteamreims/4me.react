@@ -24,7 +24,7 @@ import {
 
 import {
   error,
-} from '../../../../theme/colors';
+} from '../../../../shared/theme/colors';
 
 // import './button.css';
 //

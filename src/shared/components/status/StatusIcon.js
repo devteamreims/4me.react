@@ -8,7 +8,7 @@ import {
   success,
   warning,
   error,
-} from '../../../theme/colors';
+} from '../../theme/colors';
 
 class StatusIcon extends Component {
   render() {

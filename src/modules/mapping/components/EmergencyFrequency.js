@@ -11,7 +11,7 @@ import Popover from 'material-ui/Popover';
 import {
   success,
   error,
-} from '../../../theme/colors';
+} from '../../../shared/theme/colors';
 
 class EmergencyFrequency extends Component {
   constructor(props) {

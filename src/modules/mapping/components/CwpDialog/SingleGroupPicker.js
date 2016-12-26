@@ -8,7 +8,7 @@ import MicOk from 'material-ui/svg-icons/av/mic';
 
 import {
   success,
-} from '../../../../theme/colors';
+} from '../../../../shared/theme/colors';
 
 class SingleGroupPicker extends Component {
   isSectorDisabled = (sector) => {

@@ -13,7 +13,7 @@ import FlightProfile from './FlightProfile';
 import ErrorModal from '../../../shared/components/ErrorModal';
 import RedirectToDashboard from '../../../shared/components/RedirectToDashboard';
 
-import theme from '../../../theme';
+import theme from '../../../shared/theme';
 
 const style = {
   outer: {

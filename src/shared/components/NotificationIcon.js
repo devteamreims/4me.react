@@ -6,7 +6,7 @@ import {
   info,
   warning,
   critical,
-} from '../../theme/colors';
+} from '../theme/colors';
 
 const badgeStyles = {
   info: {

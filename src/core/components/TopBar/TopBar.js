@@ -19,7 +19,7 @@ import Clock from './Clock';
 
 import { Link } from 'react-router';
 
-import { primary1Color, canvasColor } from '../../../theme/colors';
+import { primary1Color, canvasColor } from '../../../shared/theme/colors';
 import * as Colors from 'material-ui/styles/colors';
 
 
