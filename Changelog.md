@@ -1,3 +1,8 @@
+# Master
+  * React-redux v5.0.1
+
+# v1.1.0 (2016-12-26)
+
 # v1.1.0-0 (2016-12-20)
   * New core / mapping API (devteamreims/4ME#163)
   * Update webpack to latest version + tweak build script

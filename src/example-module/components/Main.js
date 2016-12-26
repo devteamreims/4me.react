@@ -151,10 +151,7 @@ class Main extends Component {
 
 import { p } from '../selectors';
 
-import type { Action, RootState } from '../../store';
-import type { MapDispatchToProps, MapStateToProps } from 'react-redux';
-
-const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = state => {
+const mapStateToProps = state => {
   const ourState = p(state);
 
   return {
@@ -162,7 +159,7 @@ const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = state => {
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<Action, *, DispatchProps> = {
+const mapDispatchToProps = {
   increment,
   decrement,
 };

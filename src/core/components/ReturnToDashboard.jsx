@@ -154,14 +154,9 @@ class ReturnToDashboard extends Component {
   }
 }
 
-import type {
-  MapDispatchToProps,
-  MapStateToProps,
-} from 'react-redux';
 
 import type {
   RootState,
-  Action,
 } from '../../store';
 
 import {
@@ -175,7 +170,7 @@ import {
   disable as disableRedirect,
 } from '../actions/returnToDashboard';
 
-const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = (state: RootState) => {
+const mapStateToProps = (state: RootState) => {
   return {
     returnToDashboardTime: getReturnToDashboardTime(state),
     lastUserInteraction: getLastInteraction(state),
@@ -184,7 +179,7 @@ const mapStateToProps: MapStateToProps<RootState, {}, StateProps> = (state: Root
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<Action, {}, DispatchProps> = {
+const mapDispatchToProps = {
   disableRedirect,
 };
 
