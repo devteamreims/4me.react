@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 
 import { connect } from 'react-redux';
 
-import SingleStatus from '../../../core/components/Status/SingleStatus';
+import SingleStatus from '../../../shared/components/status/SingleStatus';
 
 import type { StatusLevel, StatusDisplayLevel } from '../../../core/types';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SingleStatus from './SingleStatus';
+import SingleStatus from '../../../shared/components/status/SingleStatus';
 
 const style = {
   margin: 30,

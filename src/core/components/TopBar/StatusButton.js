@@ -3,7 +3,7 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 
 
-import StatusIcon from '../Status/StatusIcon';
+import StatusIcon from '../../../shared/components/status/StatusIcon';
 
 const StatusButton = ({status = 'normal'}) => {
   return (
