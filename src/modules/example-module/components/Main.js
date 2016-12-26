@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import R from 'ramda';
 
-import RedirectToDashboard from '../../../core/components/RedirectToDashboard';
+import RedirectToDashboard from '../../../shared/components/RedirectToDashboard';
 import Counter from './Counter';
 import { Increment, Decrement } from './CounterActions';
 

@@ -11,7 +11,7 @@ import HistoryOrResults from './HistoryOrResults';
 import FlightProfile from './FlightProfile';
 
 import ErrorModal from '../../../shared/components/ErrorModal';
-import RedirectToDashboard from '../../../core/components/RedirectToDashboard';
+import RedirectToDashboard from '../../../shared/components/RedirectToDashboard';
 
 import theme from '../../../theme';
 

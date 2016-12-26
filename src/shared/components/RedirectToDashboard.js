@@ -7,7 +7,7 @@ import type { Dispatch } from '../../store';
 import {
   enable as enableRedirect,
   disable as disableRedirect,
-} from '../actions/returnToDashboard';
+} from '../../core/actions/returnToDashboard';
 
 type Props = {
   enableRedirect: () => *,

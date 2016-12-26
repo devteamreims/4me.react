@@ -10,7 +10,7 @@ import FlightList from './FlightList';
 import FlightListControls from './FlightListControls';
 import StatusMessage from './StatusMessage';
 
-import RedirectToDashboard from '../../../core/components/RedirectToDashboard';
+import RedirectToDashboard from '../../../shared/components/RedirectToDashboard';
 
 import type { Sectors, Client } from '../../../core/types';
 

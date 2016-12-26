@@ -7,7 +7,7 @@ import R from 'ramda';
 import ErrorModal from '../../../shared/components/ErrorModal';
 import CwpDialog from './CwpDialog';
 import ControlRoom from './ControlRoom';
-import RedirectToDashboard from '../../../core/components/RedirectToDashboard';
+import RedirectToDashboard from '../../../shared/components/RedirectToDashboard';
 
 class MappingRoot extends Component {
 
