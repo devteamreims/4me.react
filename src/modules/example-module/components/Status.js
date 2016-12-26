@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import SingleStatus from '../../../shared/components/status/SingleStatus';
 
-import type { StatusLevel, StatusDisplayLevel } from '../../../core/types';
+import type { StatusLevel, StatusDisplayLevel } from '../../../shared/types/status';
 
 class Status extends Component {
   props: {

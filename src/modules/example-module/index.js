@@ -72,7 +72,7 @@ export type ExampleModuleState = Exact<{
 // CORE will allocate a state slice keyed by our exported `name`
 import type { Selector } from '../../store';
 
-import type { StatusLevel } from '../../core/types';
+import type { StatusLevel } from '../../shared/types/status';
 
 export const getStatusString: Selector<StatusLevel> = (state) => {
   // We get our state slice here

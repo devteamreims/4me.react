@@ -14,15 +14,3 @@ export type Client = Exact<{
   disabled?: boolean,
   type: ClientType,
 }>;
-
-
-// Types related to status
-export type StatusItem = Exact<{
-  name: string,
-  status: StatusLevel,
-  description?: string,
-  items?: Array<StatusItem>,
-}>;
-
-export type StatusLevel = 'normal' | 'error' | 'warning' | 'critical';
-export type StatusDisplayLevel = 'dumb' | 'normal' | 'extended';

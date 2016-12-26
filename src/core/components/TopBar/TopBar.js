@@ -124,8 +124,11 @@ import {
 
 import {
   getCoreStatus,
-  maxStatus,
 } from '../../selectors/status';
+
+import {
+  maxStatus,
+} from '../../../shared/utils/status';
 
 
 import * as ExampleModule from '../../../modules/example-module';

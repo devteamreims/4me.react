@@ -3,7 +3,7 @@ import p from './prefix';
 
 import {
   maxStatus,
-} from '../../../core/selectors/status';
+} from '../../../shared/utils/status';
 
 export const getRaw = (state) => _.get(p(state), 'status', {});
 

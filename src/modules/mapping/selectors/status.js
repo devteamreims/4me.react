@@ -5,7 +5,7 @@ export const getRaw = (state) => _.get(p(state), 'status', {});
 
 import {
   maxStatus,
-} from '../../../core/selectors/status';
+} from '../../../shared/utils/status';
 
 const defaultSocketStatus = {
   status: 'normal',
