@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import getEnv from '4me.env';
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
-import TimeAgo from '../../../../utils/components/TimeAgo';
+import TimeAgo from '../../../../shared/components/TimeAgo';
 
 const style = {
   wrapper: {

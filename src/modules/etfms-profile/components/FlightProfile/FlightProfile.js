@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 
 import Spinner from '../Spinner';
 import PointProfile from './PointProfile';
-import TimeAgo from '../../../../utils/components/TimeAgo';
+import TimeAgo from '../../../../shared/components/TimeAgo';
 
 const styles = {
   container: {
