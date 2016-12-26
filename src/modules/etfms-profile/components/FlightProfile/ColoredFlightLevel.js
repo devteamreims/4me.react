@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ColorizedContent from '../../../../core/components/ColorizedContent';
+import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
 function flightLevelToHash(flightLevel) {
   // When the flight is in evolution, fall back to specific color
