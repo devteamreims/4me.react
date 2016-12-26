@@ -1,12 +1,10 @@
 // @flow
 import { get } from 'lodash';
+import { getKey } from '../../shared/config';
 
-if(!window.FOURME_CONFIG) {
-  throw new Error('Must have a FOURME_CONFIG variable set ! Please create a config.api.js file');
-}
 
-const xmanUrl = get(window.FOURME_CONFIG, 'xman.url') ||
-  get(window.FOURME_CONFIG, 'xman_url') ||
+const xmanUrl = get(getKey('xman'), 'url') ||
+  getKey('xman_url') ||
   'http://xman.4me';
 
 export default {

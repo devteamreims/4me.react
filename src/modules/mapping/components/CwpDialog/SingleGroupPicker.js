@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import {mapping as mappingConfig} from '../../../../config';
+import getConfig from '../../config';
 
 import Checkbox from 'material-ui/Checkbox';
 import MicOk from 'material-ui/svg-icons/av/mic';
@@ -20,7 +20,7 @@ class SingleGroupPicker extends Component {
   };
 
   shouldDisplayEmergencyFrequencies() {
-    return !_.get(mappingConfig, 'disableEmergencyRadios', false);
+    return !getConfig().disableEmergencyRadios;
   }
 
   render() {

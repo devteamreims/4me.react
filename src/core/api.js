@@ -1,13 +1,13 @@
 // @flow
 import { get } from 'lodash';
+import { getKey } from '../shared/config';
 
-if(!window.FOURME_CONFIG) {
-  throw new Error('Must have a FOURME_CONFIG variable set ! Please create a config.api.js file');
-}
 
-const coreMappingUrl = get(window.FOURME_CONFIG, 'core.mappingUrl') ||
-  get(window.FOURME_CONFIG, 'core_mapping_url') ||
+const coreMappingUrl = get(getKey('core'), 'mappingUrl') ||
+  getKey('core_mapping_url') ||
   'http://core.mapping.4me';
+
+// TODO: Insert deprecation warning here
 
 import type { ClientId } from './types';
 

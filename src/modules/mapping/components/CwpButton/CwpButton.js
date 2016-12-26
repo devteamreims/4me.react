@@ -3,14 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 
-import _ from 'lodash';
 import R from 'ramda';
 
 import getEnv from '4me.env';
 const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
-import {mapping as mappingConfig} from '../../../../config';
+import getConfig from '../../config';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import MicOff from 'material-ui/svg-icons/av/mic-off';
@@ -46,7 +45,7 @@ class CwpButton extends Component {
   }
 
   shouldDisplayEmergencyFrequencies() {
-    return !_.get(mappingConfig, 'disableEmergencyRadios', false);
+    return !getConfig().disableEmergencyRadios;
   }
 
   openDialog = () => {

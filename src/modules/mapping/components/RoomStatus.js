@@ -1,9 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
-import {mapping as mappingConfig} from '../../../config';
+import getConfig from '../config';
 
 import Paper from 'material-ui/Paper';
 import EmergencyFrequency from './EmergencyFrequency';
@@ -11,7 +10,7 @@ import EmergencyFrequency from './EmergencyFrequency';
 class RoomStatus extends Component {
 
   shouldDisplayEmergencyFrequencies() {
-    return !_.get(mappingConfig, 'disableEmergencyRadios', false);
+    return !getConfig().disableEmergencyRadios;
   }
 
   render() {

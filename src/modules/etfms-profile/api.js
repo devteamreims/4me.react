@@ -1,12 +1,10 @@
 // @flow
 import { get } from 'lodash';
+import { getKey } from '../../shared/config';
 
-if(!window.FOURME_CONFIG) {
-  throw new Error('Must have a FOURME_CONFIG variable set ! Please create a config.api.js file');
-}
 
-const etfmsProfileUrl = get(window.FOURME_CONFIG, 'etfmsProfile.url') ||
-  get(window.FOURME_CONFIG, 'arcid_url') ||
+const etfmsProfileUrl = get(getKey('etfmsProfile'), 'url') ||
+  getKey('arcid_url') ||
   'http://etfms-profile.4me';
 
 export default {
