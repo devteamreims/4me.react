@@ -3,9 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 
-import {
-  OrganButton,
-} from '../../../core/components/LeftMenu';
+import ModuleMenuButton from '../../../shared/components/MenuButton';
 
 export class MenuButton extends Component {
   componentDidMount() {
@@ -33,7 +31,7 @@ export class MenuButton extends Component {
 
 
     return (
-      <OrganButton
+      <ModuleMenuButton
         isActive={isActive}
         transition={transition}
         title="CONTROL ROOM"

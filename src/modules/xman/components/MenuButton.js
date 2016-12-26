@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import R from 'ramda';
 
-import {
-  OrganButton,
-} from '../../../core/components/LeftMenu';
+import ModuleMenuButton from '../../../shared/components/MenuButton';
 
 export class MenuButton extends Component {
   componentDidMount() {
@@ -53,7 +51,7 @@ export class MenuButton extends Component {
     } = this.props;
 
     return (
-      <OrganButton
+      <ModuleMenuButton
         isActive={isActive}
         transition={transition}
         title="XMAN"
