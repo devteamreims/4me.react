@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import R from 'ramda';
 
-import ErrorModal from '../../../core/components/ErrorModal';
+import ErrorModal from '../../../shared/components/ErrorModal';
 import CwpDialog from './CwpDialog';
 import ControlRoom from './ControlRoom';
 import RedirectToDashboard from '../../../core/components/RedirectToDashboard';

@@ -10,7 +10,7 @@ import SearchBox from './SearchBox';
 import HistoryOrResults from './HistoryOrResults';
 import FlightProfile from './FlightProfile';
 
-import ErrorModal from '../../../core/components/ErrorModal';
+import ErrorModal from '../../../shared/components/ErrorModal';
 import RedirectToDashboard from '../../../core/components/RedirectToDashboard';
 
 import theme from '../../../theme';

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 
-import ErrorModal from './ErrorModal';
+import ErrorModal from '../../shared/components/ErrorModal';
 
 class LoadingScreen extends Component {
   render() {
