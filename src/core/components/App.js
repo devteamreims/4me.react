@@ -17,7 +17,7 @@ import InteractionCatcher from './InteractionCatcher';
 import { HashRouter as Router, Match, Miss } from 'react-router';
 
 import { injectOrganProps } from '../wrappers/injectOrganProps';
-import { isModuleDisabled } from '../../fmeModules';
+import { isModuleDisabled } from '../../shared/utils/modules';
 
 import * as ExampleModule from '../../modules/example-module';
 import * as MappingModule from '../../modules/mapping';

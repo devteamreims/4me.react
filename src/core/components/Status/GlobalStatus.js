@@ -8,7 +8,7 @@ const style = {
   color: '#FFF',
 };
 
-import { isModuleDisabled } from '../../../fmeModules';
+import { isModuleDisabled } from '../../../shared/utils/modules';
 
 import * as ExampleModule from '../../../modules/example-module';
 import * as MappingModule from '../../../modules/mapping';

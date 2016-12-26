@@ -136,7 +136,7 @@ import * as MappingModule from '../../../modules/mapping';
 import * as EtfmsProfileModule from '../../../modules/etfms-profile';
 import * as XmanModule from '../../../modules/xman';
 
-import { isModuleDisabled } from '../../../fmeModules';
+import { isModuleDisabled } from '../../../shared/utils/modules';
 
 const getStatusStringSelector = ({name, getStatusString}) => {
   if(isModuleDisabled(name) || !getStatusString) {

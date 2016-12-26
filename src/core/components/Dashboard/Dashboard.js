@@ -16,7 +16,7 @@ import * as ExampleModule from '../../../modules/example-module';
 import * as XmanModule from '../../../modules/xman';
 import * as EtfmsProfileModule from '../../../modules/etfms-profile';
 
-import { isModuleDisabled } from '../../../fmeModules';
+import { isModuleDisabled } from '../../../shared/utils/modules';
 
 type GetWidgetComponent = ({Widget: *, name: string}) => *;
 

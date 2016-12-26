@@ -9,7 +9,7 @@ import * as XmanModule from '../../../modules/xman';
 import * as EtfmsProfileModule from '../../../modules/etfms-profile';
 
 import { injectOrganProps } from '../../wrappers/injectOrganProps';
-import { isModuleDisabled } from '../../../fmeModules';
+import { isModuleDisabled } from '../../../shared/utils/modules';
 
 class WithLink extends Component {
   render() {
