@@ -15,7 +15,7 @@ import type {
 
 
 import io from 'socket.io-client';
-import api from '../../api';
+import api from '../api';
 
 import {
   getClientId,
@@ -40,7 +40,7 @@ export function connectSocket(): ThunkAction<*> {
     }
 
     dispatch(socketConnecting());
-    const socketUrl = api.core.socket;
+    const socketUrl = api.socket;
     const clientId = getClientId(getState());
 
     if(!clientId) {

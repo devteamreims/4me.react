@@ -13,7 +13,7 @@ export type Action =
 import axios from 'axios';
 import _ from 'lodash';
 
-import api from '../../api';
+import api from '../api';
 import getEnv from '4me.env';
 const { clients } = getEnv(window.FOURME_CONFIG.FOURME_ENV);
 
@@ -46,7 +46,7 @@ export function fetchClient(): ThunkAction<Promise<void>> {
         });
     }
 
-    const apiUrl = api.core.mapping.identify;
+    const apiUrl = api.mapping.identify;
     return axios.get(apiUrl)
       .then((response) => {
         const client: Client = _.pick(response.data, ['id', 'name', 'type']);

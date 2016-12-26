@@ -5,7 +5,7 @@ export const ERROR = 'core/sector/ERROR';
 
 import R from 'ramda';
 import axios from 'axios';
-import api from '../../api';
+import api from '../api';
 
 import type { Sectors } from '../types';
 
@@ -52,7 +52,7 @@ export function fetchSectors(isBootstrapping: boolean = false): ThunkAction<Prom
     }
 
     dispatch(fetchAction(isBootstrapping));
-    const url = api.core.mapping.sectors.getMine(myClient.id);
+    const url = api.mapping.sectors.getMine(myClient.id);
 
     return axios.get(url)
       .then((response) => {
