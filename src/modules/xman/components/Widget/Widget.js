@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import R from 'ramda';
 
-import Widget from '../../../../core/components/Dashboard/Widget';
+import Widget from '../../../../shared/components/Widget';
 import Controls from '../FlightListControls';
 import StatusMessage from '../StatusMessage';
 import CompactFlightList from './CompactFlightList';

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Redirect from 'react-router/Redirect';
-import Widget from '../../../../core/components/Dashboard/Widget';
+import Widget from '../../../../shared/components/Widget';
 
 import WidgetSearchBar from './SearchBar';
 import WidgetSearchResults from './SearchResults';

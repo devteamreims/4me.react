@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import Widget from '../../../../core/components/Dashboard/Widget';
+import Widget from '../../../../shared/components/Widget';
 
 import getEnv from '4me.env';
 const { getControlRoomLayout } = getEnv(window.FOURME_CONFIG.FOURME_ENV).components;

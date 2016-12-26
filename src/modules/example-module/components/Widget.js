@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import Widget from '../../../core/components/Dashboard/Widget';
+import Widget from '../../../shared/components/Widget';
 import { Increment, Decrement } from './CounterActions';
 import Counter from './Counter';
 
