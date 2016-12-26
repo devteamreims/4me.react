@@ -38,7 +38,7 @@ const styles = {
   },
 };
 
-import type { EmptyComponent } from '../../utils/types';
+import type { EmptyComponent } from '../../shared/types';
 
 type MainComponent = Class<React.Component<*, *, *>> | EmptyComponent;
 const getMainComponent = ({Main, name}): MainComponent => {

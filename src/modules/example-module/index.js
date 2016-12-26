@@ -56,7 +56,7 @@ export function getReducer() {
 
 // 4ME uses flow types
 import type { State } from './reducer';
-import type { Exact } from '../../utils/types';
+import type { Exact } from '../../shared/types';
 
 /**
  * 4ME expects a type export defined our state shape

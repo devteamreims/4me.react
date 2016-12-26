@@ -1,7 +1,7 @@
 // @flow
 
 import type { Action } from '../../store';
-import type { Exact } from '../../utils/types';
+import type { Exact } from '../../shared/types';
 
 import {
   INCREMENT,
