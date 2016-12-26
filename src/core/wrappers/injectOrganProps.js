@@ -40,6 +40,3 @@ export function injectOrganProps<OP>(
 ): Class<React$Component<*, ExpectedProps & OP, *>> {
   return connect(mapStateToProps)(Component);
 }
-
-
-export const injectExtendedOrganProps = injectOrganProps;
