@@ -8,5 +8,5 @@
 
 
 [options]
-module.name_mapper.extension='css' -> '<PROJECT_ROOT>/src/utils/CSSFlowStub.js'
-module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/src/utils/CSSFlowStub.js'
+module.name_mapper.extension='css' -> '<PROJECT_ROOT>/src/shared/types/CSSFlowStub.js'
+module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/src/shared/types/CSSFlowStub.js'

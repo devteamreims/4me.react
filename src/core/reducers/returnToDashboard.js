@@ -5,7 +5,7 @@ import {
   DISABLE,
 } from '../actions/returnToDashboard';
 
-import type { Exact } from '../../utils/types';
+import type { Exact } from '../../shared/types';
 
 export type State = Exact<{
   lastUserInteraction: ?number,

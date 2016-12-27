@@ -6,7 +6,7 @@ import {
 } from '../actions/socket';
 
 import type { Action } from '../../store';
-import type { Exact } from '../../utils/types';
+import type { Exact } from '../../shared/types';
 
 export type State = Exact<{
   isLoading: boolean,

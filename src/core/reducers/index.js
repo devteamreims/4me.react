@@ -6,7 +6,7 @@ import sector from './sector';
 import socket from './socket';
 import returnToDashboard from './returnToDashboard';
 
-import type { Exact } from '../../utils/types';
+import type { Exact } from '../../shared/types';
 
 import type { State as ClientState } from './client';
 import type { State as SectorState } from './sector';

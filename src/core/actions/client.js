@@ -13,9 +13,11 @@ export type Action =
 import axios from 'axios';
 import _ from 'lodash';
 
-import api from '../../api';
-import getEnv from '4me.env';
-const { clients } = getEnv(window.FOURME_CONFIG.FOURME_ENV);
+import api from '../api';
+
+import { clients } from '../../shared/env';
+
+import { getConfig } from '../config';
 
 import type {
   ThunkAction,
@@ -26,10 +28,13 @@ export function fetchClient(): ThunkAction<Promise<void>> {
     dispatch(fetchAction());
 
     // We have a forced clientId, shortcircuit XHR
-    if(process.env.CWP_ID || _.get(window, 'FOURME_CONFIG.overrideCwpId')) {
+    if(getConfig().overrideClientId) {
       console.log('OVERRIDING CLIENT ID !');
-      const clientId = parseInt(_.get(window, 'FOURME_CONFIG.overrideCwpId'), 10);
+
+      const clientId = parseInt(getConfig().overrideClientId, 10);
+
       const client = clients.getClientById(clientId);
+
       if(!client) {
         return Promise.resolve()
           .then(() => {
@@ -46,7 +51,7 @@ export function fetchClient(): ThunkAction<Promise<void>> {
         });
     }
 
-    const apiUrl = api.core.mapping.identify;
+    const apiUrl = api.mapping.identify;
     return axios.get(apiUrl)
       .then((response) => {
         const client: Client = _.pick(response.data, ['id', 'name', 'type']);
