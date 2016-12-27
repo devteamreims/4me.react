@@ -1,7 +1,8 @@
+// @flow
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import getConfig from '../../config';
+import { getConfig } from '../../config';
 
 import Checkbox from 'material-ui/Checkbox';
 import MicOk from 'material-ui/svg-icons/av/mic';
@@ -11,11 +12,11 @@ import {
 } from '../../../../shared/theme/colors';
 
 class SingleGroupPicker extends Component {
-  isSectorDisabled = (sector) => {
+  isSectorDisabled = (sector: string) => {
     return _.includes(this.props.boundSectors, sector);
   };
 
-  isSectorChecked = (sector) => {
+  isSectorChecked = (sector: string) => {
     return _.includes(this.props.tempSectors, sector);
   };
 
