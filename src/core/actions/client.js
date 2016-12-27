@@ -14,8 +14,8 @@ import axios from 'axios';
 import _ from 'lodash';
 
 import api from '../api';
-import getEnv from '4me.env';
-const { clients } = getEnv(window.FOURME_CONFIG.FOURME_ENV);
+
+import { clients } from '../../shared/env';
 
 import { getConfig } from '../config';
 
