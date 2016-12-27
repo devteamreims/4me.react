@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import getEnv from '4me.env';
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+import { sectors as envSectors } from '../../../../shared/env';
+const { prettyName } = envSectors;
 
 import TimeAgo from '../../../../shared/components/TimeAgo';
 

@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import R from 'ramda';
 
-import getEnv from '4me.env';
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
-const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
+import {
+  clients as envClients,
+  sectors as envSectors,
+} from '../../../../shared/env';
+
+const { prettyName } = envSectors;
+const { getClientById } = envClients;
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';

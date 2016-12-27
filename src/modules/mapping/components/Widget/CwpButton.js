@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 
 import R from 'ramda';
 
-import getEnv from '4me.env';
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+import { sectors as envSectors } from '../../../../shared/env';
+const { prettyName } = envSectors;
 
 import { Tooltip } from 'pui-react-tooltip';
 import { OverlayTrigger } from 'pui-react-overlay-trigger';

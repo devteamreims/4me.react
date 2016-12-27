@@ -2,9 +2,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import getEnv from '4me.env';
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
-const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
+import {
+  sectors as envSectors,
+  clients as envClients,
+} from '../../../../shared/env';
+
+const { prettyName } = envSectors;
+const { getClientById } = envClients;
 
 import R from 'ramda';
 

@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 
 import Widget from '../../../../shared/components/Widget';
 
-import getEnv from '4me.env';
-const { getControlRoomLayout } = getEnv(window.FOURME_CONFIG.FOURME_ENV).components;
-const ControlRoomLayout = getControlRoomLayout();
+import { components as envComponents } from '../../../../shared/env';
+const ControlRoomLayout = envComponents.getControlRoomLayout();
 
 import CwpButton from './CwpButton';
 import Title from './Title';

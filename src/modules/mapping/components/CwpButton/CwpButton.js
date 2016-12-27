@@ -5,9 +5,10 @@ import injectSheet from 'react-jss';
 
 import R from 'ramda';
 
-import getEnv from '4me.env';
-const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+import {
+  clients as envClients,
+  sectors as envSectors,
+} from '../../../../shared/env';
 
 import { getConfig } from '../../config';
 
@@ -107,7 +108,7 @@ class CwpButton extends Component {
     const inside = (
       <div style={containerStyle}>
         <PositionName name={name} style={{color: textColor}} />
-        <PositionSectors sectorName={prettyName(sectors)} style={{color: textColor}} />
+        <PositionSectors sectorName={envSectors.prettyName(sectors)} style={{color: textColor}} />
         {
           this.shouldDisplayEmergencyFrequencies() &&
           !isRadioOk &&
@@ -153,7 +154,7 @@ const mapStateToProps = () => (state, ownProps) => {
 
   const isButtonEnabled = isSupervisor(state) || process.env.NODE_ENV === 'development';
 
-  const client = getClientById(ownProps.clientId);
+  const client = envClients.getClientById(ownProps.clientId);
   const name = client ? client.name : `CWP ${ownProps.clientId}`;
 
   return {

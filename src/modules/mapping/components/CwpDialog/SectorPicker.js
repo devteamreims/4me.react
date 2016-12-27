@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import getEnv from '4me.env';
+
+import { sectors as envSectors } from '../../../../shared/env';
 
 const {
   getClusters,
   prettyName,
-} = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
+} = envSectors;
 
 import SingleGroupPicker from './SingleGroupPicker';
 

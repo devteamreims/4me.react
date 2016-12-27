@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import CwpButton from './CwpButton';
 import RoomStatus from './RoomStatus';
 
-import getEnv from '4me.env';
-const { getControlRoomLayout } = getEnv(window.FOURME_CONFIG.FOURME_ENV).components;
-
-const ControlRoomLayout = getControlRoomLayout();
+import { components as envComponents } from '../../../shared/env';
+const ControlRoomLayout = envComponents.getControlRoomLayout();
 
 type Props = {
   closeDialog: Function,

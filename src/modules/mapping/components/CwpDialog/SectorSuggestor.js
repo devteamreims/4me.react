@@ -3,9 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import R from 'ramda';
 
-import getEnv from '4me.env';
-const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
-const { getSectorSuggestions } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
+import {
+  clients as envClients,
+  sectors as envSectors,
+} from '../../../../shared/env';
+
+const { prettyName } = envSectors;
+const { getSectorSuggestions } = envClients;
 
 import RaisedButton from 'material-ui/RaisedButton';
 
