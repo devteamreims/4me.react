@@ -3,13 +3,14 @@
 window.FOURME_CONFIG = {
 // `4me.env` environment (see https://gitlab.com/devteamreims/4me.env)
   FOURME_ENV: 'LFEE',
-// Override cwpId (demo website)
+// Override cwpId (demo website) DEPRECATED !
   overrideCwpId: 32,
 // This will disable specific 4me modules at runtime
   disabledModules: ['exampleModule'],
 // Module specific stuff here
   core: {
     mappingUrl: 'http://mapping.4me',
+    overrideClientId: 32,
   },
   mapping: {
     url: 'http://mapping.4me',
