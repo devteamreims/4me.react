@@ -17,7 +17,7 @@ import api from '../api';
 import getEnv from '4me.env';
 const { clients } = getEnv(window.FOURME_CONFIG.FOURME_ENV);
 
-import { getKey } from '../../shared/config';
+import { getConfig } from '../config';
 
 import type {
   ThunkAction,
@@ -28,19 +28,13 @@ export function fetchClient(): ThunkAction<Promise<void>> {
     dispatch(fetchAction());
 
     // We have a forced clientId, shortcircuit XHR
-    if(
-      process.env.CWP_ID ||
-      getKey('overrideCwpId') ||
-      _.get(getKey('core'), 'overrideClientId')
-    ) {
+    if(getConfig().overrideClientId) {
       console.log('OVERRIDING CLIENT ID !');
-      const clientId = parseInt(
-        process.env.CWP_ID ||
-        _.get(getKey('core'), 'overrideClientId') ||
-        getKey('overrideCwpId')
-      , 10);
+
+      const clientId = parseInt(getConfig().overrideClientId, 10);
 
       const client = clients.getClientById(clientId);
+
       if(!client) {
         return Promise.resolve()
           .then(() => {

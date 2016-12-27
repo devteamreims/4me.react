@@ -1,13 +1,8 @@
 // @flow
-import { get } from 'lodash';
-import { getKey } from '../shared/config';
+import { getConfig } from './config';
 
 
-const coreMappingUrl = get(getKey('core'), 'mappingUrl') ||
-  getKey('core_mapping_url') ||
-  'http://core.mapping.4me';
-
-// TODO: Insert deprecation warning here
+const coreMappingUrl = getConfig().mappingUrl;
 
 import type { ClientId } from './types';
 
