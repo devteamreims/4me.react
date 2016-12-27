@@ -1,4 +1,4 @@
-# Master
+# v1.2.0 (2016-12-27)
   * Reorganise `src/` folder (devteamreims/4ME#168)
   * Improved configuration api to include feature flags (devteamreims/4ME#128)
   * React-redux v5.0.1
