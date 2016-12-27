@@ -1,11 +1,17 @@
 // @flow
 import { getKey } from '../../shared/config';
-import { name } from './';
+const name = 'mapping';
 
-const defaultFlags = {
-  disableEmergencyRadios: true,
+type Config = {
+  disableEmergencyRadios: boolean,
+  url: string,
 };
 
-export default function getConfig(): typeof defaultFlags {
-  return Object.assign({}, defaultFlags, getKey(name));
+const getDefault = () => ({
+  disableEmergencyRadios: true,
+  url: getKey('mapping_url') || 'http://mapping.4me',
+}: Config);
+
+export function getConfig(): Config {
+  return Object.assign({}, getDefault(), getKey(name));
 }

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import getConfig from '../config';
+import { getConfig } from '../config';
 
 import Paper from 'material-ui/Paper';
 import EmergencyFrequency from './EmergencyFrequency';

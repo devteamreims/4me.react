@@ -1,11 +1,7 @@
 // @flow
-import { get } from 'lodash';
-import { getKey } from '../../shared/config';
+import { getConfig } from './config';
 
-
-const mappingUrl = get(getKey('mapping'), 'url') ||
-  getKey('mapping_url') ||
-  'http://mapping.4me';
+const mappingUrl = getConfig().url;
 
 export default {
   map: {

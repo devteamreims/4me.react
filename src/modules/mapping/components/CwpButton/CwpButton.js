@@ -9,7 +9,7 @@ import getEnv from '4me.env';
 const { getClientById } = getEnv(window.FOURME_CONFIG.FOURME_ENV).clients;
 const { prettyName } = getEnv(window.FOURME_CONFIG.FOURME_ENV).sectors;
 
-import getConfig from '../../config';
+import { getConfig } from '../../config';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import MicOff from 'material-ui/svg-icons/av/mic-off';
