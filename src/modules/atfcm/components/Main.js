@@ -7,7 +7,6 @@ import RedirectToDashboard from '../../../shared/components/RedirectToDashboard'
 
 import Paper from 'material-ui/Paper';
 
-
 import type { Client, Sectors } from '../../../core/types';
 
 type Props = {

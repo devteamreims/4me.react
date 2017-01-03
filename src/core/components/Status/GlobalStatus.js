@@ -14,6 +14,7 @@ import * as ExampleModule from '../../../modules/example-module';
 import * as MappingModule from '../../../modules/mapping';
 import * as XmanModule from '../../../modules/xman';
 import * as EtfmsProfileModule from '../../../modules/etfms-profile';
+import * as AtfcmModule from '../../../modules/atfcm';
 
 const getStatusComponent = ({Status, name}) => {
   if(!Status || isModuleDisabled(name)) {
@@ -31,6 +32,7 @@ export class GlobalStatus extends Component {
       ExampleModuleComponent: getStatusComponent(ExampleModule),
       EtfmsProfileModuleComponent: getStatusComponent(EtfmsProfileModule),
       MappingModuleComponent: getStatusComponent(MappingModule),
+      AtfcmModuleComponent: getStatusComponent(AtfcmModule),
     };
   }
   render() {
@@ -44,6 +46,7 @@ export class GlobalStatus extends Component {
       ExampleModuleComponent,
       EtfmsProfileModuleComponent,
       MappingModuleComponent,
+      AtfcmModuleComponent,
     } = this._organs;
 
     return (
@@ -60,6 +63,7 @@ export class GlobalStatus extends Component {
         <ExampleModuleComponent />
         <MappingModuleComponent />
         <EtfmsProfileModuleComponent />
+        <AtfcmModuleComponent />
       </div>
     );
   }

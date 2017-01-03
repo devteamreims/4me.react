@@ -4,12 +4,12 @@ export const uri: string = '/atfcm';
 
 import MenuButtonComponent from './components/MenuButton';
 import MainComponent from './components/Main';
-// import StatusComponent from './components/Status';
+import StatusComponent from './components/Status';
 // import WidgetComponent from './components/Widget';
 
 export const MenuButton = MenuButtonComponent;
 export const Main = MainComponent;
-// export const Status = StatusComponent;
+export const Status = StatusComponent;
 // export const Widget = WidgetComponent;
 
 // This function will be called when the app starts
