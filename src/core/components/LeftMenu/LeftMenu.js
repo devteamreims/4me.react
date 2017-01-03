@@ -7,6 +7,7 @@ import * as ExampleModule from '../../../modules/example-module';
 import * as MappingModule from '../../../modules/mapping';
 import * as XmanModule from '../../../modules/xman';
 import * as EtfmsProfileModule from '../../../modules/etfms-profile';
+import * as AtfcmModule from '../../../modules/atfcm';
 
 import { injectOrganProps } from '../../wrappers/injectOrganProps';
 import { isModuleDisabled } from '../../../shared/utils/modules';
@@ -44,6 +45,7 @@ class LeftMenu extends Component {
       ExampleModuleComponent: getLeftMenuComponent(ExampleModule),
       EtfmsProfileModuleComponent: getLeftMenuComponent(EtfmsProfileModule),
       MappingModuleComponent: getLeftMenuComponent(MappingModule),
+      AtfcmModuleComponent: getLeftMenuComponent(AtfcmModule),
     };
   }
 
@@ -53,6 +55,7 @@ class LeftMenu extends Component {
       ExampleModuleComponent,
       EtfmsProfileModuleComponent,
       MappingModuleComponent,
+      AtfcmModuleComponent,
     } = this._organs;
 
     return (
@@ -82,6 +85,12 @@ class LeftMenu extends Component {
           pathName={EtfmsProfileModule.uri}
         >
           <EtfmsProfileModuleComponent />
+        </WithLink>
+        <WithLink
+          key="atfcm"
+          pathName={AtfcmModule.uri}
+        >
+          <AtfcmModuleComponent />
         </WithLink>
       </Paper>
     );

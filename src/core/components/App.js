@@ -23,6 +23,7 @@ import * as ExampleModule from '../../modules/example-module';
 import * as MappingModule from '../../modules/mapping';
 import * as XmanModule from '../../modules/xman';
 import * as EtfmsProfileModule from '../../modules/etfms-profile';
+import * as AtfcmModule from '../../modules/atfcm';
 
 import Dashboard from './Dashboard';
 import StatusPage from './Status';
@@ -82,6 +83,7 @@ export class App extends Component {
       ExampleModuleComponent: getMainComponent(ExampleModule),
       MappingModuleComponent: getMainComponent(MappingModule),
       EtfmsProfileModuleComponent: getMainComponent(EtfmsProfileModule),
+      AtfcmModuleComponent: getMainComponent(AtfcmModule),
     };
   }
 
@@ -156,6 +158,7 @@ export class App extends Component {
       ExampleModuleComponent,
       MappingModuleComponent,
       EtfmsProfileModuleComponent,
+      AtfcmModuleComponent,
     } = this._organs;
 
 
@@ -207,6 +210,11 @@ export class App extends Component {
                     key="mapping"
                     pattern={MappingModule.uri}
                     component={MappingModuleComponent}
+                  />
+                  <Match
+                    key="atfcm"
+                    pattern={AtfcmModule.uri}
+                    component={AtfcmModuleComponent}
                   />
                   <Miss key="error404" component={Error404} />
                 </div>
