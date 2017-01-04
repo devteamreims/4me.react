@@ -4,12 +4,11 @@ import {connect} from 'react-redux';
 
 import R from 'ramda';
 
-import { Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table';
+import { Table, TableBody } from 'material-ui/Table';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import Callsign from '../FlightList/Callsign';
-import ActionButtons from '../FlightList/ActionButtons';
-import Delay from '../FlightList/Delay';
+import FlightRow from '../FlightList/FlightRow';
+import { columnWidths } from '../FlightList/FlightList';
 
 import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 
@@ -18,8 +17,6 @@ import {
 } from '../../../../shared/theme/colors';
 
 import type { RichFlight } from '../../types/flight';
-
-const highlightedColor = ColorManipulator.fade(primary1Color, 0.2);
 
 const styles = {
   container: {
@@ -62,30 +59,13 @@ export const CompactFlightList = ({
       >
         {R.map(
           (flight: RichFlight) => (
-            <TableRow
-              selectable={false}
+            <FlightRow
               key={flight.ifplId}
-              style={flight.isHighlighted ? {backgroundColor: highlightedColor} : {}}
-            >
-              <TableRowColumn style={{width: '25%'}}>
-                <Callsign
-                  callsign={flight.arcid}
-                  destination={flight.destination}
-                />
-              </TableRowColumn>
-              <TableRowColumn style={{width: '10%'}}>
-                <Delay
-                  delay={flight.delay}
-                  isTonedDown={false}
-                />
-              </TableRowColumn>
-              <TableRowColumn style={{textAlign: 'right'}}>
-                <ActionButtons
-                  ifplId={flight.ifplId}
-                  isHighlighted={flight.isHighlighted}
-                />
-              </TableRowColumn>
-            </TableRow>
+              flight={flight}
+              isHighlighted={flight.isHighlighted}
+              isTonedDown={flight.isTonedDown}
+              widths={columnWidths}
+            />
           ),
           flights
         )}
