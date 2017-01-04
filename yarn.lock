@@ -2416,9 +2416,9 @@ flexbox-react@^4.1.0:
     inline-style-prefixer "^2.0.4"
     lodash.pickby "^4.6.0"
 
-flow-bin@^0.36.0:
-  version "0.36.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.36.0.tgz#557907bd9c2ab0670cfad9e7e906a74b0631e39a"
+flow-bin@0.37.4:
+  version "0.37.4"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.37.4.tgz#3d8da2ef746e80e730d166e09040f4198969b76b"
 
 follow-redirects@1.0.0:
   version "1.0.0"

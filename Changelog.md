@@ -1,4 +1,5 @@
 # Master
+  * FlowType 0.37.4
   * Reorganize dashboard (devteamreims/4ME#173)
   * Create skeleton ATFCM module (devteamreims/4ME#171)
 
