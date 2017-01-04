@@ -49,7 +49,7 @@ const Loader = (props) => {
   return (<span />);
 };
 
-const columnWidths = [
+export const columnWidths = [
   '10%',
   '5%',
   '10%',

@@ -60,25 +60,25 @@ class Dashboard extends Component {
         padding={10}
         cellHeight={300}
       >
-        <XmanModuleWidget
-          key="xman-widget"
-          pathName={XmanModule.uri}
-          cols={2}
+        <MappingModuleWidget
+          key="mapping-widget"
+          pathName={MappingModule.uri}
+          cols={1}
         />
         <EtfmsProfileModuleWidget
           key="etfms-profile-widget"
           pathName={EtfmsProfileModule.uri}
           cols={1}
         />
-        <MappingModuleWidget
-          key="mapping-widget"
-          pathName={MappingModule.uri}
-          cols={1}
-        />
         <ExampleModuleWidget
           key="example-widget"
           pathName={ExampleModule.uri}
           cols={1}
+        />
+        <XmanModuleWidget
+          key="xman-widget"
+          pathName={XmanModule.uri}
+          cols={3}
         />
       </GridList>
     );
