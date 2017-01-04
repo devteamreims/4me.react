@@ -10,12 +10,6 @@ import CircularProgress from 'material-ui/CircularProgress';
 import FlightRow from '../FlightList/FlightRow';
 import { columnWidths } from '../FlightList/FlightList';
 
-import * as ColorManipulator from 'material-ui/utils/colorManipulator';
-
-import {
-  primary1Color,
-} from '../../../../shared/theme/colors';
-
 import type { RichFlight } from '../../types/flight';
 
 const styles = {
