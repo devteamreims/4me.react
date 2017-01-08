@@ -224,6 +224,10 @@ export class StamCard extends Component {
       flights,
     } = this.props;
 
+    const {
+      addingFlight,
+    } = this.state;
+
     return (
       <Card>
         <CardHeader
@@ -242,7 +246,9 @@ export class StamCard extends Component {
             {this._renderInside()}
           </F>
         </CardText>
-        <LinearProgress mode="determinate" color={Colors.green500} value={50} />
+        {!addingFlight &&
+          <LinearProgress mode="determinate" color={Colors.green500} value={50} />
+        }
         <CardActions>
           {this._renderActions()}
         </CardActions>
