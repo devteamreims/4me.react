@@ -7,7 +7,7 @@ import RedirectToDashboard from '../../../../shared/components/RedirectToDashboa
 
 import ClientTypeToggler from './ClientTypeToggler';
 
-import Fmp from './Fmp';
+import Fmp from '../Fmp';
 
 import type { Client, Sectors, ClientType } from '../../../../core/types';
 

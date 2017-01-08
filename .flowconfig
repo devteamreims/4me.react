@@ -1,6 +1,7 @@
 [ignore]
 <PROJECT_ROOT>/node_modules/jss
 .*/node_modules/fbjs/.*
+.*/node_modules/radium/.*
 
 [include]
 

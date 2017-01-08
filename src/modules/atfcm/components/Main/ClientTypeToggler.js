@@ -32,6 +32,7 @@ class ClientTypeToggler extends Component {
 
     return (
       <RadioButtonGroup
+        name="client-type-toggler"
         onChange={onChange}
         defaultSelected={defaultSelected}
         style={{

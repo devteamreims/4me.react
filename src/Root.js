@@ -12,7 +12,7 @@ const theme = getMuiTheme(mainTheme);
 
 import DevTools from './dev/DevTools';
 
-class Root extends Component {
+export class Root extends Component {
   constructor(props) {
     super(props);
     this.store = configureStore();
@@ -25,8 +25,7 @@ class Root extends Component {
       <MuiThemeProvider muiTheme={theme} >
         <Provider store={this.store}>
           <div id="main-container">
-            <App />
-            {showDevTools && <DevTools />}
+            {this.props.children}
           </div>
         </Provider>
       </MuiThemeProvider>
@@ -34,4 +33,14 @@ class Root extends Component {
   }
 }
 
-export default Root;
+const AppRoot = () => {
+  const showDevTools = process.env.NODE_ENV === 'development';
+  return (
+    <Root>
+      <App />
+      {showDevTools && <DevTools />}
+    </Root>
+  );
+};
+
+export default AppRoot;

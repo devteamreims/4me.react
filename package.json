@@ -21,9 +21,11 @@
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
     "test": "echo \"No test specified\" && exit 0",
     "flow": "flow",
-    "check-deps": "npm-check --production --skip-unused"
+    "check-deps": "npm-check --production --skip-unused",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.35.2",
     "autoprefixer": "^6.5.3",
     "babel-core": "^6.20.0",
     "babel-eslint": "^7.1.1",
@@ -53,6 +55,7 @@
     "redux-devtools-dock-monitor": "1.1.1",
     "redux-devtools-filter-actions": "1.2.0",
     "redux-devtools-log-monitor": "^1.1.1",
+    "storybook-host": "^1.0.10",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "2.1.0-beta.28",
@@ -64,6 +67,8 @@
     "axios": "0.15.3",
     "bluebird": "3.4.6",
     "flexbox-react": "^4.1.0",
+    "formsy-material-ui": "^0.5.3",
+    "formsy-react": "^0.19.0",
     "lodash": "^4.17.2",
     "material-ui": "^0.16.5",
     "moment": "^2.17.1",
