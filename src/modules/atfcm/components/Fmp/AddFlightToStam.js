@@ -145,6 +145,7 @@ export class AddFlightToStam extends Component {
             value={flight && flight.arcid}
             validations="isAlphanumeric"
             validationError="Please enter a valid callsign"
+            fullWidth={true}
             updateImmediately={true}
           />
           <FormsyAutoComplete
@@ -161,6 +162,7 @@ export class AddFlightToStam extends Component {
             searchText={implementingSector || (flight && flight.implementingSector)}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={sectors.getElementarySectors()}
+            fullWidth={true}
           />
           <FormsyText
             name="constraint.beacon"
@@ -171,6 +173,7 @@ export class AddFlightToStam extends Component {
             validations="isAlpha,minLength:2,maxLength:5"
             validationError="Please enter a valid beacon"
             updateImmediately={true}
+            fullWidth={true}
           />
           <FormsyText
             name="constraint.flightLevel"
@@ -181,6 +184,7 @@ export class AddFlightToStam extends Component {
             validations="isInt,isLength:3"
             validationError="Please enter a valid FL"
             updateImmediately={true}
+            fullWidth={true}
           />
           <FormsyAutoComplete
             name="onloadSector"
@@ -196,6 +200,7 @@ export class AddFlightToStam extends Component {
             searchText={onloadSector || (flight && flight.onloadSector)}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={sectors.getElementarySectors()}
+            fullWidth={true}
           />
         </Form>
       </div>
