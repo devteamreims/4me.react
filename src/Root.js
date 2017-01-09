@@ -19,8 +19,6 @@ export class Root extends Component {
   }
 
   render() {
-    const showDevTools = process.env.NODE_ENV === 'development';
-
     return (
       <MuiThemeProvider muiTheme={theme} >
         <Provider store={this.store}>

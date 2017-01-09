@@ -35,8 +35,6 @@ function hashStringToNumber(str: string): number {
   let chr;
   let len;
 
-  console.log(`Hashing ${str}`)
-
   if (str.length === 0) {
     return hash;
   }

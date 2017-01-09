@@ -12,7 +12,9 @@ import {
 import LinearProgress from 'material-ui/LinearProgress';
 import * as Colors from 'material-ui/styles/colors';
 import Avatar from 'material-ui/Avatar';
+
 import StamAvatar from '../StamAvatar';
+import FlightRow from './FlightRow';
 
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
@@ -34,7 +36,7 @@ const boxStyle = {
 
 type ElementarySector = string;
 
-type Flight = {
+export type Flight = {
   arcid: string,
   constraint: {
     beacon: string,
@@ -178,10 +180,9 @@ export class StamCard extends Component {
     }
 
     return flights.map(flight => (
-      <div>
-        <h4>{flight.arcid}</h4>
-        <Divider />
-      </div>
+      <FlightRow
+        flight={flight}
+      />
     ));
   }
 
