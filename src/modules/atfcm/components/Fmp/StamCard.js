@@ -55,7 +55,7 @@ type Props = {
 export class StamCard extends Component {
   props: Props;
   state: {
-    addingFlight: boolean,
+    formOpen: boolean,
     selectedFlightForForm: ?Flight,
     isAddFlightFormValid: boolean,
     isAddFlightFormSubmitting: boolean,
@@ -65,7 +65,7 @@ export class StamCard extends Component {
     super(props);
 
     this.state = {
-      addingFlight: false,
+      formOpen: false,
       isAddFlightFormValid: false,
       isAddFlightFormSubmitting: false,
       selectedFlightForForm: null,
@@ -76,7 +76,7 @@ export class StamCard extends Component {
 
   handleOpenForm = (flight: ?Flight) => {
     this.setState({
-      addingFlight: true,
+      formOpen: true,
       selectedFlightForForm: flight,
     });
   };
@@ -106,7 +106,7 @@ export class StamCard extends Component {
 
   handleDiscardButton = () => {
     this.setState({
-      addingFlight: false,
+      formOpen: false,
       selectedFlightForForm: null,
       isAddFlightFormValid: false,
       isAddFlightFormSubmitting: false,
@@ -128,12 +128,12 @@ export class StamCard extends Component {
 
   _renderForm() {
     const {
-      addingFlight,
+      formOpen,
       selectedFlightForForm,
       isAddFlightFormSubmitting,
     } = this.state;
 
-    if(!addingFlight) {
+    if(!formOpen) {
       return null;
     }
 
@@ -158,13 +158,13 @@ export class StamCard extends Component {
 
   _renderFormActions() {
     const {
-      addingFlight,
+      formOpen,
       isAddFlightFormValid,
       isAddFlightFormSubmitting,
       selectedFlightForForm,
     } = this.state;
 
-    if(!addingFlight) {
+    if(!formOpen) {
       return null;
     }
 
@@ -205,10 +205,10 @@ export class StamCard extends Component {
 
   _renderInside() {
     const {
-      addingFlight,
+      formOpen,
     } = this.state;
 
-    if(addingFlight) {
+    if(formOpen) {
       return this._renderForm();
     }
 
@@ -221,10 +221,10 @@ export class StamCard extends Component {
 
   _renderActions() {
     const {
-      addingFlight,
+      formOpen,
     } = this.state;
 
-    if(addingFlight) {
+    if(formOpen) {
       return this._renderFormActions();
     }
 
@@ -243,7 +243,7 @@ export class StamCard extends Component {
     } = this.props;
 
     const {
-      addingFlight,
+      formOpen,
     } = this.state;
 
     return (
@@ -259,12 +259,13 @@ export class StamCard extends Component {
             </StamAvatar>
           }
         />
+        <Divider />
         <CardText>
           <F flexDirection="column">
             {this._renderInside()}
           </F>
         </CardText>
-        {!addingFlight &&
+        {!formOpen &&
           <LinearProgress mode="determinate" color={Colors.green500} value={50} />
         }
         <CardActions>
