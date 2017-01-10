@@ -39,26 +39,14 @@ export class FlightRow extends Component {
     };
   }
 
-  showActions = () => {
-    this.setState({showActions: true});
-  };
-
-  hideActions = () => {
-    this.setState({showActions: false});
-  };
-
   _renderActions() {
     const {
       onRequestEdit,
       onRequestDelete,
     } = this.props;
 
-    const {
-      showActions,
-    } = this.state;
-
     return [
-      <IconButton>
+      <IconButton onClick={onRequestEdit} >
         <Edit />
       </IconButton>,
       <IconButton>
@@ -108,11 +96,11 @@ export class FlightRow extends Component {
             flexDirection="row"
             style={{
               fontSize: 28,
+              fontWeight: 'bold'
             }}
             alignItems="center"
           >
-            <b>{flight.arcid} ({flight.implementingSector})</b>
-
+            {flight.arcid}
           </F>
           <F
             flexDirection="row"
