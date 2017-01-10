@@ -56,6 +56,7 @@ export class StamCard extends Component {
   props: Props;
   state: {
     addingFlight: boolean,
+    selectedFlightForForm: ?Flight,
     isAddFlightFormValid: boolean,
     isAddFlightFormSubmitting: boolean,
   };
@@ -67,13 +68,17 @@ export class StamCard extends Component {
       addingFlight: false,
       isAddFlightFormValid: false,
       isAddFlightFormSubmitting: false,
+      selectedFlightForForm: null,
     };
   }
 
   addFlightForm = null;
 
-  handleOpenForm = () => {
-    this.setState({addingFlight: true});
+  handleOpenForm = (flight: ?Flight) => {
+    this.setState({
+      addingFlight: true,
+      selectedFlightForForm: flight,
+    });
   };
 
   handleFormIsValid = () => {
@@ -102,6 +107,7 @@ export class StamCard extends Component {
   handleDiscardButton = () => {
     this.setState({
       addingFlight: false,
+      selectedFlightForForm: null,
       isAddFlightFormValid: false,
       isAddFlightFormSubmitting: false,
     });
@@ -123,11 +129,17 @@ export class StamCard extends Component {
   _renderForm() {
     const {
       addingFlight,
+      selectedFlightForForm,
       isAddFlightFormSubmitting,
     } = this.state;
 
     if(!addingFlight) {
       return null;
+    }
+
+    const additionalProps = {};
+    if(selectedFlightForForm) {
+      Object.assign(additionalProps, {flight: selectedFlightForForm});
     }
 
     return (
@@ -139,6 +151,7 @@ export class StamCard extends Component {
         onInvalid={this.handleFormIsInvalid}
         onSubmit={this.handleFormSubmit}
         loading={isAddFlightFormSubmitting}
+        {...additionalProps}
       />
     );
   }
@@ -148,11 +161,14 @@ export class StamCard extends Component {
       addingFlight,
       isAddFlightFormValid,
       isAddFlightFormSubmitting,
+      selectedFlightForForm,
     } = this.state;
 
     if(!addingFlight) {
       return null;
     }
+
+    const addOrSave = selectedFlightForForm ? 'Save' : 'Add';
 
     return [
       <RaisedButton
@@ -161,7 +177,7 @@ export class StamCard extends Component {
         onClick={this.handleDiscardButton}
       />,
       <RaisedButton
-        label={isAddFlightFormSubmitting ? 'Loading ...' : 'Add'}
+        label={isAddFlightFormSubmitting ? 'Loading ...' : addOrSave}
         onClick={this.handleAddFlightButton}
         disabled={!isAddFlightFormValid || isAddFlightFormSubmitting}
       />
@@ -182,6 +198,7 @@ export class StamCard extends Component {
     return flights.map(flight => (
       <FlightRow
         flight={flight}
+        onRequestEdit={this.handleOpenForm.bind(this, flight)}
       />
     ));
   }
@@ -198,7 +215,7 @@ export class StamCard extends Component {
     // Form is not open, render flight list
     return [
       this._renderFlights(),
-      <RaisedButton label="Add" onClick={this.handleOpenForm} />,
+      <RaisedButton label="Add" onClick={this.handleOpenForm.bind(this, null)} />,
     ];
   }
 

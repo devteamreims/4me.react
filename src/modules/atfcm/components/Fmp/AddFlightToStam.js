@@ -12,7 +12,7 @@ type ResetModel = () => void;
 type InvalidateModel = (Object) => void;
 
 type Props = {
-  flight?: any,
+  flight?: ?Object,
   loading?: boolean,
   onValid?: () => void,
   onInvalid?: () => void,
@@ -123,6 +123,8 @@ export class AddFlightToStam extends Component {
       implementingSector,
       onloadSector,
     } = this.state;
+
+    console.log('Rendering with flight: ', flight);
 
     return (
       <div style={style}>
