@@ -3,14 +3,10 @@ import { configure, addDecorator } from '@kadira/storybook';
 
 const req = require.context('../src', true, /.stories.js$/);
 
-// // Inject onTouchTap events
-import injectTapEventPlugin from 'react-tap-event-plugin';
-// injectTapEventPlugin();
-
+import {} from './injectTapEvent';
 
 function loadStories() {
   require('../stories/index.js');
-  injectTapEventPlugin();
   // You can require as many stories as you need.
   req.keys().forEach(filename => req(filename));
 }
