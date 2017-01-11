@@ -141,6 +141,7 @@ export class AddFlightToStam extends Component {
         >
           <FormsyText
             name="arcid"
+            autoComplete="off"
             required={true}
             disabled={loading}
             floatingLabelText="Callsign"
@@ -152,6 +153,7 @@ export class AddFlightToStam extends Component {
           />
           <FormsyAutoComplete
             name="implementingSector"
+            autoComplete="off"
             required={true}
             disabled={loading}
             floatingLabelText="IMPLEMENTING Sector"
@@ -168,6 +170,7 @@ export class AddFlightToStam extends Component {
           />
           <FormsyText
             name="constraint.beacon"
+            autoComplete="off"
             required={true}
             disabled={loading}
             floatingLabelText="Beacon"
@@ -180,6 +183,7 @@ export class AddFlightToStam extends Component {
           <FormsyText
             name="constraint.flightLevel"
             required={true}
+            autoComplete="off"
             disabled={loading}
             floatingLabelText="FL at beacon"
             value={flight && flight.constraint && `${flight.constraint.flightLevel}`}
@@ -190,6 +194,7 @@ export class AddFlightToStam extends Component {
           />
           <FormsyAutoComplete
             name="onloadSector"
+            autoComplete="off"
             required={true}
             disabled={loading}
             floatingLabelText="ONLOAD Sector"
