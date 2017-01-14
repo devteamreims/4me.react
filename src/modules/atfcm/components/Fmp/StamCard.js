@@ -224,13 +224,24 @@ export class StamCard extends Component {
       formOpen,
     } = this.state;
 
+    const {
+      flights,
+    } = this.props;
+
     if(formOpen) {
       return this._renderFormActions();
     }
 
     return [
-      <RaisedButton backgroundColor={Colors.red500} label="remove" />,
-      <RaisedButton backgroundColor={Colors.green500} label="send" />,
+      <RaisedButton
+        backgroundColor={Colors.red500}
+        label="remove"
+      />,
+      <RaisedButton
+        disabled={!flights || flights.length === 0}
+        backgroundColor={Colors.green500}
+        label="send"
+      />,
     ];
   }
 
