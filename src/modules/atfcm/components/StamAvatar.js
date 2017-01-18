@@ -54,7 +54,6 @@ const idToColor = (id: string | number): ColorPair => {
   }
   if(typeof id === 'string') {
     const hash = hashStringToNumber(id);
-    console.log(`hash is ${hash}, length is ${colors.length}`);
     return colors[hash % colors.length];
   }
 

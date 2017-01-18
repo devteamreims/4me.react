@@ -35,9 +35,10 @@ const boxStyle = {
 };
 
 type ElementarySector = string;
+type Arcid = string;
 
 export type Flight = {
-  arcid: string,
+  arcid: Arcid,
   constraint: {
     beacon: string,
     flightLevel: number,
@@ -50,6 +51,8 @@ type Props = {
   offloadSector: ElementarySector,
   flights: Array<Flight>,
   stamId: string,
+  addFlight: () => Promise<void>,
+  removeFlight: () => Promise<void>,
 };
 
 export class StamCard extends Component {
@@ -59,6 +62,7 @@ export class StamCard extends Component {
     selectedFlightForForm: ?Flight,
     isAddFlightFormValid: boolean,
     isAddFlightFormSubmitting: boolean,
+    readOnlyFlights: Array<Arcid>,
   };
 
   constructor(props: Props) {
@@ -69,10 +73,28 @@ export class StamCard extends Component {
       isAddFlightFormValid: false,
       isAddFlightFormSubmitting: false,
       selectedFlightForForm: null,
+      readOnlyFlights: [],
     };
   }
 
   addFlightForm = null;
+
+  isReadOnly = (flight: Flight): boolean => {
+    const { readOnlyFlights } = this.state;
+
+    return readOnlyFlights.includes(flight.arcid);
+  };
+
+  addReadOnly = (flight: Flight) => {
+    const { readOnlyFlights } = this.state;
+    console.log(`Setting flight ${flight.arcid} to readonly`);
+    this.setState({readOnlyFlights: R.append(flight.arcid, readOnlyFlights)});
+  };
+
+  delReadOnly = (flight: Flight) => {
+    const { readOnlyFlights } = this.state;
+    this.setState({readOnlyFlights: R.without([flight.arcid], readOnlyFlights)});
+  };
 
   handleOpenForm = (flight: ?Flight) => {
     this.setState({
@@ -115,15 +137,55 @@ export class StamCard extends Component {
 
   // Handle submit from child component
   handleFormSubmit = (data: Object, resetModel: *, invalidateModel: *) => {
-    console.log('Form has been submitted, data is', data);
+    const {
+      addFlight,
+    } = this.props;
+
+    if(typeof addFlight !== 'function') {
+      console.error('atfcm/Fmp/StamCard: addFlight prop is not a function');
+      return;
+    }
 
     this.setState({isAddFlightFormSubmitting: true});
-    setTimeout(() => {
-      invalidateModel({
-        implementingSector: 'Not a valid sector !',
-      });
-      this.setState({isAddFlightFormSubmitting: false});
-    }, 2000);
+
+    addFlight(data).then(
+      () => {
+        this.setState({
+          isAddFlightFormSubmitting: false,
+          formOpen: false,
+        });
+        return;
+      },
+      () => {
+        invalidateModel({
+          implementingSector: 'Not a valid sector !',
+        });
+
+        this.setState({isAddFlightFormSubmitting: false});
+        return;
+      }
+    );
+  };
+
+  handleDeleteFlight = (flight: Flight) => {
+    const {
+      removeFlight,
+    } = this.props;
+
+    if(typeof removeFlight !== 'function') {
+      console.error('atfcm/Fmp/StamCard: addFlight prop is not a function');
+      return;
+    }
+    this.addReadOnly(flight);
+
+    removeFlight(flight).then(
+      () => {
+        this.delReadOnly(flight);
+      },
+      err => {
+        this.delReadOnly(flight);
+      }
+    );
   };
 
   _renderForm() {
@@ -199,6 +261,8 @@ export class StamCard extends Component {
       <FlightRow
         flight={flight}
         onRequestEdit={this.handleOpenForm.bind(this, flight)}
+        onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
+        disabledActions={this.isReadOnly(flight)}
       />
     ));
   }
@@ -206,6 +270,7 @@ export class StamCard extends Component {
   _renderInside() {
     const {
       formOpen,
+      readOnlyFlights,
     } = this.state;
 
     if(formOpen) {
@@ -215,13 +280,18 @@ export class StamCard extends Component {
     // Form is not open, render flight list
     return [
       this._renderFlights(),
-      <RaisedButton label="Add" onClick={this.handleOpenForm.bind(this, null)} />,
+      <RaisedButton
+        label="Add"
+        onClick={this.handleOpenForm.bind(this, null)}
+        disabled={readOnlyFlights.length}
+      />,
     ];
   }
 
   _renderActions() {
     const {
       formOpen,
+      readOnlyFlights,
     } = this.state;
 
     const {
@@ -232,13 +302,17 @@ export class StamCard extends Component {
       return this._renderFormActions();
     }
 
+    const areButtonsDisabled = readOnlyFlights.length !== 0;
+    const areFlightsPresent = flights && flights.length;
+
     return [
       <RaisedButton
         backgroundColor={Colors.red500}
         label="remove"
+        disabled={areButtonsDisabled}
       />,
       <RaisedButton
-        disabled={!flights || flights.length === 0}
+        disabled={areButtonsDisabled || !areFlightsPresent}
         backgroundColor={Colors.green500}
         label="send"
       />,

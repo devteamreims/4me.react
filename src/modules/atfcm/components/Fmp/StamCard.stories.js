@@ -6,10 +6,17 @@ import { host } from 'storybook-host';
 
 import { StamCard } from './StamCard';
 
+const delay = t => {
+  const p = new Promise(resolve => setTimeout(() => resolve(), t));
+  return p;
+};
+
 const props = {
   offloadSector: 'KR',
   stamId: 'running_fox',
   flights: [],
+  addFlight: () => delay(300).then(action('add_flight')),
+  removeFlight: () => delay(300).then(action('remove_flight')),
 };
 
 const flights = [{
@@ -41,4 +48,17 @@ storiesOf('atfcm.StamCard', module)
   ))
   .add('with flights', () => (
     <StamCard {...props} flights={flights} />
-  ));
+  ))
+  .add('with rejection on flight submission', () => {
+    const addFlightWithRejection = flight =>
+      props.addFlight(flight)
+        .then(() => Promise.reject({invalidData: true}));
+
+    return (
+      <StamCard
+        {...props}
+        flights={flights}
+        addFlight={addFlightWithRejection}
+      />
+    );
+  });

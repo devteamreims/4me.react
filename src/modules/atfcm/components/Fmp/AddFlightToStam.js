@@ -124,7 +124,6 @@ export class AddFlightToStam extends Component {
       onloadSector,
     } = this.state;
 
-    console.log('Rendering with flight: ', flight);
 
     return (
       <div style={style}>

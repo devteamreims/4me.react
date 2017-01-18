@@ -21,6 +21,7 @@ import type { Flight } from './StamCard';
 type Props = {
   onRequestDelete?: () => void,
   onRequestEdit?: () => void,
+  disabledActions: boolean,
   flight: Flight,
   style?: Object,
 };
@@ -43,45 +44,31 @@ export class FlightRow extends Component {
     const {
       onRequestEdit,
       onRequestDelete,
+      disabledActions,
     } = this.props;
 
     return [
-      <IconButton onClick={onRequestEdit} >
+      <IconButton
+        onClick={onRequestEdit}
+        disabled={disabledActions}
+      >
         <Edit />
       </IconButton>,
-      <IconButton>
+      <IconButton
+        onClick={onRequestDelete}
+        disabled={disabledActions}
+      >
         <Delete />
       </IconButton>
     ];
   }
 
-  _renderMetadata() {
-    const {
-      showActions,
-    } = this.state;
-
-    const {
-      flight,
-    } = this.props;
-
-    if(showActions) {
-      return null;
-    }
-
-    return (
-      <span>
-        {flight.constraint.beacon}@{flight.constraint.flightLevel}
-      </span>
-    );
-  }
-
   render() {
     const {
       flight,
-      onRequestDelete,
-      onRequestEdit,
-      style,
-      ...otherProps
+      onRequestDelete, // eslint-disable-line no-unused-vars
+      onRequestEdit, // eslint-disable-line no-unused-vars
+      style, // eslint-disable-line no-unused-vars
     } = this.props;
 
     return (
