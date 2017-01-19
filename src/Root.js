@@ -4,11 +4,7 @@ import { Provider } from 'react-redux';
 import App from './core/components/App';
 import configureStore from './store/configureStore';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import mainTheme from './shared/theme';
-
-const theme = getMuiTheme(mainTheme);
+import { DarkTheme } from './shared/components/Theme';
 
 import DevTools from './dev/DevTools';
 
@@ -20,13 +16,13 @@ export class Root extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={theme} >
+      <DarkTheme>
         <Provider store={this.store}>
           <div id="main-container">
             {this.props.children}
           </div>
         </Provider>
-      </MuiThemeProvider>
+      </DarkTheme>
     );
   }
 }
