@@ -1,0 +1,29 @@
+// FlowTypes for FMP
+
+export type Arcid = string;
+export type ElementarySector = string;
+export type StamId = string;
+
+export type Flight = {
+  arcid: Arcid,
+  constraint: {
+    beacon: string,
+    flightLevel: number,
+  },
+  implementingSector: ElementarySector,
+  onloadSector: ElementarySector,
+};
+
+export type PreparedStam = {
+  offloadSector: ElementarySector,
+  flights: Array<Flight>,
+  stamId: StamId,
+};
+
+export type ActiveStam = {
+
+};
+
+export type HistoryStam = {
+
+};

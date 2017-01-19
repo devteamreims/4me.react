@@ -3,21 +3,41 @@ import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
 
 import Dialog from 'material-ui/Dialog';
+import VerticalDivider from '../../../../shared/components/VerticalDivider';
 
 import AddStamButton from './AddStamButton';
 
+import StamCard from './StamCard';
+
 const columnStyle = {
   padding: 10,
+  width: '33%',
 };
 
 type State = {
   showAddStamDialog: boolean,
 };
 
-class FmpMain extends Component {
-  state: State;
+import type {
+  ActiveStam,
+  PreparedStam,
+  HistoryStam,
+  StamId,
+} from './types';
 
-  constructor(props: {}) {
+type Props = {
+  preparedStams: Array<PreparedStam>,
+  activeStams: Array<ActiveStam>,
+  historyStams: Array<HistoryStam>,
+  addStam?: () => void,
+  delStam?: (StamId) => void,
+};
+
+export class FmpMain extends Component {
+  state: State;
+  props: Props;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       showAddStamDialog: false,
@@ -30,6 +50,24 @@ class FmpMain extends Component {
 
   handleCloseDialog = () => {
     this.setState({showAddStamDialog: false});
+  }
+
+  _renderPreparedStams() {
+    const { preparedStams } = this.props;
+
+    if(!preparedStams || preparedStams.length === 0) {
+      return (
+        <span>No stams yet !</span>
+      );
+    }
+
+    return preparedStams.map(stam => (
+      <StamCard
+        {...stam}
+        addFlight={() => {}}
+        delFlight={() => {}}
+      />
+    ));
   }
 
   render() {
@@ -49,10 +87,12 @@ class FmpMain extends Component {
             style={columnStyle}
           >
             <h1>Prepared</h1>
+            {this._renderPreparedStams()}
             <div style={{textAlign: 'center'}}>
               <AddStamButton onClick={this.handleOpenDialog} />
             </div>
           </Flexbox>
+          <VerticalDivider />
           <Flexbox
             flexDirection="column"
             flexGrow={1}
@@ -60,6 +100,7 @@ class FmpMain extends Component {
           >
             <h1>Active</h1>
           </Flexbox>
+          <VerticalDivider />
           <Flexbox
             flexDirection="column"
             flexGrow={1}

@@ -16,7 +16,7 @@ import FlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 
 import { List, ListItem } from 'material-ui/List';
 
-import type { Flight } from './StamCard';
+import type { Flight } from './types';
 
 type Props = {
   onRequestDelete?: () => void,

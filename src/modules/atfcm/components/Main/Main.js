@@ -7,7 +7,7 @@ import RedirectToDashboard from '../../../../shared/components/RedirectToDashboa
 
 import ClientTypeToggler from './ClientTypeToggler';
 
-import Fmp from '../Fmp';
+import FmpMain from '../Fmp';
 
 import type { Client, Sectors, ClientType } from '../../../../core/types';
 
@@ -51,7 +51,11 @@ class Main extends Component {
 
     if(clientType === 'fmp') {
       return (
-        <Fmp />
+        <FmpMain
+          activeStams={[]}
+          preparedStams={[]}
+          historyStams={[]}
+        />
       );
     }
 

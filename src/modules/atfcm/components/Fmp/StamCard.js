@@ -29,23 +29,17 @@ import F from 'flexbox-react';
 import { sectors as envSectors } from '../../../../shared/env';
 
 import AddFlightToStam from './AddFlightToStam';
+import { LightTheme } from '../../../../shared/components/Theme';
 
 const boxStyle = {
   padding: 10,
 };
 
-type ElementarySector = string;
-type Arcid = string;
-
-export type Flight = {
-  arcid: Arcid,
-  constraint: {
-    beacon: string,
-    flightLevel: number,
-  },
-  implementingSector: ElementarySector,
-  onloadSector: ElementarySector,
-};
+import type {
+  Flight,
+  ElementarySector,
+  Arcid,
+} from './types';
 
 type Props = {
   offloadSector: ElementarySector,
@@ -332,31 +326,33 @@ export class StamCard extends Component {
     } = this.state;
 
     return (
-      <Card>
-        <CardHeader
-          title={`OFFLOAD ${offloadSector}`}
-          subtitle={<i>{stamId}</i>}
-          avatar={
-            <StamAvatar
-              stamId={stamId}
-            >
-              {offloadSector}
-            </StamAvatar>
+      <LightTheme>
+        <Card>
+          <CardHeader
+            title={`OFFLOAD ${offloadSector}`}
+            subtitle={<i>{stamId}</i>}
+            avatar={
+              <StamAvatar
+                stamId={stamId}
+              >
+                {offloadSector}
+              </StamAvatar>
+            }
+          />
+          <Divider />
+          <CardText>
+            <F flexDirection="column">
+              {this._renderInside()}
+            </F>
+          </CardText>
+          {!formOpen &&
+            <LinearProgress mode="determinate" color={Colors.green500} value={50} />
           }
-        />
-        <Divider />
-        <CardText>
-          <F flexDirection="column">
-            {this._renderInside()}
-          </F>
-        </CardText>
-        {!formOpen &&
-          <LinearProgress mode="determinate" color={Colors.green500} value={50} />
-        }
-        <CardActions>
-          {this._renderActions()}
-        </CardActions>
-      </Card>
+          <CardActions>
+            {this._renderActions()}
+          </CardActions>
+        </Card>
+      </LightTheme>
     );
   }
 }
