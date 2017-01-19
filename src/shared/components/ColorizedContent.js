@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 
 import * as Colors from 'material-ui/styles/colors';
 
-const colorLevel = '200';
-type Color = string;
-const colors: Array<Color> = [
+const lightColors = [
   'pink',
   'purple',
   'indigo',
@@ -13,7 +11,17 @@ const colors: Array<Color> = [
   'green',
   'deepOrange',
   'brown',
-].map(str => Colors[str + colorLevel]);
+];
+
+const darkColors = [
+  'pink',
+  'purple',
+  'indigo',
+  'lightBlue',
+  'green',
+  'deepOrange',
+];
+
 
 
 /* http://stackoverflow.com/a/7616484/194685 */
@@ -36,15 +44,26 @@ function hashCode(str: string): number {
  * If hash is set to -1, then we'll return a specific color (bluegrey)
  */
 
+type ThemeId = 'light' | 'dark';
 type Props = {
   hash: string | number,
-  children: React.Element<*>,
+  children?: React.Element<*>,
+  theme: ThemeId,
 };
 
 class ColorizedContent extends Component {
   props: Props;
 
-  _hashToColor(rawHash: string | number) {
+  static defaultProps = {
+    theme: 'dark',
+  };
+
+  _hashToColor(rawHash: string | number, themeId: ThemeId): string {
+    let colorLevel = '200';
+    if(themeId === 'light') {
+      colorLevel = '500';
+    }
+
     if(rawHash === -1) {
       return Colors[`blueGrey${colorLevel}`];
     }
@@ -59,7 +78,11 @@ class ColorizedContent extends Component {
       throw new Error('Invalid argument');
     }
 
-    return colors[hash % colors.length];
+    const colorString = themeId === 'light' ?
+      darkColors[hash % darkColors.length] :
+      lightColors[hash % lightColors.length];
+
+    return Colors[`${colorString}${colorLevel}`];
   }
 
 
@@ -67,9 +90,10 @@ class ColorizedContent extends Component {
     const {
       hash,
       children,
+      theme,
     } = this.props;
 
-    const color = this._hashToColor(hash);
+    const color = this._hashToColor(hash, theme);
 
     return (
       <span style={{color}}>
