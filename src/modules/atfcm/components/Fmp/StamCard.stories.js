@@ -15,8 +15,10 @@ const props = {
   offloadSector: 'KR',
   stamId: 'running_fox',
   flights: [],
-  addFlight: () => delay(300).then(action('add_flight')),
-  removeFlight: () => delay(300).then(action('remove_flight')),
+  onRequestAddFlight: () => delay(300).then(action('add_flight')),
+  onRequestDeleteFlight: () => delay(300).then(action('delete_flight')),
+  onRequestSend: () => delay(300).then(action('send_stam')),
+  onRequestDelete: () => delay(300).then(action('delete_stam')),
 };
 
 const flights = [{
@@ -51,14 +53,14 @@ storiesOf('atfcm.StamCard', module)
   ))
   .add('with rejection on flight submission', () => {
     const addFlightWithRejection = flight =>
-      props.addFlight(flight)
+      props.onRequestAddFlight(flight)
         .then(() => Promise.reject({invalidData: true}));
 
     return (
       <StamCard
         {...props}
         flights={flights}
-        addFlight={addFlightWithRejection}
+        onRequestAddFlight={addFlightWithRejection}
       />
     );
   });

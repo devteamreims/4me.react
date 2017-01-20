@@ -64,8 +64,11 @@ export class FmpMain extends Component {
     return preparedStams.map(stam => (
       <StamCard
         {...stam}
-        addFlight={() => {}}
-        delFlight={() => {}}
+        key={stam.stamId}
+        onRequestAddFlight={() => Promise.resolve()}
+        onRequestDeleteFlight={() => Promise.resolve()}
+        onRequestDeleteStam={() => Promise.resolve()}
+        onRequestSend={() => Promise.resolve()}
       />
     ));
   }

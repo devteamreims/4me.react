@@ -18,18 +18,16 @@ import FlightRow from './FlightRow';
 
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
-
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
-
+import Delete from 'material-ui/svg-icons/action/delete';
 import ActionAdd from 'material-ui/svg-icons/action/alarm-add';
 
 import F from 'flexbox-react';
 
-import { sectors as envSectors } from '../../../../shared/env';
-
 import AddFlightToStam from './AddFlightToStam';
 import { LightTheme } from '../../../../shared/components/Theme';
+import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
 const boxStyle = {
   padding: 10,
@@ -45,12 +43,15 @@ type Props = {
   offloadSector: ElementarySector,
   flights: Array<Flight>,
   stamId: string,
-  addFlight: () => Promise<void>,
-  removeFlight: () => Promise<void>,
+  onRequestAddFlight: () => Promise<void>,
+  onRequestDeleteFlight: () => Promise<void>,
+  onRequestDelete: () => Promise<void>,
+  onRequestSend: () => Promise<void>,
 };
 
 export class StamCard extends Component {
   props: Props;
+
   state: {
     formOpen: boolean,
     selectedFlightForForm: ?Flight,
@@ -132,17 +133,17 @@ export class StamCard extends Component {
   // Handle submit from child component
   handleFormSubmit = (data: Object, resetModel: *, invalidateModel: *) => {
     const {
-      addFlight,
+      onRequestAddFlight,
     } = this.props;
 
-    if(typeof addFlight !== 'function') {
-      console.error('atfcm/Fmp/StamCard: addFlight prop is not a function');
+    if(typeof onRequestAddFlight !== 'function') {
+      console.error('atfcm/Fmp/StamCard: onRequestAddFlight prop is not a function');
       return;
     }
 
     this.setState({isAddFlightFormSubmitting: true});
 
-    addFlight(data).then(
+    onRequestAddFlight(data).then(
       () => {
         this.setState({
           isAddFlightFormSubmitting: false,
@@ -163,16 +164,16 @@ export class StamCard extends Component {
 
   handleDeleteFlight = (flight: Flight) => {
     const {
-      removeFlight,
+      onRequestDeleteFlight,
     } = this.props;
 
-    if(typeof removeFlight !== 'function') {
-      console.error('atfcm/Fmp/StamCard: addFlight prop is not a function');
+    if(typeof onRequestDeleteFlight !== 'function') {
+      console.error('atfcm/Fmp/StamCard: onRequestDeleteFlight prop is not a function');
       return;
     }
     this.addReadOnly(flight);
 
-    removeFlight(flight).then(
+    onRequestDeleteFlight(flight).then(
       () => {
         this.delReadOnly(flight);
       },
@@ -299,20 +300,34 @@ export class StamCard extends Component {
     const areButtonsDisabled = readOnlyFlights.length !== 0;
     const areFlightsPresent = flights && flights.length;
 
-    return [
-      <RaisedButton
-        backgroundColor={Colors.red500}
-        label="remove"
-        disabled={areButtonsDisabled}
-      />,
+    return (
       <RaisedButton
         disabled={areButtonsDisabled || !areFlightsPresent}
-        backgroundColor={Colors.green500}
+        backgroundColor={Colors.green200}
         label="send"
-      />,
-    ];
+      />
+    );
   }
 
+  _renderTopActions() {
+    const {
+      onRequestDelete,
+    } = this.props;
+
+    const {
+      formOpen,
+    } = this.state;
+
+    if(formOpen) {
+      return null;
+    }
+
+    return (
+      <IconButton onChange={onRequestDelete}>
+        <Delete />
+      </IconButton>
+    );
+  }
 
   render() {
     const {
@@ -325,20 +340,30 @@ export class StamCard extends Component {
       formOpen,
     } = this.state;
 
+    const colorizedOffloadSector = (
+      <ColorizedContent theme="light" hash={offloadSector}>
+        {offloadSector}
+      </ColorizedContent>
+    );
+
     return (
       <LightTheme>
         <Card>
-          <CardHeader
-            title={`OFFLOAD ${offloadSector}`}
-            subtitle={<i>{stamId}</i>}
-            avatar={
-              <StamAvatar
-                stamId={stamId}
-              >
-                {offloadSector}
-              </StamAvatar>
-            }
-          />
+          <F
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+            flewGrow={1}
+            style={{marginLeft: 16, marginRight: 16}}
+          >
+            <F
+              flexDirection="row"
+              alignItems="center"
+            >
+              <h2>OFFLOAD {colorizedOffloadSector}</h2>
+            </F>
+            {this._renderTopActions()}
+          </F>
           <Divider />
           <CardText>
             <F flexDirection="column">

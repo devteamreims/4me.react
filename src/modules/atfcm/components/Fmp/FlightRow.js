@@ -82,7 +82,7 @@ export class FlightRow extends Component {
           <F
             flexDirection="row"
             style={{
-              fontSize: 28,
+              fontSize: 22,
               fontWeight: 'bold'
             }}
             alignItems="center"
