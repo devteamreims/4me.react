@@ -15,6 +15,7 @@ import Avatar from 'material-ui/Avatar';
 
 import StamAvatar from '../StamAvatar';
 import FlightRow from './FlightRow';
+import SendButton from './SendButton';
 
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
@@ -301,10 +302,8 @@ export class StamCard extends Component {
     const areFlightsPresent = flights && flights.length;
 
     return (
-      <RaisedButton
+      <SendButton
         disabled={areButtonsDisabled || !areFlightsPresent}
-        backgroundColor={Colors.green200}
-        label="send"
       />
     );
   }

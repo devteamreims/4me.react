@@ -29,6 +29,7 @@ const flights = [{
   },
   implementingSector: 'KD',
   onloadSector: 'KR',
+  sendTime: null,
 }, {
   arcid: 'EZY1912',
   constraint: {
@@ -37,6 +38,7 @@ const flights = [{
   },
   implementingSector: 'KF',
   onloadSector: 'XR',
+  sendTime: null,
 }];
 
 storiesOf('atfcm.StamCard', module)

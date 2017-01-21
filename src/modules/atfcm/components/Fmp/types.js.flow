@@ -18,6 +18,7 @@ export type PreparedStam = {
   offloadSector: ElementarySector,
   flights: Array<Flight>,
   stamId: StamId,
+  sendTime: ?Date,
 };
 
 export type ActiveStam = {

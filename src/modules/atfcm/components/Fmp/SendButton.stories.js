@@ -9,6 +9,8 @@ import { LightTheme } from '../../../../shared/components/Theme';
 
 import { SendButton } from './SendButton';
 
+import moment from 'moment';
+
 
 storiesOf('atfcm.Fmp.StamCard.SendButton', module)
   .addDecorator(story => (
@@ -25,5 +27,25 @@ storiesOf('atfcm.Fmp.StamCard.SendButton', module)
     height: '100px',
   }))
   .add('Empty state', () => (
-    <SendButton />
+    <SendButton
+      onSelectTime={action('select_time')}
+    />
+  ))
+  .add('Disabled', () => (
+    <SendButton
+      onSelectTime={action('select_time')}
+      disabled={true}
+    />
+  ))
+  .add('With send time in 5 minutes', () => (
+    <SendButton
+      onSelectTime={action('select_time')}
+      sendTime={moment.utc().add(5, 'minutes').toDate()}
+    />
+  ))
+  .add('With send time in 40 seconds', () => (
+    <SendButton
+      onSelectTime={action('select_time')}
+      sendTime={moment.utc().add(30, 'seconds').toDate()}
+    />
   ));
