@@ -41,11 +41,13 @@ storiesOf('atfcm.Fmp.StamCard.SendButton', module)
     <SendButton
       onSelectTime={action('select_time')}
       sendTime={moment.utc().add(5, 'minutes').toDate()}
+      onCancelSend={action('cancel_send')}
     />
   ))
   .add('With send time in 40 seconds', () => (
     <SendButton
       onSelectTime={action('select_time')}
       sendTime={moment.utc().add(30, 'seconds').toDate()}
+      onCancelSend={action('cancel_send')}
     />
   ));

@@ -13,6 +13,7 @@ type Props = {
   disabled?: boolean,
   backgroundColor?: string,
   onSelectTime?: (number) => void,
+  onCancelSend?: () => void,
   sendTime?: Date,
 };
 
@@ -103,6 +104,8 @@ export class SendButton extends Component {
   render() {
     const {
       disabled,
+      sendTime,
+      onCancelSend,
     } = this.props;
 
     const {
@@ -125,6 +128,12 @@ export class SendButton extends Component {
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
         >
           <Menu>
+            {sendTime &&
+              <MenuItem
+                primaryText="Cancel"
+                onClick={onCancelSend}
+              />
+            }
             <MenuItem
               primaryText="Now"
               onClick={this.handleSend(0)}

@@ -21,9 +21,7 @@ export type PreparedStam = {
   sendTime: ?Date,
 };
 
-export type ActiveStam = {
-
-};
+export type ActiveStam = PreparedStam;
 
 export type HistoryStam = {
 
