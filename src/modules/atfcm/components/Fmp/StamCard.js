@@ -9,13 +9,12 @@ import {
   CardText,
 } from 'material-ui/Card';
 
-import LinearProgress from 'material-ui/LinearProgress';
-import * as Colors from 'material-ui/styles/colors';
 import Avatar from 'material-ui/Avatar';
 
 import StamAvatar from '../StamAvatar';
 import FlightRow from './FlightRow';
 import SendButton from './SendButton';
+import Progress from './Progress';
 
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
@@ -35,15 +34,14 @@ const boxStyle = {
 };
 
 import type {
+  PreparedStam,
+  ActiveStam,
   Flight,
-  ElementarySector,
   Arcid,
 } from './types';
 
 type Props = {
-  offloadSector: ElementarySector,
-  flights: Array<Flight>,
-  stamId: string,
+  stam: PreparedStam | ActiveStam,
   onRequestAddFlight: () => Promise<void>,
   onRequestDeleteFlight: () => Promise<void>,
   onRequestDelete: () => Promise<void>,
@@ -179,6 +177,8 @@ export class StamCard extends Component {
         this.delReadOnly(flight);
       },
       err => {
+        console.error('atfcm/Fmp/StamCard: onRequestDelete: error thrown');
+        console.error(err);
         this.delReadOnly(flight);
       }
     );
@@ -245,8 +245,12 @@ export class StamCard extends Component {
 
   _renderFlights() {
     const {
-      flights,
+      stam,
     } = this.props;
+
+    const {
+      flights,
+    } = stam;
 
 
     if(R.isEmpty(flights)) {
@@ -291,8 +295,13 @@ export class StamCard extends Component {
     } = this.state;
 
     const {
-      flights,
+      stam,
     } = this.props;
+
+    const {
+      flights,
+      sendTime,
+    } = stam;
 
     if(formOpen) {
       return this._renderFormActions();
@@ -304,6 +313,7 @@ export class StamCard extends Component {
     return (
       <SendButton
         disabled={areButtonsDisabled || !areFlightsPresent}
+        sendTime={sendTime}
       />
     );
   }
@@ -330,10 +340,13 @@ export class StamCard extends Component {
 
   render() {
     const {
-      stamId,
-      offloadSector,
-      flights,
+      stam,
     } = this.props;
+
+    const {
+      offloadSector,
+      sendTime,
+    } = stam;
 
     const {
       formOpen,
@@ -370,7 +383,7 @@ export class StamCard extends Component {
             </F>
           </CardText>
           {!formOpen &&
-            <LinearProgress mode="determinate" color={Colors.green500} value={50} />
+            <Progress sendTime={sendTime} />
           }
           <CardActions>
             {this._renderActions()}

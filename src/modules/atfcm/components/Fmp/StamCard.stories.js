@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 
+import moment from 'moment';
+
 import { storiesOf, action } from '@kadira/storybook';
 import { host } from 'storybook-host';
 
@@ -12,9 +14,12 @@ const delay = t => {
 };
 
 const props = {
-  offloadSector: 'KR',
-  stamId: 'running_fox',
-  flights: [],
+  stam: {
+    offloadSector: 'KR',
+    stamId: 'running_fox',
+    flights: [],
+    sendTime: null,
+  },
   onRequestAddFlight: () => delay(300).then(action('add_flight')),
   onRequestDeleteFlight: () => delay(300).then(action('delete_flight')),
   onRequestSend: () => delay(300).then(action('send_stam')),
@@ -41,6 +46,8 @@ const flights = [{
   sendTime: null,
 }];
 
+const stamWithFlights = Object.assign({}, props.stam, {flights});
+
 storiesOf('atfcm.StamCard', module)
   .addDecorator(host({
     title: 'A StamCard as displayed for the FMP',
@@ -51,8 +58,18 @@ storiesOf('atfcm.StamCard', module)
     <StamCard {...props} />
   ))
   .add('with flights', () => (
-    <StamCard {...props} flights={flights} />
+    <StamCard {...props} stam={stamWithFlights} />
   ))
+  .add('with sendTime', () => {
+    const sendTime = moment.utc().add(5, 'minutes').toDate();
+
+    return (
+      <StamCard
+        {...props}
+        stam={Object.assign({}, stamWithFlights, {sendTime})}
+      />
+    )
+  })
   .add('with rejection on flight submission', () => {
     const addFlightWithRejection = flight =>
       props.onRequestAddFlight(flight)
@@ -61,7 +78,7 @@ storiesOf('atfcm.StamCard', module)
     return (
       <StamCard
         {...props}
-        flights={flights}
+        stam={stamWithFlights}
         onRequestAddFlight={addFlightWithRejection}
       />
     );
