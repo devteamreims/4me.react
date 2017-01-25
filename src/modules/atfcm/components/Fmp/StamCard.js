@@ -16,12 +16,13 @@ import FlightRow from './FlightRow';
 import SendButton from './SendButton';
 import Progress from './Progress';
 
+import * as Colors from 'material-ui/styles/colors';
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
-import ActionAdd from 'material-ui/svg-icons/action/alarm-add';
+import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 
 import F from 'flexbox-react';
 
@@ -278,14 +279,7 @@ export class StamCard extends Component {
     }
 
     // Form is not open, render flight list
-    return [
-      this._renderFlights(),
-      <RaisedButton
-        label="Add"
-        onClick={this.handleOpenForm.bind(this, null)}
-        disabled={readOnlyFlights.length}
-      />,
-    ];
+    return this._renderFlights();
   }
 
   _renderActions() {
@@ -296,6 +290,7 @@ export class StamCard extends Component {
 
     const {
       stam,
+      onRequestSend,
     } = this.props;
 
     const {
@@ -314,6 +309,7 @@ export class StamCard extends Component {
       <SendButton
         disabled={areButtonsDisabled || !areFlightsPresent}
         sendTime={sendTime}
+        onSelectTime={onRequestSend}
       />
     );
   }
@@ -325,6 +321,7 @@ export class StamCard extends Component {
 
     const {
       formOpen,
+      readOnlyFlights,
     } = this.state;
 
     if(formOpen) {
@@ -332,9 +329,17 @@ export class StamCard extends Component {
     }
 
     return (
-      <IconButton onChange={onRequestDelete}>
-        <Delete />
-      </IconButton>
+      <div>
+        <IconButton
+          onClick={this.handleOpenForm.bind(this, null)}
+          disabled={readOnlyFlights.length}
+        >
+          <ActionAdd />
+        </IconButton>
+        <IconButton onClick={onRequestDelete}>
+          <Delete />
+        </IconButton>
+      </div>
     );
   }
 

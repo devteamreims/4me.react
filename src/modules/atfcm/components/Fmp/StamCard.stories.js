@@ -20,10 +20,10 @@ const props = {
     flights: [],
     sendTime: null,
   },
-  onRequestAddFlight: () => delay(300).then(action('add_flight')),
-  onRequestDeleteFlight: () => delay(300).then(action('delete_flight')),
-  onRequestSend: () => delay(300).then(action('send_stam')),
-  onRequestDelete: () => delay(300).then(action('delete_stam')),
+  onRequestAddFlight: (...args) => delay(300).then(() => action('add_flight')(...args)),
+  onRequestDeleteFlight: (...args) => delay(300).then(action('delete_flight')(...args)),
+  onRequestSend: (...args) => delay(300).then(() => action('send_stam')(...args)),
+  onRequestDelete: (...args) => delay(300).then(action('delete_stam')(...args)),
 };
 
 const flights = [{
@@ -68,7 +68,7 @@ storiesOf('atfcm.StamCard', module)
         {...props}
         stam={Object.assign({}, stamWithFlights, {sendTime})}
       />
-    )
+    );
   })
   .add('with rejection on flight submission', () => {
     const addFlightWithRejection = flight =>
