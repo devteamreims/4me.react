@@ -48,7 +48,7 @@ class ClientTypeToggler extends Component {
           style={buttonStyle}
         />
         <RadioButton
-          value="fmp"
+          value="flow-manager"
           label="FMP"
           style={buttonStyle}
         />

@@ -21,24 +21,18 @@ import type { Flight } from './types';
 type Props = {
   onRequestDelete?: () => void,
   onRequestEdit?: () => void,
-  disabledActions: boolean,
+  hideActions?: boolean,
+  disabledActions?: boolean,
   flight: Flight,
   style?: Object,
 };
 
 export class FlightRow extends Component {
   props: Props;
-  state: {
-    showActions: boolean,
-  };
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      showActions: false,
-    };
-  }
+  static getDefaultProps = () => ({
+    hideActions: false,
+  });
 
   _renderActions() {
     const {
@@ -63,87 +57,111 @@ export class FlightRow extends Component {
     ];
   }
 
+  _renderArcid() {
+    const { flight } = this.props;
+
+    return (
+      <F
+        flexDirection="row"
+        style={{
+          fontSize: 22,
+          fontWeight: 'bold'
+        }}
+        alignItems="center"
+      >
+        {flight.arcid}
+      </F>
+    );
+  }
+
+
   render() {
     const {
       flight,
       onRequestDelete, // eslint-disable-line no-unused-vars
       onRequestEdit, // eslint-disable-line no-unused-vars
       style, // eslint-disable-line no-unused-vars
+      hideActions,
     } = this.props;
+
+
+    const subItemStyle = {
+      display: 'flex',
+      flexGrow: 1,
+      flexBasis: 0,
+      fontSize: 16,
+      margin: '5px 0',
+    };
+
+    const defaultStyle = {
+      margin: '16px 0',
+    };
 
     return (
       <F
         flexDirection="column"
+        style={Object.assign({}, defaultStyle, style)}
       >
         <F
           flexDirection="row"
           justifyContent="space-between"
         >
-          <F
-            flexDirection="row"
-            style={{
-              fontSize: 22,
-              fontWeight: 'bold'
-            }}
-            alignItems="center"
-          >
-            {flight.arcid}
-          </F>
+          {this._renderArcid()}
           <F
             flexDirection="row"
           >
-            {this._renderActions()}
+            {!hideActions && this._renderActions()}
           </F>
         </F>
         <F
           flexDirection="row"
           justifyContent="space-between"
         >
-          <List
-            style={{
-              flexGrow: 1,
-              margin: 0,
-              padding: 0,
-            }}
+          <F
+            flexDirection="row"
+            alignItems="center"
+            style={subItemStyle}
           >
-            <ListItem
-              disabled={true}
-              leftIcon={<AddCircle />}
-              primaryText={flight.onloadSector}
+            <AddCircle
+              color="grey"
+              style={{marginRight: 10}}
             />
-          </List>
-          <List
-            style={{
-              flexGrow: 1,
-              margin: 0,
-              padding: 0,
-            }}
+            {flight.onloadSector}
+          </F>
+          <F
+            flexDirection="row"
+            alignItems="center"
+            style={subItemStyle}
           >
-            <ListItem
-              disabled={true}
-              leftIcon={<Build />}
-              primaryText={flight.implementingSector}
+            <FlightTakeoff
+              color="grey"
+              style={{marginRight: 10}}
             />
-          </List>
+            {flight.constraint.flightLevel}
+          </F>
+          <F
+            flexDirection="row"
+            alignItems="center"
+            style={subItemStyle}
+          >
+            <Location
+              color="grey"
+              style={{marginRight: 10}}
+            />
+            {flight.constraint.beacon}
+          </F>
+          <F
+            flexDirection="row"
+            alignItems="center"
+            style={subItemStyle}
+          >
+            <Build
+              color="grey"
+              style={{marginRight: 10}}
+            />
+            {flight.implementingSector}
+          </F>
         </F>
-        <List
-          style={{
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          <ListItem
-            disabled={true}
-            leftIcon={<Location />}
-            primaryText={flight.constraint.beacon}
-          />
-          <ListItem
-            disabled={true}
-            leftIcon={<FlightTakeoff />}
-            primaryText={flight.constraint.flightLevel}
-          />
-        </List>
-
         <Divider />
       </F>
     );

@@ -67,7 +67,32 @@ export class FmpMain extends Component {
       <div style={{marginBottom: 20}} >
         <StamCard
           stam={stam}
-          key={stam.stamId}
+          key={stam.id}
+          onRequestAddFlight={() => Promise.resolve()}
+          onRequestDeleteFlight={() => Promise.resolve()}
+          onRequestDelete={() => Promise.resolve()}
+          onRequestSend={() => Promise.resolve()}
+        />
+      </div>
+    ));
+  }
+
+
+
+  _renderActiveStams() {
+    const { activeStams } = this.props;
+
+    if(!activeStams || activeStams.length === 0) {
+      return (
+        <span>No stams yet !</span>
+      );
+    }
+
+    return activeStams.map(stam => (
+      <div style={{marginBottom: 20}} >
+        <StamCard
+          stam={stam}
+          key={stam.id}
           onRequestAddFlight={() => Promise.resolve()}
           onRequestDeleteFlight={() => Promise.resolve()}
           onRequestDelete={() => Promise.resolve()}
@@ -106,6 +131,7 @@ export class FmpMain extends Component {
             style={columnStyle}
           >
             <h1>Active</h1>
+            {this._renderActiveStams()}
           </Flexbox>
           <VerticalDivider />
           <Flexbox

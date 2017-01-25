@@ -16,7 +16,7 @@ const delay = t => {
 const props = {
   stam: {
     offloadSector: 'KR',
-    stamId: 'running_fox',
+    id: 'running_fox',
     flights: [],
     sendTime: null,
   },
@@ -60,8 +60,18 @@ storiesOf('atfcm.StamCard', module)
   .add('with flights', () => (
     <StamCard {...props} stam={stamWithFlights} />
   ))
-  .add('with sendTime', () => {
+  .add('with sendTime in the future', () => {
     const sendTime = moment.utc().add(5, 'minutes').toDate();
+
+    return (
+      <StamCard
+        {...props}
+        stam={Object.assign({}, stamWithFlights, {sendTime})}
+      />
+    );
+  })
+  .add('with sendTime in the past', () => {
+    const sendTime = moment.utc().subtract(5, 'minutes').toDate();
 
     return (
       <StamCard

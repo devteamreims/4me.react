@@ -12,7 +12,7 @@ import moment from 'moment';
 type Props = {
   disabled?: boolean,
   backgroundColor?: string,
-  onSelectTime?: (number) => void,
+  onSelectTime?: (number) => *,
   onCancelSend?: () => void,
   sendTime?: Date,
 };
@@ -31,6 +31,7 @@ export class SendButton extends Component {
   static defaultProps = {
     disabled: false,
     onSelectTime: () => {},
+    sending: false,
   };
 
   constructor(props: Props) {
@@ -83,11 +84,27 @@ export class SendButton extends Component {
     }
   };
 
-  _getButtonLabel = () => {
+  isStamSending = (): boolean => {
     const { sendTime } = this.props;
 
     if(!sendTime) {
-      return 'SEND';
+      return false;
+    }
+
+    return moment(sendTime).isBefore(moment());
+  };
+
+  _getButtonLabel = () => {
+    const {
+      sendTime,
+    } = this.props;
+
+    if(this.isStamSending()) {
+      return 'Sending ...';
+    }
+
+    if(!sendTime) {
+      return 'Send';
     }
 
     const duration = moment.duration(
@@ -106,6 +123,7 @@ export class SendButton extends Component {
       disabled,
       sendTime,
       onCancelSend,
+      sending,
     } = this.props;
 
     const {
@@ -116,7 +134,7 @@ export class SendButton extends Component {
     return (
       <div>
         <RaisedButton
-          disabled={disabled}
+          disabled={disabled || this.isStamSending()}
           backgroundColor={Colors.green200}
           onClick={this.handleClick}
           label={this._getButtonLabel()}

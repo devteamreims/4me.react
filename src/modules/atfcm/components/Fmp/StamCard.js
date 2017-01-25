@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import R from 'ramda';
+import moment from 'moment';
 
 import {
   Card,
@@ -73,6 +74,16 @@ export class StamCard extends Component {
   }
 
   addFlightForm = null;
+
+  isStamSent = (): boolean => {
+    const { stam } = this.props;
+
+    if(!stam.sendTime) {
+      return false;
+    }
+
+    return moment(stam.sendTime).isAfter(moment());
+  };
 
   isReadOnly = (flight: Flight): boolean => {
     const { readOnlyFlights } = this.state;
@@ -261,9 +272,10 @@ export class StamCard extends Component {
     return flights.map(flight => (
       <FlightRow
         flight={flight}
+        hideActions={this.isStamSent()}
         onRequestEdit={this.handleOpenForm.bind(this, flight)}
         onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
-        disabledActions={this.isReadOnly(flight)}
+        disabledActions={this.isReadOnly(flight) || this.isStamSent()}
       />
     ));
   }
@@ -271,7 +283,6 @@ export class StamCard extends Component {
   _renderInside() {
     const {
       formOpen,
-      readOnlyFlights,
     } = this.state;
 
     if(formOpen) {
@@ -330,13 +341,17 @@ export class StamCard extends Component {
 
     return (
       <div>
+        {!this.isStamSent() &&
+          <IconButton
+            onClick={this.handleOpenForm.bind(this, null)}
+            disabled={readOnlyFlights.length}
+          >
+            <ActionAdd />
+          </IconButton>
+        }
         <IconButton
-          onClick={this.handleOpenForm.bind(this, null)}
-          disabled={readOnlyFlights.length}
+          onClick={onRequestDelete}
         >
-          <ActionAdd />
-        </IconButton>
-        <IconButton onClick={onRequestDelete}>
           <Delete />
         </IconButton>
       </div>
@@ -387,8 +402,9 @@ export class StamCard extends Component {
               {this._renderInside()}
             </F>
           </CardText>
-          {!formOpen &&
-            <Progress sendTime={sendTime} />
+          {formOpen ?
+            <Progress sendTime={sendTime} /> :
+            <Divider />
           }
           <CardActions>
             {this._renderActions()}

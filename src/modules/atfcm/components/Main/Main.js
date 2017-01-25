@@ -49,14 +49,12 @@ class Main extends Component {
       clientType,
     } = this.state;
 
-    if(clientType === 'fmp') {
+    if(clientType === 'flow-manager') {
       const {
         activeStams,
         preparedStams,
         historyStams,
       } = this.props;
-
-      console.log(activeStams);
 
       return (
         <FmpMain

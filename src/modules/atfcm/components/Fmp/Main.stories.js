@@ -10,8 +10,9 @@ import { Card, CardText } from 'material-ui/Card';
 import { FmpMain } from './Main';
 
 const preparedStams = [{
-  stamId: 'id-1',
+  id: 'id-1',
   offloadSector: 'HYR',
+  sendTime: null,
   flights: [],
 }];
 

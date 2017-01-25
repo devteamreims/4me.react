@@ -19,8 +19,13 @@ const defaultState: State = {
           flights: ['125'],
           sendTime: moment.utc().add(5, 'minutes'),
         },
+        'sprinting_cheetah': {
+          offloadSector: 'UH',
+          flights: ['126'],
+          sendTime: moment.utc().subtract(5, 'minutes'),
+        },
       },
-      allIds: ['running_fox', 'walking_snake'],
+      allIds: ['running_fox', 'walking_snake', 'sprinting_cheetah'],
     },
     flights: {
       byId: {
@@ -51,6 +56,15 @@ const defaultState: State = {
           implementingSector: 'KD',
           onloadSector: 'KR',
         },
+        '126': {
+          arcid: 'MMIKE',
+          constraint: {
+            beacon: 'REKLA',
+            flightLevel: 220,
+          },
+          implementingSector: 'SE',
+          onloadSector: 'SE',
+        }
       },
     },
   },
@@ -80,7 +94,7 @@ export const getStamById = (state, id) => {
 
   return {
     ...stam,
-    stamId: id,
+    id: id,
     flights: flightIds.map(id => getFlightById(state, id)),
   };
 };
@@ -89,6 +103,12 @@ export const getStams = (state) => {
   return p(state).entities.stams.allIds.map(id => getStamById(state, id));
 };
 
-export const getPreparedStams = (state) => getStams(state);
-export const getActiveStams = (state) => getStams(state);
+const isStamActive = stam => stam.sendTime && moment(stam.sendTime).isBefore(moment());
+
+const isStamPrepared = stam =>
+  stam.sendTime === null ||
+  (stam.sendTime && moment(stam.sendTime).isAfter(moment()));
+
+export const getPreparedStams = (state) => getStams(state).filter(isStamPrepared);
+export const getActiveStams = (state) => getStams(state).filter(isStamActive);
 export const getHistoryStams = (state) => getStams(state);
