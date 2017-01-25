@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
-
 import R from 'ramda';
+import { connect } from 'react-redux';
 
 import RedirectToDashboard from '../../../../shared/components/RedirectToDashboard';
 
@@ -50,11 +50,19 @@ class Main extends Component {
     } = this.state;
 
     if(clientType === 'fmp') {
+      const {
+        activeStams,
+        preparedStams,
+        historyStams,
+      } = this.props;
+
+      console.log(activeStams);
+
       return (
         <FmpMain
-          activeStams={[]}
-          preparedStams={[]}
-          historyStams={[]}
+          activeStams={activeStams}
+          preparedStams={preparedStams}
+          historyStams={historyStams}
         />
       );
     }
@@ -90,4 +98,18 @@ class Main extends Component {
 }
 
 
-export default Main;
+import {
+  getActiveStams,
+  getPreparedStams,
+  getHistoryStams,
+} from '../../reducers';
+
+const mapStateToProps = state => {
+  return {
+    activeStams: getActiveStams(state),
+    preparedStams: getPreparedStams(state),
+    historyStams: getHistoryStams(state),
+  };
+};
+
+export default connect(mapStateToProps)(Main);

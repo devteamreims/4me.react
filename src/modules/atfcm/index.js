@@ -28,7 +28,7 @@ import type { Exact } from '../../shared/types';
  * which is the value of our export `name`;
  *
  */
-export type ExampleModuleState = Exact<{
+export type AtfcmModuleState = Exact<{
   atfcm: State,
 }>;
 

@@ -12,6 +12,8 @@ import StamCard from './StamCard';
 const columnStyle = {
   padding: 10,
   width: '33%',
+  minHeight: '100%',
+  overflowY: 'auto',
 };
 
 type State = {
@@ -62,14 +64,16 @@ export class FmpMain extends Component {
     }
 
     return preparedStams.map(stam => (
-      <StamCard
-        {...stam}
-        key={stam.stamId}
-        onRequestAddFlight={() => Promise.resolve()}
-        onRequestDeleteFlight={() => Promise.resolve()}
-        onRequestDeleteStam={() => Promise.resolve()}
-        onRequestSend={() => Promise.resolve()}
-      />
+      <div style={{marginBottom: 20}} >
+        <StamCard
+          stam={stam}
+          key={stam.stamId}
+          onRequestAddFlight={() => Promise.resolve()}
+          onRequestDeleteFlight={() => Promise.resolve()}
+          onRequestDelete={() => Promise.resolve()}
+          onRequestSend={() => Promise.resolve()}
+        />
+      </div>
     ));
   }
 

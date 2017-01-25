@@ -11,6 +11,9 @@ import type { XmanState } from '../modules/xman';
 
 import * as EtfmsProfileModule from '../modules/etfms-profile';
 
+import * as AtfcmModule from '../modules/atfcm';
+import type { AtfcmModuleState } from '../modules/atfcm';
+
 import coreReducer from '../core/reducers';
 import type { CoreState } from '../core/reducers';
 
@@ -21,10 +24,12 @@ export function createRootReducer() {
     [MappingModule.name]: MappingModule.getReducer(),
     [XmanModule.name]: XmanModule.getReducer(),
     [EtfmsProfileModule.name]: EtfmsProfileModule.getReducer(),
+    [AtfcmModule.name]: AtfcmModule.getReducer(),
   });
 }
 
 export type RootState =
   & ExampleModuleState
   & XmanState
+  & AtfcmModuleState
   & {core: CoreState};
