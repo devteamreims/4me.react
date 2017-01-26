@@ -46,7 +46,10 @@ const plugins = [
 
 module.exports = {
   entry: {
-    app: PATHS.entry,
+    app: [
+      'babel-polyfill',
+      PATHS.entry,
+    ],
     vendor: ['react'],
   },
   output: {

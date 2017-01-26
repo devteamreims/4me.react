@@ -2,15 +2,24 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState } from 'redux-devtools';
 
 import { createRootReducer } from './rootReducer';
+import { createRootSaga } from './rootSaga';
 
 import thunk from 'redux-thunk';
+import createSagaMiddleware, { END } from 'redux-saga';
+
 // import createLogger from 'redux-logger';
 
 export default function configureStore(initialState) {
   let enhancer;
   // const logger = createLogger();
   // const middleware = applyMiddleware(thunk, logger);
-  const middleware = applyMiddleware(thunk);
+
+  const sagaMiddleware = createSagaMiddleware();
+
+  const middleware = applyMiddleware(
+    thunk,
+    sagaMiddleware,
+  );
 
   if (process.env.NODE_ENV !== 'production') {
     const getDebugSessionKey = () => {
@@ -39,6 +48,11 @@ export default function configureStore(initialState) {
     initialState,
     enhancer
   );
+
+  store.runSaga = sagaMiddleware.run;
+  store.close = () => store.dispatch(END);
+
+  store.runSaga(createRootSaga());
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {
