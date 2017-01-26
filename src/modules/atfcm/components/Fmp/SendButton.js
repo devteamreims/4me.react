@@ -123,13 +123,24 @@ export class SendButton extends Component {
       disabled,
       sendTime,
       onCancelSend,
-      sending,
     } = this.props;
 
     const {
       menuOpen,
       menuAnchor,
     } = this.state;
+
+    if(this.isStamSending()) {
+      return (
+        <div>
+          <RaisedButton
+            disabled={true}
+            backgroundColor={Colors.green200}
+            label={`Sent ${moment(sendTime).fromNow()}`}
+          />
+        </div>
+      );
+    }
 
     return (
       <div>
