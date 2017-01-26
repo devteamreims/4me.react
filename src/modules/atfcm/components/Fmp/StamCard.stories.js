@@ -19,6 +19,8 @@ const props = {
     id: 'running_fox',
     flights: [],
     sendTime: null,
+    createdAt: moment.utc().subtract(10, 'minutes').toDate(),
+    updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },
   onRequestAddFlight: (...args) => delay(300).then(() => action('add_flight')(...args)),
   onRequestDeleteFlight: (...args) => delay(300).then(action('delete_flight')(...args)),

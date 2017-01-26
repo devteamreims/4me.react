@@ -19,6 +19,8 @@ export type PreparedStam = {
   flights: Array<Flight>,
   id: StamId,
   sendTime: ?Date,
+  createdAt: Date,
+  updatedAt: Date,
 };
 
 export type ActiveStam = PreparedStam;
