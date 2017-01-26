@@ -30,9 +30,9 @@ type Props = {
 export class FlightRow extends Component {
   props: Props;
 
-  static getDefaultProps = () => ({
+  static defaultProps = {
     hideActions: false,
-  });
+  };
 
   _renderActions() {
     const {
