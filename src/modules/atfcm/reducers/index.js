@@ -2,6 +2,7 @@
 import type { Action } from '../../../store';
 import moment from 'moment';
 import R from 'ramda';
+import { combineReducers } from 'redux';
 
 export type State = Object;
 
@@ -78,14 +79,19 @@ const defaultState: State = {
   socket: {},
 };
 
-export default function exampleReducer(state: State = defaultState, action: Action): State {
-  if(action) {
-    return state;
-  }
+function entities(state = defaultState.entities, action) {
   return state;
 }
 
-const p = state => state.atfcm;
+import ui from './ui';
+
+export default combineReducers({
+  entities,
+  ui,
+});
+
+// This selector transforms a global state object into a local state object
+import p from './rootSelector';
 
 export const getFlightById = (state, id) => p(state).entities.flights.byId[id];
 

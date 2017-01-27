@@ -32,6 +32,9 @@ storiesOf('atfcm.Fmp.Main', module)
       activeStams={[]}
       preparedStams={[]}
       historyStams={[]}
+      isAddStamDialogVisible={false}
+      hideAddStamDialog={action('hide_dialog')}
+      showAddStamDialog={action('show_dialog')}
     />
   ))
   .add('With prepared stams', () => (
@@ -39,5 +42,8 @@ storiesOf('atfcm.Fmp.Main', module)
       activeStams={[]}
       preparedStams={preparedStams}
       historyStams={[]}
+      isAddStamDialogVisible={false}
+      hideAddStamDialog={action('hide_dialog')}
+      showAddStamDialog={action('show_dialog')}
     />
   ));

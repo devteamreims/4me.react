@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
+import { connect } from 'react-redux';
 
 import Dialog from 'material-ui/Dialog';
 import VerticalDivider from '../../../../shared/components/VerticalDivider';
@@ -14,10 +15,6 @@ const columnStyle = {
   width: '33%',
   minHeight: '100%',
   overflowY: 'auto',
-};
-
-type State = {
-  showAddStamDialog: boolean,
 };
 
 import type {
@@ -36,23 +33,23 @@ type Props = {
 };
 
 export class FmpMain extends Component {
-  state: State;
-  props: Props;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      showAddStamDialog: false,
-    };
-  }
+  props: Props & StateProps;
 
   handleOpenDialog = () => {
-    this.setState({showAddStamDialog: true});
+    const {
+      showAddStamDialog,
+    } = this.props;
+
+    showAddStamDialog();
   };
 
   handleCloseDialog = () => {
-    this.setState({showAddStamDialog: false});
-  }
+    const {
+      hideAddStamDialog,
+    } = this.props;
+
+    hideAddStamDialog();
+  };
 
   _renderPreparedStams() {
     const { preparedStams } = this.props;
@@ -76,8 +73,6 @@ export class FmpMain extends Component {
       </div>
     ));
   }
-
-
 
   _renderActiveStams() {
     const { activeStams } = this.props;
@@ -104,8 +99,8 @@ export class FmpMain extends Component {
 
   render() {
     const {
-      showAddStamDialog,
-    } = this.state;
+      isAddStamDialogVisible,
+    } = this.props;
 
     return (
       <Flexbox flexGrow={1} flexDirection="column">
@@ -142,7 +137,7 @@ export class FmpMain extends Component {
             <h1>History</h1>
           </Flexbox>
           <Dialog
-            open={showAddStamDialog}
+            open={isAddStamDialogVisible}
             onRequestClose={this.handleCloseDialog}
           >
             Test !
@@ -153,4 +148,26 @@ export class FmpMain extends Component {
   }
 }
 
-export default FmpMain;
+import { isVisible } from '../../reducers/ui/addStamModal';
+
+type StateProps = {
+  isAddStamDialogVisible: boolean,
+  showAddStamDialog: () => void,
+  hideAddStamDialog: () => void,
+};
+
+const mapStateToProps = state => ({
+  isAddStamDialogVisible: isVisible(state),
+});
+
+import {
+  showDialog as showAddStamDialog,
+  hideDialog as hideAddStamDialog,
+} from '../../actions/stam';
+
+const mapDispatchToProps = {
+  showAddStamDialog,
+  hideAddStamDialog,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FmpMain);
