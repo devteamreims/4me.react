@@ -102,7 +102,7 @@ module.exports = {
     'spaced-comment': 'error',
     'yoda': 'error',
     'babel/object-curly-spacing': ['off'],
-    'generator-star-spacing': 'error',
+    'generator-star-spacing': ["error", "after"],
     'array-bracket-spacing': 'error',
     'babel/arrow-parens': 'off',
     'babel/no-await-in-loop': 'error',

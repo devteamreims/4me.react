@@ -21,6 +21,6 @@ export function* commitStam({stam}) {
   }
 }
 
-export default function *stamSaga() {
+export default function* stamSaga() {
   yield takeEvery(ADD_REQUEST, commitStam);
 }
