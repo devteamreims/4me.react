@@ -100,7 +100,7 @@ import {
   getActiveStams,
   getPreparedStams,
   getHistoryStams,
-} from '../../reducers';
+} from '../../reducers/entities/stams';
 
 const mapStateToProps = state => {
   return {

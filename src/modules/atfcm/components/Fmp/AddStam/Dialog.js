@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
+import LinearProgress from 'material-ui/LinearProgress';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -38,7 +41,6 @@ export class AddStamDialog extends Component {
   };
 
   handleOnInvalid = () => {
-    console.log('INVALID CALLBACK CALLED !');
     this.setState({
       disableButtons: true,
     });
@@ -62,19 +64,29 @@ export class AddStamDialog extends Component {
   renderActions() {
     const {
       loading,
+      onRequestClose,
     } = this.props;
 
     const {
       disableButtons,
     } = this.state;
 
+    const buttonLabel = loading ? 'Saving ...' : 'Save';
+
+
     return [
+      <FlatButton
+        disabled={loading}
+        label="cancel"
+        onClick={onRequestClose}
+      />,
       <FlatButton
         disabled={loading || disableButtons}
         type="submit"
         onClick={this.handleCommitStam}
-        label="Save"
-      />
+        primary={true}
+        label={buttonLabel}
+      />,
     ];
   }
 
@@ -90,6 +102,8 @@ export class AddStamDialog extends Component {
         open={open}
         onRequestClose={onRequestClose}
         actions={this.renderActions()}
+        title="Create new STAM"
+        autoScrollBodyContent={true}
       >
         <Form
           onValid={this.handleOnValid}
@@ -100,6 +114,7 @@ export class AddStamDialog extends Component {
             autoComplete="off"
             required={true}
             disabled={loading}
+            openOnFocus={true}
             floatingLabelText="OFFLOAD Sector"
             validations={{
               checkSectorExistence,
