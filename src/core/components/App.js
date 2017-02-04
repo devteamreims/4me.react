@@ -260,7 +260,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  injectSheet(styles),
-)(App);
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+export default injectSheet(styles)(ConnectedApp);
