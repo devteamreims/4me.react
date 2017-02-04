@@ -6,13 +6,13 @@ import {
   ADD_FAILURE,
 } from '../actions/stam';
 
-import { take, takeEvery, call, put } from 'redux-saga/effects';
+import { take, takeLatest, call, put } from 'redux-saga/effects';
 
 const mockCommit = stam => new Promise((resolve, reject) => {
   setTimeout(() => reject(new Error('Invalid !')), 2000);
 });
 
-export function* commitStam({stam}) {
+export function* commitStam({stam}): Generator<*, *, *> {
   try {
     const data = yield call(mockCommit, stam);
     yield put({type: ADD_SUCCESS});
@@ -21,6 +21,6 @@ export function* commitStam({stam}) {
   }
 }
 
-export default function* stamSaga() {
-  yield takeEvery(ADD_REQUEST, commitStam);
+export default function* stamSaga(): Generator<*, *, *> {
+  yield takeLatest(ADD_REQUEST, commitStam);
 }

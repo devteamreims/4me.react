@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import VerticalDivider from '../../../../shared/components/VerticalDivider';
 
-import AddStamButton from './AddStamButton';
+import AddStamButton from './AddStam/Button';
+import AddStamDialog from './AddStam/Dialog';
 
 import StamCard from './StamCard';
 
@@ -100,6 +101,7 @@ export class FmpMain extends Component {
   render() {
     const {
       isAddStamDialogVisible,
+      addStam,
     } = this.props;
 
     return (
@@ -136,12 +138,11 @@ export class FmpMain extends Component {
           >
             <h1>History</h1>
           </Flexbox>
-          <Dialog
+          <AddStamDialog
             open={isAddStamDialogVisible}
             onRequestClose={this.handleCloseDialog}
-          >
-            Test !
-          </Dialog>
+            addStam={addStam}
+          />
         </Flexbox>
       </Flexbox>
     );
@@ -154,6 +155,7 @@ type StateProps = {
   isAddStamDialogVisible: boolean,
   showAddStamDialog: () => void,
   hideAddStamDialog: () => void,
+  addStam: * => void,
 };
 
 const mapStateToProps = state => ({
@@ -163,11 +165,13 @@ const mapStateToProps = state => ({
 import {
   showDialog as showAddStamDialog,
   hideDialog as hideAddStamDialog,
+  commitStam as addStam,
 } from '../../actions/stam';
 
 const mapDispatchToProps = {
   showAddStamDialog,
   hideAddStamDialog,
+  addStam,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FmpMain);

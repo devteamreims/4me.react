@@ -1,10 +1,14 @@
 // @flow
 import { fork } from 'redux-saga/effects';
 
-const sagas = [];
+import atfcmSaga from '../modules/atfcm/sagas';
 
-export function createRootSaga(): * {
-  return function *rootSaga() {
+const sagas = [
+  atfcmSaga,
+];
+
+export function createRootSaga() {
+  return function* rootSaga(): Generator<*, *, *> {
     yield sagas.map(saga => fork(saga));
   };
 }
