@@ -23,10 +23,12 @@ export default {
   },
 };
 
+import type { State as ExampleModuleState } from './example-module/reducer';
+
 export type ModuleState = {
   xman: Object,
   mapping: Object,
   etfmsProfile: Object,
-  example: Object,
+  example: ExampleModuleState,
   atfcm: Object,
 };
