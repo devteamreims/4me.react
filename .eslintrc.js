@@ -152,6 +152,7 @@ module.exports = {
     }],
     'react/sort-prop-types': 'off',
     'import/no-duplicates': 'error',
+    'import/no-named-as-default': 'off',
 
     'react/no-string-refs': 'warn', // Wishlist, one day.
 
