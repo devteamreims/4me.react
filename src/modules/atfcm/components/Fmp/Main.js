@@ -9,7 +9,7 @@ import VerticalDivider from '../../../../shared/components/VerticalDivider';
 import AddStamButton from './AddStam/Button';
 import AddStamDialog from './AddStam/Dialog';
 
-import StamCard from './StamCard';
+import StamCards from './StamCard';
 
 const columnStyle = {
   padding: 10,
@@ -91,7 +91,7 @@ export class FmpMain extends Component {
 
     return preparedStams.map(stam => (
       <div style={{marginBottom: 20}} >
-        <StamCard
+        <StamCards.prepared
           stam={stam}
           key={stam.id}
           loading={loadingStamIds.includes(stam.id)}
@@ -118,7 +118,7 @@ export class FmpMain extends Component {
 
     return activeStams.map(stam => (
       <div style={{marginBottom: 20}} >
-        <StamCard
+        <StamCards.active
           stam={stam}
           key={stam.id}
           loading={loadingStamIds.includes(stam.id)}
@@ -146,14 +146,9 @@ export class FmpMain extends Component {
 
     return historyStams.map(stam => (
       <div style={{marginBottom: 20}} >
-        <StamCard
+        <StamCards.archive
           stam={stam}
           key={stam.id}
-          loading={loadingStamIds.includes(stam.id)}
-          onRequestAddFlight={() => Promise.resolve()}
-          onRequestDeleteFlight={() => Promise.resolve()}
-          onRequestDelete={this.handleDeleteStam(stam.id)}
-          onRequestSend={this.handleSendStam(stam.id)}
         />
       </div>
     ));

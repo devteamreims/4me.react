@@ -51,7 +51,7 @@ export class Progress extends Component {
     return (
       <LinearProgress
         mode="determinate"
-        color={color || Colors.cyan200}
+        color={color}
         value={moment().valueOf()}
         min={moment(sendTime).subtract(buffer, 'seconds').valueOf()}
         max={moment(sendTime).valueOf()}

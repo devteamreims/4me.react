@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import * as Colors from 'material-ui/styles/colors';
 
@@ -64,7 +63,7 @@ export class UnsendButton extends Component {
         disabled={disabled}
         labelStyle={this.getLabelStyle()}
         onClick={onCancelSend}
-        label="Deactivate"
+        label="Prepare"
         style={style}
       />
     );
