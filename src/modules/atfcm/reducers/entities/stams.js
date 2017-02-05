@@ -3,6 +3,11 @@ import type { Action } from '../../../../store';
 import R from 'ramda';
 import { combineReducers } from 'redux';
 
+import {
+  DEL_SUCCESS,
+  SEND_SUCCESS,
+} from '../../actions/stam';
+
 import moment from 'moment';
 
 const byIdInitialState = {
@@ -32,10 +37,36 @@ const byIdInitialState = {
 const allIdsInitialState = ['running_fox', 'walking_snake', 'sprinting_cheetah'];
 
 function byId(state = byIdInitialState, action) {
+  switch(action.type) {
+    case DEL_SUCCESS:
+      return R.omit([action.id], state);
+    case SEND_SUCCESS: {
+      const { id, when } = action;
+
+      if(!state[id]) {
+        return state;
+      }
+
+      const newStam = {
+        ...state[id],
+        sendTime: when,
+      };
+
+      return {
+        ...state,
+        [id]: newStam,
+      };
+    }
+  }
+
   return state;
 }
 
 function allIds(state = allIdsInitialState, action) {
+  switch(action.type) {
+    case DEL_SUCCESS:
+      return R.without([action.id], state);
+  }
   return state;
 }
 

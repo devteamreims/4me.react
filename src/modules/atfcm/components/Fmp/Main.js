@@ -29,8 +29,6 @@ type Props = {
   preparedStams: Array<PreparedStam>,
   activeStams: Array<ActiveStam>,
   historyStams: Array<HistoryStam>,
-  addStam?: () => void,
-  delStam?: (StamId) => void,
 };
 
 export class FmpMain extends Component {
@@ -52,13 +50,22 @@ export class FmpMain extends Component {
     hideAddStamDialog();
   };
 
-  handleDeleteStam = (id: StamId) => {
+  handleDeleteStam = (id: StamId) => () => {
     const { delStam } = this.props;
     if(typeof delStam !== 'function') {
       return;
     }
 
     delStam(id);
+  };
+
+  handleSendStam = (id: StamId) => (delay: ?number) => {
+    const { sendStam } = this.props;
+    if(typeof sendStam !== 'function') {
+      return;
+    }
+
+    sendStam({id, delay});
   };
 
   _renderPreparedStams() {
@@ -81,8 +88,8 @@ export class FmpMain extends Component {
           loading={loadingStamIds.includes(stam.id)}
           onRequestAddFlight={() => Promise.resolve()}
           onRequestDeleteFlight={() => Promise.resolve()}
-          onRequestDelete={() => this.handleDeleteStam(stam.id)}
-          onRequestSend={() => Promise.resolve()}
+          onRequestDelete={this.handleDeleteStam(stam.id)}
+          onRequestSend={this.handleSendStam(stam.id)}
         />
       </div>
     ));
@@ -108,8 +115,8 @@ export class FmpMain extends Component {
           loading={loadingStamIds.includes(stam.id)}
           onRequestAddFlight={() => Promise.resolve()}
           onRequestDeleteFlight={() => Promise.resolve()}
-          onRequestDelete={() => this.handleDeleteStam(stam.id)}
-          onRequestSend={() => Promise.resolve()}
+          onRequestDelete={this.handleDeleteStam(stam.id)}
+          onRequestSend={this.handleSendStam(stam.id)}
         />
       </div>
     ));
@@ -173,6 +180,7 @@ type StateProps = {
   hideAddStamDialog: () => void,
   addStam: () => void,
   delStam: (StamId) => void,
+  sendStam: ({id: StamId, when: Date}) => void,
   loadingStamIds: Array<StamId>,
 };
 
@@ -189,6 +197,7 @@ import {
   hideDialog as hideAddStamDialog,
   commitStam as addStam,
   deleteStam as delStam,
+  sendStam,
 } from '../../actions/stam';
 
 const mapDispatchToProps = {
@@ -196,6 +205,7 @@ const mapDispatchToProps = {
   hideAddStamDialog,
   addStam,
   delStam,
+  sendStam,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FmpMain);

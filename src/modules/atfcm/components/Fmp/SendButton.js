@@ -12,7 +12,7 @@ import moment from 'moment';
 type Props = {
   disabled?: boolean,
   backgroundColor?: string,
-  onSelectTime?: (number) => *,
+  onSelectTime?: (?number) => void,
   onCancelSend?: () => void,
   sendTime?: Date,
 };
@@ -72,15 +72,20 @@ export class SendButton extends Component {
     });
   };
 
-  handleSend = (duration: number) => () => {
+  handleSend = (duration: ?number) => () => {
     const {
       onSelectTime,
+      onCancelSend,
     } = this.props;
 
     this.setState({menuOpen: false});
 
-    if(typeof onSelectTime === 'function') {
+    if(duration !== null && typeof onSelectTime === 'function') {
       onSelectTime(duration);
+    }
+
+    if(duration === null && typeof onCancelSend === 'function') {
+      onCancelSend();
     }
   };
 
@@ -160,7 +165,7 @@ export class SendButton extends Component {
             {sendTime &&
               <MenuItem
                 primaryText="Cancel"
-                onClick={onCancelSend}
+                onClick={this.handleSend(null)}
               />
             }
             <MenuItem

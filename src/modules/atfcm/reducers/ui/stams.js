@@ -3,6 +3,9 @@ import {
   DEL_REQUEST,
   DEL_SUCCESS,
   DEL_FAILURE,
+  SEND_SUCCESS,
+  SEND_REQUEST,
+  SEND_FAILURE,
 } from '../../actions/stam';
 
 import { combineReducers } from 'redux';
@@ -12,10 +15,13 @@ const loadingInitialState = [];
 
 function loading(state = loadingInitialState, action) {
   switch(action.type) {
+    case SEND_REQUEST:
     case DEL_REQUEST: {
       const { id } = action;
       return [id, ...R.without([id], state)];
     }
+    case SEND_FAILURE:
+    case SEND_SUCCESS:
     case DEL_SUCCESS:
     case DEL_FAILURE: {
       const { id } = action;

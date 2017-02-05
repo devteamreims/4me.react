@@ -49,8 +49,8 @@ type Props = {
   loading?: boolean,
   onRequestAddFlight: () => Promise<void>,
   onRequestDeleteFlight: () => Promise<void>,
-  onRequestDelete: () => Promise<void>,
-  onRequestSend: () => Promise<void>,
+  onRequestDelete: () => void,
+  onRequestSend: () => void,
 };
 
 export class StamCard extends Component {
@@ -330,6 +330,7 @@ export class StamCard extends Component {
         disabled={loading || areButtonsDisabled || !areFlightsPresent}
         sendTime={sendTime}
         onSelectTime={onRequestSend}
+        onCancelSend={() => onRequestSend(null)}
       />
     );
   }
