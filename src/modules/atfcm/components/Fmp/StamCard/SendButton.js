@@ -135,6 +135,36 @@ export class SendButton extends Component {
     return `Sending in ${duration.humanize()}`;
   }
 
+  getLabelStyle = () => {
+    const {
+      disabled,
+      sendTime,
+    } = this.props;
+
+    if(disabled) {
+      return null;
+    }
+
+    let color = Colors.green500;
+
+    if(sendTime) {
+      color = Colors.orange500;
+    }
+
+    return {color};
+  };
+
+  renderTimeSeries() {
+    const minutes = [1, 2, 5, 10, 15];
+
+    return minutes.map(t =>
+      <MenuItem
+        primaryText={`${t} minutes`}
+        onClick={this.handleSend(t * 60)}
+      />
+    );
+  }
+
   render() {
     const {
       disabled,
@@ -155,7 +185,7 @@ export class SendButton extends Component {
       <span>
         <FlatButton
           disabled={disabled}
-          labelStyle={{color: sendTime ? Colors.orange500 : Colors.green500}}
+          labelStyle={this.getLabelStyle()}
           onClick={this.handleClick}
           label={this._getButtonLabel()}
           style={style}
@@ -177,18 +207,7 @@ export class SendButton extends Component {
               primaryText="Now"
               onClick={this.handleSend(0)}
             />
-            <MenuItem
-              primaryText="5 minutes"
-              onClick={this.handleSend(5 * 60)}
-            />
-            <MenuItem
-              primaryText="10 minutes"
-              onClick={this.handleSend(10 * 60)}
-            />
-            <MenuItem
-              primaryText="15 minutes"
-              onClick={this.handleSend(15 * 60)}
-            />
+            {this.renderTimeSeries()}
           </Menu>
         </Popover>
       </span>

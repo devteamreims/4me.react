@@ -8,7 +8,7 @@ import Divider from 'material-ui/Divider';
 import * as Colors from 'material-ui/styles/colors';
 
 type Props = {
-  buffer?: number,
+  buffer: number,
   sendTime: ?Date,
   color?: string,
 };
@@ -17,10 +17,14 @@ export class Progress extends Component {
   props: Props;
   refreshInterval: *;
 
+  static defaultProps = {
+    buffer: 60,
+  };
+
   componentDidMount() {
     this.refreshInterval = setInterval(() => {
       this.forceUpdate();
-    }, 1000);
+    }, 16);
   }
 
   componentWillUnmount() {
@@ -29,7 +33,7 @@ export class Progress extends Component {
 
   render() {
     const {
-      buffer = 30,
+      buffer,
       sendTime,
       color,
     } = this.props;
@@ -47,7 +51,7 @@ export class Progress extends Component {
     return (
       <LinearProgress
         mode="determinate"
-        color={color || Colors.blue500}
+        color={color || Colors.cyan200}
         value={moment().valueOf()}
         min={moment(sendTime).subtract(buffer, 'seconds').valueOf()}
         max={moment(sendTime).valueOf()}

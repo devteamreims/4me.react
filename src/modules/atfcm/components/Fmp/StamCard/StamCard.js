@@ -14,6 +14,7 @@ import FlightRow from '../FlightRow';
 import SendButton from './SendButton';
 import UnsendButton from './UnsendButton';
 import ArchiveButton from './ArchiveButton';
+import Progress from './Progress';
 
 import * as Colors from 'material-ui/styles/colors';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -371,6 +372,35 @@ export class StamCard extends Component {
     );
   }
 
+  _renderProgress() {
+    const {
+      loading,
+      stam,
+    } = this.props;
+
+    const { sendTime } = stam;
+
+    const {
+      formOpen,
+    } = this.state;
+
+    if(loading) {
+      return (
+        <LinearProgress />
+      );
+    }
+
+    if(formOpen) {
+      return (
+        <Divider />
+      );
+    }
+
+    return (
+      <Progress sendTime={sendTime} />
+    );
+  }
+
   render() {
     const {
       stam,
@@ -416,13 +446,7 @@ export class StamCard extends Component {
               {this._renderInside()}
             </F>
           </CardText>
-          {loading &&
-            <LinearProgress />
-          }
-          {formOpen ?
-            <Progress sendTime={sendTime} /> :
-            <Divider />
-          }
+          {this._renderProgress()}
           <CardActions>
             {this._renderActions()}
           </CardActions>
