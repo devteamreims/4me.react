@@ -46,6 +46,15 @@ const byIdInitialState = {
     },
     implementingSector: 'SE',
     onloadSector: 'SE',
+  },
+  '127': {
+    arcid: 'EZY1019',
+    constraint: {
+      beacon: 'CLM',
+      flightLevel: 360,
+    },
+    implementingSector: 'KF',
+    onloadSector: 'KD',
   }
 };
 

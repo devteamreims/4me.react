@@ -152,10 +152,10 @@ export class SendButton extends Component {
     }
 
     return (
-      <div>
+      <span>
         <FlatButton
           disabled={disabled}
-          labelStyle={{color: sendTime ? Colors.amber500 : Colors.green500}}
+          labelStyle={{color: sendTime ? Colors.orange500 : Colors.green500}}
           onClick={this.handleClick}
           label={this._getButtonLabel()}
           style={style}
@@ -191,8 +191,7 @@ export class SendButton extends Component {
             />
           </Menu>
         </Popover>
-      </div>
-
+      </span>
     );
   }
 }

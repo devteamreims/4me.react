@@ -19,6 +19,7 @@ const props = {
     id: 'running_fox',
     flights: [],
     sendTime: null,
+    archiveTime: null,
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },

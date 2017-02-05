@@ -122,6 +122,33 @@ export class FmpMain extends Component {
     ));
   }
 
+  _renderHistoryStams() {
+    const {
+      historyStams,
+      loadingStamIds,
+    } = this.props;
+
+    if(!historyStams || historyStams.length === 0) {
+      return (
+        <span>No stams yet !</span>
+      );
+    }
+
+    return historyStams.map(stam => (
+      <div style={{marginBottom: 20}} >
+        <StamCard
+          stam={stam}
+          key={stam.id}
+          loading={loadingStamIds.includes(stam.id)}
+          onRequestAddFlight={() => Promise.resolve()}
+          onRequestDeleteFlight={() => Promise.resolve()}
+          onRequestDelete={this.handleDeleteStam(stam.id)}
+          onRequestSend={this.handleSendStam(stam.id)}
+        />
+      </div>
+    ));
+  }
+
   render() {
     const {
       isAddStamDialogVisible,
@@ -161,6 +188,7 @@ export class FmpMain extends Component {
             style={columnStyle}
           >
             <h1>History</h1>
+            {this._renderHistoryStams()}
           </Flexbox>
           <AddStamDialog
             open={isAddStamDialogVisible}

@@ -19,26 +19,37 @@ const byIdInitialState = {
     offloadSector: 'KR',
     flights: ['123', '124'],
     sendTime: null,
+    archiveTime: null,
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },
   'walking_snake': {
     offloadSector: 'HYR',
     flights: ['125'],
-    sendTime: moment.utc().add(5, 'minutes'),
+    sendTime: moment.utc().add(5, 'minutes').toDate(),
+    archiveTime: null,
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },
   'sprinting_cheetah': {
     offloadSector: 'UH',
     flights: ['126'],
-    sendTime: moment.utc().subtract(5, 'minutes'),
+    sendTime: moment.utc().subtract(5, 'minutes').toDate(),
+    archiveTime: null,
+    createdAt: moment.utc().subtract(10, 'minutes').toDate(),
+    updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
+  },
+  'crawling_creeter': {
+    offloadSector: 'UH',
+    flights: ['127'],
+    sendTime: moment.utc().subtract(8, 'minutes').toDate(),
+    archiveTime: moment.utc().subtract(5, 'minutes').toDate(),
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },
 };
 
-const allIdsInitialState = ['running_fox', 'walking_snake', 'sprinting_cheetah'];
+const allIdsInitialState = ['running_fox', 'walking_snake', 'sprinting_cheetah', 'crawling_creeter'];
 
 function byId(state = byIdInitialState, action) {
   switch(action.type) {
@@ -126,12 +137,19 @@ export const getStams = (state) => {
   return p(state).allIds.map(id => getStamById(state, id));
 };
 
-const isStamActive = stam => stam.sendTime && moment(stam.sendTime).isBefore(moment());
 
 const isStamPrepared = stam =>
   stam.sendTime === null ||
   (stam.sendTime && moment(stam.sendTime).isAfter(moment()));
 
+const isStamArchived = stam => stam.archiveTime && moment(stam.archiveTime).isBefore(moment());
+
+const isStamActive = stam =>
+  stam.sendTime &&
+  moment(stam.sendTime).isBefore(moment()) &&
+  !isStamArchived(stam);
+
+
 export const getPreparedStams = (state) => getStams(state).filter(isStamPrepared);
 export const getActiveStams = (state) => getStams(state).filter(isStamActive);
-export const getHistoryStams = (state) => getStams(state);
+export const getHistoryStams = (state) => getStams(state).filter(isStamArchived);

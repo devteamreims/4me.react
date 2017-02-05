@@ -13,6 +13,7 @@ const preparedStams = [{
   id: 'id-1',
   offloadSector: 'HYR',
   sendTime: null,
+  archiveTime: null,
   flights: [],
 }];
 
