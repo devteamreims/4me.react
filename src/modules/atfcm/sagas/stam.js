@@ -10,6 +10,9 @@ import {
   SEND_SUCCESS,
   SEND_REQUEST,
   SEND_FAILURE,
+  ARCHIVE_SUCCESS,
+  ARCHIVE_REQUEST,
+  ARCHIVE_FAILURE,
 } from '../actions/stam';
 
 import { removeOrphanFlights } from '../actions/flight';
@@ -31,6 +34,12 @@ const mockDelete = id => new Promise((resolve, reject) => {
 });
 
 const mockSend = ({id, when}) => new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve({id, when});
+  }, 2000);
+});
+
+const mockArchive = ({id, when}) => new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({id, when});
   }, 2000);
@@ -72,10 +81,20 @@ export function* sendStam({id, when}): Generator<*, *, *> {
   }
 }
 
+export function* archiveStam({id, when}): Generator<*, *, *> {
+  try {
+    const data = yield call(mockArchive, {id, when});
+    yield put({type: ARCHIVE_SUCCESS, id, when});
+  } catch(error) {
+    yield put({type: ARCHIVE_FAILURE, id});
+  }
+}
+
 export default function* stamSaga(): Generator<*, *, *> {
   yield [
     takeLatest(ADD_REQUEST, commitStam),
     takeEvery(DEL_REQUEST, deleteStam),
     takeEvery(SEND_REQUEST, sendStam),
+    takeEvery(ARCHIVE_REQUEST, archiveStam),
   ];
 }

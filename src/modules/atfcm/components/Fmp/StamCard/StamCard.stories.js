@@ -27,6 +27,7 @@ const props = {
   onRequestAddFlight: (...args) => delay(300).then(() => action('add_flight')(...args)),
   onRequestDelete: (...args) => action('delete_stam_request')(...args),
   onRequestSend: (...args) => action('send_stam_request')(...args),
+  onRequestArchive: (...args) => action('archive_stam_request')(...args),
   deleteFlight: (...args) => action('delete_flight_request')(...args),
 };
 

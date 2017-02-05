@@ -68,6 +68,15 @@ export class FmpMain extends Component {
     sendStam({id, delay});
   };
 
+  handleArchiveStam = (id: StamId) => (delay: ?number) => {
+    const { archiveStam } = this.props;
+    if(typeof archiveStam !== 'function') {
+      return;
+    }
+
+    archiveStam({id, delay});
+  };
+
   _renderPreparedStams() {
     const {
       preparedStams,
@@ -117,6 +126,7 @@ export class FmpMain extends Component {
           onRequestDeleteFlight={() => Promise.resolve()}
           onRequestDelete={this.handleDeleteStam(stam.id)}
           onRequestSend={this.handleSendStam(stam.id)}
+          onRequestArchive={this.handleArchiveStam(stam.id)}
         />
       </div>
     ));
@@ -209,6 +219,7 @@ type StateProps = {
   addStam: () => void,
   delStam: (StamId) => void,
   sendStam: ({id: StamId, when: Date}) => void,
+  archiveStam: ({id: StamId, when: Date}) => void,
   loadingStamIds: Array<StamId>,
 };
 
@@ -226,6 +237,7 @@ import {
   commitStam as addStam,
   deleteStam as delStam,
   sendStam,
+  archiveStam,
 } from '../../actions/stam';
 
 const mapDispatchToProps = {
@@ -234,6 +246,7 @@ const mapDispatchToProps = {
   addStam,
   delStam,
   sendStam,
+  archiveStam,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FmpMain);

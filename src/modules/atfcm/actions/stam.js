@@ -11,6 +11,10 @@ export const SEND_REQUEST = 'atfcm/stam/SEND_REQUEST';
 export const SEND_SUCCESS = 'atfcm/stam/SEND_SUCCESS';
 export const SEND_FAILURE = 'atfcm/stam/SEND_FAILURE';
 
+export const ARCHIVE_REQUEST = 'atfcm/stam/ARCHIVE_REQUEST';
+export const ARCHIVE_SUCCESS = 'atfcm/stam/ARCHIVE_SUCCESS';
+export const ARCHIVE_FAILURE = 'atfcm/stam/ARCHIVE_FAILURE';
+
 export const SHOW_ADD_DIALOG = 'atfcm/stam/SHOW_ADD_DIALOG';
 export const HIDE_ADD_DIALOG = 'atfcm/stam/HIDE_ADD_DIALOG';
 
@@ -31,11 +35,20 @@ export function deleteStam(id: *) {
 }
 
 export function sendStam({id, delay}) {
-
   const when = delay !== null ? moment().add(delay, 'seconds').toDate() : null;
 
   return {
     type: SEND_REQUEST,
+    id,
+    when,
+  };
+}
+
+export function archiveStam({id, delay}) {
+  const when = delay !== null ? moment().add(delay, 'seconds').toDate() : null;
+
+  return {
+    type: ARCHIVE_REQUEST,
     id,
     when,
   };

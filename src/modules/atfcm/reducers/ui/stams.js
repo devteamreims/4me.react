@@ -6,6 +6,9 @@ import {
   SEND_SUCCESS,
   SEND_REQUEST,
   SEND_FAILURE,
+  ARCHIVE_SUCCESS,
+  ARCHIVE_REQUEST,
+  ARCHIVE_FAILURE,
 } from '../../actions/stam';
 
 import { combineReducers } from 'redux';
@@ -16,12 +19,15 @@ const loadingInitialState = [];
 function loading(state = loadingInitialState, action) {
   switch(action.type) {
     case SEND_REQUEST:
+    case ARCHIVE_REQUEST:
     case DEL_REQUEST: {
       const { id } = action;
       return [id, ...R.without([id], state)];
     }
     case SEND_FAILURE:
     case SEND_SUCCESS:
+    case ARCHIVE_SUCCESS:
+    case ARCHIVE_FAILURE:
     case DEL_SUCCESS:
     case DEL_FAILURE: {
       const { id } = action;

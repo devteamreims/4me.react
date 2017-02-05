@@ -7,18 +7,13 @@ import { connect } from 'react-redux';
 import {
   Card,
   CardActions,
-  CardHeader,
   CardText,
 } from 'material-ui/Card';
 
-import Avatar from 'material-ui/Avatar';
-
-import StamAvatar from '../StamAvatar';
-import FlightRow from './FlightRow';
+import FlightRow from '../FlightRow';
 import SendButton from './SendButton';
 import UnsendButton from './UnsendButton';
 import ArchiveButton from './ArchiveButton';
-import Progress from './Progress';
 
 import * as Colors from 'material-ui/styles/colors';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -31,20 +26,16 @@ import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 
 import F from 'flexbox-react';
 
-import AddFlightToStam from './AddFlightToStam';
-import { LightTheme } from '../../../../shared/components/Theme';
-import ColorizedContent from '../../../../shared/components/ColorizedContent';
-
-const boxStyle = {
-  padding: 10,
-};
+import AddFlightToStam from '../AddFlightToStam';
+import { LightTheme } from '../../../../../shared/components/Theme';
+import ColorizedContent from '../../../../../shared/components/ColorizedContent';
 
 import type {
   PreparedStam,
   ActiveStam,
   Flight,
   Arcid,
-} from './types';
+} from '../types';
 
 type Props = {
   stam: PreparedStam | ActiveStam,
@@ -52,6 +43,7 @@ type Props = {
   onRequestAddFlight: () => Promise<void>,
   onRequestDelete: () => void,
   onRequestSend: () => void,
+  onRequestArchive: () => void,
 } & StateProps;
 
 export class StamCard extends Component {
@@ -66,6 +58,8 @@ export class StamCard extends Component {
 
   static defaultProps = {
     loading: false,
+    onRequestSend: () => {},
+    onRequestArchive: () => {},
   };
 
   constructor(props: Props) {
@@ -88,7 +82,17 @@ export class StamCard extends Component {
       return false;
     }
 
-    return !moment(stam.sendTime).isAfter(moment());
+    return moment(stam.sendTime).isBefore(moment());
+  };
+
+  isStamArchived = (): boolean => {
+    const { stam } = this.props;
+
+    if(!stam.archiveTime) {
+      return false;
+    }
+
+    return moment(stam.archiveTime).isBefore(moment());
   };
 
   isReadOnly = (flight: Flight): boolean => {
@@ -286,6 +290,7 @@ export class StamCard extends Component {
     const {
       stam,
       onRequestSend,
+      onRequestArchive,
       loading,
       loadingFlightIds,
     } = this.props;
@@ -293,10 +298,15 @@ export class StamCard extends Component {
     const {
       flights,
       sendTime,
+      archiveTime,
     } = stam;
 
     if(formOpen) {
       return this._renderFormActions();
+    }
+
+    if(this.isStamArchived()) {
+      return null;
     }
 
     const areButtonsDisabled = loadingFlightIds.length !== 0;
@@ -311,7 +321,9 @@ export class StamCard extends Component {
         />,
         <ArchiveButton
           disabled={loading || areButtonsDisabled || !areFlightsPresent}
-          onArchive={() => console.log('Archiving !')}
+          archiveTime={archiveTime}
+          onSelectTime={onRequestArchive}
+          onCancelArchive={() => onRequestArchive(null)}
         />
       ];
     }
@@ -420,7 +432,7 @@ export class StamCard extends Component {
   }
 }
 
-import { getLoadingIds } from '../../reducers/ui/flights';
+import { getLoadingIds } from '../../../reducers/ui/flights';
 
 type StateProps = {
   loadingFlightIds: Array<*>,
@@ -431,7 +443,7 @@ const mapStateToProps = state => ({
   loadingFlightIds: getLoadingIds(state),
 });
 
-import { deleteFlight } from '../../actions/flight';
+import { deleteFlight } from '../../../actions/flight';
 
 const mapDispatchToProps = {
   deleteFlight,

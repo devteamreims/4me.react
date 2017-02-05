@@ -6,6 +6,7 @@ import { combineReducers } from 'redux';
 import {
   DEL_SUCCESS,
   SEND_SUCCESS,
+  ARCHIVE_SUCCESS,
 } from '../../actions/stam';
 
 import {
@@ -87,6 +88,23 @@ function byId(state = byIdInitialState, action) {
       const newStam = {
         ...state[id],
         sendTime: when,
+      };
+
+      return {
+        ...state,
+        [id]: newStam,
+      };
+    }
+    case ARCHIVE_SUCCESS: {
+      const { id, when } = action;
+
+      if(!state[id]) {
+        return state;
+      }
+
+      const newStam = {
+        ...state[id],
+        archiveTime: when,
       };
 
       return {

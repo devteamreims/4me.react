@@ -84,7 +84,7 @@ export class ArchiveButton extends Component {
       onSelectTime(duration);
     }
 
-    if(duration === null && typeof onCancelSend === 'function') {
+    if(duration === null && typeof onCancelArchive === 'function') {
       onCancelArchive();
     }
   };
@@ -120,6 +120,23 @@ export class ArchiveButton extends Component {
     return `Archiving in ${duration.humanize()}`;
   }
 
+  getLabelStyle = () => {
+    const {
+      archiveTime,
+      disabled,
+    } = this.props;
+
+    if(disabled) {
+      return null;
+    }
+
+    if(!archiveTime) {
+      return null;
+    }
+
+    return {color: Colors.blue500};
+  };
+
   render() {
     const {
       disabled,
@@ -140,7 +157,7 @@ export class ArchiveButton extends Component {
       <span>
         <FlatButton
           disabled={disabled}
-          labelStyle={{color: archiveTime ? Colors.orange500 : Colors.green500}}
+          labelStyle={this.getLabelStyle()}
           onClick={this.handleClick}
           label={this._getButtonLabel()}
           style={style}
