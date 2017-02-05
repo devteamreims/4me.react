@@ -44,6 +44,7 @@ import type {
 
 type Props = {
   stam: PreparedStam | ActiveStam,
+  readOnly?: boolean,
   onRequestAddFlight: () => Promise<void>,
   onRequestDeleteFlight: () => Promise<void>,
   onRequestDelete: () => Promise<void>,
@@ -59,6 +60,10 @@ export class StamCard extends Component {
     isAddFlightFormValid: boolean,
     isAddFlightFormSubmitting: boolean,
     readOnlyFlights: Array<Arcid>,
+  };
+
+  static defaultProps = {
+    readOnly: false,
   };
 
   constructor(props: Props) {
@@ -258,6 +263,7 @@ export class StamCard extends Component {
   _renderFlights() {
     const {
       stam,
+      readOnly,
     } = this.props;
 
     const {
@@ -275,7 +281,7 @@ export class StamCard extends Component {
         hideActions={this.isStamSent()}
         onRequestEdit={this.handleOpenForm.bind(this, flight)}
         onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
-        disabledActions={this.isReadOnly(flight) || this.isStamSent()}
+        disabledActions={readOnly || this.isReadOnly(flight) || this.isStamSent()}
       />
     ));
   }
@@ -302,6 +308,7 @@ export class StamCard extends Component {
     const {
       stam,
       onRequestSend,
+      readOnly,
     } = this.props;
 
     const {
@@ -318,7 +325,7 @@ export class StamCard extends Component {
 
     return (
       <SendButton
-        disabled={areButtonsDisabled || !areFlightsPresent}
+        disabled={readOnly || areButtonsDisabled || !areFlightsPresent}
         sendTime={sendTime}
         onSelectTime={onRequestSend}
       />
@@ -328,6 +335,7 @@ export class StamCard extends Component {
   _renderTopActions() {
     const {
       onRequestDelete,
+      readOnly,
     } = this.props;
 
     const {
@@ -344,12 +352,13 @@ export class StamCard extends Component {
         {!this.isStamSent() &&
           <IconButton
             onClick={this.handleOpenForm.bind(this, null)}
-            disabled={readOnlyFlights.length}
+            disabled={readOnly || readOnlyFlights.length}
           >
             <ActionAdd />
           </IconButton>
         }
         <IconButton
+          disabled={readOnly || readOnlyFlights.length}
           onClick={onRequestDelete}
         >
           <Delete />

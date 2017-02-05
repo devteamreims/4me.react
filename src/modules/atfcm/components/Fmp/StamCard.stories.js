@@ -62,6 +62,9 @@ storiesOf('atfcm.StamCard', module)
   .add('with flights', () => (
     <StamCard {...props} stam={stamWithFlights} />
   ))
+  .add('with read only prop', () => (
+    <StamCard {...props} stam={stamWithFlights} readOnly={true} />
+  ))
   .add('with sendTime in the future', () => {
     const sendTime = moment.utc().add(5, 'minutes').toDate();
 
