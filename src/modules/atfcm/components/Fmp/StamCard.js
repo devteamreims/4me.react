@@ -18,10 +18,12 @@ import SendButton from './SendButton';
 import Progress from './Progress';
 
 import * as Colors from 'material-ui/styles/colors';
+import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
+
 import Delete from 'material-ui/svg-icons/action/delete';
 import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 
@@ -44,7 +46,7 @@ import type {
 
 type Props = {
   stam: PreparedStam | ActiveStam,
-  readOnly?: boolean,
+  loading?: boolean,
   onRequestAddFlight: () => Promise<void>,
   onRequestDeleteFlight: () => Promise<void>,
   onRequestDelete: () => Promise<void>,
@@ -63,7 +65,7 @@ export class StamCard extends Component {
   };
 
   static defaultProps = {
-    readOnly: false,
+    loading: false,
   };
 
   constructor(props: Props) {
@@ -263,7 +265,7 @@ export class StamCard extends Component {
   _renderFlights() {
     const {
       stam,
-      readOnly,
+      loading,
     } = this.props;
 
     const {
@@ -281,7 +283,7 @@ export class StamCard extends Component {
         hideActions={this.isStamSent()}
         onRequestEdit={this.handleOpenForm.bind(this, flight)}
         onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
-        disabledActions={readOnly || this.isReadOnly(flight) || this.isStamSent()}
+        disabledActions={loading || this.isReadOnly(flight) || this.isStamSent()}
       />
     ));
   }
@@ -308,7 +310,7 @@ export class StamCard extends Component {
     const {
       stam,
       onRequestSend,
-      readOnly,
+      loading,
     } = this.props;
 
     const {
@@ -325,7 +327,7 @@ export class StamCard extends Component {
 
     return (
       <SendButton
-        disabled={readOnly || areButtonsDisabled || !areFlightsPresent}
+        disabled={loading || areButtonsDisabled || !areFlightsPresent}
         sendTime={sendTime}
         onSelectTime={onRequestSend}
       />
@@ -335,7 +337,7 @@ export class StamCard extends Component {
   _renderTopActions() {
     const {
       onRequestDelete,
-      readOnly,
+      loading,
     } = this.props;
 
     const {
@@ -352,13 +354,13 @@ export class StamCard extends Component {
         {!this.isStamSent() &&
           <IconButton
             onClick={this.handleOpenForm.bind(this, null)}
-            disabled={readOnly || readOnlyFlights.length}
+            disabled={loading || readOnlyFlights.length}
           >
             <ActionAdd />
           </IconButton>
         }
         <IconButton
-          disabled={readOnly || readOnlyFlights.length}
+          disabled={loading || readOnlyFlights.length}
           onClick={onRequestDelete}
         >
           <Delete />
@@ -370,6 +372,7 @@ export class StamCard extends Component {
   render() {
     const {
       stam,
+      loading,
     } = this.props;
 
     const {
@@ -411,6 +414,9 @@ export class StamCard extends Component {
               {this._renderInside()}
             </F>
           </CardText>
+          {loading &&
+            <LinearProgress />
+          }
           {formOpen ?
             <Progress sendTime={sendTime} /> :
             <Divider />

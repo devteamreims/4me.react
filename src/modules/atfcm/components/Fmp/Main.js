@@ -64,7 +64,7 @@ export class FmpMain extends Component {
   _renderPreparedStams() {
     const {
       preparedStams,
-      readOnlyStams,
+      loadingStamIds,
     } = this.props;
 
     if(!preparedStams || preparedStams.length === 0) {
@@ -78,7 +78,7 @@ export class FmpMain extends Component {
         <StamCard
           stam={stam}
           key={stam.id}
-          readOnly={readOnlyStams.includes(stam.id)}
+          loading={loadingStamIds.includes(stam.id)}
           onRequestAddFlight={() => Promise.resolve()}
           onRequestDeleteFlight={() => Promise.resolve()}
           onRequestDelete={() => this.handleDeleteStam(stam.id)}
@@ -91,7 +91,7 @@ export class FmpMain extends Component {
   _renderActiveStams() {
     const {
       activeStams,
-      readOnlyStams,
+      loadingStamIds,
     } = this.props;
 
     if(!activeStams || activeStams.length === 0) {
@@ -105,7 +105,7 @@ export class FmpMain extends Component {
         <StamCard
           stam={stam}
           key={stam.id}
-          readOnly={readOnlyStams.includes(stam.id)}
+          loading={loadingStamIds.includes(stam.id)}
           onRequestAddFlight={() => Promise.resolve()}
           onRequestDeleteFlight={() => Promise.resolve()}
           onRequestDelete={() => this.handleDeleteStam(stam.id)}
@@ -173,7 +173,7 @@ type StateProps = {
   hideAddStamDialog: () => void,
   addStam: () => void,
   delStam: (StamId) => void,
-  readOnlyStams: Array<StamId>,
+  loadingStamIds: Array<StamId>,
 };
 
 import { isVisible } from '../../reducers/ui/addStamModal';
@@ -181,7 +181,7 @@ import { getLoadingIds } from '../../reducers/ui/stams';
 
 const mapStateToProps = state => ({
   isAddStamDialogVisible: isVisible(state),
-  readOnlyStams: getLoadingIds(state),
+  loadingStamIds: getLoadingIds(state),
 });
 
 import {
