@@ -12,7 +12,11 @@ import {
   SEND_FAILURE,
 } from '../actions/stam';
 
-import { take, takeLatest, call, put } from 'redux-saga/effects';
+import { removeOrphanFlights } from '../actions/flight';
+
+import { getStamById } from '../reducers/entities/stams';
+
+import { takeEvery, takeLatest, call, put, select } from 'redux-saga/effects';
 
 const mockCommit = stam => new Promise((resolve, reject) => {
   setTimeout(() => {
@@ -44,9 +48,16 @@ export function* commitStam({stam}): Generator<*, *, *> {
 export function* deleteStam({id}): Generator<*, *, *> {
   try {
     const data = yield call(mockDelete, id);
+
     // Here, we need to remove orphan flights from our state
-    // TODO
+    const stam = yield select(getStamById, id);
+
     yield put({type: DEL_SUCCESS, id});
+
+    if(stam.flights && stam.flights.length) {
+      const ids = stam.flights.map(flight => flight.id);
+      yield put(removeOrphanFlights(ids));
+    }
   } catch(error) {
     yield put({type: DEL_FAILURE, id, error});
   }
@@ -64,7 +75,7 @@ export function* sendStam({id, when}): Generator<*, *, *> {
 export default function* stamSaga(): Generator<*, *, *> {
   yield [
     takeLatest(ADD_REQUEST, commitStam),
-    takeLatest(DEL_REQUEST, deleteStam),
-    takeLatest(SEND_REQUEST, sendStam),
+    takeEvery(DEL_REQUEST, deleteStam),
+    takeEvery(SEND_REQUEST, sendStam),
   ];
 }

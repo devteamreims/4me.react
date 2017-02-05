@@ -5,6 +5,11 @@ import { combineReducers } from 'redux';
 
 import moment from 'moment';
 
+import {
+  DEL_SUCCESS,
+  REMOVE_ORPHANS,
+} from '../../actions/flight';
+
 const byIdInitialState = {
   '123': {
     arcid: 'BAW123',
@@ -45,6 +50,15 @@ const byIdInitialState = {
 };
 
 function byId(state = byIdInitialState, action) {
+  switch(action.type) {
+    case DEL_SUCCESS: {
+      return R.omit([action.id], state);
+    }
+    case REMOVE_ORPHANS: {
+      return R.omit(action.ids, state);
+    }
+  }
+
   return state;
 }
 
@@ -55,4 +69,7 @@ export default combineReducers({
 import globalPrefix from '../rootSelector';
 const p = state => globalPrefix(state).entities.flights;
 
-export const getFlightById = (state, id) => p(state).byId[id];
+export const getFlightById = (state, id) => ({
+  id,
+  ...p(state).byId[id]
+});

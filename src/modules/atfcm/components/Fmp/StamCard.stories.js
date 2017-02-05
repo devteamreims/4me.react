@@ -22,10 +22,11 @@ const props = {
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },
+  loadingFlightIds: [],
   onRequestAddFlight: (...args) => delay(300).then(() => action('add_flight')(...args)),
-  onRequestDeleteFlight: (...args) => delay(300).then(action('delete_flight')(...args)),
-  onRequestSend: (...args) => delay(300).then(() => action('send_stam')(...args)),
-  onRequestDelete: (...args) => delay(300).then(action('delete_stam')(...args)),
+  onRequestDelete: (...args) => action('delete_stam_request')(...args),
+  onRequestSend: (...args) => action('send_stam_request')(...args),
+  deleteFlight: (...args) => action('delete_flight_request')(...args),
 };
 
 const flights = [{
@@ -36,7 +37,6 @@ const flights = [{
   },
   implementingSector: 'KD',
   onloadSector: 'KR',
-  sendTime: null,
 }, {
   arcid: 'EZY1912',
   constraint: {
@@ -45,7 +45,6 @@ const flights = [{
   },
   implementingSector: 'KF',
   onloadSector: 'XR',
-  sendTime: null,
 }];
 
 const stamWithFlights = Object.assign({}, props.stam, {flights});

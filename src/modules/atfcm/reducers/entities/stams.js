@@ -8,6 +8,10 @@ import {
   SEND_SUCCESS,
 } from '../../actions/stam';
 
+import {
+  DEL_SUCCESS as DEL_FLIGHT_SUCCESS,
+} from '../../actions/flight';
+
 import moment from 'moment';
 
 const byIdInitialState = {
@@ -40,6 +44,28 @@ function byId(state = byIdInitialState, action) {
   switch(action.type) {
     case DEL_SUCCESS:
       return R.omit([action.id], state);
+    case DEL_FLIGHT_SUCCESS: {
+      const unlinkDeletedFlight = id => stam => {
+        if(stam.flights.includes(id)) {
+          // Remove specific flight id from references
+          const flights = R.without([id], stam.flights);
+          // Remove send time from stam if we removed the only flight
+          const sendTime = flights.length ? stam.sendTime : null;
+
+          return {
+            ...stam,
+            flights,
+            sendTime,
+          };
+        }
+
+        return stam;
+      };
+
+      const { id: flightId } = action;
+
+      return R.mapObjIndexed(unlinkDeletedFlight(flightId), state);
+    }
     case SEND_SUCCESS: {
       const { id, when } = action;
 

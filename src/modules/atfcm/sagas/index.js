@@ -1,4 +1,13 @@
 // @flow
 import stamSaga from './stam';
+import flightSaga from './flight';
 
-export default stamSaga;
+import { fork } from 'redux-saga/effects';
+
+export default function* atfcmSaga(): Generator<*, *, *> {
+  console.log('ATFCM ROOT SAGA');
+  yield [
+    fork(stamSaga),
+    fork(flightSaga),
+  ];
+}

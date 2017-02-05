@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import R from 'ramda';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import {
   Card,
@@ -48,10 +49,9 @@ type Props = {
   stam: PreparedStam | ActiveStam,
   loading?: boolean,
   onRequestAddFlight: () => Promise<void>,
-  onRequestDeleteFlight: () => Promise<void>,
   onRequestDelete: () => void,
   onRequestSend: () => void,
-};
+} & StateProps;
 
 export class StamCard extends Component {
   props: Props;
@@ -61,7 +61,6 @@ export class StamCard extends Component {
     selectedFlightForForm: ?Flight,
     isAddFlightFormValid: boolean,
     isAddFlightFormSubmitting: boolean,
-    readOnlyFlights: Array<Arcid>,
   };
 
   static defaultProps = {
@@ -76,7 +75,6 @@ export class StamCard extends Component {
       isAddFlightFormValid: false,
       isAddFlightFormSubmitting: false,
       selectedFlightForForm: null,
-      readOnlyFlights: [],
     };
   }
 
@@ -93,20 +91,9 @@ export class StamCard extends Component {
   };
 
   isReadOnly = (flight: Flight): boolean => {
-    const { readOnlyFlights } = this.state;
+    const { loadingFlightIds } = this.props;
 
-    return readOnlyFlights.includes(flight.arcid);
-  };
-
-  addReadOnly = (flight: Flight) => {
-    const { readOnlyFlights } = this.state;
-    console.log(`Setting flight ${flight.arcid} to readonly`);
-    this.setState({readOnlyFlights: R.append(flight.arcid, readOnlyFlights)});
-  };
-
-  delReadOnly = (flight: Flight) => {
-    const { readOnlyFlights } = this.state;
-    this.setState({readOnlyFlights: R.without([flight.arcid], readOnlyFlights)});
+    return loadingFlightIds.includes(flight.id);
   };
 
   handleOpenForm = (flight: ?Flight) => {
@@ -182,25 +169,15 @@ export class StamCard extends Component {
 
   handleDeleteFlight = (flight: Flight) => {
     const {
-      onRequestDeleteFlight,
+      deleteFlight,
     } = this.props;
 
-    if(typeof onRequestDeleteFlight !== 'function') {
+    if(typeof deleteFlight !== 'function') {
       console.error('atfcm/Fmp/StamCard: onRequestDeleteFlight prop is not a function');
       return;
     }
-    this.addReadOnly(flight);
 
-    onRequestDeleteFlight(flight).then(
-      () => {
-        this.delReadOnly(flight);
-      },
-      err => {
-        console.error('atfcm/Fmp/StamCard: onRequestDelete: error thrown');
-        console.error(err);
-        this.delReadOnly(flight);
-      }
-    );
+    deleteFlight(flight.id);
   };
 
   _renderForm() {
@@ -304,13 +281,13 @@ export class StamCard extends Component {
   _renderActions() {
     const {
       formOpen,
-      readOnlyFlights,
     } = this.state;
 
     const {
       stam,
       onRequestSend,
       loading,
+      loadingFlightIds,
     } = this.props;
 
     const {
@@ -322,7 +299,7 @@ export class StamCard extends Component {
       return this._renderFormActions();
     }
 
-    const areButtonsDisabled = readOnlyFlights.length !== 0;
+    const areButtonsDisabled = loadingFlightIds.length !== 0;
     const areFlightsPresent = flights && flights.length;
 
     return (
@@ -339,11 +316,11 @@ export class StamCard extends Component {
     const {
       onRequestDelete,
       loading,
+      loadingFlightIds,
     } = this.props;
 
     const {
       formOpen,
-      readOnlyFlights,
     } = this.state;
 
     if(formOpen) {
@@ -355,13 +332,13 @@ export class StamCard extends Component {
         {!this.isStamSent() &&
           <IconButton
             onClick={this.handleOpenForm.bind(this, null)}
-            disabled={loading || readOnlyFlights.length}
+            disabled={loading || loadingFlightIds.length}
           >
             <ActionAdd />
           </IconButton>
         }
         <IconButton
-          disabled={loading || readOnlyFlights.length}
+          disabled={loading || loadingFlightIds.length}
           onClick={onRequestDelete}
         >
           <Delete />
@@ -431,4 +408,21 @@ export class StamCard extends Component {
   }
 }
 
-export default StamCard;
+import { getLoadingIds } from '../../reducers/ui/flights';
+
+type StateProps = {
+  loadingFlightIds: Array<*>,
+  deleteFlight: (id: *) => void,
+};
+
+const mapStateToProps = state => ({
+  loadingFlightIds: getLoadingIds(state),
+});
+
+import { deleteFlight } from '../../actions/flight';
+
+const mapDispatchToProps = {
+  deleteFlight,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StamCard);
