@@ -37,7 +37,7 @@ export function* deleteStam({id}): Generator<*, *, *> {
     const data = yield call(mockDelete, id);
     yield put({type: DEL_SUCCESS, id});
   } catch(error) {
-    yield put({type: DEL_FAILURE, error});
+    yield put({type: DEL_FAILURE, id, error});
   }
 }
 
