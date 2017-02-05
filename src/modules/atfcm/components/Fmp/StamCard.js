@@ -87,7 +87,7 @@ export class StamCard extends Component {
       return false;
     }
 
-    return moment(stam.sendTime).isAfter(moment());
+    return !moment(stam.sendTime).isAfter(moment());
   };
 
   isReadOnly = (flight: Flight): boolean => {
