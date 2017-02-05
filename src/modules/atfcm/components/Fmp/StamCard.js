@@ -16,13 +16,14 @@ import Avatar from 'material-ui/Avatar';
 import StamAvatar from '../StamAvatar';
 import FlightRow from './FlightRow';
 import SendButton from './SendButton';
+import UnsendButton from './UnsendButton';
+import ArchiveButton from './ArchiveButton';
 import Progress from './Progress';
 
 import * as Colors from 'material-ui/styles/colors';
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
-import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 
 import Delete from 'material-ui/svg-icons/action/delete';
@@ -225,12 +226,12 @@ export class StamCard extends Component {
     const addOrSave = selectedFlightForForm ? 'Save' : 'Add';
 
     return [
-      <RaisedButton
+      <FlatButton
         label="discard"
-        backgroundColor={Colors.red500}
+        labelStyle={{color: Colors.red500}}
         onClick={this.handleDiscardButton}
       />,
-      <RaisedButton
+      <FlatButton
         label={isAddFlightFormSubmitting ? 'Loading ...' : addOrSave}
         onClick={this.handleAddFlightButton}
         disabled={!isAddFlightFormValid || isAddFlightFormSubmitting}
@@ -257,10 +258,9 @@ export class StamCard extends Component {
     return flights.map(flight => (
       <FlightRow
         flight={flight}
-        hideActions={this.isStamSent()}
         onRequestEdit={this.handleOpenForm.bind(this, flight)}
         onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
-        disabledActions={loading || this.isReadOnly(flight) || this.isStamSent()}
+        disabledActions={loading || this.isReadOnly(flight)}
       />
     ));
   }
@@ -302,14 +302,28 @@ export class StamCard extends Component {
     const areButtonsDisabled = loadingFlightIds.length !== 0;
     const areFlightsPresent = flights && flights.length;
 
-    return (
+    if(this.isStamSent()) {
+      return [
+        <UnsendButton
+          disabled={loading || areButtonsDisabled || !areFlightsPresent}
+          sendTime={sendTime}
+          onCancelSend={() => onRequestSend(null)}
+        />,
+        <ArchiveButton
+          disabled={loading || areButtonsDisabled || !areFlightsPresent}
+          onArchive={() => console.log('Archiving !')}
+        />
+      ];
+    }
+
+    return [
       <SendButton
         disabled={loading || areButtonsDisabled || !areFlightsPresent}
         sendTime={sendTime}
         onSelectTime={onRequestSend}
         onCancelSend={() => onRequestSend(null)}
       />
-    );
+    ];
   }
 
   _renderTopActions() {
@@ -329,14 +343,12 @@ export class StamCard extends Component {
 
     return (
       <div>
-        {!this.isStamSent() &&
-          <IconButton
-            onClick={this.handleOpenForm.bind(this, null)}
-            disabled={loading || loadingFlightIds.length}
-          >
-            <ActionAdd />
-          </IconButton>
-        }
+        <IconButton
+          onClick={this.handleOpenForm.bind(this, null)}
+          disabled={loading || loadingFlightIds.length}
+        >
+          <ActionAdd />
+        </IconButton>
         <IconButton
           disabled={loading || loadingFlightIds.length}
           onClick={onRequestDelete}

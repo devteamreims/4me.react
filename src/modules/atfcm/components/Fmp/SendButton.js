@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,6 +15,8 @@ type Props = {
   onSelectTime?: (?number) => void,
   onCancelSend?: () => void,
   sendTime?: Date,
+  sending?: boolean,
+  style?: Object,
 };
 
 type State = {
@@ -90,6 +92,12 @@ export class SendButton extends Component {
   };
 
   isStamSending = (): boolean => {
+    const { sending } = this.props;
+
+    return !!sending;
+  };
+
+  isStamSent = (): boolean => {
     const { sendTime } = this.props;
 
     if(!sendTime) {
@@ -108,8 +116,12 @@ export class SendButton extends Component {
       return 'Sending ...';
     }
 
+    if(this.isStamSent()) {
+      return `Sent ${moment(sendTime).fromNow()}`;
+    }
+
     if(!sendTime) {
-      return 'Send';
+      return 'Activate';
     }
 
     const duration = moment.duration(
@@ -127,7 +139,7 @@ export class SendButton extends Component {
     const {
       disabled,
       sendTime,
-      onCancelSend,
+      style,
     } = this.props;
 
     const {
@@ -135,25 +147,18 @@ export class SendButton extends Component {
       menuAnchor,
     } = this.state;
 
-    if(this.isStamSending()) {
-      return (
-        <div>
-          <RaisedButton
-            disabled={true}
-            backgroundColor={Colors.green200}
-            label={`Sent ${moment(sendTime).fromNow()}`}
-          />
-        </div>
-      );
+    if(this.isStamSent()) {
+      return null;
     }
 
     return (
       <div>
-        <RaisedButton
-          disabled={disabled || this.isStamSending()}
-          backgroundColor={Colors.green200}
+        <FlatButton
+          disabled={disabled}
+          labelStyle={{color: sendTime ? Colors.amber500 : Colors.green500}}
           onClick={this.handleClick}
           label={this._getButtonLabel()}
+          style={style}
         />
         <Popover
           open={menuOpen}
@@ -164,7 +169,7 @@ export class SendButton extends Component {
           <Menu>
             {sendTime &&
               <MenuItem
-                primaryText="Cancel"
+                primaryText={<span style={{color: Colors.red500}}>Cancel</span>}
                 onClick={this.handleSend(null)}
               />
             }
