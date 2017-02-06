@@ -28,6 +28,36 @@ export function commitStam(stam: Object) {
   };
 }
 
+type CommitStamError =
+  | string
+  | Error
+  | {message: string, fields?: {[key: string]: ?string}};
+
+export function commitStamError(error: CommitStamError) {
+  let message = 'Unknown error';
+  let fields = null;
+
+  if(typeof error === 'string') {
+    message = error;
+  }
+
+  if(error.message) {
+    message = error.message;
+  }
+
+  if(error.fields) {
+    fields = error.fields;
+  }
+
+  return {
+    type: ADD_FAILURE,
+    error: {
+      message,
+      fields,
+    },
+  };
+}
+
 export function deleteStam(id: *) {
   return {
     type: DEL_REQUEST,

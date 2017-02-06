@@ -13,13 +13,23 @@ import {
   ARCHIVE_SUCCESS,
   ARCHIVE_REQUEST,
   ARCHIVE_FAILURE,
+  commitStamError,
 } from '../actions/stam';
 
 import { removeOrphanFlights } from '../actions/flight';
 
 import { getStamById } from '../reducers/entities/stams';
 
-import { takeEvery, takeLatest, call, put, select } from 'redux-saga/effects';
+import {
+  takeEvery,
+  takeLatest,
+  call,
+  put,
+  select,
+  race,
+} from 'redux-saga/effects';
+
+import { delay } from 'redux-saga';
 
 const mockCommit = stam => new Promise((resolve, reject) => {
   setTimeout(() => {
@@ -52,10 +62,18 @@ const mockArchive = ({id, when}) => new Promise((resolve, reject) => {
 
 export function* commitStam({stam}): Generator<*, *, *> {
   try {
-    const data = yield call(mockCommit, stam);
+    const { response, timeout } = yield race({
+      response: call(mockCommit, stam),
+      timeout: call(delay, 5000),
+    });
+
+    if(timeout) {
+      throw new Error('Request timeout');
+    }
+
     yield put({type: ADD_SUCCESS});
-  } catch(error) {
-    yield put({type: ADD_FAILURE, error});
+  } catch(err) {
+    yield put(commitStamError(err));
   }
 }
 

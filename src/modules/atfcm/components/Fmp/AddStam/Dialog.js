@@ -113,7 +113,6 @@ export class AddStamDialog extends Component {
         disabled={loading || disableButtons}
         type="submit"
         onClick={this.handleCommitStam}
-        secondary={true}
         label={buttonLabel}
       />,
     ];
