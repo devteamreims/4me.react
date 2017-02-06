@@ -23,7 +23,12 @@ import { takeEvery, takeLatest, call, put, select } from 'redux-saga/effects';
 
 const mockCommit = stam => new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject(new Error('Invalid !'));
+    reject({
+      message: 'An error occured',
+      fields: {
+        offloadSector: 'This sector does not exist',
+      },
+    });
   }, 2000);
 });
 

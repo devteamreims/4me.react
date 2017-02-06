@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { red500 } from 'material-ui/styles/colors';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
@@ -46,6 +47,16 @@ export class AddStamDialog extends Component {
     });
   };
 
+  handleOnChange = () => {
+    const { onChange } = this.props;
+
+    if(typeof onChange !== 'function') {
+      return;
+    }
+
+    onChange();
+  };
+
   handleCommitStam = () => {
     const { addStam } = this.props;
 
@@ -60,6 +71,24 @@ export class AddStamDialog extends Component {
 
     addStam(sampleStam);
   };
+
+  handleRequestClose = () => {
+    const {
+      onRequestClose,
+      loading,
+    } = this.props;
+
+    if(typeof onRequestClose !== 'function') {
+      return;
+    }
+
+    // Do not close the dialog when its loading
+    if(loading) {
+      return;
+    }
+
+    onRequestClose();
+  }
 
   renderActions() {
     const {
@@ -84,7 +113,7 @@ export class AddStamDialog extends Component {
         disabled={loading || disableButtons}
         type="submit"
         onClick={this.handleCommitStam}
-        primary={true}
+        secondary={true}
         label={buttonLabel}
       />,
     ];
@@ -93,21 +122,32 @@ export class AddStamDialog extends Component {
   render() {
     const {
       open,
-      onRequestClose,
       loading,
+      globalError,
+      fieldErrors,
     } = this.props;
 
     return (
       <Dialog
         open={open}
-        onRequestClose={onRequestClose}
+        onRequestClose={this.handleRequestClose}
         actions={this.renderActions()}
         title="Create new STAM"
         autoScrollBodyContent={true}
       >
+        <div
+          style={{
+            marginTop: 10,
+            color: red500,
+          }}
+        >
+          {globalError}
+        </div>
         <Form
           onValid={this.handleOnValid}
           onInvalid={this.handleOnInvalid}
+          onChange={this.handleOnChange}
+          validationErrors={fieldErrors}
         >
           <FormsyAutoComplete
             name="offloadSector"
@@ -131,11 +171,23 @@ export class AddStamDialog extends Component {
 
 import {
   isLoading,
+  getErrorMessage,
+  getFieldErrors,
 } from '../../../reducers/ui/addStamModal';
 
 const mapStateToProps = state => ({
   loading: isLoading(state),
+  globalError: getErrorMessage(state),
+  fieldErrors: getFieldErrors(state),
 });
 
+import {
+  touchDialogForm,
+} from '../../../actions/stam';
 
-export default connect(mapStateToProps)(AddStamDialog);
+const mapDispatchToProps = {
+  onChange: touchDialogForm,
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddStamDialog);

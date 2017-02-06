@@ -2,6 +2,7 @@
 import {
   SHOW_ADD_DIALOG,
   HIDE_ADD_DIALOG,
+  TOUCH_ADD_STAM_FORM,
   ADD_REQUEST,
   ADD_SUCCESS,
   ADD_FAILURE,
@@ -40,12 +41,20 @@ export default function addStamModalReducer(state = initialState, action) {
       return {
         ...state,
         visible: true,
+        error: null,
       };
     }
     case HIDE_ADD_DIALOG: {
       return {
         ...state,
         visible: false,
+        error: null,
+      };
+    }
+    case TOUCH_ADD_STAM_FORM: {
+      return {
+        ...state,
+        error: null,
       };
     }
   }
@@ -59,3 +68,4 @@ const p = state => globalPrefix(state).ui.addStamModal;
 export const isVisible = state => !!p(state).visible;
 export const isLoading = state => !!p(state).loading;
 export const getErrorMessage = state => p(state).error === null ? null : p(state).error.message;
+export const getFieldErrors = state => p(state).error === null ? null : p(state).error.fields;

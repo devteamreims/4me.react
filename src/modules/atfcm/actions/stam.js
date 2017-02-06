@@ -17,6 +17,7 @@ export const ARCHIVE_FAILURE = 'atfcm/stam/ARCHIVE_FAILURE';
 
 export const SHOW_ADD_DIALOG = 'atfcm/stam/SHOW_ADD_DIALOG';
 export const HIDE_ADD_DIALOG = 'atfcm/stam/HIDE_ADD_DIALOG';
+export const TOUCH_ADD_STAM_FORM = 'atfcm/stam/TOUCH_ADD_STAM_FORM';
 
 import moment from 'moment';
 
@@ -63,5 +64,11 @@ export function showDialog() {
 export function hideDialog() {
   return {
     type: HIDE_ADD_DIALOG,
+  };
+}
+
+export function touchDialogForm() {
+  return {
+    type: TOUCH_ADD_STAM_FORM,
   };
 }
