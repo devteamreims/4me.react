@@ -21,7 +21,7 @@ type Props = {
   loading: boolean,
   onRequestClose: () => *,
   addStam: () => *,
-};
+} & StateProps;
 
 type State = {
   disableButtons: boolean,
@@ -167,6 +167,13 @@ export class AddStamDialog extends Component {
     );
   }
 }
+
+type StateProps = {
+  isLoading: boolean,
+  globalError: ?string,
+  fieldErrors: null | {[key: string]: string},
+  onChange: () => void,
+};
 
 import {
   isLoading,

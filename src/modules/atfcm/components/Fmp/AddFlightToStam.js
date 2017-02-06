@@ -1,15 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import R from 'ramda';
 
 import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
 import AutoComplete from 'material-ui/AutoComplete';
+import { red500 } from 'material-ui/styles/colors';
 
 import { Form } from 'formsy-react';
-
-type ResetModel = () => void;
-type InvalidateModel = (Object) => void;
 
 type Props = {
   flight?: ?Object,
@@ -17,8 +14,9 @@ type Props = {
   onValid?: () => void,
   onInvalid?: () => void,
   onChange?: () => void,
-  onSubmit?: (Object, ResetModel, InvalidateModel) => void, // Useful to signal parent we have a submit (enter key)
-  validationErrors?: Object,
+  onSubmit?: (Object) => void, // Useful to signal parent we have a submit (enter key)
+  fieldErrors?: ?{[key: string]: string},
+  globalError?: ?string,
   style?: Object,
 };
 
@@ -81,14 +79,15 @@ export class AddFlightToStam extends Component {
     }
   };
 
-  handleSubmit = (data: Object, resetModel: () => void, updateInputsWithError: (Object) => void) => {
+  handleSubmit = (data: Object) => {
     const { onSubmit } = this.props;
 
     if(onSubmit) {
-      onSubmit(data, resetModel, updateInputsWithError);
+      onSubmit(data);
     }
   };
 
+  // Ref plumbing to allow external submission
   submit = () => {
     if(this.form) {
       this.form.submit();
@@ -100,7 +99,8 @@ export class AddFlightToStam extends Component {
       flight,
       loading,
       style,
-      validationErrors,
+      fieldErrors,
+      globalError,
     } = this.props;
 
     const {
@@ -112,12 +112,13 @@ export class AddFlightToStam extends Component {
     return (
       <div style={style}>
         <div>{flight ? 'Edit flight' : 'Add flight'}</div>
+        <div style={{color: red500}}>{globalError}</div>
         <Form
           onValid={this.handleValid}
           onInvalid={this.handleInvalid}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
-          validationErrors={validationErrors}
+          validationErrors={fieldErrors}
           ref={form => {
             this.form = form;
           }}
@@ -146,7 +147,7 @@ export class AddFlightToStam extends Component {
             onNewRequest={this.handleImplementingSectorSelect}
             validationError="Please enter a valid elementary sector"
             value={implementingSector || (flight && flight.implementingSector)}
-            searchText={implementingSector || (flight && flight.implementingSector)}
+            searchText={implementingSector || (flight && flight.implementingSector) || ''}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={sectors.getElementarySectors()}
             fullWidth={true}
@@ -187,7 +188,7 @@ export class AddFlightToStam extends Component {
             onNewRequest={this.handleOnloadSectorSelect}
             validationError="Please enter a valid elementary sector"
             value={onloadSector || (flight && flight.onloadSector)}
-            searchText={onloadSector || (flight && flight.onloadSector)}
+            searchText={onloadSector || (flight && flight.onloadSector) || ''}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={sectors.getElementarySectors()}
             fullWidth={true}
