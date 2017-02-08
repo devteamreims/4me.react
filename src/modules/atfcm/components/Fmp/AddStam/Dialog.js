@@ -58,20 +58,22 @@ export class AddStamDialog extends Component {
     onChange();
   };
 
-  handleCommitStam = () => {
+  triggerSubmit = () => {
+    if(!this.form || typeof this.form.submit !== 'function') {
+      return;
+    }
+
+    this.form.submit();
+  };
+
+  handleSubmit = (data: Object) => {
     const { addStam } = this.props;
 
     if(typeof addStam !== 'function') {
       return;
     }
 
-    if(typeof this.form.getModel !== 'function') {
-      return;
-    }
-
-    const stam = this.form.getModel();
-
-    addStam(stam);
+    addStam(data);
   };
 
   handleRequestClose = () => {
@@ -95,7 +97,6 @@ export class AddStamDialog extends Component {
   renderActions() {
     const {
       loading,
-      onRequestClose,
     } = this.props;
 
     const {
@@ -109,12 +110,12 @@ export class AddStamDialog extends Component {
       <FlatButton
         disabled={loading}
         label="cancel"
-        onClick={onRequestClose}
+        onClick={this.handleRequestClose}
       />,
       <FlatButton
         disabled={loading || disableButtons}
         type="submit"
-        onClick={this.handleCommitStam}
+        onClick={this.triggerSubmit}
         label={buttonLabel}
       />,
     ];
@@ -148,12 +149,11 @@ export class AddStamDialog extends Component {
           onValid={this.handleOnValid}
           onInvalid={this.handleOnInvalid}
           onChange={this.handleOnChange}
+          onSubmit={this.handleSubmit}
           validationErrors={fieldErrors}
-          ref={
-            form => {
-              this.form = form;
-            }
-          }
+          ref={form => {
+            this.form = form;
+          }}
         >
           <FormsyAutoComplete
             name="offloadSector"
