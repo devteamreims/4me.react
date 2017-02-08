@@ -39,7 +39,37 @@ export function showForm(stam: *, flight: *) {
   };
 }
 
-export function addFlight(stamId: *, flight: *) {
+type CommitFlightError =
+  | string
+  | Error
+  | {message: string, fields?: {[key: string]: ?string}};
+
+export function commitFlightError(error: CommitFlightError) {
+  let message = 'Unknown error';
+  let fields = null;
+
+  if(typeof error === 'string') {
+    message = error;
+  }
+
+  if(error.message) {
+    message = error.message;
+  }
+
+  if(error.fields) {
+    fields = error.fields;
+  }
+
+  return {
+    type: ADD_FAILURE,
+    error: {
+      message,
+      fields,
+    },
+  };
+}
+
+export function commitFlight(stamId: *, flight: *) {
   if(!stamId || !flight) {
     return;
   }

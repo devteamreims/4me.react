@@ -60,15 +60,16 @@ export class AddFlightToStamDialog extends Component {
 
   handleSubmit = (data: Object) => {
     const {
-      addFlight,
+      commitFlight,
       stamId,
+      flight,
     } = this.props;
 
-    if(typeof addFlight !== 'function' || !stamId) {
+    if(typeof commitFlight !== 'function' || !stamId) {
       return;
     }
 
-    addFlight(stamId, data);
+    commitFlight(stamId, data);
   };
 
   handleRequestClose = () => {
@@ -137,6 +138,7 @@ export class AddFlightToStamDialog extends Component {
         actions={this.renderActions()}
         title={flight ? 'Edit flight' : 'Add flight'}
         autoScrollBodyContent={true}
+        modal={true}
       >
         <Form
           onValid={this.handleOnValid}
@@ -147,6 +149,8 @@ export class AddFlightToStamDialog extends Component {
             this.form = form;
           }}
           flight={flight}
+          globalError={globalError}
+          fieldErrors={fieldErrors}
         />
       </Dialog>
     );
@@ -193,19 +197,19 @@ const mapStateToProps = state => {
 import {
   hideDialog,
   touchForm,
-  addFlight,
+  commitFlight,
 } from '../../../actions/flight';
 
 type DispatchProps = {
   onChange: () => void,
   hideDialog: () => void,
-  addFlight: (*) => void,
+  commitFlight: (*) => void,
 };
 
 const mapDispatchToProps = {
   onChange: touchForm,
   hideDialog,
-  addFlight,
+  commitFlight,
 };
 
 

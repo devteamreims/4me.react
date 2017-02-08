@@ -8,6 +8,7 @@ import { red500 } from 'material-ui/styles/colors';
 import Formsy from 'formsy-react';
 
 import FormGlobalError from '../../shared/FormGlobalError';
+import FormsyHidden from './FormsyHidden';
 
 type Props = {
   flight?: ?Object,
@@ -123,6 +124,12 @@ export class Form extends Component {
             this.form = form;
           }}
         >
+          {flight && flight.id &&
+            <FormsyHidden
+              name="id"
+              value={flight.id}
+            />
+          }
           <FormsyText
             name="arcid"
             autoComplete="off"

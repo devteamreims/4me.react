@@ -138,6 +138,7 @@ export class AddStamDialog extends Component {
         actions={this.renderActions()}
         title="Create new STAM"
         autoScrollBodyContent={true}
+        modal={true}
       >
         <FormGlobalError error={globalError} />
         <Form

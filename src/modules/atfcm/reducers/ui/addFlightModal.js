@@ -4,15 +4,13 @@ import {
   HIDE_FORM,
   SHOW_FORM,
   TOUCH_FORM,
+  ADD_REQUEST,
+  ADD_SUCCESS,
+  ADD_FAILURE,
 } from '../../actions/flight';
 
 const initialState = {
-  error: {
-    message: 'Connection timeout',
-    fields: {
-      implementingSector: 'BLABLA',
-    },
-  },
+  error: null,
   loading: false,
   visible: false,
   stamId: null,
@@ -43,6 +41,26 @@ export default function addFlightModalReducer(state = initialState, action) {
       return {
         ...state,
         error: null,
+      };
+    }
+    case ADD_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case ADD_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case ADD_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
       };
     }
   }

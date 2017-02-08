@@ -123,8 +123,6 @@ export class FmpMain extends Component {
           stam={stam}
           key={stam.id}
           loading={loadingStamIds.includes(stam.id)}
-          onRequestAddFlight={() => Promise.resolve()}
-          onRequestDeleteFlight={() => Promise.resolve()}
           onRequestDelete={this.handleDeleteStam(stam.id)}
           onRequestSend={this.handleSendStam(stam.id)}
           onRequestArchive={this.handleArchiveStam(stam.id)}

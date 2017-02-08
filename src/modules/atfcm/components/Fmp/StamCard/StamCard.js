@@ -47,12 +47,7 @@ type Props = {
 };
 
 export class StamCard extends Component {
-  props: Props & StateProps;
-
-  state: {
-    isAddFlightFormValid: boolean,
-    isAddFlightFormSubmitting: boolean,
-  };
+  props: Props & StateProps & DispatchProps;
 
   static defaultProps = {
     loading: false,
@@ -87,12 +82,12 @@ export class StamCard extends Component {
   };
 
   isReadOnly = (flight: Flight): boolean => {
-    const { loadingFlightIds = [] } = this.props;
+    const { loadingFlightIds } = this.props;
 
     return loadingFlightIds.includes(flight.id);
   };
 
-  handleOpenForm = (flight: ?Flight) => {
+  showFlightForm = (flight: ?Flight) => {
     const {
       showForm,
       stam,
@@ -105,45 +100,6 @@ export class StamCard extends Component {
     showForm(stam, flight);
   };
 
-  handleHideForm = () => {
-    const {
-      hideForm,
-    } = this.props;
-
-    if(typeof hideForm !== 'function') {
-      return;
-    }
-
-    hideForm();
-  };
-
-  handleFormIsValid = () => {
-    this.setState({isAddFlightFormValid: true});
-  };
-
-  handleFormIsInvalid = () => {
-    this.setState({isAddFlightFormValid: false});
-  };
-
-  handleAddFlightButton = () => {
-    if(!this.addFlightForm) {
-      return;
-    }
-
-    const { isAddFlightFormValid } = this.state;
-
-    if(!isAddFlightFormValid) {
-      return;
-    }
-
-    // Trigger the submit in the child component
-    this.addFlightForm.submit();
-  };
-
-  // Handle submit from child component
-  handleFormSubmit = (data: Object) => {
-    // TODO : Dispatch redux action submitting the form
-  };
 
   handleDeleteFlight = (flight: Flight) => {
     const {
@@ -157,82 +113,6 @@ export class StamCard extends Component {
 
     deleteFlight(flight.id);
   };
-
-  handleFormChange = () => {
-    const {
-      touchForm,
-    } = this.props;
-
-    if(typeof touchForm !== 'function') {
-      return;
-    }
-
-    touchForm();
-  };
-
-  _renderForm() {
-    const {
-      isFlightFormOpen,
-      isFlightFormLoading,
-      flightFormData,
-      globalFlightFormError,
-      flightFormFieldErrors,
-      touchForm,
-    } = this.props;
-
-
-    if(!isFlightFormOpen) {
-      return null;
-    }
-
-    return null;
-
-    return (
-      <AddFlightToStam
-        ref={(addFlightForm) => {
-          this.addFlightForm = addFlightForm;
-        }}
-        onValid={this.handleFormIsValid}
-        onInvalid={this.handleFormIsInvalid}
-        onSubmit={this.handleFormSubmit}
-        onChange={this.handleFormChange}
-        loading={isFlightFormLoading}
-        flight={flightFormData}
-        globalError={globalFlightFormError}
-        fieldErrors={flightFormFieldErrors}
-      />
-    );
-  }
-
-  _renderFormActions() {
-    const {
-      isAddFlightFormValid,
-    } = this.state;
-
-    const {
-      isFlightFormOpen,
-      isFlightFormLoading,
-    } = this.props;
-
-    if(!isFlightFormOpen) {
-      return null;
-    }
-
-    const addOrSave = true ? 'Save' : 'Add';
-
-    return [
-      <FlatButton
-        label="discard"
-        labelStyle={{color: Colors.red500}}
-        onClick={this.handleHideForm}
-      />,
-      <FlatButton
-        label={isFlightFormLoading ? 'Loading ...' : addOrSave}
-        onClick={this.handleAddFlightButton}
-        disabled={!isAddFlightFormValid || isFlightFormLoading}
-      />
-    ];
-  }
 
 
   _renderFlights() {
@@ -253,24 +133,11 @@ export class StamCard extends Component {
     return flights.map(flight => (
       <FlightRow
         flight={flight}
-        onRequestEdit={this.handleOpenForm.bind(this, flight)}
+        onRequestEdit={this.showFlightForm.bind(this, flight)}
         onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
         disabledActions={loading || this.isReadOnly(flight)}
       />
     ));
-  }
-
-  _renderInside() {
-    const {
-      isFlightFormOpen,
-    } = this.props;
-
-    if(isFlightFormOpen) {
-      return this._renderForm();
-    }
-
-    // Form is not open, render flight list
-    return this._renderFlights();
   }
 
   _renderActions() {
@@ -279,8 +146,7 @@ export class StamCard extends Component {
       onRequestSend,
       onRequestArchive,
       loading,
-      loadingFlightIds = [],
-      isFlightFormOpen,
+      loadingFlightIds,
     } = this.props;
 
     const {
@@ -288,10 +154,6 @@ export class StamCard extends Component {
       sendTime,
       archiveTime,
     } = stam;
-
-    if(isFlightFormOpen) {
-      return this._renderFormActions();
-    }
 
     if(this.isStamArchived()) {
       return null;
@@ -330,18 +192,13 @@ export class StamCard extends Component {
     const {
       onRequestDelete,
       loading,
-      loadingFlightIds = [],
-      isFlightFormOpen,
+      loadingFlightIds,
     } = this.props;
-
-    if(isFlightFormOpen) {
-      return null;
-    }
 
     return (
       <div>
         <IconButton
-          onClick={this.handleOpenForm.bind(this, null)}
+          onClick={this.showFlightForm.bind(this, null)}
           disabled={loading || loadingFlightIds.length}
         >
           <ActionAdd />
@@ -359,21 +216,15 @@ export class StamCard extends Component {
   _renderProgress() {
     const {
       loading,
+      loadingFlightIds,
       stam,
-      isFlightFormOpen,
     } = this.props;
 
     const { sendTime } = stam;
 
-    if(loading) {
+    if(loading || loadingFlightIds.length) {
       return (
         <LinearProgress />
-      );
-    }
-
-    if(isFlightFormOpen) {
-      return (
-        <Divider />
       );
     }
 
@@ -409,18 +260,13 @@ export class StamCard extends Component {
             flewGrow={1}
             style={{marginLeft: 16, marginRight: 16}}
           >
-            <F
-              flexDirection="row"
-              alignItems="center"
-            >
-              <h2>OFFLOAD {colorizedOffloadSector}</h2>
-            </F>
+            <h2>OFFLOAD {colorizedOffloadSector}</h2>
             {this._renderTopActions()}
           </F>
           <Divider />
           <CardText>
             <F flexDirection="column">
-              {this._renderInside()}
+              {this._renderFlights()}
             </F>
           </CardText>
           {this._renderProgress()}
@@ -434,25 +280,40 @@ export class StamCard extends Component {
 }
 
 type StateProps = {
+  loadingFlightIds: Array<*>,
+};
+
+import { getLoadingIds } from '../../../reducers/ui/flights';
+
+const mapStateToProps = (state, ownProps: Props) => {
+  // Here we try to determine whether we should display our loading indicator or not
+  // If the stam is marked as loading, then display it
+  // If one or more of the flights associated with our stam are 'loading', display it
+  const { stam } = ownProps;
+
+  const ourFlightIds = stam.flights.map(flight => flight.id);
+
+  return {
+    loadingFlightIds: getLoadingIds(state).filter(flightId => ourFlightIds.includes(flightId)),
+  };
+};
+
+type DispatchProps = {
   deleteFlight: (id: *) => void,
-  hideForm: () => void,
   showForm: (*) => void,
   touchForm: () => void,
 };
 
-
 import {
   deleteFlight,
   showForm,
-  hideForm,
   touchForm,
 } from '../../../actions/flight';
 
 const mapDispatchToProps = {
   deleteFlight,
   showForm,
-  hideForm,
   touchForm,
 };
 
-export default connect(null, mapDispatchToProps)(StamCard);
+export default connect(mapStateToProps, mapDispatchToProps)(StamCard);
