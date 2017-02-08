@@ -30,6 +30,7 @@ type State = {
 export class AddStamDialog extends Component {
   props: Props;
   state: State;
+  form: *;
 
   state = {
     disableButtons: false,
@@ -64,12 +65,13 @@ export class AddStamDialog extends Component {
       return;
     }
 
-    const sampleStam = {
-      offloadSector: 'KR',
-      flights: [],
-    };
+    if(typeof this.form.getModel !== 'function') {
+      return;
+    }
 
-    addStam(sampleStam);
+    const stam = this.form.getModel();
+
+    addStam(stam);
   };
 
   handleRequestClose = () => {
@@ -147,6 +149,11 @@ export class AddStamDialog extends Component {
           onInvalid={this.handleOnInvalid}
           onChange={this.handleOnChange}
           validationErrors={fieldErrors}
+          ref={
+            form => {
+              this.form = form;
+            }
+          }
         >
           <FormsyAutoComplete
             name="offloadSector"
