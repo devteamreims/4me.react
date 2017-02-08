@@ -27,7 +27,6 @@ import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 
 import F from 'flexbox-react';
 
-import AddFlightToStam from '../AddFlightToStam';
 import { LightTheme } from '../../../../../shared/components/Theme';
 import ColorizedContent from '../../../../../shared/components/ColorizedContent';
 
@@ -63,11 +62,6 @@ export class StamCard extends Component {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      isAddFlightFormValid: false,
-      isAddFlightFormSubmitting: false,
-    };
   }
 
   addFlightForm = null;
@@ -93,7 +87,7 @@ export class StamCard extends Component {
   };
 
   isReadOnly = (flight: Flight): boolean => {
-    const { loadingFlightIds } = this.props;
+    const { loadingFlightIds = [] } = this.props;
 
     return loadingFlightIds.includes(flight.id);
   };
@@ -191,6 +185,8 @@ export class StamCard extends Component {
       return null;
     }
 
+    return null;
+
     return (
       <AddFlightToStam
         ref={(addFlightForm) => {
@@ -283,7 +279,7 @@ export class StamCard extends Component {
       onRequestSend,
       onRequestArchive,
       loading,
-      loadingFlightIds,
+      loadingFlightIds = [],
       isFlightFormOpen,
     } = this.props;
 
@@ -334,7 +330,7 @@ export class StamCard extends Component {
     const {
       onRequestDelete,
       loading,
-      loadingFlightIds,
+      loadingFlightIds = [],
       isFlightFormOpen,
     } = this.props;
 
@@ -437,66 +433,13 @@ export class StamCard extends Component {
   }
 }
 
-import { getLoadingIds } from '../../../reducers/ui/flights';
-import { getFlightById } from '../../../reducers/entities/flights';
-
-import {
-  isOpened,
-  isOpenedForStamId,
-  isLoading,
-  getFlightId,
-  getErrorMessage,
-  getFieldErrors,
-} from '../../../reducers/ui/addFlightForm';
-
 type StateProps = {
-  loadingFlightIds: Array<*>,
   deleteFlight: (id: *) => void,
   hideForm: () => void,
   showForm: (*) => void,
   touchForm: () => void,
-  isFlightFormOpen: boolean,
-  flightFormData: Object | null,
-  disableFlightForm: boolean,
-  isFlightFormLoading: boolean,
-  globalFlightFormError: ?string,
-  flightFormFieldErrors: null | {[key: string]: string},
 };
 
-const mapStateToProps = (state, ownProps: Props) => {
-  const stamId = ownProps.stam && ownProps.stam.id;
-
-  // This means the form should opened for this particular stam
-  const isFlightFormOpen = stamId && isOpenedForStamId(state, stamId);
-
-  // Now, we should calculate whether the form can be opened or not
-  // If the form is opened on a different stam card, signal it to the Component
-  const disableFlightForm = isOpened(state) && !isFlightFormOpen;
-
-  const isFlightFormLoading = isFlightFormOpen && isLoading(state);
-
-  // If we edit a flight, we need to pass down the relevant data
-  let flightFormData = null;
-  const flightId = getFlightId(state);
-
-  if(isFlightFormOpen && flightId) {
-    flightFormData = getFlightById(state, flightId);
-  }
-
-  // Pull errors from state
-  const globalFlightFormError = getErrorMessage(state);
-  const flightFormFieldErrors = getFieldErrors(state);
-
-  return {
-    loadingFlightIds: getLoadingIds(state),
-    isFlightFormOpen,
-    disableFlightForm,
-    isFlightFormLoading,
-    flightFormData,
-    globalFlightFormError,
-    flightFormFieldErrors,
-  };
-};
 
 import {
   deleteFlight,
@@ -512,4 +455,4 @@ const mapDispatchToProps = {
   touchForm,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StamCard);
+export default connect(null, mapDispatchToProps)(StamCard);

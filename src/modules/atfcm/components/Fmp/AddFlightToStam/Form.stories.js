@@ -6,7 +6,7 @@ import { host } from 'storybook-host';
 
 import { Card, CardText } from 'material-ui/Card';
 
-import { AddFlightToStam } from './AddFlightToStam';
+import { Form } from './Form';
 
 const flight = {
   arcid: 'BAW123',
@@ -28,60 +28,7 @@ const invalidFlight = {
   onloadSector: 'NONEXISTENT',
 };
 
-class ExternalValidationWrapper extends Component {
-  state: {
-    validationErrors: ?Object,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      validationErrors: {
-        implementingSector: 'Invalid sector !',
-      }
-    };
-  }
-
-  formRef = null;
-  validationTimeout = null;
-
-  handleSubmit = (data, resetModel, invalidateModel) => {
-    clearTimeout(this.validationTimeout);
-    this.validationTimeout = setTimeout(() => {
-      invalidateModel({
-        'constraint.flightLevel': 'Wrong here !',
-        implementingSector: 'Wrong here !',
-      });
-      this.validationTimeout = null;
-    }, 800);
-  };
-
-  performSubmit = () => {
-    if(this.formRef && this.formRef.submit) {
-      this.formRef.submit();
-    }
-  };
-
-  render() {
-    return (
-      <div>
-        <AddFlightToStam
-          ref={formRef => {
-            this.formRef = formRef;
-          }}
-          onValid={action('valid')}
-          onInvalid={action('invalid')}
-          onSubmit={this.handleSubmit}
-          flight={flight}
-        />
-        <br />
-        <button onClick={this.performSubmit}>GENERATE ERRORS</button>
-      </div>
-    );
-  }
-}
-
-storiesOf('atfcm.AddFlightToStam', module)
+storiesOf('atfcm.AddFlightToStam.Form', module)
   .addDecorator(story => (
     <Card>
       <CardText>{story()}</CardText>
@@ -93,7 +40,7 @@ storiesOf('atfcm.AddFlightToStam', module)
     width: '440px',
   }))
   .add('pristine', () => (
-    <AddFlightToStam
+    <Form
       onValid={action('valid')}
       onInvalid={action('invalid')}
       onChange={action('change')}
@@ -101,7 +48,7 @@ storiesOf('atfcm.AddFlightToStam', module)
     />
   ))
   .add('with flight', () => (
-    <AddFlightToStam
+    <Form
       onValid={action('valid')}
       onInvalid={action('invalid')}
       onChange={action('change')}
@@ -110,7 +57,7 @@ storiesOf('atfcm.AddFlightToStam', module)
     />
   ))
   .add('invalid', () => (
-    <AddFlightToStam
+    <Form
       onValid={action('valid')}
       onInvalid={action('invalid')}
       onChange={action('change')}
@@ -119,7 +66,7 @@ storiesOf('atfcm.AddFlightToStam', module)
     />
   ))
   .add('submitting', () => (
-    <AddFlightToStam
+    <Form
       onValid={action('valid')}
       onInvalid={action('invalid')}
       onChange={action('change')}
@@ -127,5 +74,4 @@ storiesOf('atfcm.AddFlightToStam', module)
       flight={flight}
       loading={true}
     />
-  ))
-  .add('with external validation', () => <ExternalValidationWrapper />);
+  ));

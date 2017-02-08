@@ -8,6 +8,7 @@ import VerticalDivider from '../../../../shared/components/VerticalDivider';
 
 import AddStamButton from './AddStam/Button';
 import AddStamDialog from './AddStam/Dialog';
+import AddFlightToStamDialog from './AddFlightToStam/Dialog';
 
 import StamCards from './StamCard';
 
@@ -32,7 +33,7 @@ type Props = {
 };
 
 export class FmpMain extends Component {
-  props: Props & StateProps;
+  props: Props & StateProps & DispatchProps;
 
   handleOpenDialog = () => {
     const {
@@ -135,7 +136,6 @@ export class FmpMain extends Component {
   _renderHistoryStams() {
     const {
       historyStams,
-      loadingStamIds,
     } = this.props;
 
     if(!historyStams || historyStams.length === 0) {
@@ -200,6 +200,9 @@ export class FmpMain extends Component {
             onRequestClose={this.handleCloseDialog}
             addStam={addStam}
           />
+          <AddFlightToStamDialog
+            open={isAddFlightToStamDialogVisible}
+          />
         </Flexbox>
       </Flexbox>
     );
@@ -209,20 +212,17 @@ export class FmpMain extends Component {
 
 type StateProps = {
   isAddStamDialogVisible: boolean,
-  showAddStamDialog: () => void,
-  hideAddStamDialog: () => void,
-  addStam: () => void,
-  delStam: (StamId) => void,
-  sendStam: ({id: StamId, when: Date}) => void,
-  archiveStam: ({id: StamId, when: Date}) => void,
+  isAddFlightToStamDialogVisible: boolean,
   loadingStamIds: Array<StamId>,
 };
 
-import { isVisible } from '../../reducers/ui/addStamModal';
+import { isVisible as isAddStamDialogVisible } from '../../reducers/ui/addStamModal';
+import { isVisible as isAddFlightToStamDialogVisible } from '../../reducers/ui/addFlightModal';
 import { getLoadingIds } from '../../reducers/ui/stams';
 
 const mapStateToProps = state => ({
-  isAddStamDialogVisible: isVisible(state),
+  isAddStamDialogVisible: isAddStamDialogVisible(state),
+  isAddFlightToStamDialogVisible: isAddFlightToStamDialogVisible(state),
   loadingStamIds: getLoadingIds(state),
 });
 
@@ -234,6 +234,15 @@ import {
   sendStam,
   archiveStam,
 } from '../../actions/stam';
+
+type DispatchProps = {
+  showAddStamDialog: () => void,
+  hideAddStamDialog: () => void,
+  addStam: () => void,
+  delStam: (StamId) => void,
+  sendStam: ({id: StamId, when: Date}) => void,
+  archiveStam: ({id: StamId, when: Date}) => void,
+};
 
 const mapDispatchToProps = {
   showAddStamDialog,

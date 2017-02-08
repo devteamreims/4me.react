@@ -5,8 +5,9 @@ import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
 import AutoComplete from 'material-ui/AutoComplete';
 import { red500 } from 'material-ui/styles/colors';
+import Formsy from 'formsy-react';
 
-import { Form } from 'formsy-react';
+import FormGlobalError from '../../shared/FormGlobalError';
 
 type Props = {
   flight?: ?Object,
@@ -20,10 +21,10 @@ type Props = {
   style?: Object,
 };
 
-import { sectors } from '../../../../shared/env';
-import { checkSectorExistence } from '../../shared/validations';
+import { sectors } from '../../../../../shared/env';
+import { checkSectorExistence } from '../../../shared/validations';
 
-export class AddFlightToStam extends Component {
+export class Form extends Component {
   props: Props;
   state: {
     disableSubmit: boolean,
@@ -111,9 +112,8 @@ export class AddFlightToStam extends Component {
 
     return (
       <div style={style}>
-        <div>{flight ? 'Edit flight' : 'Add flight'}</div>
-        <div style={{color: red500}}>{globalError}</div>
-        <Form
+        <FormGlobalError error={globalError} />
+        <Formsy.Form
           onValid={this.handleValid}
           onInvalid={this.handleInvalid}
           onChange={this.handleChange}
@@ -193,10 +193,10 @@ export class AddFlightToStam extends Component {
             dataSource={sectors.getElementarySectors()}
             fullWidth={true}
           />
-        </Form>
+        </Formsy.Form>
       </div>
     );
   }
 }
 
-export default AddFlightToStam;
+export default Form;

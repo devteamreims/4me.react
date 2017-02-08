@@ -3,7 +3,7 @@
 import { combineReducers } from 'redux';
 
 import addStamModal from './addStamModal';
-import addFlightForm from './addFlightForm';
+import addFlightModal from './addFlightModal';
 import stams from './stams';
 import flights from './flights';
 
@@ -11,5 +11,5 @@ export default combineReducers({
   addStamModal,
   stams,
   flights,
-  addFlightForm,
+  addFlightModal,
 });

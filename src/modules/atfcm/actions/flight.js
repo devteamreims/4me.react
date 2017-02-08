@@ -39,7 +39,19 @@ export function showForm(stam: *, flight: *) {
   };
 }
 
-export function hideForm() {
+export function addFlight(stamId: *, flight: *) {
+  if(!stamId || !flight) {
+    return;
+  }
+
+  return {
+    type: ADD_REQUEST,
+    stamId,
+    flight,
+  };
+}
+
+export function hideDialog() {
   return {
     type: HIDE_FORM,
   };

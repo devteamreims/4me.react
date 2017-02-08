@@ -14,11 +14,12 @@ const initialState = {
     },
   },
   loading: false,
-  openedForStamId: null,
+  visible: false,
+  stamId: null,
   flightId: null,
 };
 
-export default function addFlightFormReducer(state = initialState, action) {
+export default function addFlightModalReducer(state = initialState, action) {
   switch(action.type) {
     case SHOW_FORM: {
       const {
@@ -28,7 +29,8 @@ export default function addFlightFormReducer(state = initialState, action) {
 
       return {
         ...state,
-        openedForStamId: stamId,
+        visible: true,
+        stamId,
         flightId,
       };
     }
@@ -49,14 +51,11 @@ export default function addFlightFormReducer(state = initialState, action) {
 
 
 import globalPrefix from '../rootSelector';
-const p = state => globalPrefix(state).ui.addFlightForm;
+const p = state => globalPrefix(state).ui.addFlightModal;
 
-export const isOpenedForStamId = (state, stamId) =>
-  p(state).openedForStamId !== null &&
-  stamId === p(state).openedForStamId;
-
+export const isVisible = (state) => p(state).visible;
+export const getStamId = (state) => p(state).stamId;
 export const getFlightId = (state) => p(state).flightId;
-export const isOpened = (state) => !!p(state).openedForStamId;
 export const isLoading = state => !!p(state).loading;
 
 export const getErrorMessage = state => {

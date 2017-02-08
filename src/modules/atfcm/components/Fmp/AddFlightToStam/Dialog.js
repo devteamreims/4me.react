@@ -5,32 +5,22 @@ import { connect } from 'react-redux';
 import { red500 } from 'material-ui/styles/colors';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import Divider from 'material-ui/Divider';
-import LinearProgress from 'material-ui/LinearProgress';
-import CircularProgress from 'material-ui/CircularProgress';
-
-import FormGlobalError from '../../shared/FormGlobalError';
-
 import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
 import AutoComplete from 'material-ui/AutoComplete';
-import { Form } from 'formsy-react';
+
+import Form from './Form';
 
 import { sectors } from '../../../../../shared/env';
 import { checkSectorExistence } from '../../../shared/validations';
 
-type Props = {
-  open: boolean,
-  loading: boolean,
-  onRequestClose: () => *,
-  addStam: () => *,
-} & StateProps;
+type Props = {};
 
 type State = {
   disableButtons: boolean,
 };
 
-export class AddStamDialog extends Component {
-  props: Props;
+export class AddFlightToStamDialog extends Component {
+  props: Props & StateProps & DispatchProps;
   state: State;
   form: *;
 
@@ -69,22 +59,25 @@ export class AddStamDialog extends Component {
   };
 
   handleSubmit = (data: Object) => {
-    const { addStam } = this.props;
+    const {
+      addFlight,
+      stamId,
+    } = this.props;
 
-    if(typeof addStam !== 'function') {
+    if(typeof addFlight !== 'function' || !stamId) {
       return;
     }
 
-    addStam(data);
+    addFlight(stamId, data);
   };
 
   handleRequestClose = () => {
     const {
-      onRequestClose,
+      hideDialog,
       loading,
     } = this.props;
 
-    if(typeof onRequestClose !== 'function') {
+    if(typeof hideDialog !== 'function') {
       return;
     }
 
@@ -93,7 +86,7 @@ export class AddStamDialog extends Component {
       return;
     }
 
-    onRequestClose();
+    hideDialog();
   }
 
   renderActions() {
@@ -129,73 +122,91 @@ export class AddStamDialog extends Component {
       loading,
       globalError,
       fieldErrors,
+      stamId,
+      flight,
     } = this.props;
+
+    // Here, if we don't have a stamId, we should render nothing
+    // However, this will break material-ui Dialog animations
+    // Solution is to force close the dialog when stamId is null
 
     return (
       <Dialog
-        open={open}
+        open={!(stamId === null) || open}
         onRequestClose={this.handleRequestClose}
         actions={this.renderActions()}
-        title="Create new STAM"
+        title={flight ? 'Edit flight' : 'Add flight'}
         autoScrollBodyContent={true}
       >
-        <FormGlobalError error={globalError} />
         <Form
           onValid={this.handleOnValid}
           onInvalid={this.handleOnInvalid}
-          onChange={this.handleOnChange}
           onSubmit={this.handleSubmit}
-          validationErrors={fieldErrors}
+          onChange={this.handleOnChange}
           ref={form => {
             this.form = form;
           }}
-        >
-          <FormsyAutoComplete
-            name="offloadSector"
-            autoComplete="off"
-            required={true}
-            disabled={loading}
-            openOnFocus={true}
-            floatingLabelText="OFFLOAD Sector"
-            validations={{
-              checkSectorExistence,
-            }}
-            validationError="Please enter a valid elementary sector"
-            dataSource={sectors.getElementarySectors()}
-            filter={AutoComplete.caseInsensitiveFilter}
-          />
-        </Form>
+          flight={flight}
+        />
       </Dialog>
     );
   }
 }
 
 type StateProps = {
-  isLoading: boolean,
+  loading: boolean,
+  open: boolean,
   globalError: ?string,
+  stamId: *,
   fieldErrors: null | {[key: string]: string},
-  onChange: () => void,
+  flight: *,
 };
 
 import {
+  isVisible,
   isLoading,
   getErrorMessage,
   getFieldErrors,
-} from '../../../reducers/ui/addStamModal';
+  getFlightId,
+  getStamId,
+} from '../../../reducers/ui/addFlightModal';
 
-const mapStateToProps = state => ({
-  loading: isLoading(state),
-  globalError: getErrorMessage(state),
-  fieldErrors: getFieldErrors(state),
-});
+import { getFlightById } from '../../../reducers/entities/flights';
+
+const mapStateToProps = state => {
+  let flight = null;
+  const flightId = getFlightId(state);
+  if(flightId) {
+    flight = getFlightById(state, flightId);
+  }
+
+  return {
+    open: isVisible(state),
+    loading: isLoading(state),
+    stamId: getStamId(state),
+    flight,
+    globalError: getErrorMessage(state),
+    fieldErrors: getFieldErrors(state),
+  };
+};
 
 import {
-  touchDialogForm,
-} from '../../../actions/stam';
+  hideDialog,
+  touchForm,
+  addFlight,
+} from '../../../actions/flight';
+
+type DispatchProps = {
+  onChange: () => void,
+  hideDialog: () => void,
+  addFlight: (*) => void,
+};
 
 const mapDispatchToProps = {
-  onChange: touchDialogForm,
+  onChange: touchForm,
+  hideDialog,
+  addFlight,
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddStamDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(AddFlightToStamDialog);
