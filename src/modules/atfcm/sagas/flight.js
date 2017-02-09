@@ -21,14 +21,30 @@ import {
 
 import { delay } from 'redux-saga';
 
-const mockCommit = flight => new Promise((resolve, reject) => {
+const mockCommit = (flight, stamId) => new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject({
-      message: 'An error occured',
-      fields: {
-        arcid: 'This flight does not exist',
-        'constraint.beacon': 'This beacon does not exist',
-      },
+    // reject({
+    //   message: 'An error occured',
+    //   fields: {
+    //     arcid: 'This flight does not exist',
+    //     'constraint.beacon': 'This beacon does not exist',
+    //   },
+    // });
+    //
+/*
+    arcid: Arcid,
+    constraint: {
+      beacon: string,
+      flightLevel: number,
+    },
+    implementingSector: ElementarySector,
+    onloadSector: ElementarySector,
+*/
+    const idNum = Math.floor(Math.random() * 10000 + 1);
+    const id = `stam_${idNum}`;
+    resolve({
+      id,
+      ...flight,
     });
   }, 2000);
 });
@@ -46,7 +62,7 @@ export function* commitFlight({flight, stamId}): Generator<*, *, *> {
     }
 
     const { response, timeout } = yield race({
-      response: call(mockCommit, flight),
+      response: call(mockCommit, flight, stamId),
       timeout: call(delay, 5000),
     });
 
@@ -54,7 +70,8 @@ export function* commitFlight({flight, stamId}): Generator<*, *, *> {
       throw new Error('Request timeout');
     }
 
-    yield put({type: ADD_SUCCESS});
+
+    yield put({type: ADD_SUCCESS, stamId, flight: response});
   } catch(err) {
     yield put(commitFlightError(err));
   }

@@ -6,6 +6,7 @@ import { combineReducers } from 'redux';
 import moment from 'moment';
 
 import {
+  ADD_SUCCESS,
   DEL_SUCCESS,
   REMOVE_ORPHANS,
 } from '../../actions/flight';
@@ -60,6 +61,17 @@ const byIdInitialState = {
 
 function byId(state = byIdInitialState, action) {
   switch(action.type) {
+    case ADD_SUCCESS: {
+      const { flight, stamId } = action;
+      if(!flight || !stamId) {
+        return state;
+      }
+
+      return {
+        ...state,
+        [flight.id]: R.omit(['id'], flight)
+      };
+    }
     case DEL_SUCCESS: {
       return R.omit([action.id], state);
     }

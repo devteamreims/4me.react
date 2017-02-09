@@ -52,6 +52,9 @@ export default function addFlightModalReducer(state = initialState, action) {
     case ADD_SUCCESS: {
       return {
         ...state,
+        flightId: null,
+        stamId: null,
+        visible: false,
         loading: false,
         error: null,
       };

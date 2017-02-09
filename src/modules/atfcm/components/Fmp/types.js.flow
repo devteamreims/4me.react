@@ -26,6 +26,6 @@ export type PreparedStam = {
 
 export type ActiveStam = PreparedStam;
 
-export type HistoryStam = {
+export type HistoryStam = PreparedStam;
 
-};
+export type Stam = PreparedStam | ActiveStam | HistoryStam;

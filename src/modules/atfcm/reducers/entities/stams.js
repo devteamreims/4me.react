@@ -11,6 +11,7 @@ import {
 } from '../../actions/stam';
 
 import {
+  ADD_SUCCESS as ADD_FLIGHT_SUCCESS,
   DEL_SUCCESS as DEL_FLIGHT_SUCCESS,
 } from '../../actions/flight';
 
@@ -55,11 +56,37 @@ const allIdsInitialState = ['running_fox', 'walking_snake', 'sprinting_cheetah',
 
 function byId(state = byIdInitialState, action) {
   switch(action.type) {
+    case ADD_FLIGHT_SUCCESS: {
+      const { flight, stamId } = action;
+      if(!flight || !flight.id || !stamId || !state[stamId]) {
+        return state;
+      }
+
+      const stam = state[stamId];
+
+      if(stam.flights.includes(flight.id)) {
+        // Nothing has changed here
+        return state;
+      }
+
+      const flights = [...stam.flights, flight.id];
+
+      // Add new flight to the stam
+      const newStam = {
+        ...stam,
+        flights: Array.from(new Set(flights)),
+      };
+
+      return {
+        ...state,
+        [stamId]: newStam,
+      };
+    }
     case ADD_SUCCESS: {
       const { stam } = action;
       return {
         ...state,
-        [stam.id]: R.omit('id', stam),
+        [stam.id]: R.omit(['id'], stam),
       };
     }
     case DEL_SUCCESS:
@@ -177,13 +204,13 @@ export const getStams = (state) => {
 };
 
 
-const isStamPrepared = stam =>
+export const isStamPrepared = stam =>
   stam.sendTime === null ||
   (stam.sendTime && moment(stam.sendTime).isAfter(moment()));
 
-const isStamArchived = stam => stam.archiveTime && moment(stam.archiveTime).isBefore(moment());
+export const isStamArchived = stam => stam.archiveTime && moment(stam.archiveTime).isBefore(moment());
 
-const isStamActive = stam =>
+export const isStamActive = stam =>
   stam.sendTime &&
   moment(stam.sendTime).isBefore(moment()) &&
   !isStamArchived(stam);

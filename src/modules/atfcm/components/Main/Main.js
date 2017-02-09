@@ -20,8 +20,10 @@ type State = {
   clientType: ClientType,
 };
 
+type StamTypeString = 'active' | 'prepared' | 'archived';
+
 class Main extends Component {
-  props: Props;
+  props: Props & StateProps;
   state: State;
 
   constructor(props: Props) {
@@ -34,14 +36,43 @@ class Main extends Component {
     };
   }
 
+  componentDidMount() {
+    if(!this.refreshInterval) {
+      this.refreshInterval = setInterval(() => this.forceUpdate(), 1000);
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     const { client } = nextProps;
     const clientType = R.propOr('cwp', 'type', client);
     this.setState({clientType});
   }
 
+  componentWillUnmount() {
+    if(this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+      this.refreshInterval = null;
+    }
+  }
+
+  refreshInterval = null;
+
   handleClientTypeChange = (ev: *, clientType: ClientType) => {
     this.setState({clientType});
+  };
+
+  getStamsByType = (type: StamTypeString): Array<Stam> => {
+    const { stams } = this.props;
+
+    switch(type) {
+      case 'prepared':
+        return stams.filter(isStamPrepared);
+      case 'archived':
+        return stams.filter(isStamArchived);
+      case 'active':
+      default:
+        return stams.filter(isStamActive);
+    }
   };
 
   _renderMainComponent = () => {
@@ -50,17 +81,11 @@ class Main extends Component {
     } = this.state;
 
     if(clientType === 'flow-manager') {
-      const {
-        activeStams,
-        preparedStams,
-        historyStams,
-      } = this.props;
-
       return (
         <FmpMain
-          activeStams={activeStams}
-          preparedStams={preparedStams}
-          historyStams={historyStams}
+          activeStams={this.getStamsByType('active')}
+          preparedStams={this.getStamsByType('prepared')}
+          historyStams={this.getStamsByType('archived')}
         />
       );
     }
@@ -97,16 +122,21 @@ class Main extends Component {
 
 
 import {
-  getActiveStams,
-  getPreparedStams,
-  getHistoryStams,
+  getStams,
+  isStamActive,
+  isStamPrepared,
+  isStamArchived,
 } from '../../reducers/entities/stams';
+
+import type { Stam } from '../Fmp/types';
+
+type StateProps = {
+  stams: Array<Stam>,
+};
 
 const mapStateToProps = state => {
   return {
-    activeStams: getActiveStams(state),
-    preparedStams: getPreparedStams(state),
-    historyStams: getHistoryStams(state),
+    stams: getStams(state),
   };
 };
 
