@@ -33,11 +33,17 @@ import { delay } from 'redux-saga';
 
 const mockCommit = stam => new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject({
-      message: 'An error occured',
-      fields: {
-        offloadSector: 'This sector does not exist',
-      },
+    const idNum = Math.floor(Math.random() * 10000 + 1);
+    const id = `stam_${idNum}`;
+
+    resolve({
+      ...stam,
+      id,
+      flights: [],
+      sendTime: null,
+      archiveTime: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
   }, 2000);
 });
@@ -71,7 +77,7 @@ export function* commitStam({stam}): Generator<*, *, *> {
       throw new Error('Request timeout');
     }
 
-    yield put({type: ADD_SUCCESS});
+    yield put({type: ADD_SUCCESS, stam: response});
   } catch(err) {
     yield put(commitStamError(err));
   }

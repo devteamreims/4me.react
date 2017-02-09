@@ -4,6 +4,7 @@ import R from 'ramda';
 import { combineReducers } from 'redux';
 
 import {
+  ADD_SUCCESS,
   DEL_SUCCESS,
   SEND_SUCCESS,
   ARCHIVE_SUCCESS,
@@ -54,6 +55,13 @@ const allIdsInitialState = ['running_fox', 'walking_snake', 'sprinting_cheetah',
 
 function byId(state = byIdInitialState, action) {
   switch(action.type) {
+    case ADD_SUCCESS: {
+      const { stam } = action;
+      return {
+        ...state,
+        [stam.id]: R.omit('id', stam),
+      };
+    }
     case DEL_SUCCESS:
       return R.omit([action.id], state);
     case DEL_FLIGHT_SUCCESS: {
@@ -119,6 +127,19 @@ function byId(state = byIdInitialState, action) {
 
 function allIds(state = allIdsInitialState, action) {
   switch(action.type) {
+    case ADD_SUCCESS: {
+      const { stam } = action;
+      const { id } = stam;
+
+      if(!id) {
+        return state;
+      }
+
+      return [
+        id,
+        ...R.without([id], state),
+      ];
+    }
     case DEL_SUCCESS:
       return R.without([action.id], state);
   }

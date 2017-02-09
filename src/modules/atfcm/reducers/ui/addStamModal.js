@@ -26,6 +26,7 @@ export default function addStamModalReducer(state = initialState, action) {
     case ADD_SUCCESS: {
       return {
         ...state,
+        visible: false,
         loading: false,
         error: null,
       };
