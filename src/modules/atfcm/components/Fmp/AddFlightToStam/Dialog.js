@@ -130,28 +130,31 @@ export class AddFlightToStamDialog extends Component {
     // Here, if we don't have a stamId, we should render nothing
     // However, this will break material-ui Dialog animations
     // Solution is to force close the dialog when stamId is null
+    const isDialogOpen = !(stamId === null) || open;
 
     return (
       <Dialog
-        open={!(stamId === null) || open}
+        open={isDialogOpen}
         onRequestClose={this.handleRequestClose}
         actions={this.renderActions()}
         title={flight ? 'Edit flight' : 'Add flight'}
         autoScrollBodyContent={true}
         modal={true}
       >
-        <Form
-          onValid={this.handleOnValid}
-          onInvalid={this.handleOnInvalid}
-          onSubmit={this.handleSubmit}
-          onChange={this.handleOnChange}
-          ref={form => {
-            this.form = form;
-          }}
-          flight={flight}
-          globalError={globalError}
-          fieldErrors={fieldErrors}
-        />
+        {isDialogOpen &&
+          <Form
+            onValid={this.handleOnValid}
+            onInvalid={this.handleOnInvalid}
+            onSubmit={this.handleSubmit}
+            onChange={this.handleOnChange}
+            ref={form => {
+              this.form = form;
+            }}
+            flight={flight}
+            globalError={globalError}
+            fieldErrors={fieldErrors}
+          />
+        }
       </Dialog>
     );
   }

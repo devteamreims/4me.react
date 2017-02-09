@@ -1,11 +1,13 @@
 // @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
 import AutoComplete from 'material-ui/AutoComplete';
 import { red500 } from 'material-ui/styles/colors';
 import Formsy from 'formsy-react';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import FormGlobalError from '../../shared/FormGlobalError';
 import FormsyHidden from './FormsyHidden';
@@ -26,7 +28,7 @@ import { sectors } from '../../../../../shared/env';
 import { checkSectorExistence } from '../../../shared/validations';
 
 export class Form extends Component {
-  props: Props;
+  props: Props & StateProps & DispatchProps;
   state: {
     disableSubmit: boolean,
     disableDiscard: boolean,
@@ -45,7 +47,20 @@ export class Form extends Component {
     };
   }
 
+  componentDidMount() {
+    const {
+      requestAutocomplete,
+    } = this.props;
+
+    if(typeof requestAutocomplete !== 'function') {
+      return;
+    }
+
+    requestAutocomplete();
+  }
+
   form = null;
+
 
   handleImplementingSectorSelect = (chosenSector: string) => {
     // This setState will trigger a rerender, given us the opportunity to tweak validation
@@ -103,6 +118,9 @@ export class Form extends Component {
       style,
       fieldErrors,
       globalError,
+      autocompleteError,
+      autocompleteFlights,
+      isAutocompleteLoading,
     } = this.props;
 
     const {
@@ -113,6 +131,9 @@ export class Form extends Component {
 
     return (
       <div style={style}>
+        {autocompleteError &&
+          <FormGlobalError error={`Autocompletion: ${autocompleteError}`} />
+        }
         <FormGlobalError error={globalError} />
         <Formsy.Form
           onValid={this.handleValid}
@@ -130,7 +151,7 @@ export class Form extends Component {
               value={flight.id}
             />
           }
-          <FormsyText
+          <FormsyAutoComplete
             name="arcid"
             autoComplete="off"
             required={true}
@@ -141,6 +162,8 @@ export class Form extends Component {
             validationError="Please enter a valid callsign"
             fullWidth={true}
             updateImmediately={true}
+            filter={AutoComplete.caseInsensitiveFilter}
+            dataSource={autocompleteFlights}
           />
           <FormsyAutoComplete
             name="implementingSector"
@@ -157,6 +180,7 @@ export class Form extends Component {
             searchText={implementingSector || (flight && flight.implementingSector) || ''}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={sectors.getElementarySectors()}
+            openOnFocus={true}
             fullWidth={true}
           />
           <FormsyText
@@ -198,6 +222,7 @@ export class Form extends Component {
             searchText={onloadSector || (flight && flight.onloadSector) || ''}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={sectors.getElementarySectors()}
+            openOnFocus={true}
             fullWidth={true}
           />
         </Formsy.Form>
@@ -206,4 +231,34 @@ export class Form extends Component {
   }
 }
 
-export default Form;
+type StateProps = {
+  autocompleteFlights: Array<string>,
+  isAutocompleteLoading: boolean,
+  autocompleteError: ?string,
+};
+
+import {
+  isLoading as isAutocompleteLoading,
+  getFlights as getAutocompleteFlights,
+  getError as getAutocompleteError,
+} from '../../../reducers/ui/autocomplete';
+
+const mapStateToProps = (state) => ({
+  isAutocompleteLoading: isAutocompleteLoading(state),
+  autocompleteFlights: getAutocompleteFlights(state),
+  autocompleteError: getAutocompleteError(state),
+});
+
+type DispatchProps = {
+  requestAutocomplete: () => void,
+};
+
+import {
+  request as requestAutocomplete,
+} from '../../../actions/autocomplete';
+
+const mapDispatchToProps = {
+  requestAutocomplete,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
