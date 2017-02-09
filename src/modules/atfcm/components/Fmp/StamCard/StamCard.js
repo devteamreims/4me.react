@@ -301,19 +301,16 @@ const mapStateToProps = (state, ownProps: Props) => {
 type DispatchProps = {
   deleteFlight: (id: *) => void,
   showForm: (*) => void,
-  touchForm: () => void,
 };
 
 import {
   deleteFlight,
   showForm,
-  touchForm,
 } from '../../../actions/flight';
 
 const mapDispatchToProps = {
   deleteFlight,
   showForm,
-  touchForm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StamCard);
