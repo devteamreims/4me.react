@@ -51,11 +51,23 @@ export class AddFlightToStamDialog extends Component {
   };
 
   triggerSubmit = () => {
-    if(!this.form || typeof this.form.submit !== 'function') {
+    if(!this.form) {
       return;
     }
 
-    this.form.submit();
+    // Now we have to workaround react-redux wrapping functions
+    // Ref could point to the connected component instead of the real component
+    let trigger = () => {};
+
+
+    if(typeof this.form.submit === 'function') {
+      // Easy one, form is readly accessible
+      trigger = this.form.submit;
+    } else if(this.form.getWrappedInstance && typeof this.form.getWrappedInstance().submit === 'function') {
+      trigger = this.form.getWrappedInstance().submit;
+    }
+
+    trigger();
   };
 
   handleSubmit = (data: Object) => {
@@ -68,6 +80,8 @@ export class AddFlightToStamDialog extends Component {
     if(typeof commitFlight !== 'function' || !stamId) {
       return;
     }
+
+    console.log('Submitting flight !');
 
     commitFlight(stamId, data);
   };

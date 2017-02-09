@@ -158,6 +158,7 @@ export class Form extends Component {
             disabled={loading}
             floatingLabelText="Callsign"
             value={flight && flight.arcid}
+            searchText={(flight && flight.arcid) || ''}
             validations="isAlphanumeric"
             validationError="Please enter a valid callsign"
             fullWidth={true}
@@ -261,4 +262,4 @@ const mapDispatchToProps = {
   requestAutocomplete,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(Form);
