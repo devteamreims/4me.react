@@ -2,6 +2,7 @@
 <PROJECT_ROOT>/node_modules/jss
 .*/node_modules/fbjs/.*
 .*/node_modules/radium/.*
+<PROJECT_ROOT>/src/.*\.stories\.js
 
 [include]
 
