@@ -155,14 +155,27 @@ export class SendButton extends Component {
   };
 
   renderTimeSeries() {
-    const minutes = [1, 2, 5, 10, 15];
+    const seconds = [0, 20, 60, 60 * 2, 60 * 5, 60 * 10, 60 * 15];
 
-    return minutes.map(t =>
-      <MenuItem
-        primaryText={`${t} minutes`}
-        onClick={this.handleSend(t * 60)}
-      />
-    );
+    return seconds.map(s => {
+      const duration = moment.duration(s, 'seconds');
+
+      let text;
+      if(s >= 60) {
+        text = duration.humanize();
+      } else if(s > 0) {
+        text = `${s} seconds`;
+      } else if(s === 0) {
+        text = 'Now';
+      }
+
+      return (
+        <MenuItem
+          primaryText={text}
+          onClick={this.handleSend(s)}
+        />
+      );
+    });
   }
 
   render() {
@@ -203,10 +216,6 @@ export class SendButton extends Component {
                 onClick={this.handleSend(null)}
               />
             }
-            <MenuItem
-              primaryText="Now"
-              onClick={this.handleSend(0)}
-            />
             {this.renderTimeSeries()}
           </Menu>
         </Popover>
