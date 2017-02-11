@@ -4,17 +4,16 @@ import React, { Component } from 'react';
 import Divider from 'material-ui/Divider';
 import F from 'flexbox-react';
 
-import StamAvatar from '../StamAvatar';
 import IconButton from 'material-ui/IconButton';
+
 import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
-import Subheader from 'material-ui/Subheader';
 import AddCircle from 'material-ui/svg-icons/content/add-circle';
 import Build from 'material-ui/svg-icons/action/build';
 import Location from 'material-ui/svg-icons/maps/my-location';
 import FlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 
-import { List, ListItem } from 'material-ui/List';
+import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
 import type { Flight } from './types';
 
@@ -126,7 +125,12 @@ export class FlightRow extends Component {
               color="grey"
               style={{marginRight: 10}}
             />
-            {flight.onloadSector}
+            <ColorizedContent
+              hash={flight.onloadSector}
+              theme="light"
+            >
+              {flight.onloadSector}
+            </ColorizedContent>
           </F>
           <F
             flexDirection="row"
@@ -159,7 +163,12 @@ export class FlightRow extends Component {
               color="grey"
               style={{marginRight: 10}}
             />
-            {flight.implementingSector}
+            <ColorizedContent
+              hash={flight.implementingSector}
+              theme="light"
+            >
+              {flight.implementingSector}
+            </ColorizedContent>
           </F>
         </F>
         <Divider />

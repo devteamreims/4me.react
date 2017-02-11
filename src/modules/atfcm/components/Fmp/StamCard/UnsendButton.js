@@ -34,19 +34,6 @@ export class UnsendButton extends Component {
     return moment(sendTime).isBefore(moment());
   };
 
-  getLabelStyle = () => {
-    const {
-      disabled,
-    } = this.props;
-
-    if(disabled) {
-      return null;
-    }
-
-    return {color: Colors.orange500};
-  };
-
-
   render() {
     const {
       disabled,
@@ -61,9 +48,8 @@ export class UnsendButton extends Component {
     return (
       <FlatButton
         disabled={disabled}
-        labelStyle={this.getLabelStyle()}
         onClick={onCancelSend}
-        label="Prepare"
+        label="UNPUBLISH"
         style={style}
       />
     );

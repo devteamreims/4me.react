@@ -34,8 +34,12 @@ export class ArchiveCard extends Component {
 
     const {
       offloadSector,
-      sendTime,
+      flights,
     } = stam;
+
+    const pluralFlights = flights.length === 1 ? 'flight' : 'flights';
+
+    const flightString = `${flights.length || 0} ${pluralFlights}`;
 
     const colorizedOffloadSector = (
       <ColorizedContent theme="light" hash={offloadSector}>
@@ -44,21 +48,18 @@ export class ArchiveCard extends Component {
     );
 
     return (
-      <span>{colorizedOffloadSector} - {moment(sendTime).fromNow()}</span>
+      <span>{colorizedOffloadSector} - {flightString}</span>
     );
   }
 
-  getSubtitle() {
+  getSubtitle(): string {
     const { stam } = this.props;
 
     const {
       sendTime,
-      flights,
     } = stam;
 
-    const pluralFlights = flights.length === 1 ? 'flight' : 'flights';
-
-    return `${flights.length || 0} ${pluralFlights}`;
+    return `Archived ${moment(sendTime).fromNow()}`;
   }
 
   renderFlights() {

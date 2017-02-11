@@ -117,11 +117,11 @@ export class SendButton extends Component {
     }
 
     if(this.isStamSent()) {
-      return `Sent ${moment(sendTime).fromNow()}`;
+      return `Published ${moment(sendTime).fromNow()}`;
     }
 
     if(!sendTime) {
-      return 'Activate';
+      return 'Publish';
     }
 
     const duration = moment.duration(
@@ -129,29 +129,22 @@ export class SendButton extends Component {
     );
 
     if(!duration.minutes()) {
-      return `Sending in ${duration.seconds()} SECONDS`;
+      return `Publishing in ${duration.seconds()}s`;
     }
 
-    return `Sending in ${duration.humanize()}`;
+    return `Publishing in ${duration.humanize()}`;
   }
 
   getLabelStyle = () => {
     const {
-      disabled,
       sendTime,
     } = this.props;
 
-    if(disabled) {
-      return null;
-    }
-
-    let color = Colors.green500;
-
     if(sendTime) {
-      color = Colors.orange500;
+      return {color: Colors.orange500};
     }
 
-    return {color};
+    return null;
   };
 
   renderTimeSeries() {
