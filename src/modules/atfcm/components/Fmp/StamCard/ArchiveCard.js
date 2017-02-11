@@ -19,7 +19,7 @@ import {
 
 import type {
   HistoryStam,
-} from '../types';
+} from '../../../types';
 
 type Props = {
   stam: HistoryStam,

@@ -1,4 +1,5 @@
 // @flow
+import type { Action, RootState, Selector } from '../../../../store';
 import {
   AUTOCOMPLETE_REQUEST,
   AUTOCOMPLETE_SUCCESS,
@@ -18,8 +19,13 @@ const loadingInitialState = {
     'BAW132',
   ],
 };
+export type State = {
+  error: ?string,
+  loading: boolean,
+  flights: Array<string>,
+};
 
-export default function autocompleteReducer(state = loadingInitialState, action) {
+export default function autocompleteReducer(state: State = loadingInitialState, action: Action) {
   switch(action.type) {
     case AUTOCOMPLETE_REQUEST: {
       return {
@@ -51,8 +57,8 @@ export default function autocompleteReducer(state = loadingInitialState, action)
 
 
 import globalPrefix from '../rootSelector';
-const p = state => globalPrefix(state).ui.autocomplete;
+const p: Selector<State> = state => globalPrefix(state).ui.autocomplete;
 
-export const isLoading = (state) => !!p(state).loading;
-export const getError = (state) => p(state).error;
-export const getFlights = (state) => p(state).flights;
+export const isLoading: Selector<boolean> = (state) => !!p(state).loading;
+export const getError: Selector<?string> = (state) => p(state).error;
+export const getFlights: Selector<Array<string>> = (state) => p(state).flights;

@@ -1,5 +1,5 @@
 // @flow
-
+import type { Action, Selector } from '../../../../store';
 import {
   HIDE_FORM,
   SHOW_FORM,
@@ -17,7 +17,21 @@ const initialState = {
   flightId: null,
 };
 
-export default function addFlightModalReducer(state = initialState, action) {
+import type {
+  FlightId,
+  StamId,
+  ValidationError,
+} from '../../types';
+
+export type State = {
+  error: ?ValidationError,
+  loading: boolean,
+  visible: boolean,
+  stamId: ?StamId,
+  flightId: ?FlightId,
+};
+
+export default function addFlightModalReducer(state: State = initialState, action: Action) {
   switch(action.type) {
     case SHOW_FORM: {
       const {
@@ -72,25 +86,27 @@ export default function addFlightModalReducer(state = initialState, action) {
 
 
 import globalPrefix from '../rootSelector';
-const p = state => globalPrefix(state).ui.addFlightModal;
+const p: Selector<State> = state => globalPrefix(state).ui.addFlightModal;
 
-export const isVisible = (state) => p(state).visible;
-export const getStamId = (state) => p(state).stamId;
-export const getFlightId = (state) => p(state).flightId;
-export const isLoading = state => !!p(state).loading;
+export const isVisible: Selector<boolean> = (state) => p(state).visible;
+export const getStamId: Selector<?StamId> = (state) => p(state).stamId;
+export const getFlightId: Selector<?FlightId> = (state) => p(state).flightId;
+export const isLoading: Selector<boolean> = state => !!p(state).loading;
 
-export const getErrorMessage = state => {
-  if(!p(state).error || !p(state).error.message) {
+export const getErrorMessage: Selector<?string> = state => {
+  const err = p(state).error;
+  if(!err) {
     return null;
   }
 
-  return p(state).error.message;
+  return err.message;
 };
 
-export const getFieldErrors = state => {
-  if(!p(state).error || !p(state).error.fields) {
+export const getFieldErrors: Selector<?{[key: string]: ?string}> = state => {
+  const err = p(state).error;
+  if(!err) {
     return null;
   }
 
-  return p(state).error.fields;
+  return err.fields;
 };

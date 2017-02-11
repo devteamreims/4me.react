@@ -13,21 +13,40 @@ export const TOUCH_FORM = 'atfcm/flight/TOUCH_FORM';
 
 export const REMOVE_ORPHANS = 'atfcm/flight/REMOVE_ORPHANS';
 
-export function deleteFlight(id: *) {
+import type {
+  StamId,
+  FlightId,
+  Flight,
+  ValidationError,
+} from '../types';
+
+export type Action =
+  | {|type: 'atfcm/flight/DEL_REQUEST', id: FlightId|}
+  | {|type: 'atfcm/flight/DEL_SUCCESS', id: FlightId|}
+  | {|type: 'atfcm/flight/DEL_FAILURE', id: FlightId, error: ValidationError|}
+  | {|type: 'atfcm/flight/ADD_REQUEST', stamId: StamId, flight: Flight|}
+  | {|type: 'atfcm/flight/ADD_SUCCESS', stamId: StamId, flight: Flight|}
+  | {|type: 'atfcm/flight/ADD_FAILURE', error: ValidationError|}
+  | {|type: 'atfcm/flight/SHOW_FORM', stamId: StamId, flightId: ?FlightId|}
+  | {|type: 'atfcm/flight/HIDE_FORM'|}
+  | {|type: 'atfcm/flight/TOUCH_FORM'|}
+  | {|type: 'atfcm/flight/REMOVE_ORPHANS', ids: Array<FlightId>|}
+
+export function deleteFlight(id: *): Action {
   return {
     type: DEL_REQUEST,
     id,
   };
 }
 
-export function removeOrphanFlights(ids: Array<*>) {
+export function removeOrphanFlights(ids: Array<*>): Action {
   return {
     type: REMOVE_ORPHANS,
     ids,
   };
 }
 
-export function showForm(stam: *, flight: *) {
+export function showForm(stam: *, flight: *): Action {
   if(!stam || !stam.id) {
     return;
   }
@@ -44,7 +63,7 @@ type CommitFlightError =
   | Error
   | {message: string, fields?: {[key: string]: ?string}};
 
-export function commitFlightError(error: CommitFlightError) {
+export function commitFlightError(error: CommitFlightError): Action {
   let message = 'Unknown error';
   let fields = null;
 
@@ -69,9 +88,9 @@ export function commitFlightError(error: CommitFlightError) {
   };
 }
 
-export function commitFlight(stamId: *, flight: *) {
+export function commitFlight(stamId: *, flight: *): Action {
   if(!stamId || !flight) {
-    return;
+    throw new Error('atfcm/actions/flight: Invalid arguments (stamId, flight)', stamId, flight);
   }
 
   return {
@@ -81,13 +100,13 @@ export function commitFlight(stamId: *, flight: *) {
   };
 }
 
-export function hideDialog() {
+export function hideDialog(): Action {
   return {
     type: HIDE_FORM,
   };
 }
 
-export function touchForm() {
+export function touchForm(): Action {
   return {
     type: TOUCH_FORM,
   };

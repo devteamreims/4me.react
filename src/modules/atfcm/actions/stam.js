@@ -21,7 +21,30 @@ export const TOUCH_ADD_STAM_FORM = 'atfcm/stam/TOUCH_ADD_STAM_FORM';
 
 import moment from 'moment';
 
-export function commitStam(stam: Object) {
+import type {
+  Stam,
+  StamId,
+  ValidationError,
+} from '../types';
+
+export type Action =
+  | {|type: 'atfcm/stam/ADD_REQUEST', stam: Stam|}
+  | {|type: 'atfcm/stam/ADD_SUCCESS', stam: Stam|}
+  | {|type: 'atfcm/stam/ADD_FAILURE', error: ValidationError|}
+  | {|type: 'atfcm/stam/DEL_REQUEST', id: StamId|}
+  | {|type: 'atfcm/stam/DEL_SUCCESS', id: StamId|}
+  | {|type: 'atfcm/stam/DEL_FAILURE', id: StamId, error: string|}
+  | {|type: 'atfcm/stam/SEND_REQUEST', id: StamId, when: ?Date|}
+  | {|type: 'atfcm/stam/SEND_SUCCESS', id: StamId, when: ?Date|}
+  | {|type: 'atfcm/stam/SEND_FAILURE', id: StamId, error: string|}
+  | {|type: 'atfcm/stam/ARCHIVE_REQUEST', id: StamId, when: ?Date|}
+  | {|type: 'atfcm/stam/ARCHIVE_SUCCESS', id: StamId, when: ?Date|}
+  | {|type: 'atfcm/stam/ARCHIVE_FAILURE', id: StamId, error: string|}
+  | {|type: 'atfcm/stam/SHOW_ADD_DIALOG'|}
+  | {|type: 'atfcm/stam/HIDE_ADD_DIALOG'|}
+  | {|type: 'atfcm/stam/TOUCH_ADD_STAM_FORM'|}
+
+export function commitStam(stam: string): Action {
   return {
     type: ADD_REQUEST,
     stam,
@@ -33,7 +56,7 @@ type CommitStamError =
   | Error
   | {message: string, fields?: {[key: string]: ?string}};
 
-export function commitStamError(error: CommitStamError) {
+export function commitStamError(error: CommitStamError): Action {
   let message = 'Unknown error';
   let fields = null;
 
@@ -58,15 +81,15 @@ export function commitStamError(error: CommitStamError) {
   };
 }
 
-export function deleteStam(id: *) {
+export function deleteStam(id: StamId): Action {
   return {
     type: DEL_REQUEST,
     id,
   };
 }
 
-export function sendStam({id, delay}) {
-  const when = delay !== null ? moment().add(delay, 'seconds').toDate() : null;
+export function sendStam({id, delay}: {id: string, delay: ?number}): Action {
+  const when = typeof delay === 'number' ? moment().add(delay, 'seconds').toDate() : null;
 
   return {
     type: SEND_REQUEST,
@@ -75,8 +98,8 @@ export function sendStam({id, delay}) {
   };
 }
 
-export function archiveStam({id, delay}) {
-  const when = delay !== null ? moment().add(delay, 'seconds').toDate() : null;
+export function archiveStam({id, delay}: {id: string, delay: ?number}): Action {
+  const when = typeof delay === 'number' ? moment().add(delay, 'seconds').toDate() : null;
 
   return {
     type: ARCHIVE_REQUEST,
@@ -85,19 +108,19 @@ export function archiveStam({id, delay}) {
   };
 }
 
-export function showDialog() {
+export function showDialog(): Action {
   return {
     type: SHOW_ADD_DIALOG,
   };
 }
 
-export function hideDialog() {
+export function hideDialog(): Action {
   return {
     type: HIDE_ADD_DIALOG,
   };
 }
 
-export function touchDialogForm() {
+export function touchDialogForm(): Action {
   return {
     type: TOUCH_ADD_STAM_FORM,
   };

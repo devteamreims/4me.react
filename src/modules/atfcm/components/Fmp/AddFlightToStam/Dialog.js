@@ -13,14 +13,14 @@ import Form from './Form';
 import { sectors } from '../../../../../shared/env';
 import { checkSectorExistence } from '../../../shared/validations';
 
-type Props = {};
+type Props = StateProps & DispatchProps;
 
 type State = {
   disableButtons: boolean,
 };
 
-export class AddFlightToStamDialog extends Component {
-  props: Props & StateProps & DispatchProps;
+export class AddFlightToStamDialog extends React.Component<void, Props, State> {
+  props: Props;
   state: State;
   form: *;
 
@@ -193,8 +193,9 @@ import {
 } from '../../../reducers/ui/addFlightModal';
 
 import { getFlightById } from '../../../reducers/entities/flights';
+import type { RootState as S, Dispatch } from '../../../../../store';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: S, ownProps) => {
   let flight = null;
   const flightId = getFlightId(state);
   if(flightId) {
@@ -220,14 +221,25 @@ import {
 type DispatchProps = {
   onChange: () => void,
   hideDialog: () => void,
-  commitFlight: (*) => void,
+  commitFlight: (mixed) => void,
 };
 
-const mapDispatchToProps = {
-  onChange: touchForm,
-  hideDialog,
-  commitFlight,
-};
+const mapDispatchToProps = (dispatch: Dispatch, ownProps) => ({
+  onChange: () => dispatch(touchForm()),
+  hideDialog: () => dispatch(hideDialog()),
+  commitFlight: (stamId, flight) => dispatch(commitFlight(stamId, flight)),
+});
+
+import type { Connector } from 'react-redux';
+
+(AddFlightToStamDialog: Class<React$Component<void, StateProps & DispatchProps, State>>);
+
+const connector: Connector<{}, StateProps & DispatchProps> = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFlightToStamDialog);
+const ConnectedComponent = connector(AddFlightToStamDialog);
+
+export default ConnectedComponent;

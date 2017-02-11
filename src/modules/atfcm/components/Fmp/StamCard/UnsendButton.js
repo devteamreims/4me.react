@@ -1,11 +1,9 @@
 // @flow
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import FlatButton from 'material-ui/FlatButton';
-import * as Colors from 'material-ui/styles/colors';
 
-
-import moment from 'moment';
 
 type Props = {
   disabled?: boolean,

@@ -21,7 +21,13 @@ import {
 
 import { delay } from 'redux-saga';
 
-const mockCommit = (flight, stamId) => new Promise((resolve, reject) => {
+import type {
+  Flight,
+  StamId,
+  FlightId,
+} from '../types';
+
+const mockCommit = (flight: Flight, stamId: StamId): Promise<Flight> => new Promise((resolve, reject) => {
   setTimeout(() => {
     // reject({
     //   message: 'An error occured',
@@ -41,7 +47,7 @@ const mockCommit = (flight, stamId) => new Promise((resolve, reject) => {
     onloadSector: ElementarySector,
 */
     const idNum = Math.floor(Math.random() * 10000 + 1);
-    const id = `stam_${idNum}`;
+    const id = `flight_${idNum}`;
     resolve({
       id,
       ...flight,
@@ -49,13 +55,13 @@ const mockCommit = (flight, stamId) => new Promise((resolve, reject) => {
   }, 2000);
 });
 
-const mockDelete = id => new Promise((resolve, reject) => {
+const mockDelete = (id: FlightId): Promise<{id: FlightId}> => new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({id});
   }, 2000);
 });
 
-export function* commitFlight({flight, stamId}): Generator<*, *, *> {
+export function* commitFlight({flight, stamId}: {flight: Flight, stamId: StamId}): Generator<*, *, *> {
   try {
     if(!stamId) {
       return;
@@ -77,7 +83,7 @@ export function* commitFlight({flight, stamId}): Generator<*, *, *> {
   }
 }
 
-export function* deleteFlight({id}): Generator<*, *, *> {
+export function* deleteFlight({id}: {id: FlightId}): Generator<*, *, *> {
   try {
     const data = yield call(mockDelete, id);
     yield put({type: DEL_SUCCESS, id});

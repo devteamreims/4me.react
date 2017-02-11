@@ -24,16 +24,16 @@ import type {
   PreparedStam,
   HistoryStam,
   StamId,
-} from './types';
+} from '../../types';
 
 type Props = {
   preparedStams: Array<PreparedStam>,
   activeStams: Array<ActiveStam>,
   historyStams: Array<HistoryStam>,
-};
+} & StateProps & DispatchProps;
 
-export class FmpMain extends Component {
-  props: Props & StateProps & DispatchProps;
+export class FmpMain extends Component<void, Props, void> {
+  props: Props;
 
   handleOpenDialog = () => {
     const {
@@ -158,6 +158,8 @@ export class FmpMain extends Component {
       addStam,
     } = this.props;
 
+    (AddFlightToStamDialog: string);
+
     return (
       <Flexbox flexGrow={1} flexDirection="column">
         <Flexbox
@@ -198,9 +200,7 @@ export class FmpMain extends Component {
             onRequestClose={this.handleCloseDialog}
             addStam={addStam}
           />
-          <AddFlightToStamDialog
-            open={isAddFlightToStamDialogVisible}
-          />
+          <AddFlightToStamDialog />
         </Flexbox>
       </Flexbox>
     );
@@ -218,7 +218,9 @@ import { isVisible as isAddStamDialogVisible } from '../../reducers/ui/addStamMo
 import { isVisible as isAddFlightToStamDialogVisible } from '../../reducers/ui/addFlightModal';
 import { getLoadingIds } from '../../reducers/ui/stams';
 
-const mapStateToProps = state => ({
+import type { RootState } from '../../../../store';
+
+const mapStateToProps = (state: RootState) => ({
   isAddStamDialogVisible: isAddStamDialogVisible(state),
   isAddFlightToStamDialogVisible: isAddFlightToStamDialogVisible(state),
   loadingStamIds: getLoadingIds(state),

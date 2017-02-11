@@ -1,4 +1,5 @@
 // @flow
+import type { Action, Selector, RootState } from '../../../../store';
 import {
   DEL_REQUEST,
   DEL_SUCCESS,
@@ -10,7 +11,10 @@ import R from 'ramda';
 
 const loadingInitialState = [];
 
-function loading(state = loadingInitialState, action) {
+import type { FlightId } from '../../types';
+
+type LoadingState = Array<FlightId>;
+function loading(state: LoadingState = loadingInitialState, action: Action) {
   switch(action.type) {
     case DEL_REQUEST: {
       const { id } = action;
@@ -26,7 +30,9 @@ function loading(state = loadingInitialState, action) {
   return state;
 }
 
-
+export type State = {
+  loading: LoadingState,
+};
 const flightsReducer = combineReducers({
   loading,
 });
@@ -34,7 +40,7 @@ const flightsReducer = combineReducers({
 export default flightsReducer;
 
 import globalPrefix from '../rootSelector';
-const p = state => globalPrefix(state).ui.flights;
+const p: Selector<State> = state => globalPrefix(state).ui.flights;
 
-export const getLoadingIds = (state) => p(state).loading;
-export const isLoading = (state, id) => getLoadingIds(state).contains(id);
+export const getLoadingIds: Selector<Array<FlightId>> = (state) => p(state).loading;
+export const isLoading = (state: RootState, id: string): boolean => getLoadingIds(state).includes(id);

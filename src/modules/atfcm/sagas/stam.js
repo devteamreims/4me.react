@@ -31,7 +31,12 @@ import {
 
 import { delay } from 'redux-saga';
 
-const mockCommit = stam => new Promise((resolve, reject) => {
+import type {
+  Stam,
+  StamId,
+} from '../types';
+
+const mockCommit = (stam: Stam): Promise<Stam> => new Promise((resolve, reject) => {
   setTimeout(() => {
     const idNum = Math.floor(Math.random() * 10000 + 1);
     const id = `stam_${idNum}`;
@@ -48,25 +53,26 @@ const mockCommit = stam => new Promise((resolve, reject) => {
   }, 2000);
 });
 
-const mockDelete = id => new Promise((resolve, reject) => {
+const mockDelete = (id: StamId): Promise<{id: StamId}> => new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({id});
   }, 2000);
 });
 
-const mockSend = ({id, when}) => new Promise((resolve, reject) => {
+type StamWhen = {id: StamId, when: Date | null};
+const mockSend = ({id, when}: StamWhen): Promise<StamWhen> => new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({id, when});
   }, 2000);
 });
 
-const mockArchive = ({id, when}) => new Promise((resolve, reject) => {
+const mockArchive = ({id, when}: StamWhen): Promise<StamWhen> => new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({id, when});
   }, 2000);
 });
 
-export function* commitStam({stam}): Generator<*, *, *> {
+export function* commitStam({stam}: {stam: Stam}): Generator<*, *, *> {
   try {
     const { response, timeout } = yield race({
       response: call(mockCommit, stam),
@@ -83,7 +89,7 @@ export function* commitStam({stam}): Generator<*, *, *> {
   }
 }
 
-export function* deleteStam({id}): Generator<*, *, *> {
+export function* deleteStam({id}: {id: StamId}): Generator<*, *, *> {
   try {
     const data = yield call(mockDelete, id);
 
@@ -101,7 +107,7 @@ export function* deleteStam({id}): Generator<*, *, *> {
   }
 }
 
-export function* sendStam({id, when}): Generator<*, *, *> {
+export function* sendStam({id, when}: StamWhen): Generator<*, *, *> {
   try {
     const data = yield call(mockSend, {id, when});
     yield put({type: SEND_SUCCESS, id, when});
@@ -110,7 +116,7 @@ export function* sendStam({id, when}): Generator<*, *, *> {
   }
 }
 
-export function* archiveStam({id, when}): Generator<*, *, *> {
+export function* archiveStam({id, when}: StamWhen): Generator<*, *, *> {
   try {
     const data = yield call(mockArchive, {id, when});
     yield put({type: ARCHIVE_SUCCESS, id, when});

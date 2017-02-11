@@ -26,7 +26,7 @@ class Main extends Component {
   props: Props & StateProps;
   state: State;
 
-  constructor(props: Props) {
+  constructor(props: Props & StateProps) {
     super(props);
 
     const { client } = props;
@@ -128,7 +128,7 @@ import {
   isStamArchived,
 } from '../../reducers/entities/stams';
 
-import type { Stam } from '../Fmp/types';
+import type { Stam } from '../../types';
 
 type StateProps = {
   stams: Array<Stam>,

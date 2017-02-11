@@ -35,7 +35,7 @@ import type {
   ActiveStam,
   Flight,
   Arcid,
-} from '../types';
+} from '../../../types';
 
 type Props = {
   stam: PreparedStam | ActiveStam,

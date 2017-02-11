@@ -1,5 +1,5 @@
 // @flow
-import type { Action } from '../../../../store';
+import type { Action, Selector, RootState } from '../../../../store';
 import R from 'ramda';
 import { combineReducers } from 'redux';
 
@@ -54,7 +54,22 @@ const byIdInitialState = {
 
 const allIdsInitialState = ['running_fox', 'walking_snake', 'sprinting_cheetah', 'crawling_creeter'];
 
-function byId(state = byIdInitialState, action) {
+import type {
+  StamId,
+  StateStam,
+  Stam,
+  PreparedStam,
+  HistoryStam,
+  ActiveStam,
+  Flight,
+} from '../../types';
+
+type ByIdState = {
+  [key: StamId]: StateStam,
+};
+
+
+function byId(state: ByIdState = byIdInitialState, action: Action) {
   switch(action.type) {
     case ADD_FLIGHT_SUCCESS: {
       const { flight, stamId } = action;
@@ -152,7 +167,9 @@ function byId(state = byIdInitialState, action) {
   return state;
 }
 
-function allIds(state = allIdsInitialState, action) {
+type AllIdsState = Array<StamId>;
+
+function allIds(state: AllIdsState = allIdsInitialState, action: Action) {
   switch(action.type) {
     case ADD_SUCCESS: {
       const { stam } = action;
@@ -173,49 +190,68 @@ function allIds(state = allIdsInitialState, action) {
   return state;
 }
 
+export type State = {
+  byId: ByIdState,
+  allIds: AllIdsState,
+};
+
 export default combineReducers({
   byId,
   allIds,
 });
 
 import globalPrefix from '../rootSelector';
-const p = state => globalPrefix(state).entities.stams;
+const p: Selector<State> = state => globalPrefix(state).entities.stams;
 
 import { getFlightById } from './flights';
 
-export const getStamById = (state, id) => {
+export const getStamById = (state: RootState, id: string): ?Stam => {
   const stam = p(state).byId[id];
 
   if(!stam) {
-    return;
+    return null;
   }
 
   const flightIds = stam.flights;
 
-  return {
-    ...stam,
-    id: id,
-    flights: flightIds.map(id => getFlightById(state, id)),
+  const newStam: Object = Object.assign({}, stam); // Cast to plain Object type ...
+
+  const flights: Array<Flight> = flightIds
+    .map(id => getFlightById(state, id))
+    .filter(Boolean);
+
+  const r: Stam = {
+    ...newStam,
+    id,
+    flights,
   };
+
+  return r;
 };
 
-export const getStams = (state) => {
-  return p(state).allIds.map(id => getStamById(state, id));
+export const getStams: Selector<Array<Stam>> = (state) => {
+  return p(state).allIds
+    .map(id => getStamById(state, id))
+    .filter(Boolean); // Remove null values, syntax is weirdish to accomodate flowtype
 };
 
 
-export const isStamPrepared = stam =>
+export const isStamPrepared = (stam: Stam): boolean => !!(
   stam.sendTime === null ||
-  (stam.sendTime && moment(stam.sendTime).isAfter(moment()));
+  (stam.sendTime && moment(stam.sendTime).isAfter(moment()))
+);
 
-export const isStamArchived = stam => stam.archiveTime && moment(stam.archiveTime).isBefore(moment());
+export const isStamArchived = (stam: Stam): boolean => !!(
+  stam.archiveTime && moment(stam.archiveTime).isBefore(moment())
+);
 
-export const isStamActive = stam =>
+export const isStamActive = (stam: Stam): boolean => !!(
   stam.sendTime &&
   moment(stam.sendTime).isBefore(moment()) &&
-  !isStamArchived(stam);
+  !isStamArchived(stam)
+);
 
 
-export const getPreparedStams = (state) => getStams(state).filter(isStamPrepared);
-export const getActiveStams = (state) => getStams(state).filter(isStamActive);
-export const getHistoryStams = (state) => getStams(state).filter(isStamArchived);
+export const getPreparedStams: Selector<Array<PreparedStam>> = (state) => getStams(state).filter(isStamPrepared);
+export const getActiveStams: Selector<Array<ActiveStam>> = (state) => getStams(state).filter(isStamActive);
+export const getHistoryStams: Selector<Array<HistoryStam>> = (state) => getStams(state).filter(isStamArchived);

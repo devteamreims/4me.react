@@ -1,0 +1,60 @@
+// @flow
+// FlowTypes for FMP
+
+import type { Action as AutocompleteAction } from './actions/autocomplete';
+import type { Action as FlightAction } from './actions/flight';
+import type { Action as StamAction } from './actions/stam';
+
+export type Action =
+  | AutocompleteAction
+  | FlightAction
+  | StamAction
+;
+
+export type ValidationError = {
+  message: ?string,
+  fields: null | {[key: string]: ?string},
+};
+
+export type Arcid = string;
+export type ElementarySector = string; // TODO: Pull type from 4me.env
+
+export type FlightId = string;
+export type Flight = {
+  +id?: FlightId,
+  +arcid: Arcid,
+  +constraint: {
+    +beacon: string,
+    +flightLevel: number,
+  },
+  +implementingSector: ElementarySector,
+  +onloadSector: ElementarySector,
+};
+
+
+export type StamId = string;
+
+export type StateStam = {
+  +offloadSector: ElementarySector,
+  +flights: Array<FlightId>,
+  +sendTime: ?Date,
+  +archiveTime: ?Date,
+  +createdAt: Date,
+  +updatedAt: Date,
+};
+
+export type PreparedStam = {
+  +offloadSector: ElementarySector,
+  +flights: Array<Flight>,
+  +id: StamId,
+  +sendTime: ?Date,
+  +archiveTime: ?Date,
+  +createdAt: Date,
+  +updatedAt: Date,
+};
+
+export type ActiveStam = PreparedStam;
+
+export type HistoryStam = PreparedStam;
+
+export type Stam = PreparedStam | ActiveStam | HistoryStam;

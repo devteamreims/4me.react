@@ -15,7 +15,7 @@ import FlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 
 import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
-import type { Flight } from './types';
+import type { Flight } from '../../types';
 
 type Props = {
   onRequestDelete?: () => void,

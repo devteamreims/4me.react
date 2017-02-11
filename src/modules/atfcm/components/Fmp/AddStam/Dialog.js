@@ -20,17 +20,16 @@ import { checkSectorExistence } from '../../../shared/validations';
 
 type Props = {
   open: boolean,
-  loading: boolean,
   onRequestClose: () => *,
   addStam: () => *,
-} & StateProps;
+};
 
 type State = {
   disableButtons: boolean,
 };
 
 export class AddStamDialog extends Component {
-  props: Props;
+  props: Props & StateProps;
   state: State;
   form: *;
 

@@ -1,9 +1,7 @@
 // @flow
-import type { Action } from '../../../../store';
+import type { Action, RootState, Selector } from '../../../../store';
 import R from 'ramda';
 import { combineReducers } from 'redux';
-
-import moment from 'moment';
 
 import {
   ADD_SUCCESS,
@@ -59,11 +57,21 @@ const byIdInitialState = {
   }
 };
 
-function byId(state = byIdInitialState, action) {
+import type {
+  FlightId,
+  Flight,
+} from '../../types';
+
+type ByIdState = {
+  [key: FlightId]: Flight,
+};
+
+
+function byId(state: ByIdState = byIdInitialState, action: Action): ByIdState {
   switch(action.type) {
     case ADD_SUCCESS: {
       const { flight, stamId } = action;
-      if(!flight || !stamId) {
+      if(!flight || !stamId || !flight.id) {
         return state;
       }
 
@@ -83,14 +91,26 @@ function byId(state = byIdInitialState, action) {
   return state;
 }
 
+export type State = {
+  byId: ByIdState,
+};
+
 export default combineReducers({
   byId,
 });
 
 import globalPrefix from '../rootSelector';
-const p = state => globalPrefix(state).entities.flights;
+const p: Selector<State> = state => globalPrefix(state).entities.flights;
 
-export const getFlightById = (state, id) => ({
-  id,
-  ...p(state).byId[id]
-});
+export const getFlightById = (state: RootState, id: string): ?Flight => {
+  const flight = p(state).byId[id];
+
+  if(!flight) {
+    return null;
+  }
+
+  return {
+    id,
+    ...flight,
+  };
+};
