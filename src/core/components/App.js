@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 
-import { compose } from 'ramda';
-
 import FlatButton from 'material-ui/FlatButton';
 
 import LoadingScreen from './LoadingScreen';
@@ -125,7 +123,9 @@ export class App extends Component {
     // Here we apply zoom to body
     // Some material-ui components will not remain self contained in our DOM tree
     // Some will append elements to document.body, hence the need for a full body zoom level
-    document.body.classList.toggle(classes.zoom, shouldZoomUi);
+    if(document.body && document.body.classList) {
+      document.body.classList.toggle(classes.zoom, shouldZoomUi);
+    }
 
     let className;
 
