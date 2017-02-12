@@ -14,12 +14,6 @@ type State = {
   disableButtons: boolean,
 };
 
-import {
-  hideDialog,
-  touchForm,
-  commitFlight,
-} from '../../../actions/flight';
-
 class AddFlightToStamDialog extends Component {
   props: Props;
   state: State;
@@ -43,9 +37,9 @@ class AddFlightToStamDialog extends Component {
   };
 
   handleOnChange = () => {
-    const { dispatch } = this.props;
+    const { touchForm } = this.props;
 
-    dispatch(touchForm());
+    touchForm();
   };
 
   triggerSubmit = () => {
@@ -74,25 +68,25 @@ class AddFlightToStamDialog extends Component {
 
   handleSubmit = (data: Object) => {
     const {
-      dispatch,
+      commitFlight,
       stamId,
     } = this.props;
 
-    if(typeof dispatch !== 'function' || !stamId) {
+    if(!stamId) {
       return;
     }
 
 
-    dispatch(commitFlight(stamId, data));
+    commitFlight(stamId, data);
   };
 
   handleRequestClose = () => {
     const {
-      dispatch,
+      hideDialog,
       loading,
     } = this.props;
 
-    if(typeof dispatch !== 'function') {
+    if(typeof hideDialog !== 'function') {
       return;
     }
 
@@ -101,7 +95,7 @@ class AddFlightToStamDialog extends Component {
       return;
     }
 
-    dispatch(hideDialog());
+    hideDialog();
   }
 
   renderActions() {
@@ -216,10 +210,22 @@ const mapStateToProps = (state: RootState) => {
 };
 
 type DispatchProps = {
-  dispatch: Dispatch,
+  touchForm: Function,
+  hideDialog: Function,
+  commitFlight: Function,
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({dispatch});
+import {
+  hideDialog,
+  touchForm,
+  commitFlight,
+} from '../../../actions/flight';
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  touchForm: () => dispatch(touchForm()),
+  hideDialog: () => dispatch(hideDialog()),
+  commitFlight: (...args) => dispatch(commitFlight(...args)),
+});
 
 const connector: Connector<{}, Props> = connect(
   mapStateToProps,

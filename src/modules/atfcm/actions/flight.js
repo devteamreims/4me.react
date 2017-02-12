@@ -32,21 +32,21 @@ export type Action =
   | {|type: 'atfcm/flight/TOUCH_FORM'|}
   | {|type: 'atfcm/flight/REMOVE_ORPHANS', ids: Array<FlightId>|}
 
-export function deleteFlight(id: *): Action {
+export function deleteFlight(id: FlightId): Action {
   return {
     type: DEL_REQUEST,
     id,
   };
 }
 
-export function removeOrphanFlights(ids: Array<*>): Action {
+export function removeOrphanFlights(ids: Array<FlightId>): Action {
   return {
     type: REMOVE_ORPHANS,
     ids,
   };
 }
 
-export function showForm(stam: *, flight: *): Action {
+export function showForm(stam: StamId, flight: ?Flight): Action {
   if(!stam || !stam.id) {
     return;
   }
@@ -88,7 +88,7 @@ export function commitFlightError(error: CommitFlightError): Action {
   };
 }
 
-export function commitFlight(stamId: *, flight: *): Action {
+export function commitFlight(stamId: mixed, flight: mixed): Action {
   if(!stamId || !flight) {
     throw new Error('atfcm/actions/flight: Invalid arguments (stamId, flight)', stamId, flight);
   }

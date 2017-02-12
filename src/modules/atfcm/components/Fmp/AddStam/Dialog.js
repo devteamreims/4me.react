@@ -25,12 +25,6 @@ type State = {
   disableButtons: boolean,
 };
 
-import {
-  commitStam,
-  hideDialog,
-  touchForm,
-} from '../../../actions/stam';
-
 export class AddStamDialog extends Component {
   props: Props;
   state: State;
@@ -53,13 +47,13 @@ export class AddStamDialog extends Component {
   };
 
   handleOnChange = () => {
-    const { dispatch } = this.props;
+    const { touchForm } = this.props;
 
-    if(typeof dispatch !== 'function') {
+    if(typeof touchForm !== 'function') {
       return;
     }
 
-    dispatch(touchForm());
+    touchForm();
   };
 
   triggerSubmit = () => {
@@ -71,22 +65,22 @@ export class AddStamDialog extends Component {
   };
 
   handleSubmit = (data: Object) => {
-    const { dispatch } = this.props;
+    const { commitStam } = this.props;
 
-    if(typeof dispatch !== 'function') {
+    if(typeof commitStam !== 'function') {
       return;
     }
 
-    dispatch(commitStam(data));
+    commitStam(data);
   };
 
   handleRequestClose = () => {
     const {
-      dispatch,
+      hideDialog,
       loading,
     } = this.props;
 
-    if(typeof dispatch !== 'function') {
+    if(typeof hideDialog !== 'function') {
       return;
     }
 
@@ -95,7 +89,7 @@ export class AddStamDialog extends Component {
       return;
     }
 
-    dispatch(hideDialog());
+    hideDialog();
   }
 
   renderActions() {
@@ -201,10 +195,22 @@ const mapStateToProps = (state: RootState) => {
 };
 
 type DispatchProps = {
-  dispatch: Dispatch,
+  hideDialog: Function,
+  touchForm: Function,
+  commitStam: Function,
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch });
+import {
+  commitStam,
+  hideDialog,
+  touchForm,
+} from '../../../actions/stam';
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  commitStam: (...args) => dispatch(commitStam(...args)),
+  hideDialog: () => dispatch(hideDialog()),
+  touchForm: () => dispatch(touchForm()),
+});
 
 
 const connector: Connector<{}, Props> = connect(mapStateToProps, mapDispatchToProps);

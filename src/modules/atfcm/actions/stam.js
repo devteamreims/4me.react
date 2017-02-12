@@ -28,7 +28,7 @@ import type {
 } from '../types';
 
 export type Action =
-  | {|type: 'atfcm/stam/ADD_REQUEST', stam: Stam|}
+  | {|type: 'atfcm/stam/ADD_REQUEST', stam: mixed|}
   | {|type: 'atfcm/stam/ADD_SUCCESS', stam: Stam|}
   | {|type: 'atfcm/stam/ADD_FAILURE', error: ValidationError|}
   | {|type: 'atfcm/stam/DEL_REQUEST', id: StamId|}
@@ -44,7 +44,7 @@ export type Action =
   | {|type: 'atfcm/stam/HIDE_ADD_DIALOG'|}
   | {|type: 'atfcm/stam/TOUCH_ADD_STAM_FORM'|}
 
-export function commitStam(stam: Stam): Action {
+export function commitStam(stam: mixed): Action {
   return {
     type: ADD_REQUEST,
     stam,

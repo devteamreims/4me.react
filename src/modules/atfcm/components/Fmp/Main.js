@@ -34,41 +34,41 @@ type OwnProps = {
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-import {
-  showDialog as showAddStamDialog,
-  deleteStam as delStam,
-  sendStam,
-  archiveStam,
-} from '../../actions/stam';
-
 export class FmpMain extends Component<void, Props, void> {
   props: Props;
 
   handleOpenDialog = () => {
-    this.props.dispatch(showAddStamDialog());
+    const { showAddStamDialog } = this.props;
+    showAddStamDialog();
   };
 
-  handleDeleteStam = (id: StamId) => () => {
-    if(!id) {
-      return;
-    }
-    this.props.dispatch(delStam(id));
-  };
-
-  handleSendStam = (id: StamId) => (delay: ?number) => {
+  handleDeleteStam = (id: StamId) => (): void => {
     if(!id) {
       return;
     }
 
-    this.props.dispatch(sendStam({id, delay}));
+    const { delStam } = this.props;
+    delStam(id);
   };
 
-  handleArchiveStam = (id: StamId) => (delay: ?number) => {
+  handleSendStam = (id: StamId) => (delay: ?number): void => {
     if(!id) {
       return;
     }
 
-    this.props.dispatch(archiveStam({id, delay}));
+    const { sendStam } = this.props;
+
+    sendStam({id, delay});
+  };
+
+  handleArchiveStam = (id: StamId) => (delay: ?number): void => {
+    if(!id) {
+      return;
+    }
+
+    const { archiveStam } = this.props;
+
+    archiveStam({id, delay});
   };
 
   _renderPreparedStams() {
@@ -201,10 +201,25 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  dispatch: Dispatch,
+  showAddStamDialog: Function,
+  delStam: Function,
+  sendStam: Function,
+  archiveStam: Function,
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch });
+import {
+  showDialog as showAddStamDialog,
+  deleteStam as delStam,
+  sendStam,
+  archiveStam,
+} from '../../actions/stam';
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  showAddStamDialog: () => dispatch(showAddStamDialog()),
+  delStam: (id) => dispatch(delStam(id)),
+  sendStam: (arg) => dispatch(sendStam(arg)),
+  archiveStam: (arg) => dispatch(archiveStam(arg)),
+});
 
 const connector: Connector<OwnProps, Props> = connect(mapStateToProps, mapDispatchToProps);
 
