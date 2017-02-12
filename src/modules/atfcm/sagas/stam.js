@@ -37,12 +37,17 @@ import type {
 } from '../types';
 
 const mockCommit = (stam: Stam): Promise<Stam> => new Promise((resolve, reject) => {
+  // Here we check all fields are set before pushing to the backend
+  // Implement GraphQL ?
   setTimeout(() => {
     const idNum = Math.floor(Math.random() * 10000 + 1);
     const id = `stam_${idNum}`;
 
+    const { offloadSector } = stam;
+
     resolve({
       ...stam,
+      offloadSector: offloadSector ? offloadSector.toUpperCase() : '',
       id,
       flights: [],
       sendTime: null,

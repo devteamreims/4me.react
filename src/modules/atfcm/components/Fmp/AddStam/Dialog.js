@@ -16,7 +16,6 @@ import AutoComplete from 'material-ui/AutoComplete';
 import { Form } from 'formsy-react';
 
 import { sectors } from '../../../../../shared/env';
-import { checkSectorExistence } from '../../../shared/validations';
 
 
 type Props = StateProps & DispatchProps;
@@ -64,7 +63,7 @@ export class AddStamDialog extends Component {
     this.form.submit();
   };
 
-  handleSubmit = (data: Object) => {
+  handleSubmit = (data: mixed) => {
     const { commitStam } = this.props;
 
     if(typeof commitStam !== 'function') {
@@ -154,9 +153,6 @@ export class AddStamDialog extends Component {
             disabled={loading}
             openOnFocus={true}
             floatingLabelText="OFFLOAD Sector"
-            validations={{
-              checkSectorExistence,
-            }}
             validationError="Please enter a valid elementary sector"
             dataSource={sectors.getElementarySectors()}
             filter={AutoComplete.caseInsensitiveFilter}

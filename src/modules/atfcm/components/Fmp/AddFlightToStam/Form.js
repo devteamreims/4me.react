@@ -179,9 +179,6 @@ export class Form extends React.Component<void, Props, State> {
             required={true}
             disabled={loading}
             floatingLabelText="IMPLEMENTING Sector"
-            validations={{
-              checkSectorExistence,
-            }}
             onNewRequest={this.handleImplementingSectorSelect}
             validationError="Please enter a valid elementary sector"
             value={implementingSector || (flight && flight.implementingSector)}
@@ -221,9 +218,6 @@ export class Form extends React.Component<void, Props, State> {
             required={true}
             disabled={loading}
             floatingLabelText="ONLOAD Sector"
-            validations={{
-              checkSectorExistence,
-            }}
             onNewRequest={this.handleOnloadSectorSelect}
             validationError="Please enter a valid elementary sector"
             value={onloadSector || (flight && flight.onloadSector)}
