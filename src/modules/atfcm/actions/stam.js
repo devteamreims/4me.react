@@ -44,7 +44,7 @@ export type Action =
   | {|type: 'atfcm/stam/HIDE_ADD_DIALOG'|}
   | {|type: 'atfcm/stam/TOUCH_ADD_STAM_FORM'|}
 
-export function commitStam(stam: string): Action {
+export function commitStam(stam: Stam): Action {
   return {
     type: ADD_REQUEST,
     stam,
@@ -120,7 +120,7 @@ export function hideDialog(): Action {
   };
 }
 
-export function touchDialogForm(): Action {
+export function touchForm(): Action {
   return {
     type: TOUCH_ADD_STAM_FORM,
   };

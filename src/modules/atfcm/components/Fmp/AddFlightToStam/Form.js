@@ -12,7 +12,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import FormGlobalError from '../../shared/FormGlobalError';
 import FormsyHidden from './FormsyHidden';
 
-type Props = {
+type OwnProps = {
   flight?: ?Object,
   loading?: boolean,
   onValid?: () => void,
@@ -24,17 +24,24 @@ type Props = {
   style?: Object,
 };
 
+type Props = OwnProps & StateProps & DispatchProps;
+type State = {
+  disableSubmit: boolean,
+  disableDiscard: boolean,
+  implementingSector: ?string,
+  onloadSector: ?string,
+};
+
 import { sectors } from '../../../../../shared/env';
 import { checkSectorExistence } from '../../../shared/validations';
 
-export class Form extends Component {
-  props: Props & StateProps & DispatchProps;
-  state: {
-    disableSubmit: boolean,
-    disableDiscard: boolean,
-    implementingSector: ?string,
-    onloadSector: ?string,
-  };
+import {
+  request as requestAutocomplete,
+} from '../../../actions/autocomplete';
+
+export class Form extends React.Component<void, Props, State> {
+  props: Props;
+  state: State;
 
   constructor(props: Props) {
     super(props);
@@ -49,14 +56,14 @@ export class Form extends Component {
 
   componentDidMount() {
     const {
-      requestAutocomplete,
+      dispatch,
     } = this.props;
 
-    if(typeof requestAutocomplete !== 'function') {
+    if(typeof dispatch !== 'function') {
       return;
     }
 
-    requestAutocomplete();
+    dispatch(requestAutocomplete());
   }
 
   form = null;
@@ -120,7 +127,7 @@ export class Form extends Component {
       globalError,
       autocompleteError,
       autocompleteFlights,
-      isAutocompleteLoading,
+      isAutocompleteLoading, // eslint-disable-line no-unused-vars
     } = this.props;
 
     const {
@@ -244,22 +251,21 @@ import {
   getError as getAutocompleteError,
 } from '../../../reducers/ui/autocomplete';
 
-const mapStateToProps = (state) => ({
+import type { Dispatch, RootState } from '../../../../../store';
+import type { Connector } from 'react-redux';
+
+const mapStateToProps = (state: RootState) => ({
   isAutocompleteLoading: isAutocompleteLoading(state),
   autocompleteFlights: getAutocompleteFlights(state),
   autocompleteError: getAutocompleteError(state),
 });
 
 type DispatchProps = {
-  requestAutocomplete: () => void,
+  dispatch: Dispatch,
 };
 
-import {
-  request as requestAutocomplete,
-} from '../../../actions/autocomplete';
+const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch });
 
-const mapDispatchToProps = {
-  requestAutocomplete,
-};
+const connector: Connector<OwnProps, Props> = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true });
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(Form);
+export default connector(Form);

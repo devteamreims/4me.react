@@ -26,56 +26,49 @@ import type {
   StamId,
 } from '../../types';
 
-type Props = {
+type OwnProps = {
   preparedStams: Array<PreparedStam>,
   activeStams: Array<ActiveStam>,
   historyStams: Array<HistoryStam>,
-} & StateProps & DispatchProps;
+};
+
+type Props = OwnProps & StateProps & DispatchProps;
+
+import {
+  showDialog as showAddStamDialog,
+  deleteStam as delStam,
+  sendStam,
+  archiveStam,
+} from '../../actions/stam';
 
 export class FmpMain extends Component<void, Props, void> {
   props: Props;
 
   handleOpenDialog = () => {
-    const {
-      showAddStamDialog,
-    } = this.props;
-
-    showAddStamDialog();
-  };
-
-  handleCloseDialog = () => {
-    const {
-      hideAddStamDialog,
-    } = this.props;
-
-    hideAddStamDialog();
+    this.props.dispatch(showAddStamDialog());
   };
 
   handleDeleteStam = (id: StamId) => () => {
-    const { delStam } = this.props;
-    if(typeof delStam !== 'function') {
+    if(!id) {
       return;
     }
-
-    delStam(id);
+    this.props.dispatch(delStam(id));
   };
 
   handleSendStam = (id: StamId) => (delay: ?number) => {
-    const { sendStam } = this.props;
-    if(typeof sendStam !== 'function') {
+    if(!id) {
       return;
     }
 
-    sendStam({id, delay});
+    this.props.dispatch(sendStam({id, delay}));
   };
 
   handleArchiveStam = (id: StamId) => (delay: ?number) => {
-    const { archiveStam } = this.props;
-    if(typeof archiveStam !== 'function') {
+    if(!id) {
       return;
     }
 
-    archiveStam({id, delay});
+    this.props.dispatch(archiveStam({id, delay}));
   };
 
   _renderPreparedStams() {
@@ -96,8 +89,6 @@ export class FmpMain extends Component<void, Props, void> {
           stam={stam}
           key={stam.id}
           loading={loadingStamIds.includes(stam.id)}
-          onRequestAddFlight={() => Promise.resolve()}
-          onRequestDeleteFlight={() => Promise.resolve()}
           onRequestDelete={this.handleDeleteStam(stam.id)}
           onRequestSend={this.handleSendStam(stam.id)}
         />
@@ -153,13 +144,6 @@ export class FmpMain extends Component<void, Props, void> {
   }
 
   render() {
-    const {
-      isAddStamDialogVisible,
-      addStam,
-    } = this.props;
-
-    (AddFlightToStamDialog: string);
-
     return (
       <Flexbox flexGrow={1} flexDirection="column">
         <Flexbox
@@ -195,11 +179,7 @@ export class FmpMain extends Component<void, Props, void> {
             <h1>History</h1>
             {this._renderHistoryStams()}
           </Flexbox>
-          <AddStamDialog
-            open={isAddStamDialogVisible}
-            onRequestClose={this.handleCloseDialog}
-            addStam={addStam}
-          />
+          <AddStamDialog />
           <AddFlightToStamDialog />
         </Flexbox>
       </Flexbox>
@@ -207,50 +187,25 @@ export class FmpMain extends Component<void, Props, void> {
   }
 }
 
-
-type StateProps = {
-  isAddStamDialogVisible: boolean,
-  isAddFlightToStamDialogVisible: boolean,
-  loadingStamIds: Array<StamId>,
-};
-
-import { isVisible as isAddStamDialogVisible } from '../../reducers/ui/addStamModal';
-import { isVisible as isAddFlightToStamDialogVisible } from '../../reducers/ui/addFlightModal';
 import { getLoadingIds } from '../../reducers/ui/stams';
 
-import type { RootState } from '../../../../store';
+import type { RootState, Dispatch } from '../../../../store';
+import type { Connector } from 'react-redux';
 
 const mapStateToProps = (state: RootState) => ({
-  isAddStamDialogVisible: isAddStamDialogVisible(state),
-  isAddFlightToStamDialogVisible: isAddFlightToStamDialogVisible(state),
   loadingStamIds: getLoadingIds(state),
 });
 
-import {
-  showDialog as showAddStamDialog,
-  hideDialog as hideAddStamDialog,
-  commitStam as addStam,
-  deleteStam as delStam,
-  sendStam,
-  archiveStam,
-} from '../../actions/stam';
+type StateProps = {
+  loadingStamIds: Array<StamId>,
+};
 
 type DispatchProps = {
-  showAddStamDialog: () => void,
-  hideAddStamDialog: () => void,
-  addStam: () => void,
-  delStam: (StamId) => void,
-  sendStam: ({id: StamId, when: Date}) => void,
-  archiveStam: ({id: StamId, when: Date}) => void,
+  dispatch: Dispatch,
 };
 
-const mapDispatchToProps = {
-  showAddStamDialog,
-  hideAddStamDialog,
-  addStam,
-  delStam,
-  sendStam,
-  archiveStam,
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FmpMain);
+const connector: Connector<OwnProps, Props> = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(FmpMain);

@@ -11,10 +11,12 @@ import FmpMain from '../Fmp';
 
 import type { Client, Sectors, ClientType } from '../../../../core/types';
 
-type Props = {
+type OwnProps = {
   client: Client,
   sectors: Sectors,
 };
+
+type Props = OwnProps & StateProps;
 
 type State = {
   clientType: ClientType,
@@ -23,10 +25,10 @@ type State = {
 type StamTypeString = 'active' | 'prepared' | 'archived';
 
 class Main extends Component {
-  props: Props & StateProps;
+  props: Props;
   state: State;
 
-  constructor(props: Props & StateProps) {
+  constructor(props: Props) {
     super(props);
 
     const { client } = props;

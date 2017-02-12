@@ -16,41 +16,45 @@ export type ValidationError = {
   fields: null | {[key: string]: ?string},
 };
 
+export type FieldErrors = {
+  [key: string]: ?string,
+};
+
 export type Arcid = string;
 export type ElementarySector = string; // TODO: Pull type from 4me.env
 
 export type FlightId = string;
 export type Flight = {
-  +id?: FlightId,
-  +arcid: Arcid,
-  +constraint: {
-    +beacon: string,
-    +flightLevel: number,
+  id?: FlightId,
+  arcid: Arcid,
+  constraint: {
+    beacon: string,
+    flightLevel: number,
   },
-  +implementingSector: ElementarySector,
-  +onloadSector: ElementarySector,
+  implementingSector: ElementarySector,
+  onloadSector: ElementarySector,
 };
 
 
 export type StamId = string;
 
 export type StateStam = {
-  +offloadSector: ElementarySector,
-  +flights: Array<FlightId>,
-  +sendTime: ?Date,
-  +archiveTime: ?Date,
-  +createdAt: Date,
-  +updatedAt: Date,
+  offloadSector: ElementarySector,
+  flights: Array<FlightId>,
+  sendTime: ?Date,
+  archiveTime: ?Date,
+  createdAt: Date,
+  updatedAt: Date,
 };
 
 export type PreparedStam = {
-  +offloadSector: ElementarySector,
-  +flights: Array<Flight>,
-  +id: StamId,
-  +sendTime: ?Date,
-  +archiveTime: ?Date,
-  +createdAt: Date,
-  +updatedAt: Date,
+  offloadSector: ElementarySector,
+  flights: Array<Flight>,
+  id: StamId,
+  sendTime: ?Date,
+  archiveTime: ?Date,
+  createdAt: Date,
+  updatedAt: Date,
 };
 
 export type ActiveStam = PreparedStam;

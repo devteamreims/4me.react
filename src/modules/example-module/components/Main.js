@@ -22,8 +22,8 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  increment: void => *,
-  decrement: void => *,
+  increment: () => void,
+  decrement: () => void,
 };
 
 type Props = StateProps & DispatchProps & {

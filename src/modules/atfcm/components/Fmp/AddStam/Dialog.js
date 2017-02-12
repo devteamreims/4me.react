@@ -18,18 +18,21 @@ import { Form } from 'formsy-react';
 import { sectors } from '../../../../../shared/env';
 import { checkSectorExistence } from '../../../shared/validations';
 
-type Props = {
-  open: boolean,
-  onRequestClose: () => *,
-  addStam: () => *,
-};
+
+type Props = StateProps & DispatchProps;
 
 type State = {
   disableButtons: boolean,
 };
 
+import {
+  commitStam,
+  hideDialog,
+  touchForm,
+} from '../../../actions/stam';
+
 export class AddStamDialog extends Component {
-  props: Props & StateProps;
+  props: Props;
   state: State;
   form: *;
 
@@ -50,13 +53,13 @@ export class AddStamDialog extends Component {
   };
 
   handleOnChange = () => {
-    const { onChange } = this.props;
+    const { dispatch } = this.props;
 
-    if(typeof onChange !== 'function') {
+    if(typeof dispatch !== 'function') {
       return;
     }
 
-    onChange();
+    dispatch(touchForm());
   };
 
   triggerSubmit = () => {
@@ -68,22 +71,22 @@ export class AddStamDialog extends Component {
   };
 
   handleSubmit = (data: Object) => {
-    const { addStam } = this.props;
+    const { dispatch } = this.props;
 
-    if(typeof addStam !== 'function') {
+    if(typeof dispatch !== 'function') {
       return;
     }
 
-    addStam(data);
+    dispatch(commitStam(data));
   };
 
   handleRequestClose = () => {
     const {
-      onRequestClose,
+      dispatch,
       loading,
     } = this.props;
 
-    if(typeof onRequestClose !== 'function') {
+    if(typeof dispatch !== 'function') {
       return;
     }
 
@@ -92,7 +95,7 @@ export class AddStamDialog extends Component {
       return;
     }
 
-    onRequestClose();
+    dispatch(hideDialog());
   }
 
   renderActions() {
@@ -170,32 +173,40 @@ export class AddStamDialog extends Component {
   }
 }
 
+import type { RootState, Dispatch } from '../../../../../store';
+import type { Connector } from 'react-redux';
+import type { FieldErrors } from '../../../types';
+
 type StateProps = {
-  isLoading: boolean,
+  open: boolean,
+  loading: boolean,
   globalError: ?string,
-  fieldErrors: null | {[key: string]: string},
-  onChange: () => void,
+  fieldErrors: ?FieldErrors,
 };
 
 import {
+  isVisible,
   isLoading,
   getErrorMessage,
   getFieldErrors,
 } from '../../../reducers/ui/addStamModal';
 
-const mapStateToProps = state => ({
-  loading: isLoading(state),
-  globalError: getErrorMessage(state),
-  fieldErrors: getFieldErrors(state),
-});
-
-import {
-  touchDialogForm,
-} from '../../../actions/stam';
-
-const mapDispatchToProps = {
-  onChange: touchDialogForm,
+const mapStateToProps = (state: RootState) => {
+  return {
+    open: isVisible(state),
+    loading: isLoading(state),
+    globalError: getErrorMessage(state),
+    fieldErrors: getFieldErrors(state),
+  };
 };
 
+type DispatchProps = {
+  dispatch: Dispatch,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddStamDialog);
+const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch });
+
+
+const connector: Connector<{}, Props> = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(AddStamDialog);

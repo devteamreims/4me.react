@@ -2,16 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { red500 } from 'material-ui/styles/colors';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
-import AutoComplete from 'material-ui/AutoComplete';
 
 import Form from './Form';
 
-import { sectors } from '../../../../../shared/env';
-import { checkSectorExistence } from '../../../shared/validations';
 
 type Props = StateProps & DispatchProps;
 
@@ -19,10 +14,17 @@ type State = {
   disableButtons: boolean,
 };
 
-export class AddFlightToStamDialog extends React.Component<void, Props, State> {
+import {
+  hideDialog,
+  touchForm,
+  commitFlight,
+} from '../../../actions/flight';
+
+class AddFlightToStamDialog extends Component {
   props: Props;
   state: State;
-  form: *;
+
+  form: mixed;
 
   state = {
     disableButtons: false,
@@ -41,13 +43,9 @@ export class AddFlightToStamDialog extends React.Component<void, Props, State> {
   };
 
   handleOnChange = () => {
-    const { onChange } = this.props;
+    const { dispatch } = this.props;
 
-    if(typeof onChange !== 'function') {
-      return;
-    }
-
-    onChange();
+    dispatch(touchForm());
   };
 
   triggerSubmit = () => {
@@ -63,7 +61,11 @@ export class AddFlightToStamDialog extends React.Component<void, Props, State> {
     if(typeof this.form.submit === 'function') {
       // Easy one, form is readly accessible
       trigger = this.form.submit;
-    } else if(this.form.getWrappedInstance && typeof this.form.getWrappedInstance().submit === 'function') {
+    } else if(
+      this.form.getWrappedInstance &&
+      typeof this.form.getWrappedInstance === 'function' &&
+      typeof this.form.getWrappedInstance().submit === 'function'
+    ) {
       trigger = this.form.getWrappedInstance().submit;
     }
 
@@ -72,27 +74,25 @@ export class AddFlightToStamDialog extends React.Component<void, Props, State> {
 
   handleSubmit = (data: Object) => {
     const {
-      commitFlight,
+      dispatch,
       stamId,
-      flight,
     } = this.props;
 
-    if(typeof commitFlight !== 'function' || !stamId) {
+    if(typeof dispatch !== 'function' || !stamId) {
       return;
     }
 
-    console.log('Submitting flight !');
 
-    commitFlight(stamId, data);
+    dispatch(commitFlight(stamId, data));
   };
 
   handleRequestClose = () => {
     const {
-      hideDialog,
+      dispatch,
       loading,
     } = this.props;
 
-    if(typeof hideDialog !== 'function') {
+    if(typeof dispatch !== 'function') {
       return;
     }
 
@@ -101,7 +101,7 @@ export class AddFlightToStamDialog extends React.Component<void, Props, State> {
       return;
     }
 
-    hideDialog();
+    dispatch(hideDialog());
   }
 
   renderActions() {
@@ -134,7 +134,6 @@ export class AddFlightToStamDialog extends React.Component<void, Props, State> {
   render() {
     const {
       open,
-      loading,
       globalError,
       fieldErrors,
       stamId,
@@ -174,13 +173,15 @@ export class AddFlightToStamDialog extends React.Component<void, Props, State> {
   }
 }
 
+import type { StamId, Flight, FieldErrors } from '../../../types';
+
 type StateProps = {
   loading: boolean,
   open: boolean,
   globalError: ?string,
-  stamId: *,
-  fieldErrors: null | {[key: string]: string},
-  flight: *,
+  stamId: ?StamId,
+  fieldErrors: ?FieldErrors,
+  flight: ?Flight,
 };
 
 import {
@@ -193,9 +194,11 @@ import {
 } from '../../../reducers/ui/addFlightModal';
 
 import { getFlightById } from '../../../reducers/entities/flights';
-import type { RootState as S, Dispatch } from '../../../../../store';
 
-const mapStateToProps = (state: S, ownProps) => {
+import type { Dispatch, RootState } from '../../../../../store';
+import type { Connector } from 'react-redux';
+
+const mapStateToProps = (state: RootState) => {
   let flight = null;
   const flightId = getFlightId(state);
   if(flightId) {
@@ -212,34 +215,15 @@ const mapStateToProps = (state: S, ownProps) => {
   };
 };
 
-import {
-  hideDialog,
-  touchForm,
-  commitFlight,
-} from '../../../actions/flight';
-
 type DispatchProps = {
-  onChange: () => void,
-  hideDialog: () => void,
-  commitFlight: (mixed) => void,
+  dispatch: Dispatch,
 };
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps) => ({
-  onChange: () => dispatch(touchForm()),
-  hideDialog: () => dispatch(hideDialog()),
-  commitFlight: (stamId, flight) => dispatch(commitFlight(stamId, flight)),
-});
+const mapDispatchToProps = (dispatch: Dispatch) => ({dispatch});
 
-import type { Connector } from 'react-redux';
-
-(AddFlightToStamDialog: Class<React$Component<void, StateProps & DispatchProps, State>>);
-
-const connector: Connector<{}, StateProps & DispatchProps> = connect(
+const connector: Connector<{}, Props> = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
-
-const ConnectedComponent = connector(AddFlightToStamDialog);
-
-export default ConnectedComponent;
+export default connector(AddFlightToStamDialog);
