@@ -22,15 +22,15 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  increment: () => void,
-  decrement: () => void,
+  increment: () => *,
+  decrement: () => *,
 };
 
-type Props = StateProps & DispatchProps & {
+type OwnProps = {
   client: Client,
   sectors: Sectors,
-};
-
+}
+type Props = OwnProps & StateProps & DispatchProps;
 class Main extends Component {
   props: Props;
 
@@ -151,7 +151,10 @@ class Main extends Component {
 
 import { p } from '../selectors';
 
-const mapStateToProps = state => {
+import type { RootState, Dispatch } from '../../../store';
+import type { Connector } from 'react-redux';
+
+const mapStateToProps = (state: RootState) => {
   const ourState = p(state);
 
   return {
@@ -159,9 +162,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  increment,
-  decrement,
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  increment: () => dispatch(increment()),
+  decrement: () => dispatch(decrement()),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+const connector: Connector<OwnProps, Props> = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Main);
