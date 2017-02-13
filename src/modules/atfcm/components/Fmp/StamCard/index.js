@@ -1,6 +1,6 @@
 // @flow
 import StamCard from './StamCard';
-import ArchiveCard from './ArchiveCard';
+import ArchiveCard from '../../shared/ArchiveCard';
 
 export default {
   prepared: StamCard,

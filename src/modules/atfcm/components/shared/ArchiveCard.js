@@ -3,34 +3,44 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 
-import { LightTheme } from '../../../../../shared/components/Theme';
-import ColorizedContent from '../../../../../shared/components/ColorizedContent';
+import { Theme } from '../../../../shared/components/Theme';
+import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
-import FlightRow from '../FlightRow';
+import FlightRow from './FlightRow';
 
 import F from 'flexbox-react';
 import Divider from 'material-ui/Divider';
 import {
   Card,
-  CardActions,
   CardTitle,
   CardText,
 } from 'material-ui/Card';
 
 import type {
   HistoryStam,
-} from '../../../types';
+} from '../../types';
+
+import type { ThemeId } from '../../../../shared/types';
 
 type Props = {
   stam: HistoryStam,
+  theme?: ThemeId,
+  subtitle?: ?React$Element<any>,
 };
 
 
 export class ArchiveCard extends Component {
   props: Props;
 
+  static defaultProps = {
+    theme: 'light',
+  };
+
   getTitle() {
-    const { stam } = this.props;
+    const {
+      stam,
+      theme,
+    } = this.props;
 
     const {
       offloadSector,
@@ -42,7 +52,7 @@ export class ArchiveCard extends Component {
     const flightString = `${flights.length || 0} ${pluralFlights}`;
 
     const colorizedOffloadSector = (
-      <ColorizedContent theme="light" hash={offloadSector}>
+      <ColorizedContent theme={theme} hash={offloadSector}>
         {offloadSector}
       </ColorizedContent>
     );
@@ -63,24 +73,34 @@ export class ArchiveCard extends Component {
   }
 
   renderFlights() {
-    const { stam } = this.props;
+    const {
+      stam,
+      theme,
+    } = this.props;
+
     const { flights } = stam;
 
     return flights.map(flight => (
       <FlightRow
         flight={flight}
         hideActions={true}
+        theme={theme}
       />
     ));
   }
 
   render() {
+    const {
+      theme,
+      subtitle,
+    } = this.props;
+
     return (
-      <LightTheme>
+      <Theme theme={theme}>
         <Card>
           <CardTitle
             title={this.getTitle()}
-            subtitle={this.getSubtitle()}
+            subtitle={subtitle === undefined ? this.getSubtitle() : subtitle}
             actsAsExpander={true}
             showExpandableButton={true}
           />
@@ -91,7 +111,7 @@ export class ArchiveCard extends Component {
             </F>
           </CardText>
         </Card>
-      </LightTheme>
+      </Theme>
     );
   }
 }

@@ -46,7 +46,7 @@ const byIdInitialState = {
     offloadSector: 'UH',
     flights: ['127'],
     sendTime: moment.utc().subtract(8, 'minutes').toDate(),
-    archiveTime: moment.utc().subtract(5, 'minutes').toDate(),
+    archiveTime: null,
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },

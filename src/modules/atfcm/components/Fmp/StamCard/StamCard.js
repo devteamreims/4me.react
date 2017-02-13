@@ -10,7 +10,7 @@ import {
   CardText,
 } from 'material-ui/Card';
 
-import FlightRow from '../FlightRow';
+import FlightRow from '../../shared/FlightRow';
 import SendButton from './SendButton';
 import UnsendButton from './UnsendButton';
 import ArchiveButton from './ArchiveButton';

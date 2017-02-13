@@ -16,6 +16,7 @@ import FlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
 import type { Flight } from '../../types';
+import type { ThemeId } from '../../../../shared/types';
 
 type Props = {
   onRequestDelete?: () => void,
@@ -24,13 +25,20 @@ type Props = {
   disabledActions?: boolean,
   flight: Flight,
   style?: Object,
+  theme?: ThemeId,
 };
 
-export class FlightRow extends Component {
+type DefaultProps = {
+  hideActions: boolean,
+  theme: ThemeId,
+};
+
+export class FlightRow extends Component<DefaultProps, Props, void> {
   props: Props;
 
-  static defaultProps = {
+  static defaultProps: DefaultProps = {
     hideActions: false,
+    theme: 'light',
   };
 
   _renderActions() {
@@ -81,6 +89,7 @@ export class FlightRow extends Component {
       onRequestEdit, // eslint-disable-line no-unused-vars
       style, // eslint-disable-line no-unused-vars
       hideActions,
+      theme,
     } = this.props;
 
 
@@ -127,7 +136,7 @@ export class FlightRow extends Component {
             />
             <ColorizedContent
               hash={flight.onloadSector}
-              theme="light"
+              theme={theme}
             >
               {flight.onloadSector}
             </ColorizedContent>
@@ -165,7 +174,7 @@ export class FlightRow extends Component {
             />
             <ColorizedContent
               hash={flight.implementingSector}
-              theme="light"
+              theme={theme}
             >
               {flight.implementingSector}
             </ColorizedContent>

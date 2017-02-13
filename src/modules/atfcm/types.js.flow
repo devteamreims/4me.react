@@ -5,6 +5,8 @@ import type { Action as AutocompleteAction } from './actions/autocomplete';
 import type { Action as FlightAction } from './actions/flight';
 import type { Action as StamAction } from './actions/stam';
 
+import type { ElementarySector as EnvElementarySector} from '4me.env/lib/types';
+
 export type Action =
   | AutocompleteAction
   | FlightAction
@@ -21,7 +23,7 @@ export type FieldErrors = {
 };
 
 export type Arcid = string;
-export type ElementarySector = string; // TODO: Pull type from 4me.env
+export type ElementarySector = EnvElementarySector;
 
 export type FlightId = string;
 export type Flight = {

@@ -1,14 +1,50 @@
 /* @flow */
 import React from 'react';
 import F from 'flexbox-react';
-import R from 'ramda';
+
+import Implementing from './Implementing';
+import ArchiveCard from '../shared/ArchiveCard';
 
 import type { Sectors } from '../../../../core/types';
+
+// Helper component
+type RightCellProps = {
+  children?: React$Element<any>,
+  title?: string | React$Element<any>,
+}
+
+const RightCell = ({ children, title }: RightCellProps): React$Element<any> => {
+  const titleElement = title ? (
+    <h4 style={{margin: 0}}>{title}</h4>
+  ) : null;
+
+  return (
+    <F
+      flexDirection="column"
+      flexGrow={1}
+      flexBasis={0}
+    >
+      {titleElement}
+      <F
+        flexDirection="column"
+        flexGrow={1}
+        style={{overflowY: 'auto', margin: 0}}
+      >
+        {children}
+      </F>
+    </F>
+  );
+};
+
 type OwnProps = {
   sectors: Sectors,
 };
 
 type Props = OwnProps & StateProps;
+
+const columnStyle = {
+  padding: 10,
+};
 
 class CwpMain extends React.Component {
   props: Props;
@@ -31,6 +67,7 @@ class CwpMain extends React.Component {
       implementingStams,
       onloadStams,
       offloadStams,
+      allStams,
     } = this.props;
 
     return (
@@ -40,25 +77,46 @@ class CwpMain extends React.Component {
       >
         <F
           flexDirection="column"
-          flexGrow={2}
-          style={{border: '1px solid red'}}
+          flexGrow={1}
+          flexShrink={0}
+          flexBasis={0}
+          style={columnStyle}
         >
-          <h1>To do</h1>
-          {implementingStams.map(this.renderStam)}
+          <h1>Todo</h1>
+          <F
+            flexDirection="column"
+            flexGrow={1}
+            style={{overflowY: 'auto'}}
+          >
+            <Implementing stams={implementingStams} />
+          </F>
         </F>
         <F
           flexDirection="column"
           flexGrow={1}
-          style={{border: '1px solid blue'}}
+          flexShrink={0}
+          flexBasis={0}
+          style={columnStyle}
         >
-          <F flexDirection="column">
-            <h1>Onload</h1>
+          <RightCell title="Onload">
             {onloadStams.map(this.renderStam)}
-          </F>
-          <F flexDirection="column">
-            <h1>Offload</h1>
+          </RightCell>
+          <RightCell title="Offload">
             {offloadStams.map(this.renderStam)}
-          </F>
+          </RightCell>
+        </F>
+        <F
+          flexDirection="column"
+          flexGrow={1}
+          flexShrink={0}
+          flexBasis={0}
+          style={columnStyle}
+        >
+          <RightCell title="Hotspots">
+            {allStams.map(stam =>
+              <ArchiveCard theme="dark" stam={stam} subtitle={null} />
+            )}
+          </RightCell>
         </F>
       </F>
     );
@@ -67,10 +125,11 @@ class CwpMain extends React.Component {
 
 import { connect } from 'react-redux';
 import type { RootState, Dispatch } from '../../../../store';
-import { getActiveStams } from '../../reducers/entities/stams';
+import { getActiveStams, getStams } from '../../reducers/entities/stams';
 
 import type {
   ActiveStam,
+  Stam,
   Flight,
 } from '../../types';
 
@@ -78,7 +137,8 @@ type StateProps = {
   implementingStams: Array<ActiveStam>,
   onloadStams: Array<ActiveStam>,
   offloadStams: Array<ActiveStam>,
-}
+  allStams: Array<Stam>,
+};
 
 type Filter = 'onload' | 'implementing';
 const isFlightOfConcern = (sectors: Sectors, filter: Filter) => (flight: Flight): boolean => {
@@ -107,7 +167,7 @@ const pruneFlightsFromStam = (sectors: Sectors, filter: Filter) => (stam: Active
     ...stam,
     flights: newFlights,
   };
-}
+};
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
   const { sectors } = ownProps;
@@ -129,10 +189,13 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
       .filter(stam => sectors.includes(stam.offloadSector)) :
     [];
 
+  const allStams = getStams(state);
+
   return {
     implementingStams,
     onloadStams,
     offloadStams,
+    allStams,
   };
 };
 
