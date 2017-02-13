@@ -1,8 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import R from 'ramda';
-import { connect } from 'react-redux';
-
 import RedirectToDashboard from '../../../../shared/components/RedirectToDashboard';
 
 import ClientTypeToggler from './ClientTypeToggler';
@@ -11,18 +9,14 @@ import FmpMain from '../Fmp';
 
 import type { Client, Sectors, ClientType } from '../../../../core/types';
 
-type OwnProps = {
+type Props = {
   client: Client,
   sectors: Sectors,
 };
 
-type Props = OwnProps & StateProps;
-
 type State = {
   clientType: ClientType,
 };
-
-type StamTypeString = 'active' | 'prepared' | 'archived';
 
 class Main extends Component {
   props: Props;
@@ -45,9 +39,15 @@ class Main extends Component {
   }
 
   componentWillReceiveProps(nextProps: Props) {
+    const { client: oldClient } = this.props;
     const { client } = nextProps;
-    const clientType = R.propOr('cwp', 'type', client);
-    this.setState({clientType});
+
+    const getClientType = R.propOr('cwp', 'type');
+
+    if(getClientType(oldClient) !== getClientType(client)) {
+      const clientType = getClientType(client);
+      this.setState({clientType});
+    }
   }
 
   componentWillUnmount() {
@@ -63,20 +63,6 @@ class Main extends Component {
     this.setState({clientType});
   };
 
-  getStamsByType = (type: StamTypeString): Array<Stam> => {
-    const { stams } = this.props;
-
-    switch(type) {
-      case 'prepared':
-        return stams.filter(isStamPrepared);
-      case 'archived':
-        return stams.filter(isStamArchived);
-      case 'active':
-      default:
-        return stams.filter(isStamActive);
-    }
-  };
-
   _renderMainComponent = () => {
     const {
       clientType,
@@ -84,11 +70,7 @@ class Main extends Component {
 
     if(clientType === 'flow-manager') {
       return (
-        <FmpMain
-          activeStams={this.getStamsByType('active')}
-          preparedStams={this.getStamsByType('prepared')}
-          historyStams={this.getStamsByType('archived')}
-        />
+        <FmpMain />
       );
     }
 
@@ -122,24 +104,4 @@ class Main extends Component {
   }
 }
 
-
-import {
-  getStams,
-  isStamActive,
-  isStamPrepared,
-  isStamArchived,
-} from '../../reducers/entities/stams';
-
-import type { Stam } from '../../types';
-
-type StateProps = {
-  stams: Array<Stam>,
-};
-
-const mapStateToProps = state => {
-  return {
-    stams: getStams(state),
-  };
-};
-
-export default connect(mapStateToProps)(Main);
+export default Main;

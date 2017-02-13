@@ -26,13 +26,8 @@ import type {
   StamId,
 } from '../../types';
 
-type OwnProps = {
-  preparedStams: Array<PreparedStam>,
-  activeStams: Array<ActiveStam>,
-  historyStams: Array<HistoryStam>,
-};
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = StateProps & DispatchProps;
 
 export class FmpMain extends Component<void, Props, void> {
   props: Props;
@@ -192,12 +187,24 @@ import { getLoadingIds } from '../../reducers/ui/stams';
 import type { RootState, Dispatch } from '../../../../store';
 import type { Connector } from 'react-redux';
 
+import {
+  getPreparedStams,
+  getActiveStams,
+  getHistoryStams,
+} from '../../reducers/entities/stams';
+
 const mapStateToProps = (state: RootState) => ({
   loadingStamIds: getLoadingIds(state),
+  preparedStams: getPreparedStams(state),
+  activeStams: getActiveStams(state),
+  historyStams: getHistoryStams(state),
 });
 
 type StateProps = {
   loadingStamIds: Array<StamId>,
+  preparedStams: Array<PreparedStam>,
+  activeStams: Array<ActiveStam>,
+  historyStams: Array<HistoryStam>,
 };
 
 type DispatchProps = {
@@ -221,6 +228,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   archiveStam: (arg) => dispatch(archiveStam(arg)),
 });
 
-const connector: Connector<OwnProps, Props> = connect(mapStateToProps, mapDispatchToProps);
+const connector: Connector<{}, Props> = connect(mapStateToProps, mapDispatchToProps);
 
 export default connector(FmpMain);
