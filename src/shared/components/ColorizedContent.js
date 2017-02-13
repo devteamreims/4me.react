@@ -20,9 +20,8 @@ const darkColors = [
   'lightBlue',
   'green',
   'deepOrange',
+  'brown',
 ];
-
-
 
 /* http://stackoverflow.com/a/7616484/194685 */
 function hashCode(str: string): number {
@@ -44,7 +43,7 @@ function hashCode(str: string): number {
  * If hash is set to -1, then we'll return a specific color (bluegrey)
  */
 
-type ThemeId = 'light' | 'dark';
+import type { ThemeId } from '../types';
 type Props = {
   hash: string | number,
   children?: React.Element<*>,
