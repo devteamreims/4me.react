@@ -6,6 +6,7 @@ import RedirectToDashboard from '../../../../shared/components/RedirectToDashboa
 import ClientTypeToggler from './ClientTypeToggler';
 
 import FmpMain from '../Fmp';
+import CwpMain from '../Cwp';
 
 import type { Client, Sectors, ClientType } from '../../../../core/types';
 
@@ -68,9 +69,19 @@ class Main extends Component {
       clientType,
     } = this.state;
 
+    const {
+      sectors,
+    } = this.props;
+
     if(clientType === 'flow-manager') {
       return (
         <FmpMain />
+      );
+    } else if(clientType === 'cwp') {
+      return (
+        <CwpMain
+          sectors={sectors}
+        />
       );
     }
 
