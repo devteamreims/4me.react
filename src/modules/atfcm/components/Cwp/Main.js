@@ -1,9 +1,12 @@
 /* @flow */
 import React from 'react';
 import F from 'flexbox-react';
+import R from 'ramda';
 
 import Implementing from './Implementing';
 import ArchiveCard from '../shared/ArchiveCard';
+import StamCard from './StamCard';
+import Divider from 'material-ui/Divider';
 
 import type { Sectors } from '../../../../core/types';
 
@@ -28,7 +31,10 @@ const RightCell = ({ children, title }: RightCellProps): React$Element<any> => {
       <F
         flexDirection="column"
         flexGrow={1}
-        style={{overflowY: 'auto', margin: 0}}
+        style={{
+          overflowY: 'auto',
+          paddingBottom: 10,
+        }}
       >
         {children}
       </F>
@@ -51,13 +57,12 @@ class CwpMain extends React.Component {
 
   renderStam(stam: ActiveStam) {
     return (
-      <div>
-        <h3>{stam.offloadSector}</h3>
-        <ul>
-          {stam.flights.map(flight =>
-            <li>{flight.arcid}</li>
-          )}
-        </ul>
+      <div style={{marginBottom: 20}}>
+        <ArchiveCard
+          theme="dark"
+          stam={stam}
+          subtitle={null}
+        />
       </div>
     );
   }
@@ -114,7 +119,13 @@ class CwpMain extends React.Component {
         >
           <RightCell title="Hotspots">
             {allStams.map(stam =>
-              <ArchiveCard theme="dark" stam={stam} subtitle={null} />
+              <div style={{marginBottom: 20}}>
+                <ArchiveCard
+                  theme="dark"
+                  stam={stam}
+                  subtitle={null}
+                />
+              </div>
             )}
           </RightCell>
         </F>
@@ -125,7 +136,7 @@ class CwpMain extends React.Component {
 
 import { connect } from 'react-redux';
 import type { RootState, Dispatch } from '../../../../store';
-import { getActiveStams, getStams } from '../../reducers/entities/stams';
+import { getActiveStams } from '../../reducers/entities/stams';
 
 import type {
   ActiveStam,
@@ -189,7 +200,22 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
       .filter(stam => sectors.includes(stam.offloadSector)) :
     [];
 
-  const allStams = getStams(state);
+  // At this point, we took some active stams and put them on the left side of
+  // the screen. Now, we need to display what's left on the right side of the screen
+
+  const getIds = R.pipe(
+    R.map(R.propOr(null, 'id')),
+  );
+
+  const leftIds = [
+    ...getIds(onloadStams),
+    ...getIds(implementingStams),
+    ...getIds(offloadStams),
+  ];
+
+  const allStams = activeStams.filter(
+    stam => !leftIds.includes(stam.id),
+  );
 
   return {
     implementingStams,

@@ -97,7 +97,10 @@ export class ArchiveCard extends Component {
 
     return (
       <Theme theme={theme}>
-        <Card>
+        <Card
+          style={{
+          }}
+        >
           <CardTitle
             title={this.getTitle()}
             subtitle={subtitle === undefined ? this.getSubtitle() : subtitle}
