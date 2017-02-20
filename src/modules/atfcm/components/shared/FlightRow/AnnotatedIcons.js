@@ -4,10 +4,7 @@ import React from 'react';
 import ColorizedContent, { hashToColor } from '../../../../../shared/components/ColorizedContent';
 import F from 'flexbox-react';
 
-import type { ThemeId } from '../../../../../shared/types';
-
 type HelperProps = {
-  theme?: ThemeId,
   icon: ?React.Element<*>,
   style?: ?Object,
   colorIcon?: boolean,
@@ -17,7 +14,6 @@ type HelperProps = {
 
 const AnnotatedIcon = (props: HelperProps) => {
   const {
-    theme = 'light',
     icon = null,
     style = {},
     colorIcon = false,
@@ -25,7 +21,7 @@ const AnnotatedIcon = (props: HelperProps) => {
     annotation,
   } = props;
 
-  const color = hashToColor(annotation, theme);
+  const color = hashToColor(annotation, 'dark');
 
   const iconProps: Object = {
     style: {marginRight: 10},
@@ -49,7 +45,6 @@ const AnnotatedIcon = (props: HelperProps) => {
       {colorAnnotation ? (
         <ColorizedContent
           hash={annotation}
-          theme={theme}
         >
           {annotation}
         </ColorizedContent>
@@ -61,7 +56,6 @@ const AnnotatedIcon = (props: HelperProps) => {
 };
 
 type SectorProps = {
-  theme?: ThemeId,
   sector: string,
   style?: ?Object,
 };
@@ -69,7 +63,6 @@ type SectorProps = {
 import Build from 'material-ui/svg-icons/action/build';
 export const ImplementingSector = (props: SectorProps) => {
   const {
-    theme,
     sector,
     style,
   } = props;
@@ -78,7 +71,6 @@ export const ImplementingSector = (props: SectorProps) => {
     <AnnotatedIcon
       icon={<Build color="grey" />}
       style={style}
-      theme={theme}
       annotation={sector}
       colorIcon={true}
     />
@@ -88,7 +80,6 @@ export const ImplementingSector = (props: SectorProps) => {
 import AddCircle from 'material-ui/svg-icons/content/add-circle';
 export const OnloadSector = (props: SectorProps) => {
   const {
-    theme,
     sector,
     style,
   } = props;
@@ -97,7 +88,6 @@ export const OnloadSector = (props: SectorProps) => {
     <AnnotatedIcon
       icon={<AddCircle color="grey" />}
       style={style}
-      theme={theme}
       annotation={sector}
       colorIcon={true}
     />
@@ -105,7 +95,6 @@ export const OnloadSector = (props: SectorProps) => {
 };
 
 type FlightLevelProps = {
-  theme?: ThemeId,
   flightLevel: number,
   style?: ?Object,
 };
@@ -113,7 +102,6 @@ type FlightLevelProps = {
 import FlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 export const FlightLevel = (props: FlightLevelProps) => {
   const {
-    theme,
     flightLevel,
     style,
   } = props;
@@ -124,7 +112,6 @@ export const FlightLevel = (props: FlightLevelProps) => {
     <AnnotatedIcon
       icon={<FlightTakeoff color="grey" />}
       style={style}
-      theme={theme}
       annotation={fl}
       colorIcon={false}
       colorAnnotation={false}
@@ -133,7 +120,6 @@ export const FlightLevel = (props: FlightLevelProps) => {
 };
 
 type BeaconProps = {
-  theme?: ThemeId,
   beacon: string,
   style?: ?Object,
 };
@@ -141,7 +127,6 @@ type BeaconProps = {
 import Location from 'material-ui/svg-icons/maps/my-location';
 export const Beacon = (props: BeaconProps) => {
   const {
-    theme,
     beacon,
     style,
   } = props;
@@ -150,7 +135,6 @@ export const Beacon = (props: BeaconProps) => {
     <AnnotatedIcon
       icon={<Location color="grey" />}
       style={style}
-      theme={theme}
       annotation={beacon}
       colorIcon={false}
       colorAnnotation={false}

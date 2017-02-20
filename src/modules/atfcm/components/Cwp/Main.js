@@ -5,8 +5,10 @@ import R from 'ramda';
 
 import Implementing from './Implementing';
 import ArchiveCard from '../shared/ArchiveCard';
-import StamCard from './StamCard';
-import Divider from 'material-ui/Divider';
+
+import StamList from './StamList';
+import Paper from 'material-ui/Paper';
+
 
 import type { Sectors } from '../../../../core/types';
 
@@ -103,10 +105,14 @@ class CwpMain extends React.Component {
           flexBasis={0}
           style={columnStyle}
         >
-          <RightCell title="Onload">
-            {onloadStams.map(this.renderStam)}
+          <RightCell title="Added flights">
+            {onloadStams.length === 0 ? null : (
+              <Paper>
+                <StamList stams={onloadStams} />
+              </Paper>
+            )}
           </RightCell>
-          <RightCell title="Offload">
+          <RightCell title="Removed flights">
             {offloadStams.map(this.renderStam)}
           </RightCell>
         </F>
@@ -120,11 +126,7 @@ class CwpMain extends React.Component {
           <RightCell title="Hotspots">
             {allStams.map(stam =>
               <div style={{marginBottom: 20}}>
-                <ArchiveCard
-                  theme="dark"
-                  stam={stam}
-                  subtitle={null}
-                />
+                <ArchiveCard stam={stam} subtitle={null} />
               </div>
             )}
           </RightCell>

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 
-import { Theme } from '../../../../shared/components/Theme';
 import ColorizedContent from '../../../../shared/components/ColorizedContent';
 
 import FlightRow from './FlightRow';
@@ -20,11 +19,8 @@ import type {
   HistoryStam,
 } from '../../types';
 
-import type { ThemeId } from '../../../../shared/types';
-
 type Props = {
   stam: HistoryStam,
-  theme?: ThemeId,
   subtitle?: ?React$Element<any>,
 };
 
@@ -32,14 +28,9 @@ type Props = {
 export class ArchiveCard extends Component {
   props: Props;
 
-  static defaultProps = {
-    theme: 'light',
-  };
-
   getTitle() {
     const {
       stam,
-      theme,
     } = this.props;
 
     const {
@@ -52,7 +43,7 @@ export class ArchiveCard extends Component {
     const flightString = `${flights.length || 0} ${pluralFlights}`;
 
     const colorizedOffloadSector = (
-      <ColorizedContent theme={theme} hash={offloadSector}>
+      <ColorizedContent hash={offloadSector}>
         {offloadSector}
       </ColorizedContent>
     );
@@ -75,7 +66,6 @@ export class ArchiveCard extends Component {
   renderFlights() {
     const {
       stam,
-      theme,
     } = this.props;
 
     const { flights } = stam;
@@ -84,37 +74,30 @@ export class ArchiveCard extends Component {
       <FlightRow
         flight={flight}
         hideActions={true}
-        theme={theme}
       />
     ));
   }
 
   render() {
     const {
-      theme,
       subtitle,
     } = this.props;
 
     return (
-      <Theme theme={theme}>
-        <Card
-          style={{
-          }}
-        >
-          <CardTitle
-            title={this.getTitle()}
-            subtitle={subtitle === undefined ? this.getSubtitle() : subtitle}
-            actsAsExpander={true}
-            showExpandableButton={true}
-          />
-          <Divider />
-          <CardText expandable={true}>
-            <F flexDirection="column">
-              {this.renderFlights()}
-            </F>
-          </CardText>
-        </Card>
-      </Theme>
+      <Card>
+        <CardTitle
+          title={this.getTitle()}
+          subtitle={subtitle === undefined ? this.getSubtitle() : subtitle}
+          actsAsExpander={true}
+          showExpandableButton={true}
+        />
+        <Divider />
+        <CardText expandable={true}>
+          <F flexDirection="column">
+            {this.renderFlights()}
+          </F>
+        </CardText>
+      </Card>
     );
   }
 }

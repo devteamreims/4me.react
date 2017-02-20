@@ -3,6 +3,3 @@
 export type Exact<T> = T & $Shape<T>;
 
 export type EmptyComponent = void => null;
-
-import type { ThemeId as _ThemeId } from '../components/Theme';
-export type ThemeId = _ThemeId;

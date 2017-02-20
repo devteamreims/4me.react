@@ -35,17 +35,4 @@ export const dark = {
   },
 };
 
-export const light = {
-  spacing: Spacing,
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
-    primary1Color,
-    primary2Color,
-    primary3Color,
-    accent1Color,
-    accent2Color,
-    accent3Color,
-  },
-};
-
 export default dark;

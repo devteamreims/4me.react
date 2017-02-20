@@ -17,7 +17,6 @@ import {
 } from './AnnotatedIcons';
 
 import type { Flight } from '../../../types';
-import type { ThemeId } from '../../../../../shared/types';
 
 type Props = {
   onRequestDelete?: () => void,
@@ -26,12 +25,10 @@ type Props = {
   disabledActions?: boolean,
   flight: Flight,
   style?: Object,
-  theme?: ThemeId,
 };
 
 type DefaultProps = {
   hideActions: boolean,
-  theme: ThemeId,
 };
 
 export class FlightRow extends Component<DefaultProps, Props, void> {
@@ -39,7 +36,6 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
 
   static defaultProps: DefaultProps = {
     hideActions: false,
-    theme: 'light',
   };
 
   _renderActions() {
@@ -90,7 +86,6 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
       onRequestEdit, // eslint-disable-line no-unused-vars
       style, // eslint-disable-line no-unused-vars
       hideActions,
-      theme,
     } = this.props;
 
 
@@ -128,22 +123,18 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
         >
           <OnloadSector
             style={subItemStyle}
-            theme={theme}
             sector={flight.onloadSector}
           />
           <FlightLevel
             style={subItemStyle}
-            theme={theme}
             flightLevel={flight.constraint.flightLevel}
           />
           <Beacon
             style={subItemStyle}
-            theme={theme}
             beacon={flight.constraint.beacon}
           />
           <ImplementingSector
             style={subItemStyle}
-            theme={theme}
             sector={flight.implementingSector}
           />
         </F>

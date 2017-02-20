@@ -5,7 +5,6 @@ import { storiesOf, action } from '@kadira/storybook';
 import { host } from 'storybook-host';
 
 import { Card, CardText } from 'material-ui/Card';
-import { LightTheme } from '../../../../../shared/components/Theme';
 
 import { Progress } from './Progress';
 
@@ -14,11 +13,9 @@ import moment from 'moment';
 
 storiesOf('atfcm.Fmp.StamCard.Progress', module)
   .addDecorator(story => (
-    <LightTheme>
-      <Card>
-        <CardText>{story()}</CardText>
-      </Card>
-    </LightTheme>
+    <Card>
+      <CardText>{story()}</CardText>
+    </Card>
   ))
   .addDecorator(host({
     title: 'StamCard progress bar',

@@ -3,17 +3,8 @@ import React, { Component } from 'react';
 
 import * as Colors from 'material-ui/styles/colors';
 
-const lightColors = [
-  'pink',
-  'purple',
-  'indigo',
-  'lightBlue',
-  'green',
-  'deepOrange',
-  'brown',
-];
 
-const darkColors = [
+const colorBases = [
   'pink',
   'purple',
   'indigo',
@@ -43,12 +34,8 @@ function hashCode(str: string): number {
  * If hash is set to -1, then we'll return a specific color (bluegrey)
  */
 
-import type { ThemeId } from '../types';
-export function hashToColor(rawHash: string | number, themeId: ThemeId): string {
-  let colorLevel = '200';
-  if(themeId === 'light') {
-    colorLevel = '500';
-  }
+export function hashToColor(rawHash: string | number): string {
+  const colorLevel = '200';
 
   if(rawHash === -1) {
     return Colors[`blueGrey${colorLevel}`];
@@ -64,9 +51,7 @@ export function hashToColor(rawHash: string | number, themeId: ThemeId): string 
     throw new Error('Invalid argument');
   }
 
-  const colorString = themeId === 'light' ?
-    darkColors[hash % darkColors.length] :
-    lightColors[hash % lightColors.length];
+  const colorString = colorBases[hash % colorBases.length];
 
   return Colors[`${colorString}${colorLevel}`];
 }
@@ -74,25 +59,18 @@ export function hashToColor(rawHash: string | number, themeId: ThemeId): string 
 type Props = {
   hash: string | number,
   children?: React.Element<*>,
-  theme: ThemeId,
 };
 
 class ColorizedContent extends Component {
   props: Props;
 
-  static defaultProps = {
-    theme: 'dark',
-  };
-
-
   render() {
     const {
       hash,
       children,
-      theme,
     } = this.props;
 
-    const color = hashToColor(hash, theme);
+    const color = hashToColor(hash);
 
     return (
       <span style={{color}}>

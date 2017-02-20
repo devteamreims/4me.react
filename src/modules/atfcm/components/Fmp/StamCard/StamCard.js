@@ -16,10 +16,8 @@ import UnsendButton from './UnsendButton';
 import ArchiveButton from './ArchiveButton';
 import Progress from './Progress';
 
-import * as Colors from 'material-ui/styles/colors';
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
-import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 
 import Delete from 'material-ui/svg-icons/action/delete';
@@ -27,14 +25,12 @@ import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 
 import F from 'flexbox-react';
 
-import { LightTheme } from '../../../../../shared/components/Theme';
 import ColorizedContent from '../../../../../shared/components/ColorizedContent';
 
 import type {
   PreparedStam,
   ActiveStam,
   Flight,
-  Arcid,
 } from '../../../types';
 
 type Props = {
@@ -245,36 +241,34 @@ export class StamCard extends Component {
     } = stam;
 
     const colorizedOffloadSector = (
-      <ColorizedContent theme="light" hash={offloadSector}>
+      <ColorizedContent hash={offloadSector}>
         {offloadSector}
       </ColorizedContent>
     );
 
     return (
-      <LightTheme>
-        <Card>
-          <F
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-            flewGrow={1}
-            style={{marginLeft: 16, marginRight: 16}}
-          >
-            <h2>OFFLOAD {colorizedOffloadSector}</h2>
-            {this._renderTopActions()}
+      <Card>
+        <F
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+          flewGrow={1}
+          style={{marginLeft: 16, marginRight: 16}}
+        >
+          <h2>OFFLOAD {colorizedOffloadSector}</h2>
+          {this._renderTopActions()}
+        </F>
+        <Divider />
+        <CardText>
+          <F flexDirection="column">
+            {this._renderFlights()}
           </F>
-          <Divider />
-          <CardText>
-            <F flexDirection="column">
-              {this._renderFlights()}
-            </F>
-          </CardText>
-          {this._renderProgress()}
-          <CardActions>
-            {this._renderActions()}
-          </CardActions>
-        </Card>
-      </LightTheme>
+        </CardText>
+        {this._renderProgress()}
+        <CardActions>
+          {this._renderActions()}
+        </CardActions>
+      </Card>
     );
   }
 }
