@@ -2,6 +2,9 @@ import 'babel-polyfill';
 import React from 'react';
 import { configure, addDecorator } from '@kadira/storybook';
 
+import '@kadira/storybook/addons';
+import '@kadira/storybook-addon-knobs/register';
+
 const req = require.context('../src', true, /.stories.js$/);
 
 import {} from './injectTapEvent';

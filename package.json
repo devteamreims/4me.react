@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "@kadira/storybook": "^2.35.2",
+    "@kadira/storybook-addon-knobs": "^1.7.1",
+    "@kadira/storybook-addons": "^1.6.1",
     "autoprefixer": "^6.5.3",
     "babel-core": "^6.20.0",
     "babel-eslint": "^7.1.1",
