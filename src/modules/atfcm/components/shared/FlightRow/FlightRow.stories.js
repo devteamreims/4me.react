@@ -5,7 +5,7 @@ import { storiesOf, action } from '@kadira/storybook';
 import { host } from 'storybook-host';
 
 import { Card, CardText } from 'material-ui/Card';
-import { LightTheme } from '../../../../shared/components/Theme';
+import { LightTheme } from '../../../../../shared/components/Theme';
 
 import { FlightRow } from './FlightRow';
 

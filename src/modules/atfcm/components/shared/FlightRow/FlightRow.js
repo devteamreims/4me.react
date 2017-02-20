@@ -8,15 +8,16 @@ import IconButton from 'material-ui/IconButton';
 
 import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
-import AddCircle from 'material-ui/svg-icons/content/add-circle';
-import Build from 'material-ui/svg-icons/action/build';
-import Location from 'material-ui/svg-icons/maps/my-location';
-import FlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 
-import ColorizedContent from '../../../../shared/components/ColorizedContent';
+import {
+  ImplementingSector,
+  OnloadSector,
+  FlightLevel,
+  Beacon,
+} from './AnnotatedIcons';
 
-import type { Flight } from '../../types';
-import type { ThemeId } from '../../../../shared/types';
+import type { Flight } from '../../../types';
+import type { ThemeId } from '../../../../../shared/types';
 
 type Props = {
   onRequestDelete?: () => void,
@@ -125,60 +126,26 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
           flexDirection="row"
           justifyContent="space-between"
         >
-          <F
-            flexDirection="row"
-            alignItems="center"
+          <OnloadSector
             style={subItemStyle}
-          >
-            <AddCircle
-              color="grey"
-              style={{marginRight: 10}}
-            />
-            <ColorizedContent
-              hash={flight.onloadSector}
-              theme={theme}
-            >
-              {flight.onloadSector}
-            </ColorizedContent>
-          </F>
-          <F
-            flexDirection="row"
-            alignItems="center"
+            theme={theme}
+            sector={flight.onloadSector}
+          />
+          <FlightLevel
             style={subItemStyle}
-          >
-            <FlightTakeoff
-              color="grey"
-              style={{marginRight: 10}}
-            />
-            {flight.constraint.flightLevel}
-          </F>
-          <F
-            flexDirection="row"
-            alignItems="center"
+            theme={theme}
+            flightLevel={flight.constraint.flightLevel}
+          />
+          <Beacon
             style={subItemStyle}
-          >
-            <Location
-              color="grey"
-              style={{marginRight: 10}}
-            />
-            {flight.constraint.beacon}
-          </F>
-          <F
-            flexDirection="row"
-            alignItems="center"
+            theme={theme}
+            beacon={flight.constraint.beacon}
+          />
+          <ImplementingSector
             style={subItemStyle}
-          >
-            <Build
-              color="grey"
-              style={{marginRight: 10}}
-            />
-            <ColorizedContent
-              hash={flight.implementingSector}
-              theme={theme}
-            >
-              {flight.implementingSector}
-            </ColorizedContent>
-          </F>
+            theme={theme}
+            sector={flight.implementingSector}
+          />
         </F>
         <Divider />
       </F>
