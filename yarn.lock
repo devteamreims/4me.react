@@ -22,7 +22,7 @@
     json-stringify-safe "^5.0.1"
     react-inspector "^1.1.0"
 
-"@kadira/storybook-addon-knobs@1.7.1", "@kadira/storybook-addon-knobs@^1.7.1":
+"@kadira/storybook-addon-knobs@1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@kadira/storybook-addon-knobs/-/storybook-addon-knobs-1.7.1.tgz#5c6278c2c67652408358a7ee49e789fd1396b831"
   dependencies:
@@ -74,9 +74,9 @@
     react-modal "^1.2.1"
     redux "^3.5.2"
 
-"@kadira/storybook@^2.35.2":
-  version "2.35.2"
-  resolved "https://registry.yarnpkg.com/@kadira/storybook/-/storybook-2.35.2.tgz#2314481e66effdf1ff129d41e3fda986b6375b38"
+"@kadira/storybook@^2.35.3":
+  version "2.35.3"
+  resolved "https://registry.yarnpkg.com/@kadira/storybook/-/storybook-2.35.3.tgz#8106195e1733623baf60db6adaa678dc29285d12"
   dependencies:
     "@kadira/react-split-pane" "^1.4.0"
     "@kadira/storybook-addon-actions" "^1.0.2"
@@ -1180,14 +1180,14 @@ babel-runtime@6.11.6:
     core-js "^2.4.0"
     regenerator-runtime "^0.9.5"
 
-babel-runtime@6.x.x, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.9.0, babel-runtime@^6.9.1:
+babel-runtime@6.x.x, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.5.0, babel-runtime@^6.9.0, babel-runtime@^6.9.1:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.22.0.tgz#1cf8b4ac67c77a4ddb0db2ae1f74de52ac4ca611"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@^6.0.0, babel-runtime@^6.1.18, babel-runtime@^6.11.6, babel-runtime@^6.20.0, babel-runtime@^6.5.0, babel-runtime@^6.6.1, babel-runtime@^6.9.2:
+babel-runtime@^6.0.0, babel-runtime@^6.1.18, babel-runtime@^6.11.6, babel-runtime@^6.20.0, babel-runtime@^6.6.1, babel-runtime@^6.9.2:
   version "6.20.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.20.0.tgz#87300bdcf4cd770f09bf0048c64204e17806d16f"
   dependencies:
