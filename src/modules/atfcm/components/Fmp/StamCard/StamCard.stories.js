@@ -4,16 +4,13 @@ import React from 'react';
 import moment from 'moment';
 
 import { storiesOf, action } from '@kadira/storybook';
+
 import { host } from 'storybook-host';
 
 import { StamCard } from './StamCard';
 
-const delay = t => {
-  const p = new Promise(resolve => setTimeout(() => resolve(), t));
-  return p;
-};
-
-const props = {
+const getProps = () => ({
+  // Regular Props
   stam: {
     offloadSector: 'KR',
     id: 'running_fox',
@@ -23,15 +20,22 @@ const props = {
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
   },
+  onRequestAddFlight: action('request_add_flight'),
+  onRequestDelete: action('requete_delete'),
+  onRequestSend: action('request_send'),
+  onRequestArchive: action('request_archive'),
+  readOnly: false,
+
+  // StateProps
   loadingFlightIds: [],
-  onRequestAddFlight: (...args) => delay(300).then(() => action('add_flight')(...args)),
-  onRequestDelete: (...args) => action('delete_stam_request')(...args),
-  onRequestSend: (...args) => action('send_stam_request')(...args),
-  onRequestArchive: (...args) => action('archive_stam_request')(...args),
-  deleteFlight: (...args) => action('delete_flight_request')(...args),
-};
+
+  // DispatchProps
+  deleteFlight: action('delete_flight'),
+  showForm: action('show_flight_form'),
+});
 
 const flights = [{
+  id: 'baw123',
   arcid: 'BAW123',
   constraint: {
     beacon: 'CLM',
@@ -40,6 +44,7 @@ const flights = [{
   implementingSector: 'KD',
   onloadSector: 'KR',
 }, {
+  id: 'ezy1912',
   arcid: 'EZY1912',
   constraint: {
     beacon: 'KOTUN',
@@ -49,30 +54,37 @@ const flights = [{
   onloadSector: 'XR',
 }];
 
-const stamWithFlights = Object.assign({}, props.stam, {flights});
+const getStamWithFlights = () => Object.assign({}, getProps().stam, {flights});
 
-storiesOf('atfcm.StamCard', module)
+storiesOf('atfcm.Fmp.StamCard', module)
   .addDecorator(host({
-    title: 'A StamCard as displayed for the FMP',
+    title: 'A StamCard',
     align: 'center middle',
     width: '440px',
   }))
   .add('without flights', () => (
-    <StamCard {...props} />
+    <StamCard {...getProps()} />
   ))
   .add('with flights', () => (
-    <StamCard {...props} stam={stamWithFlights} />
+    <StamCard {...getProps()} stam={getStamWithFlights()} />
+  ))
+  .add('with BAW123 loading', () => (
+    <StamCard
+      {...getProps()}
+      stam={getStamWithFlights()}
+      loadingFlightIds={['baw123']}
+    />
   ))
   .add('with loading prop', () => (
-    <StamCard {...props} stam={stamWithFlights} loading={true} />
+    <StamCard {...getProps()} stam={getStamWithFlights()} loading={true} />
   ))
   .add('with sendTime in the future', () => {
     const sendTime = moment.utc().add(5, 'minutes').toDate();
 
     return (
       <StamCard
-        {...props}
-        stam={Object.assign({}, stamWithFlights, {sendTime})}
+        {...getProps()}
+        stam={Object.assign({}, getStamWithFlights(), {sendTime})}
       />
     );
   })
@@ -81,21 +93,53 @@ storiesOf('atfcm.StamCard', module)
 
     return (
       <StamCard
-        {...props}
-        stam={Object.assign({}, stamWithFlights, {sendTime})}
+        {...getProps()}
+        stam={Object.assign({}, getStamWithFlights(), {sendTime})}
       />
     );
-  })
-  .add('with rejection on flight submission', () => {
-    const addFlightWithRejection = flight =>
-      props.onRequestAddFlight(flight)
-        .then(() => Promise.reject({invalidData: true}));
+  });
+
+const getPropsReadOnly = () => Object.assign({}, getProps(), {readOnly: true});
+
+storiesOf('atfcm.shared.StamCard (readOnly)', module)
+  .addDecorator(host({
+    title: 'A StamCard',
+    align: 'center middle',
+    width: '440px',
+  }))
+  .add('without flights', () => (
+    <StamCard {...getPropsReadOnly()} />
+  ))
+  .add('with flights', () => (
+    <StamCard {...getPropsReadOnly()} stam={getStamWithFlights()} />
+  ))
+  .add('with BAW123 loading', () => (
+    <StamCard
+      {...getPropsReadOnly()}
+      stam={getStamWithFlights()}
+      loadingFlightIds={['baw123']}
+    />
+  ))
+  .add('with loading prop', () => (
+    <StamCard {...getPropsReadOnly()} stam={getStamWithFlights()} loading={true} />
+  ))
+  .add('with sendTime in the future', () => {
+    const sendTime = moment.utc().add(5, 'minutes').toDate();
 
     return (
       <StamCard
-        {...props}
-        stam={stamWithFlights}
-        onRequestAddFlight={addFlightWithRejection}
+        {...getPropsReadOnly()}
+        stam={Object.assign({}, getStamWithFlights(), {sendTime})}
+      />
+    );
+  })
+  .add('with sendTime in the past', () => {
+    const sendTime = moment.utc().subtract(5, 'minutes').toDate();
+
+    return (
+      <StamCard
+        {...getPropsReadOnly()}
+        stam={Object.assign({}, getStamWithFlights(), {sendTime})}
       />
     );
   });

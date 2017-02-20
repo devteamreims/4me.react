@@ -95,7 +95,9 @@ class CwpMain extends React.Component {
             flexGrow={1}
             style={{overflowY: 'auto'}}
           >
-            <Implementing stams={implementingStams} />
+            <Paper>
+              <Implementing stams={implementingStams} />
+            </Paper>
           </F>
         </F>
         <F
@@ -150,7 +152,7 @@ type StateProps = {
   implementingStams: Array<ActiveStam>,
   onloadStams: Array<ActiveStam>,
   offloadStams: Array<ActiveStam>,
-  allStams: Array<Stam>,
+  allStams: Array<ActiveStam>,
 };
 
 type Filter = 'onload' | 'implementing';
@@ -202,22 +204,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
       .filter(stam => sectors.includes(stam.offloadSector)) :
     [];
 
-  // At this point, we took some active stams and put them on the left side of
-  // the screen. Now, we need to display what's left on the right side of the screen
 
-  const getIds = R.pipe(
-    R.map(R.propOr(null, 'id')),
-  );
-
-  const leftIds = [
-    ...getIds(onloadStams),
-    ...getIds(implementingStams),
-    ...getIds(offloadStams),
-  ];
-
-  const allStams = activeStams.filter(
-    stam => !leftIds.includes(stam.id),
-  );
+  const allStams = getActiveStams(state);
 
   return {
     implementingStams,

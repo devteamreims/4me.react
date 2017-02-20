@@ -138,7 +138,12 @@ export class SendButton extends Component {
   getLabelStyle = () => {
     const {
       sendTime,
+      disabled,
     } = this.props;
+
+    if(disabled) {
+      return null;
+    }
 
     if(sendTime) {
       return {color: Colors.orange500};

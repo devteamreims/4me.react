@@ -11,7 +11,7 @@ import { SendButton } from './SendButton';
 import moment from 'moment';
 
 
-storiesOf('atfcm.Fmp.StamCard.SendButton', module)
+storiesOf('atfcm.Fmp.StamCard.SendButton')
   .addDecorator(story => (
     <Card>
       <CardText>{story()}</CardText>
@@ -41,7 +41,15 @@ storiesOf('atfcm.Fmp.StamCard.SendButton', module)
       onCancelSend={action('cancel_send')}
     />
   ))
-  .add('With send time in 40 seconds', () => (
+  .add('Disabled with send time in 5 minutes', () => (
+    <SendButton
+      disabled={true}
+      onSelectTime={action('select_time')}
+      sendTime={moment.utc().add(5, 'minutes').toDate()}
+      onCancelSend={action('cancel_send')}
+    />
+  ))
+  .add('With send time in 30 seconds', () => (
     <SendButton
       onSelectTime={action('select_time')}
       sendTime={moment.utc().add(30, 'seconds').toDate()}

@@ -19,7 +19,7 @@ const flight = {
   },
 };
 
-storiesOf('atfcm.shared.FlightRow', module)
+storiesOf('atfcm.shared.FlightRow')
   .addDecorator(story => (
     <Card>
       <CardText>{story()}</CardText>
@@ -40,6 +40,12 @@ storiesOf('atfcm.shared.FlightRow', module)
       flight={flight}
       onRequestEdit={action('request_edit')}
       onRequestDelete={action('request_delete')}
+    />
+  ))
+  .add('Without actions, with disabledActions prop', () => (
+    <FlightRow
+      flight={flight}
+      disabledActions={false}
     />
   ))
   .add('With constraint disabled', () => (

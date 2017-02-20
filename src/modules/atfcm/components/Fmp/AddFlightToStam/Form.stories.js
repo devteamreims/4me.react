@@ -28,7 +28,24 @@ const invalidFlight = {
   onloadSector: 'NONEXISTENT',
 };
 
-storiesOf('atfcm.AddFlightToStam.Form', module)
+const autocompleteFlights = [
+  'AFR1234',
+  'BAW146',
+  'EZY123',
+];
+
+const getBasicProps = (): Object => ({
+  autocompleteFlights,
+  isAutocompleteLoading: false,
+  autocompleteError: null,
+  requestAutocomplete: action('request_autocomplete'),
+  onValid: action('valid'),
+  onInvalid: action('invalid'),
+  onChange: action('change'),
+  onSubmit: action('submit'),
+});
+
+storiesOf('atfcm.Fmp.AddFlightToStam.Form', module)
   .addDecorator(story => (
     <Card>
       <CardText>{story()}</CardText>
@@ -41,37 +58,42 @@ storiesOf('atfcm.AddFlightToStam.Form', module)
   }))
   .add('pristine', () => (
     <Form
-      onValid={action('valid')}
-      onInvalid={action('invalid')}
-      onChange={action('change')}
-      onSubmit={action('submit')}
+      {...getBasicProps()}
     />
   ))
   .add('with flight', () => (
     <Form
-      onValid={action('valid')}
-      onInvalid={action('invalid')}
-      onChange={action('change')}
-      onSubmit={action('submit')}
       flight={flight}
+      {...getBasicProps()}
     />
   ))
-  .add('invalid', () => (
+  .add('with autocomplete error', () => (
     <Form
-      onValid={action('valid')}
-      onInvalid={action('invalid')}
-      onChange={action('change')}
-      onSubmit={action('submit')}
+      {...getBasicProps()}
+      autocompleteError="Autocomplete error !"
+    />
+  ))
+  .add('with invalid flight (local validation)', () => (
+    <Form
       flight={invalidFlight}
+      {...getBasicProps()}
+    />
+  ))
+  .add('with invalid flight (remote validation)', () => (
+    <Form
+      globalError="This is a global error"
+      fieldErrors={{
+        implementingSector: 'implementingSector invalid',
+        'constraint.beacon': 'constraint.beacon invalid',
+      }}
+      flight={invalidFlight}
+      {...getBasicProps()}
     />
   ))
   .add('submitting', () => (
     <Form
-      onValid={action('valid')}
-      onInvalid={action('invalid')}
-      onChange={action('change')}
-      onSubmit={action('submit')}
       flight={flight}
       loading={true}
+      {...getBasicProps()}
     />
   ));

@@ -33,7 +33,6 @@ type State = {
 };
 
 import { sectors } from '../../../../../shared/env';
-import { checkSectorExistence } from '../../../shared/validations';
 
 import {
   request as requestAutocomplete,
@@ -56,14 +55,14 @@ export class Form extends React.Component<void, Props, State> {
 
   componentDidMount() {
     const {
-      dispatch,
+      requestAutocomplete,
     } = this.props;
 
-    if(typeof dispatch !== 'function') {
+    if(typeof requestAutocomplete !== 'function') {
       return;
     }
 
-    dispatch(requestAutocomplete());
+    requestAutocomplete();
   }
 
   form = null;
@@ -169,7 +168,6 @@ export class Form extends React.Component<void, Props, State> {
             validations="isAlphanumeric"
             validationError="Please enter a valid callsign"
             fullWidth={true}
-            updateImmediately={true}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={autocompleteFlights}
           />
@@ -184,7 +182,7 @@ export class Form extends React.Component<void, Props, State> {
             value={implementingSector || (flight && flight.implementingSector)}
             searchText={implementingSector || (flight && flight.implementingSector) || ''}
             filter={AutoComplete.caseInsensitiveFilter}
-            dataSource={sectors.getElementarySectors()}
+            dataSource={sectors.getElementarySectors() || []}
             openOnFocus={true}
             fullWidth={true}
           />
@@ -197,7 +195,6 @@ export class Form extends React.Component<void, Props, State> {
             value={flight && flight.constraint && flight.constraint.beacon}
             validations="isAlpha,minLength:2,maxLength:5"
             validationError="Please enter a valid beacon"
-            updateImmediately={true}
             fullWidth={true}
           />
           <FormsyText
@@ -209,7 +206,6 @@ export class Form extends React.Component<void, Props, State> {
             value={flight && flight.constraint && `${flight.constraint.flightLevel}`}
             validations="isInt,isLength:3"
             validationError="Please enter a valid FL"
-            updateImmediately={true}
             fullWidth={true}
           />
           <FormsyAutoComplete
@@ -255,10 +251,12 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 type DispatchProps = {
-  dispatch: Dispatch,
+  requestAutocomplete: () => *,
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch });
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  requestAutocomplete: () => dispatch(requestAutocomplete()),
+});
 
 const connector: Connector<OwnProps, Props> = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true });
 

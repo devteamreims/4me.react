@@ -36,10 +36,11 @@ import type {
 type Props = {
   stam: PreparedStam | ActiveStam,
   loading?: boolean,
-  onRequestAddFlight: () => Promise<void>,
-  onRequestDelete: () => void,
-  onRequestSend: () => void,
-  onRequestArchive: () => void,
+  readOnly?: boolean,
+  onRequestAddFlight?: () => void,
+  onRequestDelete?: () => void,
+  onRequestSend?: () => void,
+  onRequestArchive?: () => void,
 };
 
 export class StamCard extends Component {
@@ -47,8 +48,7 @@ export class StamCard extends Component {
 
   static defaultProps = {
     loading: false,
-    onRequestSend: () => {},
-    onRequestArchive: () => {},
+    readOnly: false,
   };
 
   constructor(props: Props) {
@@ -77,7 +77,7 @@ export class StamCard extends Component {
     return moment(stam.archiveTime).isBefore(moment());
   };
 
-  isReadOnly = (flight: Flight): boolean => {
+  isFlightReadOnly = (flight: Flight): boolean => {
     const { loadingFlightIds } = this.props;
 
     return loadingFlightIds.includes(flight.id);
@@ -115,6 +115,7 @@ export class StamCard extends Component {
     const {
       stam,
       loading,
+      readOnly,
     } = this.props;
 
     const {
@@ -129,9 +130,9 @@ export class StamCard extends Component {
     return flights.map(flight => (
       <FlightRow
         flight={flight}
-        onRequestEdit={this.showFlightForm.bind(this, flight)}
-        onRequestDelete={this.handleDeleteFlight.bind(this, flight)}
-        disabledActions={loading || this.isReadOnly(flight)}
+        onRequestEdit={readOnly ? undefined : this.showFlightForm.bind(this, flight)}
+        onRequestDelete={readOnly ? undefined : this.handleDeleteFlight.bind(this, flight)}
+        disabledActions={loading || this.isFlightReadOnly(flight)}
       />
     ));
   }
@@ -192,7 +193,7 @@ export class StamCard extends Component {
     } = this.props;
 
     return (
-      <div>
+      <F flexDirection="row">
         <IconButton
           onClick={this.showFlightForm.bind(this, null)}
           disabled={loading || loadingFlightIds.length}
@@ -205,7 +206,7 @@ export class StamCard extends Component {
         >
           <Delete />
         </IconButton>
-      </div>
+      </F>
     );
   }
 
@@ -233,6 +234,7 @@ export class StamCard extends Component {
     const {
       stam,
       loading,
+      readOnly,
     } = this.props;
 
     const {
@@ -256,18 +258,20 @@ export class StamCard extends Component {
           style={{marginLeft: 16, marginRight: 16}}
         >
           <h2>OFFLOAD {colorizedOffloadSector}</h2>
-          {this._renderTopActions()}
+          {!readOnly && this._renderTopActions()}
         </F>
-        <Divider />
+        {readOnly ? this._renderProgress() : <Divider />}
         <CardText>
           <F flexDirection="column">
             {this._renderFlights()}
           </F>
         </CardText>
-        {this._renderProgress()}
-        <CardActions>
-          {this._renderActions()}
-        </CardActions>
+        {!readOnly && this._renderProgress()}
+        {!readOnly &&
+          <CardActions>
+            {this._renderActions()}
+          </CardActions>
+        }
       </Card>
     );
   }
