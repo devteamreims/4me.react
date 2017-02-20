@@ -30,8 +30,8 @@ const getProps = () => ({
   loadingFlightIds: [],
 
   // DispatchProps
-  deleteFlight: action('delete_flight'),
-  showForm: action('show_flight_form'),
+  onRequestShowFlightForm: action('request_show_flight_form'),
+  onRequestDeleteFlight: action('request_delete_flight'),
 });
 
 const flights = [{
@@ -99,7 +99,14 @@ storiesOf('atfcm.Fmp.StamCard', module)
     );
   });
 
-const getPropsReadOnly = () => Object.assign({}, getProps(), {readOnly: true});
+const getPropsReadOnly = () => Object.assign({}, getProps(), {
+  onRequestAddFlight: undefined,
+  onRequestDelete: undefined,
+  onRequestSend: undefined,
+  onRequestArchive: undefined,
+  onRequestDeleteFlight: undefined,
+  onRequestShowFlightForm: undefined,
+});
 
 storiesOf('atfcm.shared.StamCard (readOnly)', module)
   .addDecorator(host({

@@ -13,7 +13,14 @@ import {
 import FlightRow from '../../shared/FlightRow';
 import SendButton from './SendButton';
 import UnsendButton from './UnsendButton';
-import ArchiveButton from './ArchiveButton';
+// import ArchiveButton from './ArchiveButton';
+import {
+  AddFlightButton,
+  DeleteStamButton,
+  PublishButton,
+  ArchiveButton,
+} from './IconButtons';
+
 import Progress from './Progress';
 
 import LinearProgress from 'material-ui/LinearProgress';
@@ -33,27 +40,23 @@ import type {
   Flight,
 } from '../../../types';
 
-type Props = {
+type OwnProps = {
   stam: PreparedStam | ActiveStam,
   loading?: boolean,
-  readOnly?: boolean,
   onRequestAddFlight?: () => void,
   onRequestDelete?: () => void,
   onRequestSend?: () => void,
   onRequestArchive?: () => void,
 };
 
+type Props = OwnProps & StateProps & DispatchProps;
 export class StamCard extends Component {
-  props: Props & StateProps & DispatchProps;
+  props: Props;
 
   static defaultProps = {
     loading: false,
     readOnly: false,
   };
-
-  constructor(props: Props) {
-    super(props);
-  }
 
   addFlightForm = null;
 
@@ -65,6 +68,10 @@ export class StamCard extends Component {
     }
 
     return moment(stam.sendTime).isBefore(moment());
+  };
+
+  hasInteractionCallback = (name: $Keys<Props>): boolean => {
+    return typeof this.props[name] === 'function';
   };
 
   isStamArchived = (): boolean => {
@@ -116,6 +123,8 @@ export class StamCard extends Component {
       stam,
       loading,
       readOnly,
+      onRequestShowFlightForm,
+      onRequestDeleteFlight,
     } = this.props;
 
     const {
@@ -123,15 +132,23 @@ export class StamCard extends Component {
     } = stam;
 
 
-    if(R.isEmpty(flights)) {
+    if(flights.length === 0) {
       return <div>No flights yet !</div>;
     }
 
     return flights.map(flight => (
       <FlightRow
         flight={flight}
-        onRequestEdit={readOnly ? undefined : this.showFlightForm.bind(this, flight)}
-        onRequestDelete={readOnly ? undefined : this.handleDeleteFlight.bind(this, flight)}
+        onRequestEdit={
+          this.hasInteractionCallback('onRequestShowFlightForm') ?
+            onRequestShowFlightForm.bind(null, stam, flight) :
+            undefined
+        }
+        onRequestDelete={
+          this.hasInteractionCallback('onRequestDeleteFlight') ?
+            onRequestDeleteFlight.bind(null, flight) :
+            undefined
+        }
         disabledActions={loading || this.isFlightReadOnly(flight)}
       />
     ));
@@ -142,6 +159,8 @@ export class StamCard extends Component {
       stam,
       onRequestSend,
       onRequestArchive,
+      onRequestShowFlightForm,
+      onRequestDelete,
       loading,
       loadingFlightIds,
     } = this.props;
@@ -159,55 +178,50 @@ export class StamCard extends Component {
     const areButtonsDisabled = loadingFlightIds.length !== 0;
     const areFlightsPresent = flights && flights.length;
 
-    if(this.isStamSent()) {
-      return [
-        <UnsendButton
+    let actions = [];
+
+    if(this.hasInteractionCallback('onRequestSend')) {
+      actions.push(
+        <PublishButton
           disabled={loading || areButtonsDisabled || !areFlightsPresent}
           sendTime={sendTime}
-          onCancelSend={() => onRequestSend(null)}
-        />,
-        <ArchiveButton
-          disabled={loading || areButtonsDisabled || !areFlightsPresent}
-          archiveTime={archiveTime}
-          onSelectTime={onRequestArchive}
-          onCancelArchive={() => onRequestArchive(null)}
+          onSelectTime={onRequestSend.bind(null)}
+          onCancel={onRequestSend.bind(null, null)}
         />
-      ];
+      );
     }
 
-    return [
-      <SendButton
-        disabled={loading || areButtonsDisabled || !areFlightsPresent}
-        sendTime={sendTime}
-        onSelectTime={onRequestSend}
-        onCancelSend={() => onRequestSend(null)}
-      />
-    ];
-  }
 
-  _renderTopActions() {
-    const {
-      onRequestDelete,
-      loading,
-      loadingFlightIds,
-    } = this.props;
+    if(this.hasInteractionCallback('onRequestArchive') && this.isStamSent()) {
+      actions.push(
+        <ArchiveButton
+          disabled={loading || areButtonsDisabled}
+          sendTime={archiveTime}
+          onSelectTime={onRequestArchive}
+          onCancel={onRequestArchive.bind(null, null)}
+        />
+      );
+    }
 
-    return (
-      <F flexDirection="row">
-        <IconButton
-          onClick={this.showFlightForm.bind(this, null)}
-          disabled={loading || loadingFlightIds.length}
-        >
-          <ActionAdd />
-        </IconButton>
-        <IconButton
-          disabled={loading || loadingFlightIds.length}
+    if(this.hasInteractionCallback('onRequestShowFlightForm')) {
+      actions.push(
+        <AddFlightButton
+          disabled={loading || areButtonsDisabled}
+          onClick={onRequestShowFlightForm.bind(null, stam, null)}
+        />
+      );
+    }
+
+    if(this.hasInteractionCallback('onRequestDelete')) {
+      actions.push(
+        <DeleteStamButton
+          disabled={loading || areButtonsDisabled}
           onClick={onRequestDelete}
-        >
-          <Delete />
-        </IconButton>
-      </F>
-    );
+        />
+      );
+    }
+
+    return actions;
   }
 
   _renderProgress() {
@@ -233,13 +247,10 @@ export class StamCard extends Component {
   render() {
     const {
       stam,
-      loading,
-      readOnly,
     } = this.props;
 
     const {
       offloadSector,
-      sendTime,
     } = stam;
 
     const colorizedOffloadSector = (
@@ -247,6 +258,9 @@ export class StamCard extends Component {
         {offloadSector}
       </ColorizedContent>
     );
+
+    const actions = this._renderActions();
+    const hasActions = actions && actions.length > 0;
 
     return (
       <Card>
@@ -258,18 +272,17 @@ export class StamCard extends Component {
           style={{marginLeft: 16, marginRight: 16}}
         >
           <h2>OFFLOAD {colorizedOffloadSector}</h2>
-          {!readOnly && this._renderTopActions()}
         </F>
-        {readOnly ? this._renderProgress() : <Divider />}
+        {!hasActions ? this._renderProgress() : <Divider />}
         <CardText>
           <F flexDirection="column">
             {this._renderFlights()}
           </F>
         </CardText>
-        {!readOnly && this._renderProgress()}
-        {!readOnly &&
+        {hasActions && this._renderProgress()}
+        {hasActions &&
           <CardActions>
-            {this._renderActions()}
+            {actions}
           </CardActions>
         }
       </Card>
@@ -297,8 +310,8 @@ const mapStateToProps = (state, ownProps: Props) => {
 };
 
 type DispatchProps = {
-  deleteFlight: (id: *) => void,
-  showForm: (*) => void,
+  onRequestDeleteFlight?: (id: *) => void,
+  onRequestShowFlightForm?: (*) => void,
 };
 
 import {
@@ -307,8 +320,8 @@ import {
 } from '../../../actions/flight';
 
 const mapDispatchToProps = {
-  deleteFlight,
-  showForm,
+  onRequestDeleteFlight: deleteFlight,
+  onRequestShowFlightForm: showForm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StamCard);
