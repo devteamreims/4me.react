@@ -44,6 +44,33 @@ function hashCode(str: string): number {
  */
 
 import type { ThemeId } from '../types';
+export function hashToColor(rawHash: string | number, themeId: ThemeId): string {
+  let colorLevel = '200';
+  if(themeId === 'light') {
+    colorLevel = '500';
+  }
+
+  if(rawHash === -1) {
+    return Colors[`blueGrey${colorLevel}`];
+  }
+
+  let hash;
+
+  if(typeof rawHash === 'number') {
+    hash = rawHash;
+  } else if(typeof rawHash === 'string') {
+    hash = hashCode(rawHash);
+  } else {
+    throw new Error('Invalid argument');
+  }
+
+  const colorString = themeId === 'light' ?
+    darkColors[hash % darkColors.length] :
+    lightColors[hash % lightColors.length];
+
+  return Colors[`${colorString}${colorLevel}`];
+}
+
 type Props = {
   hash: string | number,
   children?: React.Element<*>,
@@ -57,33 +84,6 @@ class ColorizedContent extends Component {
     theme: 'dark',
   };
 
-  _hashToColor(rawHash: string | number, themeId: ThemeId): string {
-    let colorLevel = '200';
-    if(themeId === 'light') {
-      colorLevel = '500';
-    }
-
-    if(rawHash === -1) {
-      return Colors[`blueGrey${colorLevel}`];
-    }
-
-    let hash;
-
-    if(typeof rawHash === 'number') {
-      hash = rawHash;
-    } else if(typeof rawHash === 'string') {
-      hash = hashCode(rawHash);
-    } else {
-      throw new Error('Invalid argument');
-    }
-
-    const colorString = themeId === 'light' ?
-      darkColors[hash % darkColors.length] :
-      lightColors[hash % lightColors.length];
-
-    return Colors[`${colorString}${colorLevel}`];
-  }
-
 
   render() {
     const {
@@ -92,7 +92,7 @@ class ColorizedContent extends Component {
       theme,
     } = this.props;
 
-    const color = this._hashToColor(hash, theme);
+    const color = hashToColor(hash, theme);
 
     return (
       <span style={{color}}>
