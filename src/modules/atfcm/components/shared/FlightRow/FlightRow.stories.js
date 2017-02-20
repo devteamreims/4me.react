@@ -19,46 +19,46 @@ const flight = {
   },
 };
 
-storiesOf('atfcm.Fmp.StamCard.FlightRow', module)
+storiesOf('atfcm.shared.FlightRow', module)
   .addDecorator(story => (
     <Card>
       <CardText>{story()}</CardText>
     </Card>
   ))
   .addDecorator(host({
-    title: 'StamCard FlightRow',
+    title: 'A Flight displayed in the STAM context',
     align: 'center middle',
-    width: '100%',
+    width: '440px',
   }))
-  .add('Without mode', () => (
+  .add('Default', () => (
+    <FlightRow
+      flight={flight}
+    />
+  ))
+  .add('With actions', () => (
     <FlightRow
       flight={flight}
       onRequestEdit={action('request_edit')}
       onRequestDelete={action('request_delete')}
     />
   ))
-  .add('With prepared mode', () => (
+  .add('With constraint disabled', () => (
     <FlightRow
       flight={flight}
-      mode="prepared"
-      onRequestEdit={action('request_edit')}
-      onRequestDelete={action('request_delete')}
+      disabledFlightFields={['constraint']}
     />
   ))
-  .add('With active mode', () => (
+  .add('With all flight fields disabled', () => (
     <FlightRow
       flight={flight}
-      mode="active"
-      onRequestEdit={action('request_edit')}
-      onRequestDelete={action('request_delete')}
+      disabledFlightFields={['constraint', 'implementingSector', 'onloadSector']}
     />
   ))
-  .add('With active mode and compact', () => (
+  .add('With all flight fields disabled and actions', () => (
     <FlightRow
       flight={flight}
-      mode="active"
-      compact={true}
       onRequestEdit={action('request_edit')}
       onRequestDelete={action('request_delete')}
+      disabledFlightFields={['constraint', 'implementingSector', 'onloadSector']}
     />
-  ))
+  ));

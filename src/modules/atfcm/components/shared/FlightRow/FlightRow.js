@@ -18,6 +18,8 @@ import {
 
 import type { Flight } from '../../../types';
 
+type FlightRowFields = "onloadSector" | "constraint" | "implementingSector";
+
 type Props = {
   onRequestDelete?: () => void,
   onRequestEdit?: () => void,
@@ -25,10 +27,12 @@ type Props = {
   disabledActions?: boolean,
   flight: Flight,
   style?: Object,
+  disabledFlightFields?: Array<FlightRowFields>,
 };
 
 type DefaultProps = {
   hideActions: boolean,
+  disabledFlightFields: Array<FlightRowFields>,
 };
 
 export class FlightRow extends Component<DefaultProps, Props, void> {
@@ -36,29 +40,46 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
 
   static defaultProps: DefaultProps = {
     hideActions: false,
+    disabledFlightFields: [],
   };
 
-  _renderActions() {
+  _renderEditIcon() {
     const {
       onRequestEdit,
+      disabledActions,
+    } = this.props;
+
+    if(typeof onRequestEdit !== 'function') {
+      return null;
+    }
+
+    return (
+      <IconButton
+        onClick={onRequestEdit}
+        disabled={!!disabledActions}
+      >
+        <Edit />
+      </IconButton>
+    );
+  }
+
+  _renderDeleteIcon() {
+    const {
       onRequestDelete,
       disabledActions,
     } = this.props;
 
-    return [
-      <IconButton
-        onClick={onRequestEdit}
-        disabled={disabledActions}
-      >
-        <Edit />
-      </IconButton>,
+    if(typeof onRequestDelete !== 'function') {
+      return null;
+    }
+    return (
       <IconButton
         onClick={onRequestDelete}
-        disabled={disabledActions}
+        disabled={!!disabledActions}
       >
         <Delete />
       </IconButton>
-    ];
+    );
   }
 
   _renderArcid() {
@@ -82,10 +103,9 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
   render() {
     const {
       flight,
-      onRequestDelete, // eslint-disable-line no-unused-vars
-      onRequestEdit, // eslint-disable-line no-unused-vars
-      style, // eslint-disable-line no-unused-vars
+      style,
       hideActions,
+      disabledFlightFields = [],
     } = this.props;
 
 
@@ -114,29 +134,40 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
           <F
             flexDirection="row"
           >
-            {!hideActions && this._renderActions()}
+            {!hideActions && [
+              this._renderEditIcon(),
+              this._renderDeleteIcon(),
+            ]}
           </F>
         </F>
         <F
           flexDirection="row"
           justifyContent="space-between"
         >
-          <OnloadSector
-            style={subItemStyle}
-            sector={flight.onloadSector}
-          />
-          <FlightLevel
-            style={subItemStyle}
-            flightLevel={flight.constraint.flightLevel}
-          />
-          <Beacon
-            style={subItemStyle}
-            beacon={flight.constraint.beacon}
-          />
-          <ImplementingSector
-            style={subItemStyle}
-            sector={flight.implementingSector}
-          />
+          {!disabledFlightFields.includes('onloadSector') &&
+            <OnloadSector
+              style={subItemStyle}
+              sector={flight.onloadSector}
+            />
+          }
+          {!disabledFlightFields.includes('constraint') &&
+            <FlightLevel
+              style={subItemStyle}
+              flightLevel={flight.constraint.flightLevel}
+            />
+          }
+          {!disabledFlightFields.includes('constraint') &&
+            <Beacon
+              style={subItemStyle}
+              beacon={flight.constraint.beacon}
+            />
+          }
+          {!disabledFlightFields.includes('implementingSector') &&
+            <ImplementingSector
+              style={subItemStyle}
+              sector={flight.implementingSector}
+            />
+          }
         </F>
         <Divider />
       </F>
