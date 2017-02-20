@@ -15,6 +15,7 @@ export const REMOVE_ORPHANS = 'atfcm/flight/REMOVE_ORPHANS';
 
 import type {
   StamId,
+  Stam,
   FlightId,
   Flight,
   ValidationError,
@@ -46,9 +47,9 @@ export function removeOrphanFlights(ids: Array<FlightId>): Action {
   };
 }
 
-export function showForm(stam: StamId, flight: ?Flight): Action {
+export function showForm(stam: Stam, flight: ?Flight): Action {
   if(!stam || !stam.id) {
-    return;
+    throw new Error('atfcm/actions/flight/showForm: Stam is not a valid stam !');
   }
 
   return {
