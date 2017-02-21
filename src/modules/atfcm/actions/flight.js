@@ -118,16 +118,16 @@ export function touchForm(): Action {
   };
 }
 
-export function hideFlight(id: FlightId): Action {
+export function hideFlight(flight: Flight): Action {
   return {
     type: HIDE,
-    id,
+    id: flight.id,
   };
 }
 
-export function unhideFlight(id: FlightId): Action {
+export function unhideFlight(flight: Flight): Action {
   return {
     type: UNHIDE,
-    id,
+    id: flight.id,
   };
 }

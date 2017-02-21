@@ -3,7 +3,11 @@ import React from 'react';
 import F from 'flexbox-react';
 import ArchiveCard from '../shared/ArchiveCard';
 
-import { ReadOnlyStamCard } from '../shared/StamCard/StamCard';
+import {
+  ReadOnlyStamCard,
+  StamCard,
+} from '../shared/StamCard/StamCard';
+
 import type { FlightRowFields } from '../shared/FlightRow/FlightRow';
 
 
@@ -54,11 +58,8 @@ const columnStyle = {
 class CwpMain extends React.Component {
   props: Props;
 
-  renderStam = (disabledFlightField: ?FlightRowFields) => (stam: ActiveStam): React.Element<*> => {
-    const disabledFlightFields = disabledFlightField ?
-      [disabledFlightField] :
-      undefined;
-
+  renderTodo(stam: ActiveStam): React.Element<*> {
+    const disabledFlightFields = ['implementingSector'];
     return (
       <div style={{marginBottom: 20}}>
         <ReadOnlyStamCard
@@ -67,7 +68,42 @@ class CwpMain extends React.Component {
         />
       </div>
     );
-  };
+  }
+
+  renderOnloaded(stam: ActiveStam): React.Element<*> {
+    const disabledFlightFields = ['onloadSector'];
+    return (
+      <div style={{marginBottom: 20}}>
+        <ReadOnlyStamCard
+          stam={stam}
+          disabledFlightFields={disabledFlightFields}
+        />
+      </div>
+    );
+  }
+
+  renderOffloaded(stam: ActiveStam): React.Element<*> {
+    return (
+      <div style={{marginBottom: 20}}>
+        <ReadOnlyStamCard
+          stam={stam}
+        />
+      </div>
+    );
+  }
+
+  renderHotspot(stam: ActiveStam): React.Element<*> {
+    return (
+      <div style={{marginBottom: 20}}>
+        <ReadOnlyStamCard
+          stam={stam}
+          expandable={true}
+          showHiddenFlights={true}
+          initiallyExpanded={false}
+        />
+      </div>
+    );
+  }
 
   render() {
     const {
@@ -95,7 +131,7 @@ class CwpMain extends React.Component {
             flexGrow={1}
             style={{overflowY: 'auto'}}
           >
-            {implementingStams.map(this.renderStam('implementingSector'))}
+            {implementingStams.map(this.renderTodo)}
           </F>
         </F>
         <F
@@ -106,10 +142,10 @@ class CwpMain extends React.Component {
           style={columnStyle}
         >
           <RightCell title="Added flights">
-            {onloadStams.map(this.renderStam('onloadSector'))}
+            {onloadStams.map(this.renderOnloaded)}
           </RightCell>
           <RightCell title="Removed flights">
-            {offloadStams.map(this.renderStam(null))}
+            {offloadStams.map(this.renderOffloaded)}
           </RightCell>
         </F>
         <F
@@ -120,11 +156,7 @@ class CwpMain extends React.Component {
           style={columnStyle}
         >
           <RightCell title="Hotspots">
-            {allStams.map(stam =>
-              <div style={{marginBottom: 20}}>
-                <ArchiveCard stam={stam} subtitle={null} />
-              </div>
-            )}
+            {allStams.map(this.renderHotspot)}
           </RightCell>
         </F>
       </F>

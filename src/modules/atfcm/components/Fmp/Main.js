@@ -10,7 +10,10 @@ import AddStamButton from './AddStam/Button';
 import AddStamDialog from './AddStam/Dialog';
 import AddFlightToStamDialog from './AddFlightToStam/Dialog';
 
-import StamCards from '../shared/StamCard';
+import {
+  StamCard,
+  WritableStamCard,
+} from '../shared/StamCard/StamCard';
 
 const columnStyle = {
   padding: 10,
@@ -80,7 +83,7 @@ export class FmpMain extends Component<void, Props, void> {
 
     return preparedStams.map(stam => (
       <div style={{marginBottom: 20}} >
-        <StamCards.prepared
+        <WritableStamCard
           stam={stam}
           key={stam.id}
           loading={loadingStamIds.includes(stam.id)}
@@ -105,7 +108,7 @@ export class FmpMain extends Component<void, Props, void> {
 
     return activeStams.map(stam => (
       <div style={{marginBottom: 20}} >
-        <StamCards.active
+        <WritableStamCard
           stam={stam}
           key={stam.id}
           loading={loadingStamIds.includes(stam.id)}
@@ -130,9 +133,11 @@ export class FmpMain extends Component<void, Props, void> {
 
     return historyStams.map(stam => (
       <div style={{marginBottom: 20}} >
-        <StamCards.archive
+        <StamCard
           stam={stam}
           key={stam.id}
+          expandable={true}
+          initiallyExpanded={false}
         />
       </div>
     ));

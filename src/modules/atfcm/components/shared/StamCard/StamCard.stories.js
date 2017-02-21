@@ -24,7 +24,6 @@ const getProps = () => ({
   onRequestDelete: action('requete_delete'),
   onRequestSend: action('request_send'),
   onRequestArchive: action('request_archive'),
-  readOnly: false,
 
   // StateProps
   loadingFlightIds: [],
@@ -57,7 +56,7 @@ const flights = [{
 
 const getStamWithFlights = () => Object.assign({}, getProps().stam, {flights});
 
-storiesOf('atfcm.Fmp.StamCard', module)
+storiesOf('atfcm.shared.WritableStamCard', module)
   .addDecorator(host({
     title: 'A StamCard',
     align: 'center middle',
@@ -114,9 +113,11 @@ const getPropsReadOnly = () => Object.assign({}, getProps(), {
   onRequestArchive: undefined,
   onRequestDeleteFlight: undefined,
   onRequestShowFlightForm: undefined,
+  onRequestHideFlight: action('hide_flight'),
+  onRequestUnhideFlight: action('unhide_flight'),
 });
 
-storiesOf('atfcm.shared.StamCard (readOnly)', module)
+storiesOf('atfcm.shared.ReadOnlyStamCard', module)
   .addDecorator(host({
     title: 'A StamCard',
     align: 'center middle',
@@ -149,12 +150,24 @@ storiesOf('atfcm.shared.StamCard (readOnly)', module)
       hiddenFlightIds={['baw123']}
     />
   ))
-  .add('with BAW123 hidden and loading', () => (
+  .add('with all flights hidden', () => {
+    const stam = getStamWithFlights();
+    const hiddenFlightIds = stam.flights.map(flight => flight.id);
+
+    return (
+      <StamCard
+        {...getPropsReadOnly()}
+        stam={stam}
+        hiddenFlightIds={hiddenFlightIds}
+      />
+    );
+  })
+  .add('with BAW123 hidden and show hidden flights', () => (
     <StamCard
       {...getPropsReadOnly()}
       stam={getStamWithFlights()}
-      loadingFlightIds={['baw123']}
       hiddenFlightIds={['baw123']}
+      showHiddenFlights={true}
     />
   ))
   .add('with loading prop', () => (
@@ -184,6 +197,17 @@ storiesOf('atfcm.shared.StamCard (readOnly)', module)
       <StamCard
         {...getPropsReadOnly()}
         stam={Object.assign({}, getStamWithFlights(), {sendTime})}
+      />
+    );
+  })
+  .add('with archived flight', () => {
+    const sendTime = moment.utc().subtract(10, 'minutes').toDate();
+    const archiveTime = moment.utc().subtract(5, 'minutes').toDate();
+
+    return (
+      <StamCard
+        {...getPropsReadOnly()}
+        stam={Object.assign({}, getStamWithFlights(), {sendTime, archiveTime})}
       />
     );
   });

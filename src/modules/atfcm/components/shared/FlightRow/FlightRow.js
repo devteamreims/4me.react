@@ -26,8 +26,7 @@ type Props = {
   onRequestDelete?: () => void,
   onRequestEdit?: () => void,
   onRequestHide?: () => void,
-  onRequestUnhide: () => void,
-  hideActions?: boolean,
+  onRequestUnhide?: () => void,
   disabledActions?: boolean,
   flight: Flight,
   hidden?: boolean,
@@ -36,7 +35,6 @@ type Props = {
 };
 
 type DefaultProps = {
-  hideActions: boolean,
   disabledFlightFields: Array<FlightRowFields>,
   hidden: boolean,
 };
@@ -57,7 +55,6 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
   props: Props;
 
   static defaultProps: DefaultProps = {
-    hideActions: false,
     hidden: false,
     disabledFlightFields: [],
   };
@@ -166,7 +163,6 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
     const {
       flight,
       style,
-      hideActions,
       disabledFlightFields = [],
       hidden,
     } = this.props;
@@ -182,7 +178,7 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
 
     const defaultStyle = {
       margin: '16px 0',
-      opacity: hidden ? '0.7' : 1,
+      opacity: hidden ? '0.2' : 1,
     };
 
     return (

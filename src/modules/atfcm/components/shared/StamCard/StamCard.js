@@ -49,6 +49,7 @@ type OwnProps = {
   disabledFlightFields?: Array<FlightRowFields>,
   expandable?: boolean,
   initiallyExpanded?: boolean,
+  showHiddenFlights?: boolean,
 };
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -57,12 +58,12 @@ export class StamCard extends Component {
 
   static defaultProps = {
     loading: false,
-    readOnly: false,
     loadingFlightIds: [],
     hiddenFlightIds: [],
     disabledFlightFields: [],
     expandable: false,
     initiallyExpanded: true,
+    showHiddenFlights: false,
   };
 
   addFlightForm = null;
@@ -154,10 +155,12 @@ export class StamCard extends Component {
     const {
       stam,
       loading,
-      readOnly,
       onRequestShowFlightForm,
       onRequestDeleteFlight,
       disabledFlightFields,
+      onRequestHideFlight,
+      onRequestUnhideFlight,
+      showHiddenFlights,
       hiddenFlightIds,
     } = this.props;
 
@@ -165,7 +168,7 @@ export class StamCard extends Component {
       flights,
     } = stam;
 
-    const filteredFlights = this.getFilteredFlights();
+    const filteredFlights = showHiddenFlights ? flights : this.getFilteredFlights();
 
 
     if(filteredFlights.length === 0) {
@@ -175,6 +178,7 @@ export class StamCard extends Component {
     return filteredFlights.map(flight => (
       <FlightRow
         flight={flight}
+        hidden={showHiddenFlights && hiddenFlightIds.includes(flight.id)}
         onRequestEdit={
           this.hasInteractionCallback('onRequestShowFlightForm') ?
             onRequestShowFlightForm.bind(null, stam, flight) :
@@ -183,6 +187,16 @@ export class StamCard extends Component {
         onRequestDelete={
           this.hasInteractionCallback('onRequestDeleteFlight') ?
             onRequestDeleteFlight.bind(null, flight) :
+            undefined
+        }
+        onRequestHide={
+          this.hasInteractionCallback('onRequestHideFlight') ?
+            onRequestHideFlight.bind(null, flight) :
+            undefined
+        }
+        onRequestUnhide={
+          this.hasInteractionCallback('onRequestUnhideFlight') ?
+            onRequestUnhideFlight.bind(null, flight) :
             undefined
         }
         disabledActions={loading || this.isFlightReadOnly(flight)}
@@ -336,18 +350,18 @@ export class StamCard extends Component {
 
     const flightString = `${flights.length || 0} ${getPluralizedFlightString(flights)}`;
     const hiddenFlightString = filteredFlights.length !== flights.length ?
-      `- ${filteredFlights.length} hidden` :
+      `- ${flights.length - filteredFlights.length} hidden` :
       '';
 
     let verb = 'created';
     let targetTime = stam.createdAt;
 
-    if(this.isStamSent()) {
-      verb = 'published';
-      targetTime = stam.sendTime;
-    } else if(this.isStamArchived()) {
+    if(this.isStamArchived()) {
       verb = 'archived';
       targetTime = stam.archiveTime;
+    } else if(this.isStamSent()) {
+      verb = 'published';
+      targetTime = stam.sendTime;
     }
 
     return (
@@ -428,20 +442,34 @@ const mapStateToProps = (state, ownProps: Props) => {
   };
 };
 
-type DispatchProps = {
-  onRequestDeleteFlight?: (id: *) => void,
+type DispatchProps = DispatchPropsWritable & DispatchPropsReadOnly;
+type DispatchPropsWritable = {
+  onRequestDeleteFlight?: (flight: Flight) => void,
   onRequestShowFlightForm?: (*) => void,
+};
+
+type DispatchPropsReadOnly = {
+  onRequestHideFlight?: (flight: Flight) => void,
+  onRequestUnhideFlight?: (flight: Flight) => void,
 };
 
 import {
   deleteFlight,
   showForm,
+  hideFlight,
+  unhideFlight,
 } from '../../../actions/flight';
 
-const mapDispatchToProps = {
+const mapDispatchToPropsWritable = {
   onRequestDeleteFlight: deleteFlight,
   onRequestShowFlightForm: showForm,
 };
 
-export const ReadOnlyStamCard = StamCard;
-export default connect(mapStateToProps, mapDispatchToProps)(StamCard);
+const mapDispatchToPropsReadOnly = {
+  onRequestHideFlight: hideFlight,
+  onRequestUnhideFlight: unhideFlight,
+};
+
+
+export const ReadOnlyStamCard = connect(mapStateToProps, mapDispatchToPropsReadOnly)(StamCard);
+export const WritableStamCard = connect(mapStateToProps, mapDispatchToPropsWritable)(StamCard);
