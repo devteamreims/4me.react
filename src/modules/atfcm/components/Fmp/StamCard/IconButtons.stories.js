@@ -16,6 +16,7 @@ import {
   PublishButton,
   ArchiveButton,
   PulseIcon,
+  MoreButton,
 } from './IconButtons';
 
 import moment from 'moment';
@@ -57,6 +58,30 @@ storiesOf('atfcm.shared.IconButtons.PulseIcon', module)
   .addDecorator(host(containerHost))
   .add('Default', () => (
     <PulseIcon />
+  ));
+
+storiesOf('atfcm.shared.IconButtons.MoreButton', module)
+  .addDecorator(cardHost)
+  .addDecorator(host(containerHost))
+  .add('Default', () => (
+    <MoreButton />
+  ))
+  .add('With a single callback', () => (
+    <MoreButton onCancelSend={action('cancel_send')} />
+  ))
+  .add('Disabled', () => (
+    <MoreButton disabled={true} onCancelSend={action('cancel_send')} />
+  ))
+  .add('With a single different callback', () => (
+    <MoreButton onCancelArchive={action('cancel_archive')} />
+  ))
+  .add('With all callbacks', () => (
+    <MoreButton
+      onCancelSend={action('cancel_send')}
+      onCancelArchive={action('cancel_archive')}
+      onDeleteStam={action('delete_stam')}
+      onAddFlight={action('add_flight')}
+    />
   ));
 
 [PublishButton, ArchiveButton].map(Element =>

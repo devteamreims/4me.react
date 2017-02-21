@@ -18,7 +18,8 @@ import Share from 'material-ui/svg-icons/social/share';
 import Send from 'material-ui/svg-icons/content/send';
 import Backspace from 'material-ui/svg-icons/content/backspace';
 import Archive from 'material-ui/svg-icons/content/archive';
-
+import MoreVertical from 'material-ui/svg-icons/navigation/more-vert';
+import Cancel from 'material-ui/svg-icons/navigation/cancel';
 
 type CommonProps = {
   disabled?: boolean,
@@ -42,10 +43,81 @@ export const DeleteStamButton = (props: CommonProps) => (
   </IconButton>
 );
 
-type PublishButtonProps = {
-  sendTime: ?Date,
-  onSelectTime: Function,
-  onCancel: Function,
+
+type MoreButtonProps = {
+  onCancelSend?: Function,
+  onCancelArchive?: Function,
+  onDeleteStam?: Function,
+  onAddFlight?: Function,
+};
+
+export const MoreButton = (props: CommonProps & MoreButtonProps) => {
+  const {
+    onCancelSend,
+    onCancelArchive,
+    onDeleteStam,
+    onAddFlight,
+    ...rest,
+  } = props;
+
+  if(
+    !onCancelSend &&
+    !onCancelArchive &&
+    !onDeleteStam &&
+    !onAddFlight
+  ) {
+    return null;
+  }
+
+  return (
+    <IconMenu
+      iconButtonElement={
+        <IconButton
+          tooltip="More ..."
+          {...rest}
+        >
+          <MoreVertical />
+        </IconButton>
+      }
+    >
+      {onCancelSend &&
+        <MenuItem
+          key="cancel-send"
+          onTouchTap={onCancelSend}
+          leftIcon={<Cancel />}
+        >
+          Cancel send
+        </MenuItem>
+      }
+      {onCancelArchive &&
+        <MenuItem
+          key="cancel-archive"
+          onTouchTap={onCancelArchive}
+          leftIcon={<Cancel />}
+        >
+          Cancel archive
+        </MenuItem>
+      }
+      {onDeleteStam &&
+        <MenuItem
+          key="delete-stam"
+          onTouchTap={onDeleteStam}
+          leftIcon={<Delete />}
+        >
+          Delete stam
+        </MenuItem>
+      }
+      {onAddFlight &&
+        <MenuItem
+          key="add-flight"
+          onTouchTap={onAddFlight}
+          leftIcon={<ActionAdd />}
+        >
+          Add flight
+        </MenuItem>
+      }
+    </IconMenu>
+  );
 };
 
 
@@ -74,18 +146,25 @@ const getMenuItems = (props: PublishButtonProps): Array<?React.Element<*>> => {
 
   return [
     sendTime ? (
-      <MenuItem onTouchTap={onCancel} style={{color: cancelColor}}>
+      <MenuItem key="cancel" onTouchTap={onCancel} style={{color: cancelColor}}>
         Cancel
       </MenuItem>
     ) : null,
     ...steps.map(step =>
       <MenuItem
+        key={`step-${step}`}
         onTouchTap={() => onSelectTime(step)}
       >
         {getMenuLabel(step)}
       </MenuItem>
     )
   ];
+};
+
+type PublishButtonProps = {
+  sendTime: ?Date,
+  onSelectTime: Function,
+  onCancel: Function,
 };
 
 export const PublishButton = (props: PublishButtonProps & CommonProps) => {
@@ -113,7 +192,7 @@ export const PublishButton = (props: PublishButtonProps & CommonProps) => {
           tooltip="Publish STAM"
           {...rest}
         >
-          <Share color={iconColor} />
+          <Send color={iconColor} />
         </IconButton>
       }
     >

@@ -19,6 +19,7 @@ import {
   DeleteStamButton,
   PublishButton,
   ArchiveButton,
+  MoreButton,
 } from './IconButtons';
 
 import Progress from './Progress';
@@ -171,57 +172,95 @@ export class StamCard extends Component {
       archiveTime,
     } = stam;
 
+    // Stam is archived, no actions available
     if(this.isStamArchived()) {
       return null;
     }
 
+    let leftActions = [];
+    let moreButtonCallbacks = {};
+
     const areButtonsDisabled = loadingFlightIds.length !== 0;
     const areFlightsPresent = flights && flights.length;
 
-    let actions = [];
+    if(this.isStamSent()) {
+      // Stam is already sent,
+      // Just add an archive button on the left
+      // The rest goes under the <MoreButton />
+      if(this.hasInteractionCallback('onRequestArchive')) {
+        leftActions.push(
+          <ArchiveButton
+            key="archive-button"
+            disabled={loading || areButtonsDisabled}
+            sendTime={archiveTime}
+            onSelectTime={onRequestArchive}
+            onCancel={onRequestArchive.bind(null, null)}
+          />
+        );
+      }
 
-    if(this.hasInteractionCallback('onRequestSend')) {
-      actions.push(
-        <PublishButton
-          disabled={loading || areButtonsDisabled || !areFlightsPresent}
-          sendTime={sendTime}
-          onSelectTime={onRequestSend.bind(null)}
-          onCancel={onRequestSend.bind(null, null)}
-        />
-      );
+      if(this.hasInteractionCallback('onRequestShowFlightForm')) {
+        moreButtonCallbacks.onAddFlight = onRequestShowFlightForm.bind(null, stam, null);
+      }
+
+      if(this.hasInteractionCallback('onRequestDelete')) {
+        moreButtonCallbacks.onDeleteStam = onRequestDelete;
+      }
+
+      if(this.hasInteractionCallback('onRequestSend')) {
+        moreButtonCallbacks.onCancelSend = onRequestSend.bind(null, null);
+      }
+    } else {
+      // Stam is in preparation
+      // Add flight button and send button on the left
+      // DeleteStam on the right
+      if(this.hasInteractionCallback('onRequestSend')) {
+        leftActions.push(
+          <PublishButton
+            key="publish-button"
+            disabled={loading || areButtonsDisabled || !areFlightsPresent}
+            sendTime={sendTime}
+            onSelectTime={onRequestSend.bind(null)}
+            onCancel={onRequestSend.bind(null, null)}
+          />
+        );
+      }
+
+      if(this.hasInteractionCallback('onRequestShowFlightForm')) {
+        leftActions.push(
+          <AddFlightButton
+            key="add-flight-button"
+            disabled={loading || areButtonsDisabled}
+            onClick={onRequestShowFlightForm.bind(null, stam, null)}
+          />
+        );
+      }
+
+
+      if(this.hasInteractionCallback('onRequestDelete')) {
+        moreButtonCallbacks.onDeleteStam = onRequestDelete;
+      }
     }
 
-
-    if(this.hasInteractionCallback('onRequestArchive') && this.isStamSent()) {
-      actions.push(
-        <ArchiveButton
-          disabled={loading || areButtonsDisabled}
-          sendTime={archiveTime}
-          onSelectTime={onRequestArchive}
-          onCancel={onRequestArchive.bind(null, null)}
-        />
-      );
+    if(leftActions.length === 0 && Object.keys(moreButtonCallbacks).length === 0) {
+      return null;
     }
 
-    if(this.hasInteractionCallback('onRequestShowFlightForm')) {
-      actions.push(
-        <AddFlightButton
-          disabled={loading || areButtonsDisabled}
-          onClick={onRequestShowFlightForm.bind(null, stam, null)}
-        />
-      );
-    }
-
-    if(this.hasInteractionCallback('onRequestDelete')) {
-      actions.push(
-        <DeleteStamButton
-          disabled={loading || areButtonsDisabled}
-          onClick={onRequestDelete}
-        />
-      );
-    }
-
-    return actions;
+    return (
+      <F
+        flexDirection="row"
+        justifyContent="space-between"
+        style={{margin: 0}}
+      >
+        <F>{leftActions}</F>
+        <F>
+          <MoreButton
+            disabled={loading || areButtonsDisabled}
+            {...moreButtonCallbacks}
+          />
+        </F>
+      </F>
+    );
   }
 
   _renderProgress() {
@@ -260,7 +299,7 @@ export class StamCard extends Component {
     );
 
     const actions = this._renderActions();
-    const hasActions = actions && actions.length > 0;
+    const hasActions = !!actions;
 
     return (
       <Card>
