@@ -171,8 +171,10 @@ export class StamCard extends Component {
     const filteredFlights = showHiddenFlights ? flights : this.getFilteredFlights();
 
 
-    if(filteredFlights.length === 0) {
+    if(flights.length === 0) {
       return <div>No flights yet !</div>;
+    } else if(filteredFlights.length === 0) {
+      return <div>All flights hidden</div>;
     }
 
     return filteredFlights.map(flight => (
