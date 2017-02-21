@@ -59,6 +59,7 @@ export class StamCard extends Component {
     loading: false,
     readOnly: false,
     loadingFlightIds: [],
+    hiddenFlightIds: [],
     disabledFlightFields: [],
     expandable: false,
     initiallyExpanded: true,
