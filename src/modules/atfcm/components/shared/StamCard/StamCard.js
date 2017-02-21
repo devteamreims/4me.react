@@ -32,6 +32,7 @@ import type {
   PreparedStam,
   ActiveStam,
   Flight,
+  FlightId,
 } from '../../../types';
 
 import type {
@@ -132,6 +133,21 @@ export class StamCard extends Component {
     deleteFlight(flight.id);
   };
 
+  getFilteredFlights() {
+    const {
+      stam,
+      hiddenFlightIds,
+    } = this.props;
+
+    const {
+      flights,
+    } = stam;
+
+    return flights.filter(
+      flight => !hiddenFlightIds.includes(flight.id)
+    );
+  }
+
 
   _renderFlights() {
     const {
@@ -141,18 +157,21 @@ export class StamCard extends Component {
       onRequestShowFlightForm,
       onRequestDeleteFlight,
       disabledFlightFields,
+      hiddenFlightIds,
     } = this.props;
 
     const {
       flights,
     } = stam;
 
+    const filteredFlights = this.getFilteredFlights();
 
-    if(flights.length === 0) {
+
+    if(filteredFlights.length === 0) {
       return <div>No flights yet !</div>;
     }
 
-    return flights.map(flight => (
+    return filteredFlights.map(flight => (
       <FlightRow
         flight={flight}
         onRequestEdit={
@@ -309,9 +328,16 @@ export class StamCard extends Component {
       flights,
     } = stam;
 
-    const pluralFlights = flights.length === 1 ? 'flight' : 'flights';
+    const filteredFlights = this.getFilteredFlights();
 
-    const flightString = `${flights.length || 0} ${pluralFlights}`;
+
+    const getPluralizedFlightString = (flights) => flights.length === 1 ? 'flight' : 'flights';
+
+    const flightString = `${flights.length || 0} ${getPluralizedFlightString(flights)}`;
+    const hiddenFlightString = filteredFlights.length !== flights.length ?
+      `- ${filteredFlights.length} hidden` :
+      '';
+
     let verb = 'created';
     let targetTime = stam.createdAt;
 
@@ -324,7 +350,7 @@ export class StamCard extends Component {
     }
 
     return (
-      <span>{flightString} - {verb} <TimeAgo when={targetTime} /></span>
+      <span>{flightString} {hiddenFlightString} - {verb} <TimeAgo when={targetTime} /></span>
     );
   }
 
@@ -378,10 +404,14 @@ export class StamCard extends Component {
 }
 
 type StateProps = {
-  loadingFlightIds?: Array<*>,
+  loadingFlightIds?: Array<FlightId>,
+  hiddenFlightIds?: Array<FlightId>,
 };
 
-import { getLoadingIds } from '../../../reducers/ui/flights';
+import {
+  getLoadingIds,
+  getHiddenIds,
+} from '../../../reducers/ui/flights';
 
 const mapStateToProps = (state, ownProps: Props) => {
   // Here we try to determine whether we should display our loading indicator or not
@@ -393,6 +423,7 @@ const mapStateToProps = (state, ownProps: Props) => {
 
   return {
     loadingFlightIds: getLoadingIds(state).filter(flightId => ourFlightIds.includes(flightId)),
+    hiddenFlightIds: getHiddenIds(state).filter(flightId => ourFlightIds.includes(flightId)),
   };
 };
 

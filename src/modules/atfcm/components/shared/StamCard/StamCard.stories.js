@@ -28,6 +28,7 @@ const getProps = () => ({
 
   // StateProps
   loadingFlightIds: [],
+  hiddenFlightIds: [],
 
   // DispatchProps
   onRequestShowFlightForm: action('request_show_flight_form'),
@@ -139,6 +140,21 @@ storiesOf('atfcm.shared.StamCard (readOnly)', module)
       {...getPropsReadOnly()}
       stam={getStamWithFlights()}
       loadingFlightIds={['baw123']}
+    />
+  ))
+  .add('with BAW123 hidden', () => (
+    <StamCard
+      {...getPropsReadOnly()}
+      stam={getStamWithFlights()}
+      hiddenFlightIds={['baw123']}
+    />
+  ))
+  .add('with BAW123 hidden and loading', () => (
+    <StamCard
+      {...getPropsReadOnly()}
+      stam={getStamWithFlights()}
+      loadingFlightIds={['baw123']}
+      hiddenFlightIds={['baw123']}
     />
   ))
   .add('with loading prop', () => (
