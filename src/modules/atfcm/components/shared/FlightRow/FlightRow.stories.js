@@ -40,6 +40,16 @@ storiesOf('atfcm.shared.FlightRow')
       flight={flight}
       onRequestEdit={action('request_edit')}
       onRequestDelete={action('request_delete')}
+      onRequestHide={action('request_hide')}
+      onRequestUnhide={action('request_unhide')}
+    />
+  ))
+  .add('Hidden with hide/unhide actions', () => (
+    <FlightRow
+      flight={flight}
+      hidden={true}
+      onRequestHide={action('request_hide')}
+      onRequestUnhide={action('request_unhide')}
     />
   ))
   .add('Without actions, with disabledActions prop', () => (

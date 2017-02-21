@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 
 import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
+import Hide from 'material-ui/svg-icons/action/visibility-off';
+import Unhide from 'material-ui/svg-icons/action/visibility';
 
 import {
   ImplementingSector,
@@ -23,9 +25,12 @@ export type FlightRowFields = "onloadSector" | "constraint" | "implementingSecto
 type Props = {
   onRequestDelete?: () => void,
   onRequestEdit?: () => void,
+  onRequestHide?: () => void,
+  onRequestUnhide: () => void,
   hideActions?: boolean,
   disabledActions?: boolean,
   flight: Flight,
+  hidden?: boolean,
   style?: Object,
   disabledFlightFields?: Array<FlightRowFields>,
 };
@@ -33,6 +38,7 @@ type Props = {
 type DefaultProps = {
   hideActions: boolean,
   disabledFlightFields: Array<FlightRowFields>,
+  hidden: boolean,
 };
 
 const styles = {
@@ -52,8 +58,46 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
 
   static defaultProps: DefaultProps = {
     hideActions: false,
+    hidden: false,
     disabledFlightFields: [],
   };
+
+  _renderHideIcon() {
+    const {
+      onRequestHide,
+      onRequestUnhide,
+      disabledActions,
+      hidden,
+    } = this.props;
+
+    if(hidden && onRequestUnhide) {
+      return (
+        <IconButton
+          onClick={onRequestUnhide}
+          disabled={!!disabledActions}
+          style={styles.small}
+          iconStyle={styles.smallIcon}
+        >
+          <Unhide />
+        </IconButton>
+      );
+    }
+
+    if(!hidden && onRequestHide) {
+      return (
+        <IconButton
+          onClick={onRequestHide}
+          disabled={!!disabledActions}
+          style={styles.small}
+          iconStyle={styles.smallIcon}
+        >
+          <Hide />
+        </IconButton>
+      );
+    }
+
+    return null;
+  }
 
   _renderEditIcon() {
     const {
@@ -99,14 +143,16 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
   }
 
   _renderArcid() {
-    const { flight } = this.props;
+    const {
+      flight,
+    } = this.props;
 
     return (
       <F
         flexDirection="row"
         style={{
           fontSize: 22,
-          fontWeight: 'bold'
+          fontWeight: 'bold',
         }}
         alignItems="center"
       >
@@ -122,6 +168,7 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
       style,
       hideActions,
       disabledFlightFields = [],
+      hidden,
     } = this.props;
 
 
@@ -135,6 +182,7 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
 
     const defaultStyle = {
       margin: '16px 0',
+      opacity: hidden ? '0.7' : 1,
     };
 
     return (
@@ -151,10 +199,9 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
             flexDirection="row"
             style={{margin: 0}}
           >
-            {!hideActions && [
-              this._renderEditIcon(),
-              this._renderDeleteIcon(),
-            ]}
+            {this._renderHideIcon()}
+            {this._renderEditIcon()}
+            {this._renderDeleteIcon()}
           </F>
         </F>
         <F
@@ -186,7 +233,7 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
             />
           }
         </F>
-        <Divider />
+        <Divider style={{opacity: '1'}} />
       </F>
     );
   }
