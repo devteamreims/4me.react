@@ -1,16 +1,10 @@
 /* @flow */
 import React from 'react';
 import F from 'flexbox-react';
-import R from 'ramda';
-
-import Implementing from './Implementing';
 import ArchiveCard from '../shared/ArchiveCard';
 
 import { ReadOnlyStamCard } from '../shared/StamCard/StamCard';
 import type { FlightRowFields } from '../shared/FlightRow/FlightRow';
-
-import StamList from './StamList';
-import Paper from 'material-ui/Paper';
 
 
 import type { Sectors } from '../../../../core/types';
@@ -144,7 +138,6 @@ import { getActiveStams } from '../../reducers/entities/stams';
 
 import type {
   ActiveStam,
-  Stam,
   Flight,
 } from '../../types';
 
