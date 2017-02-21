@@ -35,6 +35,18 @@ type DefaultProps = {
   disabledFlightFields: Array<FlightRowFields>,
 };
 
+const styles = {
+  smallIcon: {
+    width: 20,
+    height: 20,
+  },
+  small: {
+    width: 40,
+    height: 40,
+    padding: 10,
+  },
+};
+
 export class FlightRow extends Component<DefaultProps, Props, void> {
   props: Props;
 
@@ -57,6 +69,8 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
       <IconButton
         onClick={onRequestEdit}
         disabled={!!disabledActions}
+        style={styles.small}
+        iconStyle={styles.smallIcon}
       >
         <Edit />
       </IconButton>
@@ -76,6 +90,8 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
       <IconButton
         onClick={onRequestDelete}
         disabled={!!disabledActions}
+        style={styles.small}
+        iconStyle={styles.smallIcon}
       >
         <Delete />
       </IconButton>
@@ -133,6 +149,7 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
           {this._renderArcid()}
           <F
             flexDirection="row"
+            style={{margin: 0}}
           >
             {!hideActions && [
               this._renderEditIcon(),
