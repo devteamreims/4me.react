@@ -7,7 +7,7 @@ import Implementing from './Implementing';
 import ArchiveCard from '../shared/ArchiveCard';
 
 import { ReadOnlyStamCard } from '../shared/StamCard/StamCard';
-
+import type { FlightRowFields } from '../shared/FlightRow/FlightRow';
 
 import StamList from './StamList';
 import Paper from 'material-ui/Paper';
@@ -60,12 +60,16 @@ const columnStyle = {
 class CwpMain extends React.Component {
   props: Props;
 
-  renderStam = (disabledFlightField: *) => (stam: ActiveStam): * => {
+  renderStam = (disabledFlightField: ?FlightRowFields) => (stam: ActiveStam): React.Element<*> => {
+    const disabledFlightFields = disabledFlightField ?
+      [disabledFlightField] :
+      undefined;
+
     return (
-      <div style={{marginBottom: 20}} >
+      <div style={{marginBottom: 20}}>
         <ReadOnlyStamCard
           stam={stam}
-          disabledFlightFields={[disabledFlightField]}
+          disabledFlightFields={disabledFlightFields}
         />
       </div>
     );
