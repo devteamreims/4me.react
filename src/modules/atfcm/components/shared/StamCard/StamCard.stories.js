@@ -68,6 +68,13 @@ storiesOf('atfcm.Fmp.StamCard', module)
   .add('with flights', () => (
     <StamCard {...getProps()} stam={getStamWithFlights()} />
   ))
+  .add('expandable', () => (
+    <StamCard
+      {...getProps()}
+      stam={getStamWithFlights()}
+      expandable={true}
+    />
+  ))
   .add('with BAW123 loading', () => (
     <StamCard
       {...getProps()}
@@ -120,6 +127,13 @@ storiesOf('atfcm.shared.StamCard (readOnly)', module)
   .add('with flights', () => (
     <StamCard {...getPropsReadOnly()} stam={getStamWithFlights()} />
   ))
+  .add('expandable', () => (
+    <StamCard
+      {...getPropsReadOnly()}
+      stam={getStamWithFlights()}
+      expandable={true}
+    />
+  ))
   .add('with BAW123 loading', () => (
     <StamCard
       {...getPropsReadOnly()}
@@ -129,6 +143,13 @@ storiesOf('atfcm.shared.StamCard (readOnly)', module)
   ))
   .add('with loading prop', () => (
     <StamCard {...getPropsReadOnly()} stam={getStamWithFlights()} loading={true} />
+  ))
+  .add('with disabledFlightFields', () => (
+    <StamCard
+      {...getPropsReadOnly()}
+      stam={getStamWithFlights()}
+      disabledFlightFields={['implementingSector']}
+    />
   ))
   .add('with sendTime in the future', () => {
     const sendTime = moment.utc().add(5, 'minutes').toDate();

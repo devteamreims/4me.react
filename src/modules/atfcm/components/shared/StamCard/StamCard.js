@@ -8,15 +8,12 @@ import {
   Card,
   CardActions,
   CardText,
+  CardTitle,
 } from 'material-ui/Card';
 
 import FlightRow from '../../shared/FlightRow';
-import SendButton from './SendButton';
-import UnsendButton from './UnsendButton';
-// import ArchiveButton from './ArchiveButton';
 import {
   AddFlightButton,
-  DeleteStamButton,
   PublishButton,
   ArchiveButton,
   MoreButton,
@@ -26,20 +23,20 @@ import Progress from './Progress';
 
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-
-import Delete from 'material-ui/svg-icons/action/delete';
-import ActionAdd from 'material-ui/svg-icons/content/add-circle';
 
 import F from 'flexbox-react';
 
 import ColorizedContent from '../../../../../shared/components/ColorizedContent';
-
+import TimeAgo from '../../../../../shared/components/TimeAgo';
 import type {
   PreparedStam,
   ActiveStam,
   Flight,
 } from '../../../types';
+
+import type {
+  FlightRowFields,
+} from '../FlightRow/FlightRow';
 
 type OwnProps = {
   stam: PreparedStam | ActiveStam,
@@ -48,6 +45,9 @@ type OwnProps = {
   onRequestDelete?: () => void,
   onRequestSend?: () => void,
   onRequestArchive?: () => void,
+  disabledFlightFields?: Array<FlightRowFields>,
+  expandable?: boolean,
+  initiallyExpanded?: boolean,
 };
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -57,6 +57,10 @@ export class StamCard extends Component {
   static defaultProps = {
     loading: false,
     readOnly: false,
+    loadingFlightIds: [],
+    disabledFlightFields: [],
+    expandable: false,
+    initiallyExpanded: true,
   };
 
   addFlightForm = null;
@@ -69,6 +73,16 @@ export class StamCard extends Component {
     }
 
     return moment(stam.sendTime).isBefore(moment());
+  };
+
+  isStamArchived = (): boolean => {
+    const { stam } = this.props;
+
+    if(!stam.archivetime) {
+      return false;
+    }
+
+    return moment(stam.archiveTime).isBefore(moment());
   };
 
   hasInteractionCallback = (name: $Keys<Props>): boolean => {
@@ -126,6 +140,7 @@ export class StamCard extends Component {
       readOnly,
       onRequestShowFlightForm,
       onRequestDeleteFlight,
+      disabledFlightFields,
     } = this.props;
 
     const {
@@ -151,6 +166,7 @@ export class StamCard extends Component {
             undefined
         }
         disabledActions={loading || this.isFlightReadOnly(flight)}
+        disabledFlightFields={disabledFlightFields}
       />
     ));
   }
@@ -283,9 +299,40 @@ export class StamCard extends Component {
     );
   }
 
+  getSubtitleString() {
+    const {
+      stam,
+    } = this.props;
+
+    const {
+      offloadSector,
+      flights,
+    } = stam;
+
+    const pluralFlights = flights.length === 1 ? 'flight' : 'flights';
+
+    const flightString = `${flights.length || 0} ${pluralFlights}`;
+    let verb = 'created';
+    let targetTime = stam.createdAt;
+
+    if(this.isStamSent()) {
+      verb = 'published';
+      targetTime = stam.sendTime;
+    } else if(this.isStamArchived()) {
+      verb = 'archived';
+      targetTime = stam.archiveTime;
+    }
+
+    return (
+      <span>{flightString} - {verb} <TimeAgo when={targetTime} /></span>
+    );
+  }
+
   render() {
     const {
       stam,
+      expandable,
+      initiallyExpanded,
     } = this.props;
 
     const {
@@ -302,18 +349,19 @@ export class StamCard extends Component {
     const hasActions = !!actions;
 
     return (
-      <Card>
-        <F
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-          flewGrow={1}
-          style={{marginLeft: 16, marginRight: 16}}
-        >
-          <h2>OFFLOAD {colorizedOffloadSector}</h2>
-        </F>
+      <Card
+        initiallyExpanded={initiallyExpanded}
+      >
+        <CardTitle
+          title={colorizedOffloadSector}
+          subtitle={this.getSubtitleString()}
+          actsAsExpander={expandable}
+          showExpandableButton={expandable}
+        />
         {!hasActions ? this._renderProgress() : <Divider />}
-        <CardText>
+        <CardText
+          expandable={expandable}
+        >
           <F flexDirection="column">
             {this._renderFlights()}
           </F>
@@ -330,7 +378,7 @@ export class StamCard extends Component {
 }
 
 type StateProps = {
-  loadingFlightIds: Array<*>,
+  loadingFlightIds?: Array<*>,
 };
 
 import { getLoadingIds } from '../../../reducers/ui/flights';
@@ -363,4 +411,5 @@ const mapDispatchToProps = {
   onRequestShowFlightForm: showForm,
 };
 
+export const ReadOnlyStamCard = StamCard;
 export default connect(mapStateToProps, mapDispatchToProps)(StamCard);

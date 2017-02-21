@@ -18,7 +18,7 @@ import {
 
 import type { Flight } from '../../../types';
 
-type FlightRowFields = "onloadSector" | "constraint" | "implementingSector";
+export type FlightRowFields = "onloadSector" | "constraint" | "implementingSector";
 
 type Props = {
   onRequestDelete?: () => void,
@@ -144,6 +144,12 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
           flexDirection="row"
           justifyContent="space-between"
         >
+          {!disabledFlightFields.includes('implementingSector') &&
+            <ImplementingSector
+              style={subItemStyle}
+              sector={flight.implementingSector}
+            />
+          }
           {!disabledFlightFields.includes('onloadSector') &&
             <OnloadSector
               style={subItemStyle}
@@ -160,12 +166,6 @@ export class FlightRow extends Component<DefaultProps, Props, void> {
             <Beacon
               style={subItemStyle}
               beacon={flight.constraint.beacon}
-            />
-          }
-          {!disabledFlightFields.includes('implementingSector') &&
-            <ImplementingSector
-              style={subItemStyle}
-              sector={flight.implementingSector}
             />
           }
         </F>

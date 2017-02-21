@@ -6,6 +6,9 @@ import R from 'ramda';
 import Implementing from './Implementing';
 import ArchiveCard from '../shared/ArchiveCard';
 
+import { ReadOnlyStamCard } from '../shared/StamCard/StamCard';
+
+
 import StamList from './StamList';
 import Paper from 'material-ui/Paper';
 
@@ -57,17 +60,16 @@ const columnStyle = {
 class CwpMain extends React.Component {
   props: Props;
 
-  renderStam(stam: ActiveStam) {
+  renderStam = (disabledFlightField: *) => (stam: ActiveStam): * => {
     return (
-      <div style={{marginBottom: 20}}>
-        <ArchiveCard
-          theme="dark"
+      <div style={{marginBottom: 20}} >
+        <ReadOnlyStamCard
           stam={stam}
-          subtitle={null}
+          disabledFlightFields={[disabledFlightField]}
         />
       </div>
     );
-  }
+  };
 
   render() {
     const {
@@ -95,9 +97,7 @@ class CwpMain extends React.Component {
             flexGrow={1}
             style={{overflowY: 'auto'}}
           >
-            <Paper>
-              <Implementing stams={implementingStams} />
-            </Paper>
+            {implementingStams.map(this.renderStam('implementingSector'))}
           </F>
         </F>
         <F
@@ -108,14 +108,10 @@ class CwpMain extends React.Component {
           style={columnStyle}
         >
           <RightCell title="Added flights">
-            {onloadStams.length === 0 ? null : (
-              <Paper>
-                <StamList stams={onloadStams} />
-              </Paper>
-            )}
+            {onloadStams.map(this.renderStam('onloadSector'))}
           </RightCell>
           <RightCell title="Removed flights">
-            {offloadStams.map(this.renderStam)}
+            {offloadStams.map(this.renderStam(null))}
           </RightCell>
         </F>
         <F

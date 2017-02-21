@@ -10,7 +10,7 @@ import AddStamButton from './AddStam/Button';
 import AddStamDialog from './AddStam/Dialog';
 import AddFlightToStamDialog from './AddFlightToStam/Dialog';
 
-import StamCards from './StamCard';
+import StamCards from '../shared/StamCard';
 
 const columnStyle = {
   padding: 10,
