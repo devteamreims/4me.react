@@ -13,6 +13,9 @@ export const TOUCH_FORM = 'atfcm/flight/TOUCH_FORM';
 
 export const REMOVE_ORPHANS = 'atfcm/flight/REMOVE_ORPHANS';
 
+export const HIDE = 'atfcm/flight/HIDE';
+export const UNHIDE = 'atfcm/flight/UNHIDE';
+
 import type {
   StamId,
   Stam,
@@ -32,6 +35,8 @@ export type Action =
   | {|type: 'atfcm/flight/HIDE_FORM'|}
   | {|type: 'atfcm/flight/TOUCH_FORM'|}
   | {|type: 'atfcm/flight/REMOVE_ORPHANS', ids: Array<FlightId>|}
+  | {|type: 'atfcm/flight/HIDE', id: FlightId|}
+  | {|type: 'atfcm/flight/UNHIDE', id: FlightId|}
 
 export function deleteFlight(id: FlightId): Action {
   return {
@@ -110,5 +115,19 @@ export function hideDialog(): Action {
 export function touchForm(): Action {
   return {
     type: TOUCH_FORM,
+  };
+}
+
+export function hideFlight(id: FlightId): Action {
+  return {
+    type: HIDE,
+    id,
+  };
+}
+
+export function unhideFlight(id: FlightId): Action {
+  return {
+    type: UNHIDE,
+    id,
   };
 }
