@@ -34,7 +34,7 @@ const byIdInitialState = {
       beacon: 'CLM',
       flightLevel: 360,
     },
-    implementingSector: 'KD',
+    implementingSector: 'KF',
     onloadSector: 'KR',
   },
   '126': {
@@ -52,8 +52,8 @@ const byIdInitialState = {
       beacon: 'CLM',
       flightLevel: 360,
     },
-    implementingSector: 'KF',
-    onloadSector: 'KD',
+    implementingSector: 'KD',
+    onloadSector: 'KR',
   }
 };
 

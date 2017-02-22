@@ -28,7 +28,7 @@ const byIdInitialState = {
   },
   'walking_snake': {
     offloadSector: 'HYR',
-    flights: ['125'],
+    flights: ['125', '127'],
     sendTime: moment.utc().add(5, 'minutes').toDate(),
     archiveTime: null,
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
@@ -38,14 +38,6 @@ const byIdInitialState = {
     offloadSector: 'UH',
     flights: ['126'],
     sendTime: moment.utc().subtract(5, 'minutes').toDate(),
-    archiveTime: null,
-    createdAt: moment.utc().subtract(10, 'minutes').toDate(),
-    updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
-  },
-  'crawling_creeter': {
-    offloadSector: 'UH',
-    flights: ['127'],
-    sendTime: moment.utc().subtract(8, 'minutes').toDate(),
     archiveTime: null,
     createdAt: moment.utc().subtract(10, 'minutes').toDate(),
     updatedAt: moment.utc().subtract(10, 'minutes').toDate(),
